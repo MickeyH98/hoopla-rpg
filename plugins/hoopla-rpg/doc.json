@@ -1,0 +1,28 @@
+{
+  "name": "hoopla-rpg",
+  "description": "A typed safe Omegga RPG plugin that integrates with the currency system.",
+  "author": "voximity",
+  "config": {
+    "startingLevel": {
+      "description": "The starting level for new players.",
+      "type": "number",
+      "default": 1
+    },
+    "startingHealth": {
+      "description": "The starting health for new players.",
+      "type": "number",
+      "default": 100
+    },
+    "experienceMultiplier": {
+      "description": "Multiplier for experience gains.",
+      "type": "number",
+      "default": 1.0
+    },
+    "healthRegenRate": {
+      "description": "Health regeneration rate per tick.",
+      "type": "number",
+      "default": 1
+    }
+  },
+  "commands": []
+}

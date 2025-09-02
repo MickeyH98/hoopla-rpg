@@ -1,0 +1,7 @@
+omegga:
+  webui: true
+  port: 8080
+  https: true
+server:
+  port: 7777
+  map: Plate

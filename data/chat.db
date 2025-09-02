@@ -1,0 +1,16 @@
+{"type":"chat","created":1756814005582,"instanceId":"hFaYrdDwni7eiv47","action":"join","user":{"id":"a913c7a5-f2eb-4e61-9e80-8b09d4b96322","name":"hoopla","displayName":"hoopla"},"_id":"5EzcCZ6lCXiDfyqK"}
+{"type":"chat","created":1756813405502,"instanceId":"zuFiQp0KsoTBjaIU","action":"server","user":{},"message":"Server started","_id":"5YmSdkr6WDeiWrT3"}
+{"type":"storeVersion","version":1,"_id":"HL0mJKMKwsW8hE1X"}
+{"type":"chat","created":1756813724292,"instanceId":"a11BMfAXwKnvHdEr","action":"msg","user":{"name":"SERVER","id":"","web":true,"color":"ff00ff"},"message":"omegga install gh:voximity/currency","_id":"KDBEFEAOSvPGZOdY"}
+{"type":"chat","created":1756813563225,"instanceId":"a11BMfAXwKnvHdEr","action":"join","user":{"id":"a913c7a5-f2eb-4e61-9e80-8b09d4b96322","name":"hoopla","displayName":"hoopla","isFirst":true},"_id":"Vjgt4NMFlIbcohcT"}
+{"type":"chat","created":1756813978938,"instanceId":"hFaYrdDwni7eiv47","action":"server","user":{},"message":"Server started","_id":"jO6aqxtJpRAjW4pc"}
+{"type":"chat","created":1756813926190,"instanceId":"a11BMfAXwKnvHdEr","action":"leave","user":{"id":"a913c7a5-f2eb-4e61-9e80-8b09d4b96322","name":"hoopla","displayName":"hoopla"},"_id":"sCohjcZjJipHejEZ"}
+{"type":"chat","created":1756813473711,"instanceId":"a11BMfAXwKnvHdEr","action":"server","user":{},"message":"Server started","_id":"z1MGsf5mwFhFbfmz"}
+{"type":"chat","created":1756814984669,"instanceId":"RTsZ7he8y5XmiEDY","action":"server","user":{},"message":"Server started","_id":"67vck3WT9NpxqiAD"}
+{"type":"chat","created":1756815095534,"instanceId":"RTsZ7he8y5XmiEDY","action":"join","user":{"id":"a913c7a5-f2eb-4e61-9e80-8b09d4b96322","name":"hoopla","displayName":"hoopla"},"_id":"wH7i4PL08w8CQbR9"}
+{"type":"chat","created":1756819552022,"instanceId":"RTsZ7he8y5XmiEDY","action":"leave","user":{"id":"a913c7a5-f2eb-4e61-9e80-8b09d4b96322","name":"hoopla","displayName":"hoopla"},"_id":"tWZZbMsBc6jYPVD8"}
+{"type":"chat","created":1756819554928,"instanceId":"RTsZ7he8y5XmiEDY","action":"join","user":{"id":"a913c7a5-f2eb-4e61-9e80-8b09d4b96322","name":"hoopla","displayName":"hoopla"},"_id":"KKy23gPatK0iD7B2"}
+{"type":"chat","created":1756819587597,"instanceId":"RTsZ7he8y5XmiEDY","action":"msg","user":{"id":"a913c7a5-f2eb-4e61-9e80-8b09d4b96322","name":"hoopla","displayName":"hoopla","color":"ff3200"},"message":"!plugins","_id":"eUkmVlX87MW38DNS"}
+{"type":"chat","created":1756819657455,"instanceId":"RTsZ7he8y5XmiEDY","action":"leave","user":{"id":"a913c7a5-f2eb-4e61-9e80-8b09d4b96322","name":"hoopla","displayName":"hoopla"},"_id":"2GaIVRikKlrpjiZR"}
+{"type":"chat","created":1756819660159,"instanceId":"RTsZ7he8y5XmiEDY","action":"join","user":{"id":"a913c7a5-f2eb-4e61-9e80-8b09d4b96322","name":"hoopla","displayName":"hoopla"},"_id":"MLzUOY7DeRz8bqxv"}
+{"type":"chat","created":1756820811830,"instanceId":"RTsZ7he8y5XmiEDY","action":"leave","user":{"id":"a913c7a5-f2eb-4e61-9e80-8b09d4b96322","name":"hoopla","displayName":"hoopla"},"_id":"Wlsws6Te9jTF0KPO"}

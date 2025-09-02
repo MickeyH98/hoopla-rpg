@@ -1,0 +1,25 @@
+{
+  "name": "omegga-hoopla-rpg",
+  "version": "1.0.0",
+  "description": "A comprehensive RPG plugin for Omegga that integrates with the currency system",
+  "main": "omegga.plugin.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "keywords": [
+    "omegga",
+    "plugin",
+    "rpg",
+    "currency",
+    "gaming"
+  ],
+  "author": "voximity",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.9.0"
+  },
+  "dependencies": {
+    "omegga": "^1.0.19"
+  }
+}

@@ -1,0 +1,14 @@
+# Hoopla RPG Plugin Configuration Example
+# Copy this file to your server config and modify as needed
+
+# Starting level for new players
+startingLevel: 1
+
+# Starting health for new players
+startingHealth: 100
+
+# Multiplier for experience gains (1.0 = normal, 2.0 = double XP)
+experienceMultiplier: 1.0
+
+# Health regeneration rate per tick
+healthRegenRate: 1
