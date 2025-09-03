@@ -1,6 +1,23 @@
 import OmeggaPlugin, { OL, PS, PC } from "omegga";
 import Currency from "./currency";
 
+/**
+ * HOOPLA RPG PLUGIN
+ * 
+ * IMPORTANT: This plugin has been tested with actual Omegga methods.
+ * Many brick modification methods we attempted do not exist:
+ * - setBrick(), clearBrick(), setBrickVisible(), setBrickColor(), saveData()
+ * - player.getTemplateBoundsData(), player.getTemplateBounds()
+ * 
+ * See OMEGGA_API_REFERENCE.md for confirmed working methods.
+ * 
+ * Current approach: Use chat feedback, console logging, and timer-based cooldowns
+ * since direct brick modification is not possible with available Omegga APIs.
+ * 
+ * SIMPLIFIED: Mining nodes use simple cooldown tracking without visual changes.
+ * Clean, minimal code focused on core RPG functionality.
+ */
+
 type PlayerId = { id: string };
 type RPGPlayer = { 
   level: number; 
@@ -13,7 +30,7 @@ type RPGPlayer = {
 
 type BrickTrigger = {
   id: string;
-  type: 'xp' | 'currency' | 'item' | 'heal';
+  type: 'xp' | 'currency' | 'item' | 'heal' | 'sell';
   value: number;
   cooldown: number;
   lastUsed: { [playerId: string]: number };
@@ -125,6 +142,279 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     };
   }
 
+  // Get sell price for different resources
+  getResourceSellPrice(resourceType: string): number {
+    switch (resourceType.toLowerCase()) {
+      case 'copper': return 1;
+      case 'iron': return 3;
+      case 'gold': return 10;
+      default: return 1; // Default price for unknown resources
+    }
+  }
+
+  // Automatically detect and convert all mining nodes in the world
+  async autoDetectMiningNodes(speaker: string): Promise<void> {
+    try {
+      const player = this.omegga.getPlayer(speaker);
+      if (!player) {
+        throw new Error("Player not found");
+      }
+
+      console.log(`[Hoopla RPG] Auto-detecting mining nodes in the world...`);
+
+      // Get all bricks from the world
+      const saveData = await this.omegga.getSaveData();
+
+      if (!saveData || !saveData.bricks || !Array.isArray(saveData.bricks) || saveData.bricks.length === 0) {
+        throw new Error("No bricks found in the world!");
+      }
+
+             console.log(`[Hoopla RPG] Found ${saveData.bricks.length} total bricks in world`);
+
+       
+
+       // Filter to only bricks that have Component_Interact with RPG mining console tags
+      const miningBricks: Array<{ brick: any; oreType: string; consoleTag: string }> = [];
+
+      for (const brick of saveData.bricks) {
+        // Use type assertion to access components property
+        const brickWithComponents = brick as any;
+        if (brickWithComponents.components && brickWithComponents.components.Component_Interact) {
+          const consoleTag = brickWithComponents.components.Component_Interact.ConsoleTag || "";
+
+          // Check if this brick has an RPG mining console tag
+          if (consoleTag.startsWith("rpg_mining_")) {
+            const oreType = consoleTag.replace("rpg_mining_", "");
+            miningBricks.push({ brick, oreType, consoleTag });
+            console.log(`[Hoopla RPG] Found mining brick: ${oreType} at [${brick.position.join(', ')}] with console tag: "${consoleTag}"`);
+          }
+        }
+      }
+
+      if (miningBricks.length === 0) {
+        throw new Error("No RPG mining bricks found! Please set up bricks with Component_Interact and ConsoleTag like 'rpg_mining_iron' or 'rpg_mining_gold' using the Applicator tool first.");
+      }
+
+      console.log(`[Hoopla RPG] Found ${miningBricks.length} RPG mining bricks to convert`);
+
+      // Get existing triggers to check for conflicts
+      const existingTriggers = await this.getBrickTriggers();
+      let convertedCount = 0;
+      let skippedCount = 0;
+
+      // Process each mining brick
+      for (const { brick, oreType, consoleTag } of miningBricks) {
+        try {
+          // Extract position from brick
+          let position = null;
+
+          if (brick.position && Array.isArray(brick.position) && brick.position.length >= 3) {
+            position = {
+              x: brick.position[0],
+              y: brick.position[1],
+              z: brick.position[2]
+            };
+                     } else {
+             console.log(`[Hoopla RPG] Skipping brick with invalid position format`);
+             skippedCount++;
+             continue;
+           }
+
+          // Check if this position already has a trigger
+          let positionAlreadyUsed = false;
+          for (const [triggerId, trigger] of Object.entries(existingTriggers)) {
+            if (trigger.brickPositions) {
+              for (const triggerPos of trigger.brickPositions) {
+                                 if (triggerPos.x === position.x && triggerPos.y === position.y && triggerPos.z === position.z) {
+                   console.log(`[Hoopla RPG] Position [${position.x}, ${position.y}, ${position.z}] already has trigger: ${triggerId}`);
+                   positionAlreadyUsed = true;
+                   break;
+                 }
+              }
+              if (positionAlreadyUsed) break;
+            }
+          }
+
+          if (positionAlreadyUsed) {
+            skippedCount++;
+            continue;
+          }
+
+          // Create the mining node trigger
+          const nodeId = `mining_${oreType}_${Date.now()}_${convertedCount}`;
+          const trigger: BrickTrigger = {
+            id: nodeId,
+            type: 'item',
+            value: 1,
+            cooldown: 60000, // 1 minute cooldown
+            lastUsed: {},
+            message: oreType,
+            triggerType: 'click',
+            brickPositions: [position]
+          };
+
+          // Save the trigger
+          await this.createBrickTrigger(nodeId, trigger);
+          convertedCount++;
+
+                     console.log(`[Hoopla RPG] Created ${oreType} mining node at [${position.x}, ${position.y}, ${position.z}]`);
+
+                 } catch (error) {
+           console.error(`[Hoopla RPG] Error processing brick for ${oreType}:`, error);
+           skippedCount++;
+         }
+      }
+
+      // Notify the player of results
+      if (convertedCount > 0) {
+        this.omegga.whisper(speaker, `<color="0f0">Auto-detection completed!</color>`);
+        this.omegga.whisper(speaker, `<color="0ff">Created: ${convertedCount} new mining nodes</color>`);
+        if (skippedCount > 0) {
+          this.omegga.whisper(speaker, `<color="ff0">Skipped: ${skippedCount} bricks (already converted or invalid)</color>`);
+        }
+        this.omegga.whisper(speaker, `<color="f0f">Click on the mining nodes to collect resources!</color>`);
+      } else {
+        this.omegga.whisper(speaker, `<color="ff0">No new mining nodes were created. All positions may already have triggers.</color>`);
+      }
+
+         } catch (error) {
+       console.error(`[Hoopla RPG] Error auto-detecting mining nodes:`, error);
+               this.omegga.whisper(speaker, `<color="f00">Failed to auto-detect mining nodes: ${error.message}</color>`);
+      }
+  }
+
+  // Automatically detect and convert all shopkeeper bricks in the world
+  async autoDetectShopkeepers(speaker: string): Promise<void> {
+    try {
+      const player = this.omegga.getPlayer(speaker);
+      if (!player) {
+        throw new Error("Player not found");
+      }
+
+      console.log(`[Hoopla RPG] Auto-detecting shopkeeper bricks in the world...`);
+
+      // Get all bricks from the world
+      const saveData = await this.omegga.getSaveData();
+
+      if (!saveData || !saveData.bricks || !Array.isArray(saveData.bricks) || saveData.bricks.length === 0) {
+        throw new Error("No bricks found in the world!");
+      }
+
+             console.log(`[Hoopla RPG] Found ${saveData.bricks.length} total bricks in world`);
+
+       
+
+       // Filter to only bricks that have Component_Interact with RPG shopkeeper console tags
+      const shopkeeperBricks: Array<{ brick: any; resourceType: string; consoleTag: string }> = [];
+
+      for (const brick of saveData.bricks) {
+        // Use type assertion to access components property
+        const brickWithComponents = brick as any;
+        if (brickWithComponents.components && brickWithComponents.components.Component_Interact) {
+          const consoleTag = brickWithComponents.components.Component_Interact.ConsoleTag || "";
+
+          // Check if this brick has an RPG shopkeeper console tag
+          if (consoleTag.startsWith("rpg_sell_")) {
+            const resourceType = consoleTag.replace("rpg_sell_", "");
+            shopkeeperBricks.push({ brick, resourceType, consoleTag });
+            console.log(`[Hoopla RPG] Found shopkeeper brick: ${resourceType} at [${brick.position.join(', ')}] with console tag: "${consoleTag}"`);
+          }
+        }
+      }
+
+      if (shopkeeperBricks.length === 0) {
+        throw new Error("No RPG shopkeeper bricks found! Please set up bricks with Component_Interact and ConsoleTag like 'rpg_sell_copper' or 'rpg_sell_iron' using the Applicator tool first.");
+      }
+
+      console.log(`[Hoopla RPG] Found ${shopkeeperBricks.length} RPG shopkeeper bricks to convert`);
+
+      // Get existing triggers to check for conflicts
+      const existingTriggers = await this.getBrickTriggers();
+      let convertedCount = 0;
+      let skippedCount = 0;
+
+      // Process each shopkeeper brick
+      for (const { brick, resourceType, consoleTag } of shopkeeperBricks) {
+        try {
+          // Extract position from brick
+          let position = null;
+
+          if (brick.position && Array.isArray(brick.position) && brick.position.length >= 3) {
+            position = {
+              x: brick.position[0],
+              y: brick.position[1],
+              z: brick.position[2]
+            };
+          } else {
+            console.log(`[Hoopla RPG] Skipping brick with invalid position format`);
+            skippedCount++;
+            continue;
+          }
+
+          // Check if this position already has a trigger
+          let positionAlreadyUsed = false;
+          for (const [triggerId, trigger] of Object.entries(existingTriggers)) {
+            if (trigger.brickPositions) {
+              for (const triggerPos of trigger.brickPositions) {
+                if (triggerPos.x === position.x && triggerPos.y === position.y && triggerPos.z === position.z) {
+                  console.log(`[Hoopla RPG] Position [${position.x}, ${position.y}, ${position.z}] already has trigger: ${triggerId}`);
+                  positionAlreadyUsed = true;
+                  break;
+                }
+              }
+              if (positionAlreadyUsed) break;
+            }
+          }
+
+          if (positionAlreadyUsed) {
+            skippedCount++;
+            continue;
+          }
+
+          // Create the shopkeeper trigger
+          const shopkeeperId = `shopkeeper_${resourceType}_${Date.now()}_${convertedCount}`;
+          const sellPrice = this.getResourceSellPrice(resourceType);
+          const trigger: BrickTrigger = {
+            id: shopkeeperId,
+            type: 'sell',
+            value: sellPrice,
+            cooldown: 0, // No cooldown for selling
+            lastUsed: {},
+            message: resourceType,
+            triggerType: 'click',
+            brickPositions: [position]
+          };
+
+          // Save the trigger
+          await this.createBrickTrigger(shopkeeperId, trigger);
+          convertedCount++;
+
+          console.log(`[Hoopla RPG] Created ${resourceType} shopkeeper at [${position.x}, ${position.y}, ${position.z}] with price ${sellPrice}`);
+
+        } catch (error) {
+          console.error(`[Hoopla RPG] Error processing brick for ${resourceType}:`, error);
+          skippedCount++;
+        }
+      }
+
+      // Notify the player of results
+      if (convertedCount > 0) {
+        this.omegga.whisper(speaker, `<color="0f0">Shopkeeper auto-detection completed!</color>`);
+        this.omegga.whisper(speaker, `<color="0ff">Created: ${convertedCount} new shopkeepers</color>`);
+        if (skippedCount > 0) {
+          this.omegga.whisper(speaker, `<color="ff0">Skipped: ${skippedCount} bricks (already converted or invalid)</color>`);
+        }
+        this.omegga.whisper(speaker, `<color="f0f">Click on the shopkeepers to sell resources!</color>`);
+      } else {
+        this.omegga.whisper(speaker, `<color="ff0">No new shopkeepers were created. All positions may already have triggers.</color>`);
+      }
+
+    } catch (error) {
+      console.error(`[Hoopla RPG] Error auto-detecting shopkeepers:`, error);
+      this.omegga.whisper(speaker, `<color="f00">Failed to auto-detect shopkeepers: ${error.message}</color>`);
+    }
+  }
+
   async healPlayer({ id }: PlayerId, amount: number): Promise<{ newHealth: number; healed: number }> {
     const player = await this.getPlayerData({ id });
     
@@ -195,6 +485,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     return data && typeof data === 'object' && 'brickTriggers' in data ? (data as any).brickTriggers : {};
   }
 
+
+
   async setBrickTriggers(triggers: { [triggerId: string]: BrickTrigger }) {
     await this.store.set("brick_triggers", { brickTriggers: triggers });
   }
@@ -215,12 +507,92 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     return false;
   }
 
+      // Track mining node cooldown status (simplified - no visual changes)
+  async setMiningNodeStatus(triggerId: string, active: boolean): Promise<void> {
+    try {
+      const triggers = await this.getBrickTriggers();
+      const trigger = triggers[triggerId];
+      
+      if (!trigger || !trigger.brickPositions) {
+        return;
+      }
+
+      // Only apply to mining nodes (item type triggers)
+      if (trigger.type !== 'item') {
+        return;
+      }
+
+      // Update each brick position
+      for (const position of trigger.brickPositions) {
+        if (active) {
+          console.log(`[Hoopla RPG] 🟢 Mining node at [${position.x}, ${position.y}, ${position.z}] is now ACTIVE and ready to mine`);
+        } else {
+          console.log(`[Hoopla RPG] 🔴 Mining node at [${position.x}, ${position.y}, ${position.z}] is now DEPLETED and on cooldown`);
+        }
+      }
+
+      console.log(`[Hoopla RPG] Updated status for ${trigger.brickPositions.length} mining node(s)`);
+    } catch (error) {
+      console.error(`[Hoopla RPG] Error updating mining node status for trigger ${triggerId}:`, error);
+    }
+  }
+
+  // Get cooldown status for a specific mining node
+  async getMiningNodeCooldownStatus(triggerId: string, playerId: string): Promise<{ active: boolean; remainingTime: number }> {
+    try {
+      const triggers = await this.getBrickTriggers();
+      const trigger = triggers[triggerId];
+      
+      if (!trigger || trigger.type !== 'item') {
+        return { active: true, remainingTime: 0 };
+      }
+
+      const now = Date.now();
+      const lastUsed = trigger.lastUsed[playerId] || 0;
+      const remainingTime = Math.max(0, trigger.cooldown - (now - lastUsed));
+      const active = remainingTime === 0;
+
+      return { active, remainingTime };
+    } catch (error) {
+      console.error(`[Hoopla RPG] Error getting cooldown status for trigger ${triggerId}:`, error);
+      return { active: true, remainingTime: 0 };
+    }
+  }
+
+    // Restore status for all mining nodes (useful after server restart)
+  async restoreAllMiningNodeStatus(): Promise<void> {
+    try {
+      const triggers = await this.getBrickTriggers();
+      let restoredCount = 0;
+      
+      for (const [triggerId, trigger] of Object.entries(triggers)) {
+        if (trigger.type === 'item' && trigger.brickPositions) {
+          // Check if cooldown has expired
+          const now = Date.now();
+          const lastUsed = Object.values(trigger.lastUsed).reduce((latest, time) => Math.max(latest, time), 0);
+          
+          if (now - lastUsed >= trigger.cooldown) {
+            // Cooldown has expired, make node active again
+            await this.setMiningNodeStatus(triggerId, true);
+            restoredCount++;
+          }
+        }
+      }
+      
+      if (restoredCount > 0) {
+        console.log(`[Hoopla RPG] Restored status for ${restoredCount} mining nodes after cooldown expiration`);
+      }
+    } catch (error) {
+      console.error(`[Hoopla RPG] Error restoring mining node status:`, error);
+    }
+  }
+
   async triggerBrickAction(playerId: string, triggerId: string): Promise<{ success: boolean; message: string; reward?: any }> {
     const triggers = await this.getBrickTriggers();
     const trigger = triggers[triggerId];
     
     if (!trigger) {
-      return { success: false, message: "❌ Trigger not found!" };
+              return { success: false, message: "Trigger not found!" };
     }
 
     // Check cooldown
@@ -228,7 +600,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     const lastUsed = trigger.lastUsed[playerId] || 0;
     if (now - lastUsed < trigger.cooldown) {
       const remaining = Math.ceil((trigger.cooldown - (now - lastUsed)) / 1000);
-      return { success: false, message: `⏰ Cooldown active! Try again in ${remaining} seconds.` };
+                return { success: false, message: `Cooldown active! Try again in ${remaining} seconds.` };
     }
 
     // Update last used time
@@ -259,9 +631,28 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
         case 'item':
           await this.addToInventory({ id: playerId }, trigger.message);
+          
+                                // Mark the mining node as depleted during cooldown
+           await this.setMiningNodeStatus(triggerId, false);
+           
+           // Set a timer to restore its status when cooldown expires
+           setTimeout(async () => {
+             try {
+               await this.setMiningNodeStatus(triggerId, true);
+             } catch (error) {
+               console.error(`[Hoopla RPG] Error restoring mining node status after cooldown:`, error);
+             }
+           }, trigger.cooldown);
+           
+           // Get updated inventory to show total count
+           const updatedPlayer = await this.getPlayerData({ id: playerId });
+           const itemCount = updatedPlayer.inventory.filter(item => item === trigger.message).length;
+           
+                       // Enhanced message with cooldown information
+            const cooldownSeconds = Math.ceil(trigger.cooldown / 1000);
           return { 
             success: true, 
-            message: `📦 Found ${trigger.message}!`,
+              message: `Found ${trigger.message}! You now have ${itemCount} total. This node is now depleted and will regenerate in ${cooldownSeconds} seconds.`,
             reward: { type: 'item', item: trigger.message }
           };
 
@@ -273,12 +664,40 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             reward: { type: 'heal', amount: trigger.value, healed: healResult.healed }
           };
 
+        case 'sell':
+          // Check if player has the resource to sell
+          const player = await this.getPlayerData({ id: playerId });
+          if (!player.inventory || !player.inventory.includes(trigger.message)) {
+            return { 
+              success: false, 
+              message: `You don't have any ${trigger.message} to sell!` 
+            };
+          }
+
+          // Remove one item from inventory
+          await this.removeFromInventory({ id: playerId }, trigger.message);
+          
+          // Add currency
+          await this.currency.add(playerId, "currency", trigger.value);
+          
+          // Get updated player data for display
+          const updatedPlayerData = await this.getPlayerData({ id: playerId });
+          const remainingCount = updatedPlayerData.inventory.filter(item => item === trigger.message).length;
+          const newCurrency = await this.currency.getCurrency(playerId);
+          const formattedCurrency = await this.currency.format(newCurrency);
+          
+          return { 
+            success: true, 
+            message: `Sold ${trigger.message} for ${await this.currency.format(trigger.value)}! You now have ${formattedCurrency} and ${remainingCount} ${trigger.message} remaining.`,
+            reward: { type: 'sell', item: trigger.message, price: trigger.value, remainingCount, newCurrency: formattedCurrency }
+          };
+
         default:
-                 return { success: false, message: "❌ Unknown trigger type!" };
+          return { success: false, message: "Unknown trigger type!" };
        }
      } catch (error) {
        console.error(`Error processing brick trigger ${triggerId}:`, error);
-       return { success: false, message: "❌ Error processing trigger!" };
+              return { success: false, message: "Error processing trigger!" };
      }
    }
 
@@ -292,87 +711,218 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     }
   }
 
-  // Auto-convert selected bricks to nodes (using mirror plugin logic)
-  async convertSelectedBricksToNode(speaker: string, nodeType: string, rewardType: 'xp' | 'currency' | 'item' | 'heal', rewardValue: number, cooldown: number, message: string): Promise<void> {
+  // Process brick interaction from any event type
+  async processBrickInteraction(data: any, eventName: string): Promise<void> {
+    try {
+      // Extract data from various possible formats
+      let player = data.player;
+      let position = data.position;
+      let brickAsset = data.brick_asset || data.brick;
+      
+      // If player is not directly available, try to get it from other fields
+      if (!player && data.playerId) {
+        player = this.omegga.getPlayer(data.playerId);
+      }
+      if (!player && data.speaker) {
+        player = this.omegga.getPlayer(data.speaker);
+      }
+      if (!player && data.name) {
+        player = this.omegga.getPlayer(data.name);
+      }
+      
+      // If position is not directly available, try to get it from other fields
+      if (!position && data.pos) {
+        position = data.pos;
+      }
+      if (!position && data.location) {
+        position = data.location;
+      }
+      if (!position && data.coords) {
+        position = data.coords;
+      }
+      
+      if (!player || !position) {
+        return;
+      }
+      
+      // Convert position to array format if it's not already
+      let posArray: number[];
+      if (Array.isArray(position)) {
+        posArray = position;
+      } else if (typeof position === 'object' && position.x !== undefined) {
+        posArray = [position.x, position.y, position.z];
+      } else {
+        return;
+      }
+      
+      const triggers = await this.getBrickTriggers();
+      
+      // Check for click-based triggers on this brick
+      let matchFound = false;
+      for (const [triggerId, trigger] of Object.entries(triggers)) {
+        if (trigger.triggerType === 'click' && trigger.brickPositions) {
+          for (const brickPos of trigger.brickPositions) {
+                         if (brickPos.x === posArray[0] && brickPos.y === posArray[1] && brickPos.z === posArray[2]) {
+               if (trigger.type === 'sell') {
+                 console.log(`[Hoopla RPG] [${player.name}] is selling to shopkeeper: ${triggerId.replace('shopkeeper_', '').split('_')[0]}_${triggerId.split('_').slice(-2).join('_')}`);
+               } else {
+                 console.log(`[Hoopla RPG] [${player.name}] is mining node: ${triggerId.replace('mining_', '').split('_')[0]}_${triggerId.split('_').slice(-2).join('_')}`);
+               }
+               matchFound = true;
+              
+              const result = await this.triggerBrickAction(player.id, triggerId);
+              
+                             if (result.success) {
+                 this.omegga.whisper(player.name, `<color="0f0">${result.message}</color>`);
+                 if (trigger.type === 'sell') {
+                   console.log(`[Hoopla RPG] [${player.name}] successfully sold resource: ${result.reward?.item || 'unknown'}`);
+                 } else {
+                   console.log(`[Hoopla RPG] [${player.name}] successfully collected resource: ${result.reward?.item || 'unknown'}`);
+                 }
+               } else {
+                 this.omegga.whisper(player.name, `<color="f00">${result.message}</color>`);
+               }
+              break;
+            }
+          }
+        }
+      }
+      
+      if (!matchFound) {
+        // Optional: whisper to player that this brick has no triggers
+        this.omegga.whisper(player.name, `<color="f0f">This brick has no RPG triggers set up.</color>`);
+      }
+      
+         } catch (error) {
+       console.error(`[Hoopla RPG] Error processing brick interaction from ${eventName}:`, error);
+     }
+  }
+
+  // Create a mining node from selected bricks
+  async createMiningNode(speaker: string, oreType: string): Promise<void> {
     try {
       const player = this.omegga.getPlayer(speaker);
       if (!player) {
         throw new Error("Player not found");
       }
 
-      // Get the player's selected bricks using getTemplateBoundsData (mirror plugin method)
+             // Get the player's selected bricks using the in-game selector tool
       let saveData = null;
       
       try {
-        // Call getTemplateBoundsData() - this should return the selected brick data
-        saveData = await player.getTemplateBoundsData();
-        console.log(`[Hoopla RPG] getTemplateBoundsData result:`, saveData);
-        console.log(`[Hoopla RPG] saveData type:`, typeof saveData);
-        console.log(`[Hoopla RPG] saveData keys:`, saveData ? Object.keys(saveData) : 'null');
-        
-        // Check if we got valid data structure
-        if (saveData && typeof saveData === 'object') {
-          console.log(`[Hoopla RPG] Data structure:`, {
-            hasBricks: !!saveData.bricks,
-            bricksLength: saveData.bricks ? saveData.bricks.length : 0,
-            hasBrickAssets: !!saveData.brick_assets,
-            brickAssetsLength: saveData.brick_assets ? saveData.brick_assets.length : 0
-          });
-        }
+         // Use getTemplateBoundsData to get ONLY the selected bricks, not the entire world
+         // @ts-ignore - Accessing player methods that may not be in the type definition
+         saveData = await (this.omegga as any).player.getTemplateBoundsData(speaker);
         
       } catch (error) {
-        console.log(`[Hoopla RPG] getTemplateBoundsData failed:`, error);
-        throw new Error(`Failed to get selected bricks: ${error.message}`);
+         throw new Error(`Failed to get selected bricks. Please ensure you have selected bricks using the in-game selector tool before running this command.`);
       }
+       
+               
       
       // Validate that we have the expected data structure
       if (!saveData || !saveData.bricks || !Array.isArray(saveData.bricks) || saveData.bricks.length === 0) {
-        throw new Error("No bricks selected! Use the in-game selector tool to select bricks first.");
+          throw new Error("No bricks selected! Use the in-game selector tool to select bricks first, then run this command.");
       }
+        
+        console.log(`[Hoopla RPG] Found ${saveData.bricks.length} selected bricks`);
 
       // Generate unique ID for the node
-      const nodeId = `${nodeType}_${Date.now()}`;
+      const nodeId = `mining_${oreType}_${Date.now()}`;
       
-             // Extract positions from selected bricks (exactly like mirror plugin)
+             // Extract positions from selected bricks
        const positions: Array<{ x: number; y: number; z: number }> = [];
        
-       console.log(`[Hoopla RPG] Processing ${saveData.bricks.length} bricks...`);
-       
-       for (const brick of saveData.bricks) {
-         console.log(`[Hoopla RPG] Brick data:`, {
-           hasPosition: !!brick.position,
-           positionType: typeof brick.position,
-           positionLength: brick.position ? brick.position.length : 0,
-           position: brick.position
-         });
-         
-         if (brick.position && Array.isArray(brick.position) && brick.position.length >= 3) {
-           const pos = {
-             x: brick.position[0],
-             y: brick.position[1], 
-             z: brick.position[2]
-           };
-           positions.push(pos);
-           console.log(`[Hoopla RPG] Added position:`, pos);
-         } else {
-           console.log(`[Hoopla RPG] Skipping brick with invalid position:`, brick);
-         }
-       }
-
-       console.log(`[Hoopla RPG] Total positions extracted:`, positions.length);
+                        for (let i = 0; i < saveData.bricks.length; i++) {
+           const brick = saveData.bricks[i];
+          
+          // Handle different possible position formats from the in-game selector tool
+          let pos = null;
+          
+          if (brick.position && Array.isArray(brick.position) && brick.position.length >= 3) {
+            // Standard position array [x, y, z]
+            pos = {
+              x: brick.position[0],
+              y: brick.position[1], 
+              z: brick.position[2]
+            };
+           } else if (brick.x !== undefined && brick.y !== undefined && brick.z !== undefined) {
+             // Direct x, y, z properties
+             pos = {
+               x: brick.x,
+               y: brick.y,
+               z: brick.z
+             };
+           } else if (brick.pos && Array.isArray(brick.pos) && brick.pos.length >= 3) {
+             // Alternative pos array
+             pos = {
+               x: brick.pos[0],
+               y: brick.pos[1],
+               z: brick.pos[2]
+             };
+           } else if (brick.location && Array.isArray(brick.location) && brick.location.length >= 3) {
+             // Alternative location array
+             pos = {
+               x: brick.location[0],
+               y: brick.location[1],
+               z: brick.location[2]
+             };
+           }
+           
+           if (pos) {
+             positions.push(pos);
+           }
+        }
        
        if (positions.length === 0) {
-         throw new Error("Could not extract brick positions from selection. Brick data structure may be different than expected.");
-       }
+        throw new Error("Could not extract brick positions from selection. The brick data structure may be different than expected. Please try selecting the bricks again.");
+      }
+
+      // 🚨 DUPLICATE PREVENTION: Check if any of these positions already have triggers
+      const existingTriggers = await this.getBrickTriggers();
+      const conflictingTriggers: string[] = [];
+      
+              
+      
+      for (const [triggerId, trigger] of Object.entries(existingTriggers)) {
+        if (trigger.brickPositions) {
+          for (const triggerPos of trigger.brickPositions) {
+                         for (const newPos of positions) {
+               if (triggerPos.x === newPos.x && triggerPos.y === newPos.y && triggerPos.z === newPos.z) {
+                 conflictingTriggers.push(`${triggerId} (${trigger.type} - ${trigger.message})`);
+               }
+             }
+          }
+        }
+      }
+      
+      if (conflictingTriggers.length > 0) {
+        // Find which specific positions are conflicting
+        const conflictingPositions: string[] = [];
+        for (const [triggerId, trigger] of Object.entries(existingTriggers)) {
+          if (trigger.brickPositions) {
+            for (const triggerPos of trigger.brickPositions) {
+              for (const newPos of positions) {
+                if (triggerPos.x === newPos.x && triggerPos.y === newPos.y && triggerPos.z === newPos.z) {
+                  conflictingPositions.push(`[${newPos.x}, ${newPos.y}, ${newPos.z}]`);
+                }
+              }
+            }
+          }
+        }
+        
+        const conflictMessage = `Cannot create mining node: ${conflictingTriggers.length} position(s) already have triggers!\n\nConflicting positions: ${[...new Set(conflictingPositions)].join(', ')}\nConflicting triggers:\n${conflictingTriggers.map(t => `• ${t}`).join('\n')}\n\nPlease select different bricks or remove existing triggers first.`;
+        throw new Error(conflictMessage);
+      }
 
       // Create the trigger with brick positions
       const trigger: BrickTrigger = {
         id: nodeId,
-        type: rewardType,
-        value: rewardValue,
-        cooldown: cooldown,
+        type: 'item',
+        value: 1,
+        cooldown: 60000, // 1 minute cooldown
         lastUsed: {},
-        message: message,
+        message: oreType,
         triggerType: 'click',
         brickPositions: positions
       };
@@ -381,85 +931,16 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       await this.createBrickTrigger(nodeId, trigger);
       
       // Notify the player
-      this.omegga.whisper(speaker, `<color="0f0">✅ Created ${nodeType} node!</color>`);
+      this.omegga.whisper(speaker, `<color="0f0">Created ${oreType} mining node!</color>`);
       this.omegga.whisper(speaker, `<color="0ff">Node ID: ${nodeId}</color>`);
-      this.omegga.whisper(speaker, `<color="0ff">Type: ${rewardType} (${rewardValue})</color>`);
-      this.omegga.whisper(speaker, `<color="0ff">Cooldown: ${cooldown}ms</color>`);
+      this.omegga.whisper(speaker, `<color="0ff">Type: Mining node (${oreType})</color>`);
+      this.omegga.whisper(speaker, `<color="0ff">Cooldown: 60 seconds</color>`);
       this.omegga.whisper(speaker, `<color="0ff">Bricks: ${positions.length} selected</color>`);
-      this.omegga.whisper(speaker, `<color="f0f">🎯 Players can now click these bricks to activate!</color>`);
+      this.omegga.whisper(speaker, `<color="f0f">Click on the selected bricks to mine ${oreType}!</color>`);
       
-    } catch (error) {
-      this.omegga.whisper(speaker, `<color="f00">❌ Failed to create node: ${error}</color>`);
-    }
-  }
-
-   async setRegionBounds(triggerId: string, min: { x: number; y: number; z: number }, max: { x: number; y: number; z: number }): Promise<void> {
-     const triggers = await this.getBrickTriggers();
-     if (triggers[triggerId]) {
-       triggers[triggerId].regionBounds = { min, max };
-       triggers[triggerId].triggerType = 'region';
-       await this.setBrickTriggers(triggers);
-     }
-   }
-
-   async setProximityTrigger(triggerId: string, radius: number): Promise<void> {
-     const triggers = await this.getBrickTriggers();
-     if (triggers[triggerId]) {
-       triggers[triggerId].proximityRadius = radius;
-       triggers[triggerId].triggerType = 'proximity';
-       await this.setBrickTriggers(triggers);
-     }
-   }
-
-   isPlayerInRegion(playerPos: { x: number; y: number; z: number }, region: { min: { x: number; y: number; z: number }; max: { x: number; y: number; z: number } }): boolean {
-     return playerPos.x >= region.min.x && playerPos.x <= region.max.x &&
-            playerPos.y >= region.min.y && playerPos.y <= region.max.y &&
-            playerPos.z >= region.min.z && playerPos.z <= region.max.z;
-   }
-
-   getDistance(pos1: { x: number; y: number; z: number }, pos2: { x: number; y: number; z: number }): number {
-     const dx = pos1.x - pos2.x;
-     const dy = pos1.y - pos2.y;
-     const dz = pos1.z - pos2.z;
-     return Math.sqrt(dx * dx + dy * dy + dz * dz);
-   }
-
-   async checkBrickTriggers(player: any, playerPos: { x: number; y: number; z: number }): Promise<void> {
-     const triggers = await this.getBrickTriggers();
-     
-     for (const [triggerId, trigger] of Object.entries(triggers)) {
-       try {
-         switch (trigger.triggerType) {
-           case 'click':
-             // Click triggers are handled by brick events
-             break;
-             
-           case 'region':
-             if (trigger.regionBounds && this.isPlayerInRegion(playerPos, trigger.regionBounds)) {
-               const result = await this.triggerBrickAction(player.id, triggerId);
-               if (result.success) {
-                 this.omegga.whisper(player.name, `<color="0f0">${result.message}</>`);
-               }
-             }
-             break;
-             
-           case 'proximity':
-             if (trigger.proximityRadius && trigger.brickPositions) {
-               for (const brickPos of trigger.brickPositions) {
-                 if (this.getDistance(playerPos, brickPos) <= trigger.proximityRadius) {
-                   const result = await this.triggerBrickAction(player.id, triggerId);
-                   if (result.success) {
-                     this.omegga.whisper(player.name, `<color="0f0">${result.message}</>`);
-                   }
-                   break; // Only trigger once per proximity check
-                 }
-               }
-             }
-             break;
-         }
        } catch (error) {
-         console.error(`Error checking brick trigger ${triggerId}:`, error);
-       }
+       console.error(`[Hoopla RPG] Error creating mining node:`, error);
+       this.omegga.whisper(speaker, `<color="f00">Failed to create mining node: ${error.message}</color>`);
      }
    }
 
@@ -473,7 +954,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       return { registeredCommands: [] };
     }
 
-    // Register commands
+    // Register basic RPG commands
     this.omegga.on("cmd:rpg", async (speaker: string) => {
       const player = this.omegga.getPlayer(speaker);
       if (!player) return;
@@ -481,11 +962,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       const rpgData = await this.getPlayerData(player);
       const currency = await this.currency.getCurrency(player.id);
       const formattedCurrency = await this.currency.format(currency);
-      
-      // Ensure level exists before calculating XP progress
-      const safeLevel = rpgData.level ?? 1;
-      const safeExperience = rpgData.experience ?? 0;
-      const xpProgress = this.getXPProgress(safeExperience, safeLevel);
 
                    // Ensure all required properties exist with fallbacks
       const safeRpgData = {
@@ -497,792 +973,258 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         nodesCollected: rpgData.nodesCollected ?? []
       };
       
-      const nodeCount = safeRpgData.nodesCollected.length;
-      const inventoryCount = safeRpgData.inventory.length;
+      // Count items by type for better display
+      const itemCounts: { [key: string]: number } = {};
+      for (const item of safeRpgData.inventory) {
+        itemCounts[item] = (itemCounts[item] || 0) + 1;
+      }
       
-      this.omegga.whisper(speaker, 
-        `=== RPG Stats ===\n` +
-        `Level: <color="ff0">${safeRpgData.level}</>\n` +
-        `Experience: <color="0ff">${safeRpgData.experience}</>\n` +
-        `Level Progress: <color="ff0">${xpProgress.current}/${xpProgress.needed} XP (${xpProgress.progress.toFixed(1)}%)</>\n` +
-        `Health: <color="f00">${safeRpgData.health}</>/<color="f00">${safeRpgData.maxHealth}</>\n` +
-        `Currency: <color="0f0">${formattedCurrency}</>\n` +
-        `Inventory: <color="f0f">${inventoryCount} items</>\n` +
-        `Nodes Discovered: <color="f0f">${nodeCount}</>`
-      );
-    });
-
-    this.omegga.on("cmd:xp", async (speaker: string, amount: string) => {
-      const player = this.omegga.getPlayer(speaker);
-      if (!player) return;
-
-      const xpAmount = parseInt(amount) || 10;
-      const result = await this.addExperience(player, xpAmount);
+      // Format inventory display
+      let inventoryDisplay = "Empty";
+      if (Object.keys(itemCounts).length > 0) {
+        inventoryDisplay = Object.entries(itemCounts)
+          .map(([item, count]) => `${count} ${item}`)
+          .join(", ");
+      }
       
-      if (result.leveledUp) {
+             // Calculate XP progress to next level
+       const xpForCurrentLevel = (safeRpgData.level - this.config.startingLevel) * 100;
+       const xpForNextLevel = this.getXPForNextLevel(safeRpgData.level);
+       const xpInCurrentLevel = safeRpgData.experience - xpForCurrentLevel;
+       const xpNeededForNextLevel = xpForNextLevel - xpForCurrentLevel;
+       const xpProgress = Math.min(100, Math.max(0, (xpInCurrentLevel / (xpForNextLevel - xpForCurrentLevel)) * 100));
+       
         this.omegga.whisper(speaker, 
-          `<color="0f0">🎉 LEVEL UP! You are now level ${result.newLevel}!</>`
+         `<color="ff0">Level ${safeRpgData.level}</> | <color="0ff">${xpInCurrentLevel}/${xpNeededForNextLevel} XP (${Math.round(xpProgress)}%)</> | <color="f00">${safeRpgData.health}/${safeRpgData.maxHealth} HP</> | <color="0f0">${formattedCurrency}</> | <color="f0f">${inventoryDisplay}</>`
         );
-      } else {
-        this.omegga.whisper(speaker, 
-          `<color="0ff">+${xpAmount} XP gained! Current XP: ${(await this.getPlayerData(player)).experience}</>`
-        );
-      }
+               this.omegga.whisper(speaker, `<color="888">Try /rpghelp for more commands</color>`);
     });
 
-    this.omegga.on("cmd:heal", async (speaker: string, amount: string) => {
+    // RPG initialization command - will eventually handle mining nodes, class selection, shopkeepers, and questgivers
+    this.omegga.on("cmd:rpginit", async (speaker: string) => {
       const player = this.omegga.getPlayer(speaker);
       if (!player) return;
 
-      const healAmount = parseInt(amount) || 20;
-      const result = await this.healPlayer(player, healAmount);
-      
-      this.omegga.whisper(speaker, 
-        `<color="0f0">💚 Healed ${result.healed} HP! Current Health: ${result.newHealth}</>`
-      );
-    });
-
-    this.omegga.on("cmd:additem", async (speaker: string, item: string) => {
-      const player = this.omegga.getPlayer(speaker);
-      if (!player) return;
-
-      if (!item) {
-        this.omegga.whisper(speaker, `<color="f00">Please specify an item name!</>`);
-        return;
-      }
-
-      const inventory = await this.addToInventory(player, item);
-      this.omegga.whisper(speaker, 
-        `<color="0f0">📦 Added ${item} to inventory! Total items: ${inventory.length}</>`
-      );
-    });
-
-    this.omegga.on("cmd:removeitem", async (speaker: string, item: string) => {
-      const player = this.omegga.getPlayer(speaker);
-      if (!player) return;
-
-      if (!item) {
-        this.omegga.whisper(speaker, `<color="f00">Please specify an item name!</>`);
-        return;
-      }
-
-      const removed = await this.removeFromInventory(player, item);
-      if (removed) {
-        this.omegga.whisper(speaker, `<color="0f0">🗑️ Removed ${item} from inventory!</>`);
-      } else {
-        this.omegga.whisper(speaker, `<color="f00">❌ Item ${item} not found in inventory!</>`);
-      }
-    });
-
-    this.omegga.on("cmd:inventory", async (speaker: string) => {
-      const player = this.omegga.getPlayer(speaker);
-      if (!player) return;
-
-      const rpgData = await this.getPlayerData(player);
-      const safeInventory = rpgData.inventory ?? [];
-      
-      if (safeInventory.length === 0) {
-        this.omegga.whisper(speaker, `<color="f0f">📦 Your inventory is empty!</>`);
-      } else {
-        this.omegga.whisper(speaker, 
-          `<color="f0f">📦 Inventory (${safeInventory.length} items):\n` +
-          `${safeInventory.join(", ")}</>`
-        );
-      }
-    });
-
-    // Currency integration commands
-    this.omegga.on("cmd:balance", async (speaker: string) => {
-      const player = this.omegga.getPlayer(speaker);
-      if (!player) return;
-
-      const currency = await this.currency.getCurrency(player.id);
-      const formattedCurrency = await this.currency.format(currency);
-      
-      this.omegga.whisper(speaker, 
-        `<color="0f0">💰 Your balance: ${formattedCurrency}</>`
-      );
-    });
-
-    // Automatic XP system - give 10 XP to all online players every minute
-    console.log("Hoopla RPG: Starting automatic XP system (10 XP every minute)");
-    setInterval(async () => {
-      const onlinePlayers = this.omegga.getPlayers();
-      
-      if (onlinePlayers.length > 0) {
-        console.log(`Hoopla RPG: Giving 10 XP to ${onlinePlayers.length} online players`);
-      }
-      
-      for (const player of onlinePlayers) {
-        try {
-          const result = await this.addExperience(player, 10);
-          const rpgData = await this.getPlayerData(player);
-          const xpProgress = this.getXPProgress(rpgData.experience, rpgData.level);
-          
-          if (result.leveledUp) {
-            this.omegga.whisper(player.name, 
-              `<color="0f0">🎉 LEVEL UP! You are now level ${result.newLevel}!</>\n` +
-              `<color="0ff">+10 XP gained! Current XP: ${rpgData.experience}</>`
-            );
-          } else {
-            this.omegga.whisper(player.name, 
-              `<color="0ff">+10 XP gained! Current XP: ${rpgData.experience}</>\n` +
-              `<color="ff0">Level ${rpgData.level} Progress: ${xpProgress.current}/${xpProgress.needed} XP (${xpProgress.progress.toFixed(1)}%)</>`
-            );
-          }
-        } catch (error) {
-          console.error(`Failed to give XP to player ${player.name}:`, error);
-        }
-      }
-    }, 60000); // 60000ms = 1 minute
-
-    // Plugin interop system for brick triggers
-    this.omegga.on("pluginInterop", async (event: string, from: string, args: any[]) => {
-      if (event === "trigger") {
-        const [playerId, triggerId] = args;
-        if (!playerId || !triggerId) {
-          return { error: "Missing playerId or triggerId" };
-        }
-
-        try {
-          const result = await this.triggerBrickAction(playerId, triggerId);
-          return result;
-        } catch (error) {
-          return { error: `Failed to trigger action: ${error}` };
-        }
-      } else if (event === "getPlayerData") {
-        const [playerId] = args;
-        if (!playerId) {
-          return { error: "Missing playerId" };
-        }
-
-        try {
-          const playerData = await this.getPlayerData({ id: playerId });
-          return playerData;
-        } catch (error) {
-          return { error: `Failed to get player data: ${error}` };
-        }
-      } else if (event === "addExperience") {
-        const [playerId, amount] = args;
-        if (!playerId || !amount) {
-          return { error: "Missing playerId or amount" };
-        }
-
-        try {
-          const result = await this.addExperience({ id: playerId }, amount);
-          return result;
-        } catch (error) {
-          return { error: `Failed to add experience: ${error}` };
-        }
-      } else if (event === "addCurrency") {
-        const [playerId, amount] = args;
-        if (!playerId || !amount) {
-          return { error: "Missing playerId or amount" };
-        }
-
-        try {
-          await this.currency.add(playerId, "currency", amount);
-          return { success: true, message: `Added ${amount} currency` };
-        } catch (error) {
-          return { error: `Failed to add currency: ${error}` };
-        }
-      }
-
-      return { error: `Unknown event: ${event}` };
-    });
-
-    this.omegga.on("cmd:addmoney", async (speaker: string, amount: string) => {
-      const player = this.omegga.getPlayer(speaker);
-      if (!player) return;
-
-      const moneyAmount = parseInt(amount) || 100;
-      await this.currency.add(player.id, "currency", moneyAmount);
-      
-      this.omegga.whisper(speaker, 
-        `<color="0f0">💰 Added ${await this.currency.format(moneyAmount)} to your balance!</>`
-      );
-    });
-
-    this.omegga.on("cmd:spend", async (speaker: string, amount: string) => {
-      const player = this.omegga.getPlayer(speaker);
-      if (!player) return;
-
-      const spendAmount = parseInt(amount) || 50;
-      const currentCurrency = await this.currency.getCurrency(player.id);
-      
-      if (currentCurrency < spendAmount) {
-        this.omegga.whisper(speaker, 
-          `<color="f00">❌ Insufficient funds! You have ${await this.currency.format(currentCurrency)}</>`
-        );
-        return;
-      }
-
-      await this.currency.add(player.id, "currency", -spendAmount);
-      
-      this.omegga.whisper(speaker, 
-        `<color="f00">💸 Spent ${await this.currency.format(spendAmount)}! New balance: ${await this.currency.getCurrencyFormatted(player.id)}</>`
-      );
-    });
-
-    // Brick trigger management commands
-    this.omegga.on("cmd:createtrigger", async (speaker: string, triggerId: string, type: string, value: string, cooldown: string, message: string) => {
-      const player = this.omegga.getPlayer(speaker);
-      if (!player) return;
-
-      if (!triggerId || !type || !value || !cooldown || !message) {
-        this.omegga.whisper(speaker, `<color="f00">Usage: /createtrigger <id> <type> <value> <cooldown_ms> <message></>`);
-        this.omegga.whisper(speaker, `<color="f0f">Types: xp, currency, item, heal</>`);
-        this.omegga.whisper(speaker, `<color="f0f">Example: /createtrigger mine_ore xp 25 5000 "Mined ore! +{value} XP"</>`);
-        return;
-      }
-
-      const validTypes = ['xp', 'currency', 'item', 'heal'];
-      if (!validTypes.includes(type)) {
-        this.omegga.whisper(speaker, `<color="f00">Invalid type! Use: xp, currency, item, or heal</>`);
-        return;
-      }
-
-      const numValue = parseInt(value);
-      const numCooldown = parseInt(cooldown);
-      
-      if (isNaN(numValue) || isNaN(numCooldown)) {
-        this.omegga.whisper(speaker, `<color="f00">Value and cooldown must be numbers!</>`);
-        return;
-      }
-
-             const trigger: BrickTrigger = {
-         id: triggerId,
-         type: type as 'xp' | 'currency' | 'item' | 'heal',
-         value: numValue,
-         cooldown: numCooldown,
-         lastUsed: {},
-         message: message,
-         triggerType: 'click' // Default to click-based triggers
-       };
+      this.omegga.whisper(speaker, `<color="f0f">Initializing RPG systems...</color>`);
 
       try {
-        await this.createBrickTrigger(triggerId, trigger);
-        
-        // Whisper to creator
-        this.omegga.whisper(speaker, `<color="0f0">✅ Created brick trigger: ${triggerId}</>`);
-        this.omegga.whisper(speaker, `<color="0ff">Type: ${type}, Value: ${value}, Cooldown: ${cooldown}ms</>`);
-        this.omegga.whisper(speaker, `<color="0ff">Message: ${message}</>`);
-        
-        // Broadcast to all players about the new node
-        const nodeType = type === 'xp' ? 'XP Node' : 
-                        type === 'currency' ? 'Currency Node' : 
-                        type === 'item' ? 'Item Node' : 'Healing Node';
-        
-        this.omegga.broadcast(`<color="0ff">🔮 New ${nodeType} discovered: <color="ff0">${triggerId}</color> by <color="f0f">${speaker}</color>!</color>`);
-        this.omegga.broadcast(`<color="f0f">Players can now interact with this node to get rewards!</color>`);
-        
-      } catch (error) {
-        this.omegga.whisper(speaker, `<color="f00">❌ Failed to create trigger: ${error}</>`);
-      }
+        // Initialize mining nodes
+        this.omegga.whisper(speaker, `<color="0ff">Initializing mining nodes...</color>`);
+        await this.autoDetectMiningNodes(speaker);
+
+        // Initialize shopkeepers
+        this.omegga.whisper(speaker, `<color="0ff">Initializing shopkeepers...</color>`);
+        await this.autoDetectShopkeepers(speaker);
+
+                 // Restore status for any mining nodes that have finished their cooldown
+         this.omegga.whisper(speaker, `<color="0ff">Restoring mining node status...</color>`);
+         await this.restoreAllMiningNodeStatus();
+
+        // TODO: Add class selection brick initialization
+        // TODO: Add questgiver initialization
+
+        this.omegga.whisper(speaker, `<color="0f0">RPG systems initialized successfully!</color>`);
+
+        } catch (error) {
+         console.error(`[Hoopla RPG] Failed to initialize RPG systems:`, error);
+         this.omegga.whisper(speaker, `<color="f00">Failed to initialize RPG systems: ${error.message}</color>`);
+       }
     });
 
-    this.omegga.on("cmd:removetrigger", async (speaker: string, triggerId: string) => {
-      const player = this.omegga.getPlayer(speaker);
-      if (!player) return;
+    // RPG help command - shows all available commands
+    this.omegga.on("cmd:rpghelp", async (speaker: string) => {
+      this.omegga.whisper(speaker, `<color="0ff">=== RPG Commands ===</color>`);
+             this.omegga.whisper(speaker, `<color="0ff">/rpg</> - Show your RPG stats and inventory contents`);
+       this.omegga.whisper(speaker, `<color="0ff">/rpginit</> - Initialize all RPG systems (mining nodes, class selection, shopkeepers, questgivers)`);
+       this.omegga.whisper(speaker, `<color="0ff">/rpghelp</> - Show this help message`);
+               this.omegga.whisper(speaker, `<color="0ff">/rpgclearall</> - Clear all initialized RPG nodes and systems`);
 
-      if (!triggerId) {
-        this.omegga.whisper(speaker, `<color="f00">Usage: /removetrigger <trigger_id></>`);
-        return;
-      }
-
-      try {
-        const removed = await this.removeBrickTrigger(triggerId);
-        if (removed) {
-          this.omegga.whisper(speaker, `<color="0f0">✅ Removed brick trigger: ${triggerId}</>`);
-        } else {
-          this.omegga.whisper(speaker, `<color="f00">❌ Trigger not found: ${triggerId}</>`);
-        }
-      } catch (error) {
-        this.omegga.whisper(speaker, `<color="f00">❌ Failed to remove trigger: ${error}</>`);
-      }
+              this.omegga.whisper(speaker, `<color="f0f">=== Setup Instructions ===</color>`);
+        this.omegga.whisper(speaker, `<color="f0f">1. Set up bricks with Component_Interact and ConsoleTag like 'rpg_mining_iron' or 'rpg_mining_gold'`);
+        this.omegga.whisper(speaker, `<color="f0f">2. Set up shopkeeper bricks with ConsoleTag like 'rpg_sell_copper' or 'rpg_sell_iron'`);
+        this.omegga.whisper(speaker, `<color="f0f">3. Run /rpginit to automatically detect and convert all RPG bricks`);
+        this.omegga.whisper(speaker, `<color="f0f">4. Click on the converted bricks to interact with them!`);
+        this.omegga.whisper(speaker, `<color="0ff">Note: Mining nodes use simple cooldowns - no visual changes needed!</color>`);
     });
 
-    this.omegga.on("cmd:listtriggers", async (speaker: string) => {
-      const player = this.omegga.getPlayer(speaker);
-      if (!player) return;
+         
 
+      
+
+    
+
+     // Command to clear all RPG systems (for testing/resetting)
+     this.omegga.on("cmd:rpgclearall", async (speaker: string) => {
+              console.log(`[Hoopla RPG] RPG clear all command received from ${speaker}`);
+      
       try {
         const triggers = await this.getBrickTriggers();
-        if (Object.keys(triggers).length === 0) {
-          this.omegga.whisper(speaker, `<color="f0f">📋 No brick triggers found.</>`);
-          return;
-        }
+        const triggerCount = Object.keys(triggers).length;
+        
+        if (triggerCount === 0) {
+          this.omegga.whisper(speaker, `<color="f0f">No RPG systems to clear!</color>`);
+           return;
+         }
 
-        this.omegga.whisper(speaker, `<color="f0f">📋 Brick Triggers:</>`);
-        for (const [id, trigger] of Object.entries(triggers)) {
-          this.omegga.whisper(speaker, 
-            `<color="ff0">${id}</>: ${trigger.type} (${trigger.value}) - ${trigger.message}`
-          );
-        }
-      } catch (error) {
-        this.omegga.whisper(speaker, `<color="f00">❌ Failed to list triggers: ${error}</>`);
-      }
+        // Clear all triggers
+        await this.setBrickTriggers({});
+        
+        console.log(`[Hoopla RPG] Cleared all ${triggerCount} RPG systems`);
+        this.omegga.whisper(speaker, `<color="0f0">Cleared all ${triggerCount} RPG systems! You now have a clean slate.</color>`);
+        
+       } catch (error) {
+         console.error(`[Hoopla RPG] Error clearing all RPG systems:`, error);
+         this.omegga.whisper(speaker, `<color="f00">Failed to clear RPG systems: ${error.message}</>`);
+       }
     });
 
-    this.omegga.on("cmd:testtrigger", async (speaker: string, triggerId: string) => {
-      const player = this.omegga.getPlayer(speaker);
-      if (!player) return;
 
-      if (!triggerId) {
-        this.omegga.whisper(speaker, `<color="f00">Usage: /testtrigger <trigger_id></>`);
-        return;
-      }
 
+
+
+    // Brick interaction event handler - using the 'interact' event from Omegga
+    this.omegga.on("interact", async (data: any) => {
       try {
-        const result = await this.triggerBrickAction(player.id, triggerId);
-        if (result.success) {
-          this.omegga.whisper(speaker, `<color="0f0">✅ ${result.message}</>`);
-          if (result.reward) {
-            this.omegga.whisper(speaker, `<color="0ff">Reward: ${JSON.stringify(result.reward)}</>`);
-          }
-        } else {
-          this.omegga.whisper(speaker, `<color="f00">❌ ${result.message}</>`);
-        }
-      } catch (error) {
-        this.omegga.whisper(speaker, `<color="f00">❌ Failed to test trigger: ${error}</>`);
-             }
-     });
-
-     // Brick interaction event handlers
-     this.omegga.on("brick", async (data: any) => {
-       try {
-         const { player, brick } = data;
-         if (!player || !brick) return;
-
-         const triggers = await this.getBrickTriggers();
-         
-         // Check for click-based triggers on this brick
-         for (const [triggerId, trigger] of Object.entries(triggers)) {
-           if (trigger.triggerType === 'click' && trigger.brickPositions) {
-             for (const brickPos of trigger.brickPositions) {
-               if (brickPos.x === brick.x && brickPos.y === brick.y && brickPos.z === brick.z) {
-                 const result = await this.triggerBrickAction(player.id, triggerId);
-                 if (result.success) {
-                   this.omegga.whisper(player.name, `<color="0f0">${result.message}</>`);
-                 }
-                 break;
-               }
-             }
-           }
-         }
-       } catch (error) {
-         console.error("Error handling brick interaction:", error);
-       }
-     });
-
-     // Player movement tracking for region and proximity triggers
-     this.omegga.on("player:move", async (player: any, position: any) => {
-       try {
-         await this.checkBrickTriggers(player, position);
-       } catch (error) {
-         console.error("Error checking brick triggers on player move:", error);
-       }
-     });
-
-     // Player join tracking for initial trigger checks
-     this.omegga.on("player:join", async (player: any) => {
-       try {
-         const position = { x: 0, y: 0, z: 0 }; // Default spawn position
-         await this.checkBrickTriggers(player, position);
-       } catch (error) {
-         console.error("Error checking brick triggers on player join:", error);
-       }
-     });
-
-     // Brick interaction setup commands
-     this.omegga.on("cmd:setbrickpos", async (speaker: string, triggerId: string) => {
-       const player = this.omegga.getPlayer(speaker);
-       if (!player) return;
-
-       if (!triggerId) {
-         this.omegga.whisper(speaker, `<color="f00">Usage: /setbrickpos <trigger_id></>`);
-         this.omegga.whisper(speaker, `<color="f0f">Copy the bricks you want to trigger this action, then use this command!</>`);
-         return;
-       }
-
-       try {
-         const triggers = await this.getBrickTriggers();
-         if (!triggers[triggerId]) {
-           this.omegga.whisper(speaker, `<color="f00">❌ Trigger not found: ${triggerId}</>`);
-           return;
-         }
-
-                   // For now, we'll use a placeholder approach since getClipboard isn't available
-          // Players will need to manually specify coordinates
-          this.omegga.whisper(speaker, `<color="f0f">📋 Manual brick setup required!</color>`);
-          this.omegga.whisper(speaker, `<color="f0f">Current limitations:</color>`);
-          this.omegga.whisper(speaker, `<color="f0f">• Brick selection API not yet available</color>`);
-          this.omegga.whisper(speaker, `<color="f0f">• Use /setregion instead for area-based triggers</color>`);
-          this.omegga.whisper(speaker, `<color="f0f">• Or manually specify coordinates with /setregion</color>`);
-          this.omegga.whisper(speaker, `<color="f0f">Example: /setregion ${triggerId} 0 0 0 5 5 5</color>`);
-          this.omegga.whisper(speaker, `<color="f0f">💡 Tip: Use quick commands like /miningnode iron instead!</color>`);
-          return;
-
-         // TODO: Implement proper clipboard integration when available
-         // const clipboard = this.omegga.getClipboard(speaker);
-         // if (!clipboard || clipboard.length === 0) {
-         //   this.omegga.whisper(speaker, `<color="f00">❌ No bricks in clipboard! Copy some bricks first.</>`);
-         //   return;
-         // }
-         // 
-         // // Extract positions from clipboard
-         // const positions = clipboard.map((brick: any) => ({
-         //   x: brick.x,
-         //   y: brick.y,
-         //   z: brick.z
-         // }));
-         // 
-         // await this.setBrickPositions(triggerId, positions);
-         // this.omegga.whisper(speaker, `<color="0f0">✅ Set ${positions.length} brick positions for trigger: ${triggerId}</>`);
-         // this.omegga.whisper(speaker, `<color="0ff">Trigger type: Click-based (interact with bricks)</>`);
-       } catch (error) {
-         this.omegga.whisper(speaker, `<color="f00">❌ Failed to set brick positions: ${error}</>`);
-       }
-     });
-
-     this.omegga.on("cmd:setregion", async (speaker: string, triggerId: string, minX: string, minY: string, minZ: string, maxX: string, maxY: string, maxZ: string) => {
-       const player = this.omegga.getPlayer(speaker);
-       if (!player) return;
-
-       if (!triggerId || !minX || !minY || !minZ || !maxX || !maxY || !maxZ) {
-         this.omegga.whisper(speaker, `<color="f00">Usage: /setregion <trigger_id> <minX> <minY> <minZ> <maxX> <maxY> <maxZ></>`);
-         this.omegga.whisper(speaker, `<color="f0f">Example: /setregion mine_area 0 0 0 10 10 10</>`);
-         return;
-       }
-
-       try {
-         const min = { x: parseInt(minX), y: parseInt(minY), z: parseInt(minZ) };
-         const max = { x: parseInt(maxX), y: parseInt(maxY), z: parseInt(maxZ) };
-
-         if (isNaN(min.x) || isNaN(min.y) || isNaN(min.z) || isNaN(max.x) || isNaN(max.y) || isNaN(max.z)) {
-           this.omegga.whisper(speaker, `<color="f00">❌ All coordinates must be numbers!</>`);
-           return;
-         }
-
-         await this.setRegionBounds(triggerId, min, max);
-         this.omegga.whisper(speaker, `<color="0f0">✅ Set region bounds for trigger: ${triggerId}</>`);
-         this.omegga.whisper(speaker, `<color="0ff">Trigger type: Region-based (enter area to activate)</>`);
-         this.omegga.whisper(speaker, `<color="0ff">Bounds: (${min.x},${min.y},${min.z}) to (${max.x},${max.y},${max.z})</>`);
-       } catch (error) {
-         this.omegga.whisper(speaker, `<color="f00">❌ Failed to set region bounds: ${error}</>`);
-       }
-     });
-
-     this.omegga.on("cmd:setproximity", async (speaker: string, triggerId: string, radius: string) => {
-       const player = this.omegga.getPlayer(speaker);
-       if (!player) return;
-
-       if (!triggerId || !radius) {
-         this.omegga.whisper(speaker, `<color="f00">Usage: /setproximity <trigger_id> <radius></>`);
-         this.omegga.whisper(speaker, `<color="f0f">Example: /setproximity mine_ore 5</>`);
-         return;
-       }
-
-       try {
-         const numRadius = parseInt(radius);
-         if (isNaN(numRadius) || numRadius <= 0) {
-           this.omegga.whisper(speaker, `<color="f00">❌ Radius must be a positive number!</>`);
-           return;
-         }
-
-         await this.setProximityTrigger(triggerId, numRadius);
-         this.omegga.whisper(speaker, `<color="0f0">✅ Set proximity trigger for: ${triggerId}</>`);
-         this.omegga.whisper(speaker, `<color="0ff">Trigger type: Proximity-based (within ${numRadius} blocks)</>`);
-         this.omegga.whisper(speaker, `<color="f0f">Note: You still need to set brick positions with /setbrickpos!</>`);
-       } catch (error) {
-         this.omegga.whisper(speaker, `<color="f00">❌ Failed to set proximity trigger: ${error}</>`);
-       }
-     });
-
-     this.omegga.on("cmd:getposition", async (speaker: string) => {
-       const player = this.omegga.getPlayer(speaker);
-       if (!player) return;
-
-       try {
-         // For now, we'll use a placeholder since getPlayerPosition isn't available
-         this.omegga.whisper(speaker, `<color="f0f">📍 Position tracking not yet implemented</>`);
-         this.omegga.whisper(speaker, `<color="f0f">Use /setregion with manual coordinates for now</>`);
-         
-         // TODO: Implement proper position tracking when available
-         // const position = this.omegga.getPlayerPosition(speaker);
-         // if (position) {
-         //   this.omegga.whisper(speaker, `<color="0ff">📍 Your position: (${position.x}, ${position.y}, ${position.z})</>`);
-         //   this.omegga.whisper(speaker, `<color="f0f">Use this for setting region bounds with /setregion</>`);
-         // } else {
-         //   this.omegga.whisper(speaker, `<color="f00">❌ Could not get your position!</>`);
-         // }
-       } catch (error) {
-         this.omegga.whisper(speaker, `<color="f00">❌ Failed to get position: ${error}</>`);
-       }
-     });
-
-     // Quick node creation commands (inspired by mirror plugin)
-     this.omegga.on("cmd:miningnode", async (speaker: string, oreType: string) => {
-       const player = this.omegga.getPlayer(speaker);
-       if (!player) return;
-
-               if (!oreType) {
-          this.omegga.whisper(speaker, `<color="f00">Usage: /miningnode <ore_type></color>`);
-          this.omegga.whisper(speaker, `<color="f0f">Example: /miningnode iron</color>`);
-          this.omegga.whisper(speaker, `<color="f0f">First select bricks with the in-game selector tool!</color>`);
-          return;
-        }
-
-       try {
-         // Use the actual brick selection integration
-         await this.convertSelectedBricksToNode(
-           speaker, 
-           `mining_${oreType}`, 
-           'item', 
-           1, 
-           60000, 
-           `Mined ${oreType} ore! Found {value} ${oreType} resource`
-         );
-       } catch (error) {
-         this.omegga.whisper(speaker, `<color="f00">❌ Failed to create mining node: ${error}</color>`);
-       }
-     });
-
-     this.omegga.on("cmd:treasurechest", async (speaker: string, itemType: string) => {
-       const player = this.omegga.getPlayer(speaker);
-       if (!player) return;
-
-               if (!itemType) {
-          this.omegga.whisper(speaker, `<color="f00">Usage: /treasurechest <item_type></color>`);
-          this.omegga.whisper(speaker, `<color="f0f">Example: /treasurechest sword</color>`);
-          this.omegga.whisper(speaker, `<color="f0f">First select bricks with the in-game selector tool!</color>`);
-          return;
-        }
-
-       try {
-         // Use the actual brick selection integration
-         await this.convertSelectedBricksToNode(
-           speaker, 
-           `treasure_${itemType}`, 
-           'item', 
-           1, 
-           120000, 
-           `Found treasure! Got {value} ${itemType}`
-         );
-       } catch (error) {
-         this.omegga.whisper(speaker, `<color="f00">❌ Failed to create treasure chest: ${error}</color>`);
-       }
-     });
-
-     this.omegga.on("cmd:healthfountain", async (speaker: string) => {
-       const player = this.omegga.getPlayer(speaker);
-       if (!player) return;
-
-       try {
-         // Use the actual brick selection integration
-         await this.convertSelectedBricksToNode(
-           speaker, 
-           'health_fountain', 
-           'heal', 
-           50, 
-           60000, 
-           'Refreshed! +{value} HP restored'
-         );
-       } catch (error) {
-         this.omegga.whisper(speaker, `<color="f00">❌ Failed to create health fountain: ${error}</color>`);
-       }
-     });
-
-     this.omegga.on("cmd:xpnode", async (speaker: string, amount: string) => {
-       const player = this.omegga.getPlayer(speaker);
-       if (!player) return;
-
-               if (!amount) {
-          this.omegga.whisper(speaker, `<color="f00">Usage: /xpnode <amount></color>`);
-          this.omegga.whisper(speaker, `<color="f0f">Example: /xpnode 25</color>`);
-          this.omegga.whisper(speaker, `<color="f0f">First select bricks with the in-game selector tool!</color>`);
-          return;
-        }
-
-       try {
-         const xpAmount = parseInt(amount);
-         if (isNaN(xpAmount) || xpAmount <= 0) {
-           this.omegga.whisper(speaker, `<color="f00">❌ XP amount must be a positive number!</color>`);
-           return;
-         }
-
-         // Use the actual brick selection integration
-         await this.convertSelectedBricksToNode(
-           speaker, 
-           'xp_node', 
-           'xp', 
-           xpAmount, 
-           30000, 
-           `Gained {value} XP!`
-         );
-       } catch (error) {
-         this.omegga.whisper(speaker, `<color="f00">❌ Failed to create XP node: ${error}</color>`);
-       }
-     });
-
-     // Node collection commands
-     this.omegga.on("cmd:nodes", async (speaker: string) => {
-       const player = this.omegga.getPlayer(speaker);
-       if (!player) return;
-
-             try {
-        const rpgData = await this.getPlayerData(player);
-        const safeNodesCollected = rpgData.nodesCollected ?? [];
-        const nodeCount = safeNodesCollected.length;
+        // Extract data according to Omegga documentation structure
+        const { player, position, brick_asset } = data;
         
-        if (nodeCount === 0) {
-          this.omegga.whisper(speaker, `<color="f0f">🔮 You haven't discovered any nodes yet!</color>`);
-          this.omegga.whisper(speaker, `<color="f0f">Interact with brick triggers to start your collection!</color>`);
+        if (!player || !position) {
           return;
         }
 
-        this.omegga.whisper(speaker, `<color="f0f">🔮 Your Node Collection (${nodeCount} discovered):</color>`);
+        const triggers = await this.getBrickTriggers();
         
-        // Group nodes by type for better organization
-        const nodeTypes: { [key: string]: string[] } = {};
-        for (const nodeId of safeNodesCollected) {
-          const trigger = (await this.getBrickTriggers())[nodeId];
-          if (trigger) {
-            const type = trigger.type;
-            if (!nodeTypes[type]) nodeTypes[type] = [];
-            nodeTypes[type].push(nodeId);
-          }
-        }
-
-         // Display nodes grouped by type
-         for (const [type, nodes] of Object.entries(nodeTypes)) {
-           const typeName = type === 'xp' ? 'XP Nodes' : 
-                           type === 'currency' ? 'Currency Nodes' : 
-                           type === 'item' ? 'Item Nodes' : 'Healing Nodes';
-           
-           this.omegga.whisper(speaker, `<color="ff0">${typeName}:</color>`);
-           for (const nodeId of nodes) {
-             this.omegga.whisper(speaker, `  <color="0ff">• ${nodeId}</color>`);
-         }
-         }
-         
-       } catch (error) {
-         this.omegga.whisper(speaker, `<color="f00">❌ Failed to get node collection: ${error}</color>`);
-       }
-     });
-
-     // Debug commands for brick interaction testing
-     this.omegga.on("cmd:testevents", async (speaker: string) => {
-       const player = this.omegga.getPlayer(speaker);
-       if (!player) return;
-
-       this.omegga.whisper(speaker, `<color="f0f">🧪 Testing event system...</color>`);
-       
-       // Test if basic events are working
-       this.omegga.whisper(speaker, `<color="0ff">Testing whisper event...</color>`);
-       
-       // Test if we can get player data
-       try {
-         const rpgData = await this.getPlayerData(player);
-         this.omegga.whisper(speaker, `<color="0f0">✅ Player data access working! Level: ${rpgData.level}</color>`);
-       } catch (error) {
-         this.omegga.whisper(speaker, `<color="f00">❌ Player data access failed: ${error.message}</color>`);
-       }
-
-       // Test if we can get brick triggers
-       try {
-         const triggers = await this.getBrickTriggers();
-         const triggerCount = Object.keys(triggers).length;
-         this.omegga.whisper(speaker, `<color="0f0">✅ Brick triggers access working! Found ${triggerCount} triggers</color>`);
-       } catch (error) {
-         this.omegga.whisper(speaker, `<color="f00">❌ Brick triggers access failed: ${error.message}</color>`);
-       }
-
-       this.omegga.whisper(speaker, `<color="f0f">🧪 Event test complete! Check console for any errors</color>`);
-     });
-
-     this.omegga.on("cmd:debugbrick", async (speaker: string) => {
-       const player = this.omegga.getPlayer(speaker);
-       if (!player) return;
-
-       this.omegga.whisper(speaker, `<color="f0f">🔍 Brick Debug Mode Enabled!</color>`);
-       this.omegga.whisper(speaker, `<color="f0f">Now click on any brick to see debug output in console</color>`);
-       this.omegga.whisper(speaker, `<color="f0f">Check the server console for detailed brick click data</color>`);
-     });
-
-     // Brick interaction event handlers - using correct 'interact' event from Omegga docs
-     this.omegga.on("interact", async (data: any) => {
-       console.log(`[Hoopla RPG] INTERACT EVENT FIRED:`, data);
-       console.log(`[Hoopla RPG] Data type:`, typeof data);
-       console.log(`[Hoopla RPG] Data keys:`, data ? Object.keys(data) : 'null');
-       
-       try {
-         // Extract data according to Omegga documentation structure
-         const { player, position, brick_asset } = data;
-         console.log(`[Hoopla RPG] Player from data:`, player);
-         console.log(`[Hoopla RPG] Position from data:`, position);
-         console.log(`[Hoopla RPG] Brick asset:`, brick_asset);
-         
-         if (!player || !position) {
-           console.log(`[Hoopla RPG] ❌ Missing player or position data`);
-           return;
-         }
-
-         console.log(`[Hoopla RPG] ✅ Processing brick interaction for player: ${player.name} (${player.id})`);
-         console.log(`[Hoopla RPG] Clicked position:`, position);
-
-         const triggers = await this.getBrickTriggers();
-         console.log(`[Hoopla RPG] Found ${Object.keys(triggers).length} total triggers`);
-         
-         // Check for click-based triggers on this brick
-         for (const [triggerId, trigger] of Object.entries(triggers)) {
-           console.log(`[Hoopla RPG] Checking trigger: ${triggerId}`);
-           console.log(`[Hoopla RPG] Trigger type: ${trigger.triggerType}`);
-           console.log(`[Hoopla RPG] Has brick positions: ${!!trigger.brickPositions}`);
-           
-           if (trigger.triggerType === 'click' && trigger.brickPositions) {
-             console.log(`[Hoopla RPG] Trigger ${triggerId} has ${trigger.brickPositions.length} brick positions`);
-             
-             for (const brickPos of trigger.brickPositions) {
-               console.log(`[Hoopla RPG] Comparing brick position:`, brickPos);
-               console.log(`[Hoopla RPG] Clicked position:`, position);
-               
-               // Position is an array [x, y, z] according to Omegga docs
+        // Check for click-based triggers on this brick
+        let matchFound = false;
+        for (const [triggerId, trigger] of Object.entries(triggers)) {
+          if (trigger.triggerType === 'click' && trigger.brickPositions) {
+            for (const brickPos of trigger.brickPositions) {
+                             // Position is an array [x, y, z] according to Omegga docs
                if (brickPos.x === position[0] && brickPos.y === position[1] && brickPos.z === position[2]) {
-                 console.log(`[Hoopla RPG] 🎯 MATCH FOUND! Triggering action for ${triggerId}`);
+                 if (trigger.type === 'sell') {
+                   console.log(`[Hoopla RPG] [${player.name}] is selling to shopkeeper: ${triggerId.replace('shopkeeper_', '').split('_')[0]}_${triggerId.split('_').slice(-2).join('_')}`);
+                 } else {
+                   console.log(`[Hoopla RPG] [${player.name}] is mining node: ${triggerId.replace('mining_', '').split('_')[0]}_${triggerId.split('_').slice(-2).join('_')}`);
+                 }
+                 matchFound = true;
                  
                  const result = await this.triggerBrickAction(player.id, triggerId);
-                 console.log(`[Hoopla RPG] Action result:`, result);
                  
                  if (result.success) {
                    this.omegga.whisper(player.name, `<color="0f0">${result.message}</color>`);
-                   console.log(`[Hoopla RPG] ✅ Successfully triggered brick action!`);
+                   if (trigger.type === 'sell') {
+                     console.log(`[Hoopla RPG] [${player.name}] successfully sold resource: ${result.reward?.item || 'unknown'}`);
+                   } else {
+                     console.log(`[Hoopla RPG] [${player.name}] successfully collected resource: ${result.reward?.item || 'unknown'}`);
+                   }
                  } else {
-                   console.log(`[Hoopla RPG] ❌ Brick action failed: ${result.message}`);
+                   this.omegga.whisper(player.name, `<color="f00">${result.message}</color>`);
                  }
                  break;
-               } else {
-                 console.log(`[Hoopla RPG] ❌ Position mismatch`);
                }
-             }
-           }
+            }
+          }
+        }
+        
+        if (!matchFound) {
+          // Optional: whisper to player that this brick has no triggers
+          this.omegga.whisper(player.name, `<color="f0f">This brick has no RPG triggers set up.</color>`);
          }
+         
        } catch (error) {
-         console.error(`[Hoopla RPG] ❌ Error handling brick interaction:`, error);
-       }
-     });
+       console.error(`[Hoopla RPG] Error handling brick interaction:`, error);
+     }
+    });
 
-            return { 
-         registeredCommands: [
-           "rpg", "xp", "heal", "additem", "removeitem", 
-           "inventory", "balance", "addmoney", "spend",
-           "createtrigger", "removetrigger", "listtriggers", "testtrigger",
-           "setbrickpos", "setregion", "setproximity", "getposition",
-           "miningnode", "treasurechest", "healthfountain", "xpnode", "nodes",
-           "debugbrick", "testevents"
-         ] 
-       };
+    // Additional interaction event handlers for different event types (for debugging)
+    
+    // Try all possible interaction event names that Omegga might use
+    const possibleEvents = [
+      "brick:interact", "player:interact", "click", "brick", "player:click", 
+      "interaction", "brick:click", "player:brick", "brick:player", "select",
+      "brick:select", "player:select", "target", "brick:target", "player:target",
+      "use", "brick:use", "player:use", "activate", "brick:activate", "player:activate",
+      "trigger", "brick:trigger", "player:trigger", "hit", "brick:hit", "player:hit",
+      "touch", "brick:touch", "player:touch", "press", "brick:press", "player:press"
+    ];
+    
+    for (const eventName of possibleEvents) {
+      this.omegga.on(eventName, async (data: any) => {
+        // If this looks like a brick interaction, try to process it
+        if (data && (data.player || data.position || data.brick || data.brick_asset)) {
+          await this.processBrickInteraction(data, eventName);
+        }
+      });
+    }
+    
+    // Also try some generic event listeners that might catch everything
+    this.omegga.on("*", async (eventName: string, data: any) => {
+      if (eventName.includes('interact') || eventName.includes('click') || eventName.includes('brick')) {
+        // Silent wildcard event listener
+      }
+    });
+    
+    // Try component-based interaction events that Omegga might use
+    
+    // Listen for component interaction events
+    this.omegga.on("component:interact", async (data: any) => {
+      await this.processBrickInteraction(data, "component:interact");
+    });
+    
+    // Try the specific component name from your brick
+    this.omegga.on("Component_Interact", async (data: any) => {
+      await this.processBrickInteraction(data, "Component_Interact");
+    });
+    
+    // Try lowercase version
+    this.omegga.on("component_interact", async (data: any) => {
+      await this.processBrickInteraction(data, "component_interact");
+    });
+    
+    // Try some other possible component event names
+    const componentEvents = [
+      "interact:component", "component:click", "component:use", "component:activate",
+      "interact:Component_Interact", "Component_Interact:interact", "Component_Interact:click"
+    ];
+    
+    // Listen for Interactable component events (this is what you actually have!)
+    this.omegga.on("Interactable", async (data: any) => {
+      await this.processBrickInteraction(data, "Interactable");
+    });
+    
+    // Try variations of Interactable events
+    const interactableEvents = [
+      "interactable", "interactable:interact", "interactable:click", "interactable:use",
+      "component:interactable", "interactable:component", "interactable:activate"
+    ];
+    
+    for (const eventName of interactableEvents) {
+      this.omegga.on(eventName, async (data: any) => {
+        await this.processBrickInteraction(data, eventName);
+      });
+    }
+    
+    // Also listen for console tag events (these might be fired when Component_Interact is clicked)
+    this.omegga.on("console", async (data: any) => {
+      // If this is a console tag from our brick, process it
+      if (data && data.tag && data.tag.includes('rpg') || data.tag && data.tag.includes('mining')) {
+        await this.processBrickInteraction(data, "console");
+      }
+    });
+    
+    for (const eventName of componentEvents) {
+      this.omegga.on(eventName, async (data: any) => {
+        await this.processBrickInteraction(data, eventName);
+      });
+    }
+
+                      return { 
+          registeredCommands: [
+            "rpg", "rpginit", "rpghelp", "rpgclearall"
+          ] 
+        };
   }
 
   async stop() {}
 }
+
