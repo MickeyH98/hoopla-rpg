@@ -450,6 +450,32 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     };
   }
 
+  // Helper method to safely get world save data with fallback
+  private async getWorldSaveDataSafely(): Promise<any> {
+    try {
+      // First attempt: try to get the full save data
+      return await this.omegga.getSaveData();
+    } catch (error) {
+      console.error(`[Hoopla RPG] Primary save data read failed:`, error);
+      
+      // Fallback: try to get a smaller subset or use alternative method
+      try {
+        // If the error is related to array length, the world might be too large
+        if (error.message && error.message.includes('Invalid array length')) {
+          console.log(`[Hoopla RPG] World appears to be too large for full read. Attempting alternative approach...`);
+          
+          // For now, return null to indicate we can't read the world
+          // In the future, we could implement chunked reading or other strategies
+          return null;
+        }
+      } catch (fallbackError) {
+        console.error(`[Hoopla RPG] Fallback save data read also failed:`, fallbackError);
+      }
+      
+      return null;
+    }
+  }
+
   // Get skill level and XP progress with proper scaling
   async getSkillProgress({ id }: PlayerId, skillType: 'mining' | 'bartering' | 'fishing'): Promise<{ level: number; experience: number; xpForNextLevel: number; progress: number }> {
     const player = await this.getPlayerData({ id });
@@ -715,30 +741,35 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   }
 
   // Automatically detect and convert all mining nodes in the world
-  async autoDetectMiningNodes(speaker: string): Promise<void> {
+  async autoDetectMiningNodes(speaker: string, saveData?: any): Promise<void> {
     try {
       const player = this.omegga.getPlayer(speaker);
       if (!player) {
         throw new Error("Player not found");
       }
 
-      console.log(`[Hoopla RPG] Auto-detecting mining nodes in the world...`);
+            console.log(`[Hoopla RPG] Auto-detecting mining nodes in the world...`);
 
-      // Get all bricks from the world
-      const saveData = await this.omegga.getSaveData();
+      // Use provided saveData - no fallback
+      let worldData = saveData;
+      if (!worldData) {
+        console.error(`[Hoopla RPG] Mining method called without world data`);
+        this.omegga.whisper(speaker, `<color="f00">Error: No world data provided to mining method</color>`);
+        return;
+      }
 
-      if (!saveData || !saveData.bricks || !Array.isArray(saveData.bricks) || saveData.bricks.length === 0) {
+      if (!worldData || !worldData.bricks || !Array.isArray(worldData.bricks) || worldData.bricks.length === 0) {
         throw new Error("No bricks found in the world!");
       }
 
-             console.log(`[Hoopla RPG] Found ${saveData.bricks.length} total bricks in world`);
+      console.log(`[Hoopla RPG] Found ${worldData.bricks.length} total bricks in world`);
 
        
 
        // Filter to only bricks that have Component_Interact with RPG mining console tags
       const miningBricks: Array<{ brick: any; oreType: string; consoleTag: string }> = [];
 
-      for (const brick of saveData.bricks) {
+      for (const brick of worldData.bricks) {
         // Use type assertion to access components property
         const brickWithComponents = brick as any;
         if (brickWithComponents.components && brickWithComponents.components.Component_Interact) {
@@ -846,7 +877,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   }
 
   // Automatically detect and convert all fishing nodes in the world
-  async autoDetectFishingNodes(speaker: string): Promise<void> {
+  async autoDetectFishingNodes(speaker: string, saveData?: any): Promise<void> {
     try {
       const player = this.omegga.getPlayer(speaker);
       if (!player) {
@@ -855,19 +886,24 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
       console.log(`[Hoopla RPG] Auto-detecting fishing nodes in the world...`);
 
-      // Get all bricks from the world
-      const saveData = await this.omegga.getSaveData();
+      // Use provided saveData - no fallback
+      let worldData = saveData;
+      if (!worldData) {
+        console.error(`[Hoopla RPG] Fishing method called without world data`);
+        this.omegga.whisper(speaker, `<color="f00">Error: No world data provided to fishing method</color>`);
+        return;
+      }
 
-      if (!saveData || !saveData.bricks || !Array.isArray(saveData.bricks) || saveData.bricks.length === 0) {
+      if (!worldData || !worldData.bricks || !Array.isArray(worldData.bricks) || worldData.bricks.length === 0) {
         throw new Error("No bricks found in the world!");
       }
 
-      console.log(`[Hoopla RPG] Found ${saveData.bricks.length} total bricks in world`);
+      console.log(`[Hoopla RPG] Found ${worldData.bricks.length} total bricks in world`);
 
       // Filter to only bricks that have Component_Interact with RPG fishing console tags
       const fishingBricks: Array<{ brick: any; fishType: string; consoleTag: string }> = [];
 
-      for (const brick of saveData.bricks) {
+      for (const brick of worldData.bricks) {
         // Use type assertion to access components property
         const brickWithComponents = brick as any;
         if (brickWithComponents.components && brickWithComponents.components.Component_Interact) {
@@ -975,7 +1011,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   }
 
   // Automatically detect and convert all shopkeeper bricks in the world
-  async autoDetectShopkeepers(speaker: string): Promise<void> {
+  async autoDetectShopkeepers(speaker: string, saveData?: any): Promise<void> {
     try {
       const player = this.omegga.getPlayer(speaker);
       if (!player) {
@@ -984,8 +1020,13 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
       console.log(`[Hoopla RPG] Auto-detecting shopkeeper bricks in the world...`);
 
-      // Get all bricks from the world
-      const saveData = await this.omegga.getSaveData();
+      // Use provided saveData - no fallback
+      let worldData = saveData;
+      if (!worldData) {
+        console.error(`[Hoopla RPG] Shopkeeper method called without world data`);
+        this.omegga.whisper(speaker, `<color="f00">Error: No world data provided to shopkeeper method</color>`);
+        return;
+      }
 
       if (!saveData || !saveData.bricks || !Array.isArray(saveData.bricks) || saveData.bricks.length === 0) {
         throw new Error("No bricks found in the world!");
@@ -998,7 +1039,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
        // Filter to only bricks that have Component_Interact with RPG shopkeeper console tags
       const shopkeeperBricks: Array<{ brick: any; resourceType: string; consoleTag: string }> = [];
 
-      for (const brick of saveData.bricks) {
+      for (const brick of worldData.bricks) {
         // Use type assertion to access components property
         const brickWithComponents = brick as any;
         if (brickWithComponents.components && brickWithComponents.components.Component_Interact) {
@@ -2119,6 +2160,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       return { registeredCommands: [] };
     }
 
+
+
+
+
     // Register basic RPG commands
     this.omegga.on("cmd:rpg", async (speaker: string) => {
       const player = this.omegga.getPlayer(speaker);
@@ -2218,17 +2263,35 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       this.omegga.whisper(speaker, `<color="f0f">Initializing RPG systems...</color>`);
 
       try {
+        // Try to read world data once and share it across all auto-detection methods
+        let worldData = null;
+        try {
+          worldData = await this.omegga.getSaveData();
+        } catch (error) {
+          console.error(`[Hoopla RPG] Failed to read world save data during initialization:`, error);
+          this.omegga.whisper(speaker, `<color="f00">Failed to read world data. The world save may be corrupted or too large.</color>`);
+          this.omegga.whisper(speaker, `<color="ff0">Try using /rpginit again later, or set up nodes manually.</color>`);
+          return;
+        }
+        
+        if (!worldData) {
+          this.omegga.whisper(speaker, `<color="f00">Unable to read world data. The world may be too large or corrupted.</color>`);
+          this.omegga.whisper(speaker, `<color="ff0">Try using /rpginit again later, or set up nodes manually.</color>`);
+          return;
+        }
+
         // Initialize mining nodes
         this.omegga.whisper(speaker, `<color="0ff">Initializing mining nodes...</color>`);
-        await this.autoDetectMiningNodes(speaker);
+        console.log(`[Hoopla RPG] Main command passing worldData to mining:`, !!worldData, typeof worldData);
+        await this.autoDetectMiningNodes(speaker, worldData);
 
         // Initialize fishing nodes
         this.omegga.whisper(speaker, `<color="0ff">Initializing fishing nodes...</color>`);
-        await this.autoDetectFishingNodes(speaker);
+        await this.autoDetectFishingNodes(speaker, worldData);
 
         // Initialize shopkeepers
         this.omegga.whisper(speaker, `<color="0ff">Initializing shopkeepers...</color>`);
-        await this.autoDetectShopkeepers(speaker);
+        await this.autoDetectShopkeepers(speaker, worldData);
 
                  // Restore status for any mining nodes that have finished their cooldown
          this.omegga.whisper(speaker, `<color="0ff">Restoring mining node status...</color>`);
