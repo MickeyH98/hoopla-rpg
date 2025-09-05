@@ -19,12 +19,19 @@ import Currency from "./currency";
  */
 
 type PlayerId = { id: string };
+type ConsumableItem = {
+  name: string;
+  charges: number;
+  maxCharges: number;
+};
+
 type RPGPlayer = { 
   level: number; 
   experience: number; 
   health: number; 
   maxHealth: number;
   inventory: string[];
+  consumables: ConsumableItem[]; // Track consumable items with charges
   nodesCollected: string[]; // Track which nodes the player has discovered
   skills: {
     mining: { level: number; experience: number };
@@ -35,7 +42,7 @@ type RPGPlayer = {
 
 type BrickTrigger = {
   id: string;
-  type: 'xp' | 'currency' | 'item' | 'heal' | 'sell' | 'fish';
+  type: 'xp' | 'currency' | 'item' | 'heal' | 'sell' | 'fish' | 'bulk_sell' | 'buy';
   value: number;
   cooldown: number;
   lastUsed: { [playerId: string]: number };
@@ -88,6 +95,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       health: this.config.startingHealth, 
       maxHealth: this.config.startingHealth,
       inventory: [],
+      consumables: [],
       nodesCollected: [],
       skills: {
         mining: { level: 0, experience: 0 },
@@ -104,51 +112,63 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   async setPlayerData({ id }: PlayerId, data: RPGPlayer) {
     // Ensure levels don't exceed max level
     const safeData = { ...data };
-    safeData.level = Math.min(safeData.level, 20);
+    safeData.level = Math.min(safeData.level, 30);
     
     if (safeData.skills) {
       if (safeData.skills.mining) {
-        safeData.skills.mining.level = Math.min(safeData.skills.mining.level, 20);
+        safeData.skills.mining.level = Math.min(safeData.skills.mining.level, 30);
       }
       if (safeData.skills.bartering) {
-        safeData.skills.bartering.level = Math.min(safeData.skills.bartering.level, 20);
+        safeData.skills.bartering.level = Math.min(safeData.skills.bartering.level, 30);
       }
       if (safeData.skills.fishing) {
-        safeData.skills.fishing.level = Math.min(safeData.skills.fishing.level, 20);
+        safeData.skills.fishing.level = Math.min(safeData.skills.fishing.level, 30);
       }
     }
     
     await this.store.set("rpg_" + id, safeData);
+    
+    // Add player ID to the list of all players
+    await this.addPlayerToList(id);
   }
 
-  // Fix a specific player who exceeded level 20
+  async addPlayerToList(playerId: string): Promise<void> {
+    const allPlayerIds = await this.store.get("all_player_ids") as unknown as string[] || [];
+    
+    if (!allPlayerIds.includes(playerId)) {
+      allPlayerIds.push(playerId);
+      await this.store.set("all_player_ids", allPlayerIds as any);
+    }
+  }
+
+  // Fix a specific player who exceeded level 30
   async fixOverleveledPlayer(playerId: string): Promise<void> {
     try {
       const player = await this.getPlayerData({ id: playerId });
       let needsFix = false;
       
       // Check main level
-      if (player.level > 20) {
-        console.log(`[Hoopla RPG] Fixing overleveled player ${playerId}: ${player.level} → 20`);
-        player.level = 20;
+      if (player.level > 30) {
+        console.log(`[Hoopla RPG] Fixing overleveled player ${playerId}: ${player.level} → 30`);
+        player.level = 30;
         needsFix = true;
       }
       
       // Check skill levels
       if (player.skills) {
-        if (player.skills.mining?.level > 20) {
-          console.log(`[Hoopla RPG] Fixing overleveled mining skill for player ${playerId}: ${player.skills.mining.level} → 20`);
-          player.skills.mining.level = 20;
+        if (player.skills.mining?.level > 30) {
+          console.log(`[Hoopla RPG] Fixing overleveled mining skill for player ${playerId}: ${player.skills.mining.level} → 30`);
+          player.skills.mining.level = 30;
           needsFix = true;
         }
-        if (player.skills.bartering?.level > 20) {
-          console.log(`[Hoopla RPG] Fixing overleveled bartering skill for player ${playerId}: ${player.skills.bartering.level} → 20`);
-          player.skills.bartering.level = 20;
+        if (player.skills.bartering?.level > 30) {
+          console.log(`[Hoopla RPG] Fixing overleveled bartering skill for player ${playerId}: ${player.skills.bartering.level} → 30`);
+          player.skills.bartering.level = 30;
           needsFix = true;
         }
-        if (player.skills.fishing?.level > 20) {
-          console.log(`[Hoopla RPG] Fixing overleveled fishing skill for player ${playerId}: ${player.skills.fishing.level} → 20`);
-          player.skills.fishing.level = 20;
+        if (player.skills.fishing?.level > 30) {
+          console.log(`[Hoopla RPG] Fixing overleveled fishing skill for player ${playerId}: ${player.skills.fishing.level} → 30`);
+          player.skills.fishing.level = 30;
           needsFix = true;
         }
       }
@@ -170,17 +190,17 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     // Ensure levels don't exceed max level
     const safeData = { ...data };
     if (safeData.level !== undefined) {
-      safeData.level = Math.min(safeData.level, 20);
+      safeData.level = Math.min(safeData.level, 30);
     }
     if (safeData.skills) {
       if (safeData.skills.mining?.level !== undefined) {
-        safeData.skills.mining.level = Math.min(safeData.skills.mining.level, 20);
+        safeData.skills.mining.level = Math.min(safeData.skills.mining.level, 30);
       }
       if (safeData.skills.bartering?.level !== undefined) {
-        safeData.skills.bartering.level = Math.min(safeData.skills.bartering.level, 20);
+        safeData.skills.bartering.level = Math.min(safeData.skills.bartering.level, 30);
       }
       if (safeData.skills.fishing?.level !== undefined) {
-        safeData.skills.fishing.level = Math.min(safeData.skills.fishing.level, 20);
+        safeData.skills.fishing.level = Math.min(safeData.skills.fishing.level, 30);
       }
     }
     
@@ -198,15 +218,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     
     const oldLevel = player.level;
     
-    // Don't add XP if already at max level
-    if (oldLevel >= 20) {
-      console.log(`[Hoopla RPG] Player ${id} is already at max level 20, XP not added`);
-      return { 
-        leveledUp: false, 
-        newLevel: oldLevel 
-      };
-    }
-    
+    // Always add XP for score tracking, even at max level
     player.experience += amount;
     
     // Calculate new level using proper scaling system
@@ -214,13 +226,13 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     let xpForNextLevel = this.getXPForNextLevel(oldLevel);
     
     // Check if we can level up
-    while (xpForNextLevel > 0 && player.experience >= xpForNextLevel && newLevel < 20) {
+    while (xpForNextLevel > 0 && player.experience >= xpForNextLevel && newLevel < 30) {
       newLevel++;
       xpForNextLevel = this.getXPForNextLevel(newLevel);
     }
     
-    // Cap at level 20
-    newLevel = Math.min(newLevel, 20);
+    // Cap at level 30
+    newLevel = Math.min(newLevel, 30);
     player.level = newLevel;
     
     // Increase max health with level (only if we actually leveled up)
@@ -244,7 +256,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
   // Calculate XP needed to reach next level with reasonable scaling
   getXPForNextLevel(currentLevel: number): number {
-    if (currentLevel >= 20) return 0; // Max level reached
+    if (currentLevel >= 30) return 0; // Max level reached
     
     // Much more reasonable scaling: each level requires a moderate increase
     // Level 1: 100 XP, Level 2: 150 XP, Level 3: 200 XP, etc.
@@ -260,7 +272,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
   // Calculate XP progress toward next level with proper scaling
   getXPProgress(currentXP: number, currentLevel: number): { current: number; needed: number; progress: number } {
-    if (currentLevel >= 20) {
+    if (currentLevel >= 30) {
       return { current: 0, needed: 0, progress: 100 };
     }
     
@@ -295,9 +307,13 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       case 'copper': return 1;
       case 'iron': return 3;
       case 'gold': return 10;
+      case 'obsidian': return 25;
+      case 'diamond': return 50;
       case 'gup': return 2;
       case 'cod': return 5;
       case 'shark': return 15;
+      case 'whale': return 40;
+      case 'kraken': return 75;
       default: return 1; // Default price for unknown resources
     }
   }
@@ -311,16 +327,20 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     
     // Mining resources
     if (skillType === 'mining') {
-      if (resource === 'copper') baseXP = 15;     // Common (increased from 5)
-      else if (resource === 'iron') baseXP = 25;  // Uncommon (increased from 8)
-      else if (resource === 'gold') baseXP = 40;  // Rare (increased from 12)
+      if (resource === 'copper') baseXP = 15;     // Common
+      else if (resource === 'iron') baseXP = 25;  // Uncommon
+      else if (resource === 'gold') baseXP = 40;  // Rare
+      else if (resource === 'obsidian') baseXP = 60; // Epic
+      else if (resource === 'diamond') baseXP = 85;  // Legendary
     }
     
     // Fishing resources
     if (skillType === 'fishing') {
-      if (resource === 'gup') baseXP = 15;        // Common (increased from 5)
-      else if (resource === 'cod') baseXP = 25;   // Uncommon (increased from 8)
-      else if (resource === 'shark') baseXP = 40; // Rare (increased from 12)
+      if (resource === 'gup') baseXP = 15;        // Common
+      else if (resource === 'cod') baseXP = 25;   // Uncommon
+      else if (resource === 'shark') baseXP = 40; // Rare
+      else if (resource === 'whale') baseXP = 60; // Epic
+      else if (resource === 'kraken') baseXP = 85; // Legendary
     }
     
     // Skill level bonus: higher skill levels get more XP
@@ -382,23 +402,13 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     
     const oldLevel = skill.level;
     
-    // Don't add XP if already at max level
-    if (oldLevel >= 20) {
-      console.log(`[Hoopla RPG] Player ${id} is already at max ${skillType} level 20, XP not added`);
-      return { 
-        leveledUp: false, 
-        newLevel: oldLevel, 
-        currentXP: skill.experience,
-        xpForNextLevel: 0
-      };
-    }
-    
+    // Always add XP for score tracking, even at max level
     skill.experience += amount;
     
     // Skill leveling: challenging progressive scaling
     // Each level requires significantly more XP than the previous
     const getSkillXPForNextLevel = (skillLevel: number): number => {
-      if (skillLevel >= 20) return 0;
+      if (skillLevel >= 30) return 0;
       
       // Progressive scaling that gets much harder at higher levels
       // Level 1: 100 XP, Level 2: 200 XP, Level 3: 350 XP, Level 4: 550 XP, etc.
@@ -417,7 +427,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     
     // Calculate new level based on total experience
     let newLevel = 0;
-    for (let level = 1; level <= 20; level++) {
+    for (let level = 1; level <= 30; level++) {
       if (skill.experience >= getSkillXPForNextLevel(level)) {
         newLevel = level;
       } else {
@@ -425,8 +435,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       }
     }
     
-    // Additional safety check: cap at level 20
-    newLevel = Math.min(newLevel, 20);
+    // Additional safety check: cap at level 30
+    newLevel = Math.min(newLevel, 30);
     skill.level = newLevel;
     
     const leveledUp = newLevel > oldLevel;
@@ -488,7 +498,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     
     // Calculate XP required for current and next level
     const getSkillXPForNextLevel = (skillLevel: number): number => {
-      if (skillLevel >= 20) return 0;
+      if (skillLevel >= 30) return 0;
       
       // Progressive scaling that gets much harder at higher levels
       // Level 1: 100 XP, Level 2: 200 XP, Level 3: 350 XP, Level 4: 550 XP, etc.
@@ -534,34 +544,59 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     
     const ore = oreType.toLowerCase();
     
-    // Copper: Available at level 0, scales from 0-20
+    // Copper: Available at level 0, scales from 0-30
     if (ore === 'copper') {
-      if (miningLevel >= 20) return 1; // Max level = 1 click
+      if (miningLevel >= 30) return 1; // Max level = 1 click
+      if (miningLevel >= 25) return 1; // Level 25-29 = 1 click
+      if (miningLevel >= 20) return 2; // Level 20-24 = 2 clicks
       if (miningLevel >= 15) return 2; // Level 15-19 = 2 clicks
       if (miningLevel >= 10) return 2; // Level 10-14 = 2 clicks
       if (miningLevel >= 5) return 3;  // Level 5-9 = 3 clicks
-      return 5; // Level 0-4 = 5 clicks
+      return 4; // Level 0-4 = 4 clicks
     }
     
-    // Iron: Available at level 5, scales from 5-20
+    // Iron: Available at level 5, scales from 5-30
     if (ore === 'iron') {
-      if (miningLevel >= 20) return 1; // Max level = 1 click
+      if (miningLevel >= 30) return 1; // Max level = 1 click
+      if (miningLevel >= 25) return 1; // Level 25-29 = 1 click
+      if (miningLevel >= 20) return 2; // Level 20-24 = 2 clicks
       if (miningLevel >= 15) return 2; // Level 15-19 = 2 clicks
       if (miningLevel >= 10) return 3; // Level 10-14 = 3 clicks
       if (miningLevel >= 5) return 4;  // Level 5-9 = 4 clicks
       return -1; // Cannot mine iron below level 5
     }
     
-    // Gold: Available at level 10, scales from 10-20
+    // Gold: Available at level 10, scales from 10-30
     if (ore === 'gold') {
-      if (miningLevel >= 20) return 2; // Max level = 2 clicks
+      if (miningLevel >= 30) return 1; // Max level = 1 click
+      if (miningLevel >= 25) return 2; // Level 25-29 = 2 clicks
+      if (miningLevel >= 20) return 2; // Level 20-24 = 2 clicks
       if (miningLevel >= 15) return 3; // Level 15-19 = 3 clicks
       if (miningLevel >= 10) return 4; // Level 10-14 = 4 clicks
       return -1; // Cannot mine gold below level 10
     }
     
+    // Obsidian: Available at level 15, scales from 15-30
+    if (ore === 'obsidian') {
+      if (miningLevel >= 30) return 2; // Max level = 2 clicks
+      if (miningLevel >= 25) return 3; // Level 25-29 = 3 clicks
+      if (miningLevel >= 20) return 3; // Level 20-24 = 3 clicks
+      if (miningLevel >= 15) return 4; // Level 15-19 = 4 clicks
+      return -1; // Cannot mine obsidian below level 15
+    }
+    
+    // Diamond: Available at level 20, scales from 20-30
+    if (ore === 'diamond') {
+      if (miningLevel >= 30) return 2; // Max level = 2 clicks
+      if (miningLevel >= 25) return 3; // Level 25-29 = 3 clicks
+      if (miningLevel >= 20) return 4; // Level 20-24 = 4 clicks
+      return -1; // Cannot mine diamond below level 20
+    }
+    
     // Default for any other ore types
-    if (miningLevel >= 20) return Math.max(1, Math.floor(5 * 0.2)); // Max level = 20% of base
+    if (miningLevel >= 30) return Math.max(1, Math.floor(5 * 0.1)); // Max level = 10% of base
+    if (miningLevel >= 25) return Math.max(1, Math.floor(5 * 0.15)); // Level 25-29 = 15% of base
+    if (miningLevel >= 20) return Math.max(1, Math.floor(5 * 0.2)); // Level 20-24 = 20% of base
     if (miningLevel >= 15) return Math.max(1, Math.floor(5 * 0.3)); // Level 15-19 = 30% of base
     if (miningLevel >= 10) return Math.max(1, Math.floor(5 * 0.4)); // Level 10-14 = 40% of base
     if (miningLevel >= 5) return Math.max(1, Math.floor(5 * 0.6));  // Level 5-9 = 60% of base
@@ -581,6 +616,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     // Gold: Requires mining level 10
     if (ore === 'gold' && miningLevel < 10) return false;
     
+    // Obsidian: Requires mining level 15
+    if (ore === 'obsidian' && miningLevel < 15) return false;
+    
+    // Diamond: Requires mining level 20
+    if (ore === 'diamond' && miningLevel < 20) return false;
+    
     // Any other ore types are allowed
     return true;
   }
@@ -594,34 +635,59 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     
     const fish = fishType.toLowerCase();
     
-    // Gup: Available at level 0, scales from 0-20
+    // Gup: Available at level 0, scales from 0-30
     if (fish === 'gup') {
-      if (fishingLevel >= 20) return 1; // Max level = 1 click
+      if (fishingLevel >= 30) return 1; // Max level = 1 click
+      if (fishingLevel >= 25) return 1; // Level 25-29 = 1 click
+      if (fishingLevel >= 20) return 2; // Level 20-24 = 2 clicks
       if (fishingLevel >= 15) return 2; // Level 15-19 = 2 clicks
       if (fishingLevel >= 10) return 2; // Level 10-14 = 2 clicks
       if (fishingLevel >= 5) return 3;  // Level 5-9 = 3 clicks
-      return 5; // Level 0-4 = 5 clicks
+      return 4; // Level 0-4 = 4 clicks
     }
     
-    // Cod: Available at level 5, scales from 5-20
+    // Cod: Available at level 5, scales from 5-30
     if (fish === 'cod') {
-      if (fishingLevel >= 20) return 1; // Max level = 1 click
+      if (fishingLevel >= 30) return 1; // Max level = 1 click
+      if (fishingLevel >= 25) return 1; // Level 25-29 = 1 click
+      if (fishingLevel >= 20) return 2; // Level 20-24 = 2 clicks
       if (fishingLevel >= 15) return 2; // Level 15-19 = 2 clicks
       if (fishingLevel >= 10) return 3; // Level 10-14 = 3 clicks
       if (fishingLevel >= 5) return 4;  // Level 5-9 = 4 clicks
       return -1; // Cannot catch cod below level 5
     }
     
-    // Shark: Available at level 10, scales from 10-20
+    // Shark: Available at level 10, scales from 10-30
     if (fish === 'shark') {
-      if (fishingLevel >= 20) return 2; // Max level = 2 clicks
+      if (fishingLevel >= 30) return 1; // Max level = 1 click
+      if (fishingLevel >= 25) return 2; // Level 25-29 = 2 clicks
+      if (fishingLevel >= 20) return 2; // Level 20-24 = 2 clicks
       if (fishingLevel >= 15) return 3; // Level 15-19 = 3 clicks
       if (fishingLevel >= 10) return 4; // Level 10-14 = 4 clicks
       return -1; // Cannot catch shark below level 10
     }
     
+    // Whale: Available at level 15, scales from 15-30
+    if (fish === 'whale') {
+      if (fishingLevel >= 30) return 2; // Max level = 2 clicks
+      if (fishingLevel >= 25) return 3; // Level 25-29 = 3 clicks
+      if (fishingLevel >= 20) return 3; // Level 20-24 = 3 clicks
+      if (fishingLevel >= 15) return 4; // Level 15-19 = 4 clicks
+      return -1; // Cannot catch whale below level 15
+    }
+    
+    // Kraken: Available at level 20, scales from 20-30
+    if (fish === 'kraken') {
+      if (fishingLevel >= 30) return 2; // Max level = 2 clicks
+      if (fishingLevel >= 25) return 3; // Level 25-29 = 3 clicks
+      if (fishingLevel >= 20) return 4; // Level 20-24 = 4 clicks
+      return -1; // Cannot catch kraken below level 20
+    }
+    
     // Default for any other fish types
-    if (fishingLevel >= 20) return Math.max(1, Math.floor(5 * 0.2)); // Max level = 20% of base
+    if (fishingLevel >= 30) return Math.max(1, Math.floor(5 * 0.1)); // Max level = 10% of base
+    if (fishingLevel >= 25) return Math.max(1, Math.floor(5 * 0.15)); // Level 25-29 = 15% of base
+    if (fishingLevel >= 20) return Math.max(1, Math.floor(5 * 0.2)); // Level 20-24 = 20% of base
     if (fishingLevel >= 15) return Math.max(1, Math.floor(5 * 0.3)); // Level 15-19 = 30% of base
     if (fishingLevel >= 10) return Math.max(1, Math.floor(5 * 0.4)); // Level 10-14 = 40% of base
     if (fishingLevel >= 5) return Math.max(1, Math.floor(5 * 0.6));  // Level 5-9 = 60% of base
@@ -630,43 +696,67 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
   // Calculate fishing failure chance based on fishing level
   getFishingFailureChance(fishingLevel: number): number {
-    // Start at 50% failure at level 0, scale down to 5% at level 20
+    // Start at 50% failure at level 0, scale down to 2% at level 30
     const baseFailureRate = 0.50; // 50% at level 0
-    const minFailureRate = 0.05;  // 5% at level 20
-    const failureReduction = (baseFailureRate - minFailureRate) / 20; // Reduce by 2.25% per level
+    const minFailureRate = 0.02;  // 2% at level 30
+    const failureReduction = (baseFailureRate - minFailureRate) / 30; // Reduce by 1.6% per level
     
     return Math.max(minFailureRate, baseFailureRate - (fishingLevel * failureReduction));
   }
 
   // Determine what fish type to catch based on fishing level and RNG
-  getRandomFishType(fishingLevel: number): { fishType: string; rarity: string } | null {
-    // Calculate failure chance
-    const failureChance = this.getFishingFailureChance(fishingLevel);
-    if (Math.random() < failureChance) {
-      return null; // Failed to catch anything
+  getRandomFishType(fishingLevel: number, guaranteedCatch: boolean = false): { fishType: string; rarity: string } | null {
+    // Calculate failure chance (skip if using bait for guaranteed catch)
+    if (!guaranteedCatch) {
+      const failureChance = this.getFishingFailureChance(fishingLevel);
+      if (Math.random() < failureChance) {
+        return null; // Failed to catch anything
+      }
     }
     
     // Fish rarity distribution based on fishing level
-    let gupChance = 0.70;  // Base chance for Gup (70%)
-    let codChance = 0.25;  // Base chance for Cod (25%)
-    let sharkChance = 0.05; // Base chance for Shark (5%)
+    let gupChance = 0.70;    // Base chance for Gup (70%)
+    let codChance = 0.25;    // Base chance for Cod (25%)
+    let sharkChance = 0.05;  // Base chance for Shark (5%)
+    let whaleChance = 0.0;   // Base chance for Whale (0%)
+    let krakenChance = 0.0;  // Base chance for Kraken (0%)
     
     // Adjust chances based on fishing level
-    if (fishingLevel >= 15) {
-      // High level: Better chances for rare fish
-      gupChance = 0.50;   // 50% Gup
-      codChance = 0.35;   // 35% Cod
-      sharkChance = 0.15; // 15% Shark
+    if (fishingLevel >= 25) {
+      // Very high level: Best chances for legendary fish
+      gupChance = 0.30;     // 30% Gup
+      codChance = 0.30;     // 30% Cod
+      sharkChance = 0.25;   // 25% Shark
+      whaleChance = 0.10;   // 10% Whale
+      krakenChance = 0.05;  // 5% Kraken
+    } else if (fishingLevel >= 20) {
+      // High level: Good chances for epic and legendary fish
+      gupChance = 0.35;     // 35% Gup
+      codChance = 0.30;     // 30% Cod
+      sharkChance = 0.25;   // 25% Shark
+      whaleChance = 0.08;   // 8% Whale
+      krakenChance = 0.02;  // 2% Kraken
+    } else if (fishingLevel >= 15) {
+      // Mid-high level: Better chances for rare fish
+      gupChance = 0.45;     // 45% Gup
+      codChance = 0.35;     // 35% Cod
+      sharkChance = 0.18;   // 18% Shark
+      whaleChance = 0.02;   // 2% Whale
+      krakenChance = 0.0;   // 0% Kraken
     } else if (fishingLevel >= 10) {
       // Mid level: Improved chances
-      gupChance = 0.60;   // 60% Gup
-      codChance = 0.30;   // 30% Cod
-      sharkChance = 0.10; // 10% Shark
+      gupChance = 0.55;     // 55% Gup
+      codChance = 0.30;     // 30% Cod
+      sharkChance = 0.15;   // 15% Shark
+      whaleChance = 0.0;    // 0% Whale
+      krakenChance = 0.0;   // 0% Kraken
     } else if (fishingLevel >= 5) {
       // Low level: Slight improvement
-      gupChance = 0.65;   // 65% Gup
-      codChance = 0.30;   // 30% Cod
-      sharkChance = 0.05; // 5% Shark
+      gupChance = 0.65;     // 65% Gup
+      codChance = 0.30;     // 30% Cod
+      sharkChance = 0.05;   // 5% Shark
+      whaleChance = 0.0;    // 0% Whale
+      krakenChance = 0.0;   // 0% Kraken
     }
     // Level 0-4: Use base chances
     
@@ -677,8 +767,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       return { fishType: 'Gup', rarity: 'Common' };
     } else if (roll < gupChance + codChance) {
       return { fishType: 'Cod', rarity: 'Uncommon' };
-    } else {
+    } else if (roll < gupChance + codChance + sharkChance) {
       return { fishType: 'Shark', rarity: 'Rare' };
+    } else if (roll < gupChance + codChance + sharkChance + whaleChance) {
+      return { fishType: 'Whale', rarity: 'Epic' };
+    } else {
+      return { fishType: 'Kraken', rarity: 'Legendary' };
     }
   }
 
@@ -695,13 +789,19 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     // Shark: Requires fishing level 10
     if (fish === 'shark' && fishingLevel < 10) return false;
     
+    // Whale: Requires fishing level 15
+    if (fish === 'whale' && fishingLevel < 15) return false;
+    
+    // Kraken: Requires fishing level 20
+    if (fish === 'kraken' && fishingLevel < 20) return false;
+    
     // Any other fish types are allowed
     return true;
   }
 
   // Calculate bartering multiplier based on skill level
   getBarteringMultiplier(barteringLevel: number): number {
-    if (barteringLevel >= 20) return 2.0; // Max level = 2x
+    if (barteringLevel >= 30) return 2.5; // Max level = 2.5x
     if (barteringLevel >= 15) return 1.75; // Level 15-19 = 1.75x
     if (barteringLevel >= 10) return 1.5;  // Level 10-14 = 1.5x
     if (barteringLevel >= 5) return 1.25;  // Level 5-9 = 1.25x
@@ -730,11 +830,18 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     if (resource === 'copper') return 'fff'; // White (Common)
     if (resource === 'iron') return '0f0';   // Green (Uncommon)
     if (resource === 'gold') return '00f';   // Blue (Rare)
+    if (resource === 'obsidian') return 'f0f'; // Purple (Epic)
+    if (resource === 'diamond') return 'f80';  // Orange (Legendary)
     
     // Fishing resources
     if (resource === 'gup') return 'fff';    // White (Common)
     if (resource === 'cod') return '0f0';   // Green (Uncommon)
     if (resource === 'shark') return '00f';  // Blue (Rare)
+    if (resource === 'whale') return 'f0f';  // Purple (Epic)
+    if (resource === 'kraken') return 'f80'; // Orange (Legendary)
+    
+    // Consumable items (all common rarity - white)
+    if (resource === 'fish bait') return 'fff'; // White (Common)
     
     // Default to white for unknown resources
     return 'fff';
@@ -1051,6 +1158,17 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             shopkeeperBricks.push({ brick, resourceType, consoleTag });
             console.log(`[Hoopla RPG] Found shopkeeper brick: ${resourceType} at [${brick.position.join(', ')}] with console tag: "${consoleTag}"`);
           }
+          // Check for bulk vendor bricks
+          else if (consoleTag === "rpg_sell_all_fish" || consoleTag === "rpg_sell_all_ores") {
+            shopkeeperBricks.push({ brick, resourceType: consoleTag, consoleTag });
+            console.log(`[Hoopla RPG] Found bulk vendor brick: ${consoleTag} at [${brick.position.join(', ')}]`);
+          }
+          // Check for buy triggers
+          else if (consoleTag.startsWith("rpg_buy_")) {
+            const itemType = consoleTag.replace("rpg_buy_", "");
+            shopkeeperBricks.push({ brick, resourceType: consoleTag, consoleTag });
+            console.log(`[Hoopla RPG] Found buy trigger brick: ${itemType} at [${brick.position.join(', ')}] with console tag: "${consoleTag}"`);
+          }
         }
       }
 
@@ -1105,23 +1223,68 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
           // Create the shopkeeper trigger
           const shopkeeperId = `shopkeeper_${resourceType}_${Date.now()}_${convertedCount}`;
-          const sellPrice = this.getResourceSellPrice(resourceType);
-          const trigger: BrickTrigger = {
-            id: shopkeeperId,
-            type: 'sell',
-            value: sellPrice,
-            cooldown: 0, // No cooldown for selling
-            lastUsed: {},
-            message: resourceType,
-            triggerType: 'click',
-            brickPositions: [position]
-          };
-
-          // Save the trigger
-          await this.createBrickTrigger(shopkeeperId, trigger);
-          convertedCount++;
-
-          console.log(`[Hoopla RPG] Created ${resourceType} shopkeeper at [${position.x}, ${position.y}, ${position.z}] with price ${sellPrice}`);
+          let sellPrice = 0;
+          
+          // Handle bulk vendors differently
+          if (resourceType === 'rpg_sell_all_fish' || resourceType === 'rpg_sell_all_ores') {
+            sellPrice = 0; // Price calculated dynamically
+            const trigger: BrickTrigger = {
+              id: shopkeeperId,
+              type: 'bulk_sell',
+              value: sellPrice,
+              cooldown: 0, // No cooldown for selling
+              lastUsed: {},
+              message: resourceType,
+              triggerType: 'click',
+              brickPositions: [position]
+            };
+            
+            // Save the trigger
+            await this.createBrickTrigger(shopkeeperId, trigger);
+            convertedCount++;
+            console.log(`[Hoopla RPG] Created bulk vendor ${resourceType} at [${position.x}, ${position.y}, ${position.z}]`);
+            continue;
+          }
+          // Handle buy triggers
+          else if (consoleTag.startsWith("rpg_buy_")) {
+            // For buy triggers, we need to set a price - let's use a default price for now
+            // The actual price should be set in the brick's Component_Interact value
+            const brickWithComponents = brick as any;
+            const buyPrice = brickWithComponents.components.Component_Interact.Value || 100; // Default price of 100
+            const trigger: BrickTrigger = {
+              id: shopkeeperId,
+              type: 'buy',
+              value: buyPrice,
+              cooldown: 0, // No cooldown for buying
+              lastUsed: {},
+              message: consoleTag,
+              triggerType: 'click',
+              brickPositions: [position]
+            };
+            
+            // Save the trigger
+            await this.createBrickTrigger(shopkeeperId, trigger);
+            convertedCount++;
+            console.log(`[Hoopla RPG] Created buy trigger ${consoleTag} at [${position.x}, ${position.y}, ${position.z}] with price ${buyPrice}`);
+            continue;
+          } else {
+            sellPrice = this.getResourceSellPrice(resourceType);
+            const trigger: BrickTrigger = {
+              id: shopkeeperId,
+              type: 'sell',
+              value: sellPrice,
+              cooldown: 0, // No cooldown for selling
+              lastUsed: {},
+              message: resourceType,
+              triggerType: 'click',
+              brickPositions: [position]
+            };
+            
+            // Save the trigger
+            await this.createBrickTrigger(shopkeeperId, trigger);
+            convertedCount++;
+            console.log(`[Hoopla RPG] Created ${resourceType} shopkeeper at [${position.x}, ${position.y}, ${position.z}] with price ${sellPrice}`);
+          }
 
         } catch (error) {
           console.error(`[Hoopla RPG] Error processing brick for ${resourceType}:`, error);
@@ -1192,6 +1355,142 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     return false;
   }
 
+  // Consumable management functions
+  async addConsumable({ id }: PlayerId, name: string, maxCharges: number): Promise<void> {
+    const player = await this.getPlayerData({ id });
+    // Ensure consumables array exists
+    if (!player.consumables) {
+      player.consumables = [];
+    }
+    
+    // Check if player already has this consumable
+    const existingIndex = player.consumables.findIndex(c => c.name === name);
+    if (existingIndex > -1) {
+      // Add charges to existing consumable
+      player.consumables[existingIndex].charges += maxCharges;
+    } else {
+      // Add new consumable
+      player.consumables.push({
+        name: name,
+        charges: maxCharges,
+        maxCharges: maxCharges
+      });
+    }
+    
+    await this.setPlayerData({ id }, player);
+  }
+
+  async useConsumable({ id }: PlayerId, name: string): Promise<{ success: boolean; chargesRemaining: number }> {
+    const player = await this.getPlayerData({ id });
+    // Ensure consumables array exists
+    if (!player.consumables) {
+      player.consumables = [];
+      return { success: false, chargesRemaining: 0 };
+    }
+    
+    const consumableIndex = player.consumables.findIndex(c => c.name === name);
+    if (consumableIndex === -1) {
+      return { success: false, chargesRemaining: 0 };
+    }
+    
+    const consumable = player.consumables[consumableIndex];
+    if (consumable.charges <= 0) {
+      return { success: false, chargesRemaining: 0 };
+    }
+    
+    // Use one charge
+    consumable.charges--;
+    
+    // If no charges left, remove the consumable
+    if (consumable.charges <= 0) {
+      player.consumables.splice(consumableIndex, 1);
+    }
+    
+    await this.setPlayerData({ id }, player);
+    return { success: true, chargesRemaining: consumable.charges };
+  }
+
+  async getConsumableCharges({ id }: PlayerId, name: string): Promise<number> {
+    const player = await this.getPlayerData({ id });
+    if (!player.consumables) {
+      return 0;
+    }
+    
+    const consumable = player.consumables.find(c => c.name === name);
+    return consumable ? consumable.charges : 0;
+  }
+
+  // Leaderboard system
+  async getPlayerScore(playerId: string): Promise<number> {
+    const player = await this.getPlayerData({ id: playerId });
+    let totalScore = player.experience || 0;
+    
+    // Add skill XP to total score
+    if (player.skills) {
+      totalScore += (player.skills.mining?.experience || 0);
+      totalScore += (player.skills.fishing?.experience || 0);
+      totalScore += (player.skills.bartering?.experience || 0);
+    }
+    
+    return totalScore;
+  }
+
+  async getLeaderboard(): Promise<Array<{ playerId: string; name: string; level: number; score: number }>> {
+    const leaderboard: Array<{ playerId: string; name: string; level: number; score: number }> = [];
+    
+    // Get all player IDs that have ever played
+    const allPlayerIds = await this.store.get("all_player_ids") as unknown as string[] || [];
+    
+    for (const playerId of allPlayerIds) {
+      try {
+        const playerData = await this.getPlayerData({ id: playerId });
+        const score = await this.getPlayerScore(playerId);
+        
+        // Only include players who have some XP (not just default players)
+        if (score > 0) {
+          // Get player name from Omegga's player list if online, fallback to truncated ID
+          const player = this.omegga.getPlayer(playerId);
+          const playerName = player?.name || `Player_${playerId.substring(0, 8)}`;
+          
+          leaderboard.push({
+            playerId,
+            name: playerName,
+            level: playerData.level || 1,
+            score
+          });
+        }
+      } catch (error) {
+        console.log(`[Hoopla RPG] Error getting score for player ${playerId}:`, error);
+      }
+    }
+    
+    // Sort by score (highest first) and return top 10
+    return leaderboard.sort((a, b) => b.score - a.score).slice(0, 10);
+  }
+
+  async announceLeaderboard(): Promise<void> {
+    try {
+      const leaderboard = await this.getLeaderboard();
+      
+      if (leaderboard.length === 0) {
+        return;
+      }
+      
+      // Format leaderboard as a single line message
+      const leaderboardEntries = leaderboard.map((entry, index) => {
+        const position = index + 1;
+        const positionText = position === 1 ? "1st" : position === 2 ? "2nd" : position === 3 ? "3rd" : `${position}th`;
+        return `${positionText}.${entry.name}(L${entry.level}):${entry.score.toLocaleString()}`;
+      }).join(" | ");
+      
+      const message = `<color="ff0">Top Players: ${leaderboardEntries}</color>`;
+      this.omegga.broadcast(message);
+      
+    } catch (error) {
+      console.log(`[Hoopla RPG] Error announcing leaderboard:`, error);
+    }
+  }
+
   // Node collection tracking
   async addNodeToCollection({ id }: PlayerId, nodeId: string): Promise<void> {
     const player = await this.getPlayerData({ id });
@@ -1213,14 +1512,14 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
   // Brick trigger methods
   async getBrickTriggers(): Promise<{ [triggerId: string]: BrickTrigger }> {
-    const data = await this.store.get("brick_triggers");
-    return data && typeof data === 'object' && 'brickTriggers' in data ? (data as any).brickTriggers : {};
+    const data = await this.store.get("brick_triggers_data");
+    return data && typeof data === 'object' ? (data as any) : {};
   }
 
 
 
   async setBrickTriggers(triggers: { [triggerId: string]: BrickTrigger }) {
-    await this.store.set("brick_triggers", { brickTriggers: triggers });
+    await this.store.set("brick_triggers_data", triggers as any);
   }
 
   async createBrickTrigger(triggerId: string, trigger: BrickTrigger): Promise<void> {
@@ -1414,6 +1713,22 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
                 success: false, 
                 message: requirementMessage,
                 reward: { type: 'mining_requirement', required: 10, current: miningLevel }
+              };
+            } else if (oreType.toLowerCase() === 'obsidian') {
+              const requirementMessage = `You need mining level 15 to mine obsidian! Your current level: ${miningLevel}`;
+              this.omegga.middlePrint(playerId, requirementMessage);
+              return { 
+                success: false, 
+                message: requirementMessage,
+                reward: { type: 'mining_requirement', required: 15, current: miningLevel }
+              };
+            } else if (oreType.toLowerCase() === 'diamond') {
+              const requirementMessage = `You need mining level 20 to mine diamond! Your current level: ${miningLevel}`;
+              this.omegga.middlePrint(playerId, requirementMessage);
+              return { 
+                success: false, 
+                message: requirementMessage,
+                reward: { type: 'mining_requirement', required: 20, current: miningLevel }
               };
             } else {
               const requirementMessage = `You need a higher mining level to mine ${oreType}!`;
@@ -1631,8 +1946,20 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             };
           }
           
-                    // Fishing complete - determine what was caught
-          const fishResult = this.getRandomFishType(fishingLevel);
+                    // Check if player has fish bait and use it
+          const fishBaitCharges = await this.getConsumableCharges({ id: playerId }, 'Fish bait');
+          let usedBait = false;
+          
+          if (fishBaitCharges > 0) {
+            // Use fish bait for guaranteed catch
+            const baitResult = await this.useConsumable({ id: playerId }, 'Fish bait');
+            if (baitResult.success) {
+              usedBait = true;
+            }
+          }
+          
+          // Fishing complete - determine what was caught
+          const fishResult = usedBait ? this.getRandomFishType(fishingLevel, true) : this.getRandomFishType(fishingLevel);
           
           // Reset fishing progress for this player
           trigger.fishingProgress[playerId] = 0;
@@ -1742,10 +2069,17 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             
             // Combined message for final attempt: fish result + depletion notice (prevents message overlap)
             const fishColor = this.getResourceColor(fishType);
-            const fishingMessage = `Caught 1 <color="${fishColor}">[${fishType}]</color> (<color="ff0">x${fishCount}</color> in bag), Gained ${generalXP}XP and ${fishingXP} Fishing XP - Fishing spot depleted! Come back in 60 seconds.`;
+            const baitText = usedBait ? " (with Fish bait)" : "";
+            const fishingMessage = `Caught 1 <color="${fishColor}">[${fishType}]</color> (<color="ff0">x${fishCount}</color> in bag), Gained ${generalXP}XP and ${fishingXP} Fishing XP${baitText} - Fishing spot depleted! Come back in 60 seconds.`;
             
             // Use middlePrint for the combined result
             this.omegga.middlePrint(playerId, fishingMessage);
+            
+            // Announce legendary fish catches to the server
+            if (fishType.toLowerCase() === 'kraken') {
+              const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
+              this.omegga.broadcast(`<color="fff">LEGENDARY CATCH! ${playerName} has caught a <color="f80">[Kraken]</color>!</color>`);
+            }
             
             // Update trigger data
             triggers[triggerId] = trigger;
@@ -1775,10 +2109,17 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           
           // Regular fishing result (not the final attempt)
           const fishColor = this.getResourceColor(fishType);
-          const fishingMessage = `Caught 1 <color="${fishColor}">[${fishType}]</color> (<color="ff0">x${fishCount}</color> in bag), Gained ${generalXP}XP and ${fishingXP} Fishing XP - ${attemptsRemaining} attempts remaining`;
+          const baitText = usedBait ? " (with Fish bait)" : "";
+          const fishingMessage = `Caught 1 <color="${fishColor}">[${fishType}]</color> (<color="ff0">x${fishCount}</color> in bag), Gained ${generalXP}XP and ${fishingXP} Fishing XP${baitText} - ${attemptsRemaining} attempts remaining`;
           
           // Use middlePrint for the regular result
           this.omegga.middlePrint(playerId, fishingMessage);
+          
+          // Announce legendary fish catches to the server
+          if (fishType.toLowerCase() === 'kraken') {
+            const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
+            this.omegga.broadcast(`<color="fff">LEGENDARY CATCH! ${playerName} has caught a <color="f80">[Kraken]</color>!</color>`);
+          }
           
           // Update trigger data
           triggers[triggerId] = trigger;
@@ -1821,78 +2162,314 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           };
 
         case 'sell':
-          // Check if player has the resource to sell (case-insensitive)
-          const sellPlayer = await this.getPlayerData({ id: playerId });
-          
-          // Find the item in inventory with case-insensitive matching
-          const itemToSell = sellPlayer.inventory?.find(item => 
-            item.toLowerCase() === trigger.message.toLowerCase()
-          );
-          
-          console.log(`[Hoopla RPG] Selling attempt for player ${playerId}:`);
-          console.log(`  - Looking for: "${this.standardizeItemCasing(trigger.message)}"`);
-          console.log(`  - Inventory contains:`, sellPlayer.inventory);
-          console.log(`  - Found item: "${itemToSell}"`);
-          
-          if (!sellPlayer.inventory || !itemToSell) {
-            const standardizedItemName = this.standardizeItemCasing(trigger.message);
-            const noItemMessage = `You don't have any ${standardizedItemName} to sell!`;
-            this.omegga.middlePrint(playerId, noItemMessage);
+          // Check if this is actually a bulk vendor trigger that was created as a regular sell trigger
+          if (trigger.message === 'rpg_sell_all_fish' || trigger.message === 'rpg_sell_all_ores' || 
+              trigger.message.toLowerCase().includes('all_fish') || trigger.message.toLowerCase().includes('all_ores')) {
+            try {
+              // Handle as bulk vendor
+              const bulkPlayer = await this.getPlayerData({ id: playerId });
+              const bulkType = trigger.message; // 'rpg_sell_all_fish' or 'rpg_sell_all_ores'
+            
+            // Define which items to sell based on type
+            let itemsToSell: string[] = [];
+            if (bulkType === 'rpg_sell_all_fish' || bulkType.toLowerCase().includes('all_fish')) {
+              itemsToSell = ['gup', 'cod', 'shark', 'whale', 'kraken'];
+            } else if (bulkType === 'rpg_sell_all_ores' || bulkType.toLowerCase().includes('all_ores')) {
+              itemsToSell = ['copper', 'iron', 'gold', 'obsidian', 'diamond'];
+            }
+            
+            // Count items in inventory
+            const itemCounts: { [key: string]: number } = {};
+            let totalValue = 0;
+            let totalItems = 0;
+            
+            for (const item of itemsToSell) {
+              const matchingItems = bulkPlayer.inventory?.filter(invItem => 
+                invItem.toLowerCase() === item.toLowerCase()
+              ) || [];
+              const count = matchingItems.length;
+              
+              if (count > 0) {
+                // Use the actual item name from inventory (with proper capitalization)
+                const actualItemName = matchingItems[0];
+                itemCounts[actualItemName] = count;
+                const basePrice = this.getResourceSellPrice(item);
+                const barteringLevel = bulkPlayer.skills?.bartering?.level || 0;
+                const barteringMultiplier = this.getBarteringMultiplier(barteringLevel);
+                const finalPrice = Math.floor(basePrice * barteringMultiplier);
+                totalValue += finalPrice * count;
+                totalItems += count;
+              }
+            }
+            
+            if (totalItems === 0) {
+              const typeName = (bulkType === 'rpg_sell_all_fish' || bulkType.toLowerCase().includes('all_fish')) ? 'fish' : 'ores';
+              const noItemsMessage = `You don't have any ${typeName} to sell!`;
+              this.omegga.middlePrint(playerId, noItemsMessage);
+              return { 
+                success: false, 
+                message: noItemsMessage
+              };
+            }
+            
+            // Remove all items from inventory
+            for (const [item, count] of Object.entries(itemCounts)) {
+              for (let i = 0; i < count; i++) {
+                await this.removeFromInventory({ id: playerId }, item);
+              }
+            }
+            
+            // Add currency
+            await this.currency.add(playerId, "currency", totalValue);
+            
+            // Calculate bartering XP (use average XP for bulk sale)
+            const bulkBarteringLevel = bulkPlayer.skills?.bartering?.level || 0;
+            const averageXP = Math.floor(totalItems * 20); // Average XP per item
+            const bulkBarteringSkillResult = await this.addSkillExperience({ id: playerId }, 'bartering', averageXP);
+            
+            // Get updated currency
+            const bulkNewCurrency = await this.currency.getCurrency(playerId);
+            const bulkFormattedCurrency = await this.currency.format(bulkNewCurrency);
+            
+            // Create detailed sell message
+            const typeName = (bulkType === 'rpg_sell_all_fish' || bulkType.toLowerCase().includes('all_fish')) ? 'fish' : 'ores';
+            let bulkSellMessage = `Sold all ${typeName} for ${await this.currency.format(totalValue)}! `;
+            bulkSellMessage += `Items sold: `;
+            
+            const itemDetails = Object.entries(itemCounts).map(([item, count]) => {
+              const itemColor = this.getResourceColor(item);
+              return `<color="ff0">x${count}</color> <color="${itemColor}">[${item}]</color>`;
+            }).join(', ');
+            
+            bulkSellMessage += itemDetails;
+            bulkSellMessage += `. You now have ${bulkFormattedCurrency}. Gained ${averageXP} Bartering XP`;
+            
+            // Use middlePrint for the bulk selling result
+            this.omegga.middlePrint(playerId, bulkSellMessage);
+            
             return { 
-              success: false, 
-              message: noItemMessage
+              success: true, 
+              message: bulkSellMessage,
+              reward: { 
+                type: 'bulk_sell', 
+                itemsSold: itemCounts,
+                totalValue: totalValue,
+                totalItems: totalItems,
+                newCurrency: bulkFormattedCurrency,
+                barteringXpGained: averageXP,
+                barteringSkillLeveledUp: bulkBarteringSkillResult.leveledUp,
+                newBarteringLevel: bulkBarteringSkillResult.newLevel
+              }
+            };
+            } catch (error) {
+              throw error; // Re-throw to let the calling code handle it
+            }
+          } else {
+            // Regular sell logic for individual items
+            // Check if player has the resource to sell (case-insensitive)
+            const sellPlayer = await this.getPlayerData({ id: playerId });
+            
+            // Find the item in inventory with case-insensitive matching
+            const itemToSell = sellPlayer.inventory?.find(item => 
+              item.toLowerCase() === trigger.message.toLowerCase()
+            );
+            
+            if (!sellPlayer.inventory || !itemToSell) {
+              const standardizedItemName = this.standardizeItemCasing(trigger.message);
+              const noItemMessage = `You don't have any ${standardizedItemName} to sell!`;
+              this.omegga.middlePrint(playerId, noItemMessage);
+              return { 
+                success: false, 
+                message: noItemMessage
+              };
+            }
+
+            // Get player's bartering skill level
+            const barteringLevel = sellPlayer.skills?.bartering?.level || 0;
+            const barteringMultiplier = this.getBarteringMultiplier(barteringLevel);
+            const basePrice = trigger.value;
+            const finalPrice = Math.floor(basePrice * barteringMultiplier);
+
+            // Remove one item from inventory (using the found item to preserve case)
+            await this.removeFromInventory({ id: playerId }, itemToSell);
+            
+            // Add currency with bartering bonus
+            await this.currency.add(playerId, "currency", finalPrice);
+            
+            // Calculate bartering XP based on item rarity and bartering skill level
+            const barteringXP = this.getXPReward(itemToSell, barteringLevel, 'mining'); // Use mining as proxy for resource rarity
+            const barteringSkillResult = await this.addSkillExperience({ id: playerId }, 'bartering', barteringXP);
+            
+            // Get updated player data for display
+            const updatedPlayerData = await this.getPlayerData({ id: playerId });
+            const remainingCount = updatedPlayerData.inventory.filter(item => item === itemToSell).length;
+            const newCurrency = await this.currency.getCurrency(playerId);
+            const formattedCurrency = await this.currency.format(newCurrency);
+            
+            // Enhanced message showing bartering bonus with color coding - items in brackets with rarity colors
+            const itemColor = this.getResourceColor(itemToSell);
+            let sellMessage = `Sold <color="${itemColor}">[${itemToSell}]</color> for ${await this.currency.format(finalPrice)}`;
+            if (barteringMultiplier > 1.0) {
+              sellMessage += ` (${barteringMultiplier.toFixed(2)}x bartering bonus!)`;
+            }
+            sellMessage += `! You now have ${formattedCurrency} and <color="ff0">x${remainingCount}</color> <color="${itemColor}">[${itemToSell}]</color> remaining. Gained ${barteringXP} Bartering XP`;
+            
+            // Use middlePrint for the selling result
+            this.omegga.middlePrint(playerId, sellMessage);
+            
+            return { 
+              success: true, 
+              message: sellMessage,
+              reward: { 
+                type: 'sell', 
+                item: itemToSell, 
+                basePrice: basePrice,
+                finalPrice: finalPrice,
+                barteringMultiplier: barteringMultiplier,
+                remainingCount, 
+                newCurrency: formattedCurrency,
+                barteringXpGained: barteringXP,
+                barteringSkillLeveledUp: barteringSkillResult.leveledUp,
+                newBarteringLevel: barteringSkillResult.newLevel
+              }
             };
           }
 
-          // Get player's bartering skill level
-          const barteringLevel = sellPlayer.skills?.bartering?.level || 0;
-          const barteringMultiplier = this.getBarteringMultiplier(barteringLevel);
-          const basePrice = trigger.value;
-          const finalPrice = Math.floor(basePrice * barteringMultiplier);
-
-          // Remove one item from inventory (using the found item to preserve case)
-          await this.removeFromInventory({ id: playerId }, itemToSell);
+        case 'bulk_sell':
+          // Handle bulk selling of all fish or all ores
+          const bulkPlayer = await this.getPlayerData({ id: playerId });
+          const bulkType = trigger.message; // 'rpg_sell_all_fish' or 'rpg_sell_all_ores'
           
-          // Add currency with bartering bonus
-          await this.currency.add(playerId, "currency", finalPrice);
-          
-          // Calculate bartering XP based on item rarity and bartering skill level
-          const barteringXP = this.getXPReward(itemToSell, barteringLevel, 'mining'); // Use mining as proxy for resource rarity
-          const barteringSkillResult = await this.addSkillExperience({ id: playerId }, 'bartering', barteringXP);
-          
-          // Get updated player data for display
-          const updatedPlayerData = await this.getPlayerData({ id: playerId });
-          const remainingCount = updatedPlayerData.inventory.filter(item => item === itemToSell).length;
-          const newCurrency = await this.currency.getCurrency(playerId);
-          const formattedCurrency = await this.currency.format(newCurrency);
-          
-          // Enhanced message showing bartering bonus with color coding - items in brackets with rarity colors
-          const itemColor = this.getResourceColor(itemToSell);
-          let sellMessage = `Sold <color="${itemColor}">[${itemToSell}]</color> for ${await this.currency.format(finalPrice)}`;
-          if (barteringMultiplier > 1.0) {
-            sellMessage += ` (${barteringMultiplier.toFixed(2)}x bartering bonus!)`;
+          // Define which items to sell based on type
+          let itemsToSell: string[] = [];
+          if (bulkType === 'rpg_sell_all_fish') {
+            itemsToSell = ['gup', 'cod', 'shark', 'whale', 'kraken'];
+          } else if (bulkType === 'rpg_sell_all_ores') {
+            itemsToSell = ['copper', 'iron', 'gold', 'obsidian', 'diamond'];
           }
-          sellMessage += `! You now have ${formattedCurrency} and <color="ff0">x${remainingCount}</color> <color="${itemColor}">[${itemToSell}]</color> remaining. Gained ${barteringXP} Bartering XP`;
           
-          // Use middlePrint for the selling result
-          this.omegga.middlePrint(playerId, sellMessage);
+          // Count items in inventory
+          const itemCounts: { [key: string]: number } = {};
+          let totalValue = 0;
+          let totalItems = 0;
+          
+          for (const item of itemsToSell) {
+            const count = bulkPlayer.inventory?.filter(invItem => 
+              invItem.toLowerCase() === item.toLowerCase()
+            ).length || 0;
+            
+            if (count > 0) {
+              itemCounts[item] = count;
+              const basePrice = this.getResourceSellPrice(item);
+              const barteringLevel = bulkPlayer.skills?.bartering?.level || 0;
+              const barteringMultiplier = this.getBarteringMultiplier(barteringLevel);
+              const finalPrice = Math.floor(basePrice * barteringMultiplier);
+              totalValue += finalPrice * count;
+              totalItems += count;
+            }
+          }
+          
+          if (totalItems === 0) {
+            const typeName = bulkType === 'rpg_sell_all_fish' ? 'fish' : 'ores';
+            const noItemsMessage = `You don't have any ${typeName} to sell!`;
+            this.omegga.middlePrint(playerId, noItemsMessage);
+            return { 
+              success: false, 
+              message: noItemsMessage
+            };
+          }
+          
+          // Remove all items from inventory
+          for (const [item, count] of Object.entries(itemCounts)) {
+            for (let i = 0; i < count; i++) {
+              await this.removeFromInventory({ id: playerId }, item);
+            }
+          }
+          
+          // Add currency
+          await this.currency.add(playerId, "currency", totalValue);
+          
+          // Calculate bartering XP (use average XP for bulk sale)
+          const bulkBarteringLevel = bulkPlayer.skills?.bartering?.level || 0;
+          const averageXP = Math.floor(totalItems * 20); // Average XP per item
+          const bulkBarteringSkillResult = await this.addSkillExperience({ id: playerId }, 'bartering', averageXP);
+          
+          // Get updated currency
+          const bulkNewCurrency = await this.currency.getCurrency(playerId);
+          const bulkFormattedCurrency = await this.currency.format(bulkNewCurrency);
+          
+          // Create detailed sell message
+          const typeName = bulkType === 'rpg_sell_all_fish' ? 'fish' : 'ores';
+          let bulkSellMessage = `Sold all ${typeName} for ${await this.currency.format(totalValue)}! `;
+          bulkSellMessage += `Items sold: `;
+          
+          const itemDetails = Object.entries(itemCounts).map(([item, count]) => {
+            const itemColor = this.getResourceColor(item);
+            return `<color="ff0">x${count}</color> <color="${itemColor}">[${item}]</color>`;
+          }).join(', ');
+          
+          bulkSellMessage += itemDetails;
+          bulkSellMessage += `. You now have ${bulkFormattedCurrency}. Gained ${averageXP} Bartering XP`;
+          
+          // Use middlePrint for the bulk selling result
+          this.omegga.middlePrint(playerId, bulkSellMessage);
           
           return { 
             success: true, 
-            message: sellMessage,
+            message: bulkSellMessage,
             reward: { 
-              type: 'sell', 
-              item: itemToSell, 
-              basePrice: basePrice,
-              finalPrice: finalPrice,
-              barteringMultiplier: barteringMultiplier,
-              remainingCount, 
-              newCurrency: formattedCurrency,
-              barteringXpGained: barteringXP,
-              barteringSkillLeveledUp: barteringSkillResult.leveledUp,
-              newBarteringLevel: barteringSkillResult.newLevel
+              type: 'bulk_sell', 
+              itemsSold: itemCounts,
+              totalValue: totalValue,
+              totalItems: totalItems,
+              newCurrency: bulkFormattedCurrency,
+              barteringXpGained: averageXP,
+              barteringSkillLeveledUp: bulkBarteringSkillResult.leveledUp,
+              newBarteringLevel: bulkBarteringSkillResult.newLevel
             }
           };
+
+        case 'buy':
+          // Handle buying consumable items
+          const buyPlayer = await this.getPlayerData({ id: playerId });
+          const buyType = trigger.message; // 'rpg_buy_bait' or other buy triggers
+          
+          // Check if player has enough currency
+          const currentCurrency = await this.currency.getCurrency(playerId);
+          const itemPrice = trigger.value;
+          
+          if (currentCurrency < itemPrice) {
+            const insufficientMessage = `Insufficient funds! You need ${await this.currency.format(itemPrice)} but only have ${await this.currency.format(currentCurrency)}.`;
+            this.omegga.middlePrint(playerId, insufficientMessage);
+            return { success: false, message: insufficientMessage };
+          }
+          
+          // Deduct currency
+          await this.currency.add(playerId, "currency", -itemPrice);
+          
+          // Add consumable based on type
+          if (buyType === 'rpg_buy_bait') {
+            await this.addConsumable({ id: playerId }, 'Fish bait', 20);
+            const newCurrency = await this.currency.getCurrency(playerId);
+            const formattedCurrency = await this.currency.format(newCurrency);
+            
+            const buyMessage = `Purchased <color="fff">[Fish bait]x20</color> for ${await this.currency.format(itemPrice)}! You now have ${formattedCurrency}.`;
+            this.omegga.middlePrint(playerId, buyMessage);
+            
+            return { 
+              success: true, 
+              message: buyMessage,
+              reward: { 
+                type: 'buy', 
+                item: 'Fish bait',
+                charges: 20,
+                price: itemPrice,
+                newCurrency: formattedCurrency
+              }
+            };
+          }
+          
+          return { success: false, message: "Unknown item to buy!" };
 
         default:
           return { success: false, message: "Unknown trigger type!" };
@@ -1980,9 +2557,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
               
                              if (result.success) {
                  // Success messages are now handled by middlePrint in triggerBrickAction
-                 if (trigger.type === 'sell') {
+                 if (trigger.type === 'sell' && !trigger.message?.includes('all_fish') && !trigger.message?.includes('all_ores')) {
                    console.log(`[Hoopla RPG] [${player.name}] successfully sold resource: ${result.reward?.item || 'unknown'}`);
-                 } else {
+                 } else if (trigger.type !== 'sell' && trigger.type !== 'bulk_sell') {
                    console.log(`[Hoopla RPG] [${player.name}] successfully collected resource: ${result.reward?.item || 'unknown'}`);
                  }
                } else {
@@ -2160,6 +2737,13 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       return { registeredCommands: [] };
     }
 
+    // Set up leaderboard announcement timer (every 10 minutes)
+    setInterval(async () => {
+      await this.announceLeaderboard();
+    }, 10 * 60 * 1000); // 10 minutes in milliseconds
+
+    console.log("Hoopla RPG: Leaderboard system initialized - announcements every 10 minutes");
+
 
 
 
@@ -2204,6 +2788,17 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           .join(", ");
       }
       
+      // Format consumables display
+      let consumablesDisplay = "None";
+      if (rpgData.consumables && rpgData.consumables.length > 0) {
+        consumablesDisplay = rpgData.consumables
+          .map(consumable => {
+            const itemColor = this.getResourceColor(consumable.name);
+            return `<color="ff0">x${consumable.charges}</color> <color="${itemColor}">[${consumable.name}]</color>`;
+          })
+          .join(", ");
+      }
+      
       // Get skill progress
       const miningProgress = await this.getSkillProgress({ id: player.id }, 'mining');
       const barteringProgress = await this.getSkillProgress({ id: player.id }, 'bartering');
@@ -2216,11 +2811,11 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       const xpNeededForNextLevel = xpForNextLevel - xpForCurrentLevel;
       
       // Handle max level case to avoid division by zero
-      const xpProgress = safeRpgData.level >= 20 ? 100 : 
+      const xpProgress = safeRpgData.level >= 30 ? 100 : 
         Math.min(100, Math.max(0, (xpInCurrentLevel / (xpForNextLevel - xpForCurrentLevel)) * 100));
       
       // Display main stats with MAX condition for player level
-      const playerLevelDisplay = safeRpgData.level >= 20 ? 
+      const playerLevelDisplay = safeRpgData.level >= 30 ? 
         `<color="ff0">Level ${safeRpgData.level} (MAX)</>` : 
         `<color="ff0">Level ${safeRpgData.level}</> | <color="0ff">${xpInCurrentLevel}/${xpNeededForNextLevel} XP (${Math.round(xpProgress)}%)</>`;
       
@@ -2234,15 +2829,15 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       const fishingXPInLevel = this.getXPInCurrentSkillLevel(fishingProgress.level, fishingProgress.experience);
       
       // Create skill displays with MAX condition
-      const miningDisplay = miningProgress.level >= 20 ? 
+      const miningDisplay = miningProgress.level >= 30 ? 
         `<color="0ff">Mining ${miningProgress.level} (MAX)</>` : 
         `<color="0ff">Mining ${miningProgress.level} - ${miningXPInLevel}/${miningProgress.xpForNextLevel}XP (${Math.round(miningProgress.progress)}%)</>`;
       
-      const barteringDisplay = barteringProgress.level >= 20 ? 
+      const barteringDisplay = barteringProgress.level >= 30 ? 
         `<color="f0f">Bartering ${barteringProgress.level} (MAX)</>` : 
         `<color="f0f">Bartering ${barteringProgress.level} - ${barteringXPInLevel}/${barteringProgress.xpForNextLevel}XP (${Math.round(barteringProgress.progress)}%)</>`;
       
-      const fishingDisplay = fishingProgress.level >= 20 ? 
+      const fishingDisplay = fishingProgress.level >= 30 ? 
         `<color="0aa">Fishing ${fishingProgress.level} (MAX)</>` : 
         `<color="0aa">Fishing ${fishingProgress.level} - ${fishingXPInLevel}/${fishingProgress.xpForNextLevel}XP (${Math.round(fishingProgress.progress)}%)</>`;
       
@@ -2251,6 +2846,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       
       // Display inventory
       this.omegga.whisper(speaker, `<color="fff">Inventory: ${inventoryDisplay}</>`);
+      
+      // Display consumables
+      this.omegga.whisper(speaker, `<color="fff">Consumables: ${consumablesDisplay}</>`);
       
       this.omegga.whisper(speaker, `<color="888">Try /rpghelp for more commands</color>`);
     });
@@ -2311,23 +2909,37 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     // RPG help command - shows all available commands
     this.omegga.on("cmd:rpghelp", async (speaker: string) => {
       this.omegga.whisper(speaker, `<color="0ff">=== RPG Commands ===</color>`);
-             this.omegga.whisper(speaker, `<color="0ff">/rpg</> - Show your RPG stats and inventory contents`);
-       this.omegga.whisper(speaker, `<color="0ff">/rpginit</> - Initialize all RPG systems (mining nodes, class selection, shopkeepers, questgivers)`);
-       this.omegga.whisper(speaker, `<color="0ff">/rpghelp</> - Show this help message`);
-       this.omegga.whisper(speaker, `<color="0ff">/rpgclearall</> - Clear all initialized RPG nodes and systems`);
-       this.omegga.whisper(speaker, `<color="0ff">/mininginfo</> - Show mining requirements and speed progression`);
-       this.omegga.whisper(speaker, `<color="0ff">/fishinginfo</> - Show fishing requirements and speed progression`);
-       this.omegga.whisper(speaker, `<color="0ff">/rpgfixlevel</> - Fix overleveled status (if you exceeded level 20)`);
+      this.omegga.whisper(speaker, `<color="0ff">/rpg</> - Show your RPG stats and inventory`);
+      this.omegga.whisper(speaker, `<color="0ff">/rpghelp</> - Show this help message`);
+      this.omegga.whisper(speaker, `<color="0ff">/mininginfo</> - Show mining requirements`);
+      this.omegga.whisper(speaker, `<color="0ff">/fishinginfo</> - Show fishing requirements`);
+      this.omegga.whisper(speaker, `<color="0ff">/rpgleaderboard</> - Show top 10 players`);
+    });
 
-              this.omegga.whisper(speaker, `<color="f0f">=== Setup Instructions ===</color>`);
-        this.omegga.whisper(speaker, `<color="f0f">1. Set up bricks with Component_Interact and ConsoleTag like 'rpg_mining_iron' or 'rpg_mining_gold'`);
-        this.omegga.whisper(speaker, `<color="f0f">2. Set up fishing bricks with ConsoleTag like 'rpg_fishing_spot'`);
-        this.omegga.whisper(speaker, `<color="f0f">3. Set up shopkeeper bricks with ConsoleTag like 'rpg_sell_copper' or 'rpg_sell_gup'`);
-        this.omegga.whisper(speaker, `<color="f0f">4. Run /rpginit to automatically detect and convert all RPG bricks`);
-        this.omegga.whisper(speaker, `<color="f0f">5. Click on the converted bricks to interact with them!`);
-        this.omegga.whisper(speaker, `<color="0ff">Note: Mining and fishing nodes use progressive cooldowns and skill-based requirements!</color>`);
-        this.omegga.whisper(speaker, `<color="ff0">Copper (any level) | Iron (level 5) | Gold (level 10)</color>`);
-        this.omegga.whisper(speaker, `<color="0aa">Fishing: All spots can catch any available fish type based on your level! (5 attempts per spot)</color>`);
+    // Leaderboard command - shows current top 10 players
+    this.omegga.on("cmd:rpgleaderboard", async (speaker: string) => {
+      try {
+        const leaderboard = await this.getLeaderboard();
+        
+        if (leaderboard.length === 0) {
+          this.omegga.whisper(speaker, `<color="ff0">No players found on the leaderboard yet!</color>`);
+          return;
+        }
+        
+        // Format leaderboard for whisper (multi-line for better readability)
+        this.omegga.whisper(speaker, `<color="ff0">Top Players Leaderboard:</color>`);
+        
+        leaderboard.forEach((entry, index) => {
+          const position = index + 1;
+          const positionText = position === 1 ? "1st" : position === 2 ? "2nd" : position === 3 ? "3rd" : `${position}th`;
+          const message = `${positionText}. <color="0ff">${entry.name}</color> (Level ${entry.level}) - <color="ff0">${entry.score.toLocaleString()}</color> points`;
+          this.omegga.whisper(speaker, message);
+        });
+        
+      } catch (error) {
+        console.error(`[Hoopla RPG] Error getting leaderboard:`, error);
+        this.omegga.whisper(speaker, `<color="f00">Error loading leaderboard: ${error.message}</color>`);
+      }
     });
 
     // RPG fix level command - fixes overleveled players
@@ -2346,63 +2958,27 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       }
     });
 
-    // Mining info command - shows mining requirements and speed progression
+    // Mining info command - shows mining level requirements
     this.omegga.on("cmd:mininginfo", async (speaker: string) => {
-      this.omegga.whisper(speaker, `<color="0ff">=== Mining Requirements ===</color>`);
-      this.omegga.whisper(speaker, `<color="f0f">Copper: Available at any mining level</color>`);
-      this.omegga.whisper(speaker, `<color="ff0">Iron: Requires mining level 5</color>`);
-      this.omegga.whisper(speaker, `<color="f00">Gold: Requires mining level 10</color>`);
-      
-      this.omegga.whisper(speaker, `<color="0ff">=== Mining Speed Progression ===</color>`);
-      this.omegga.whisper(speaker, `<color="f0f">Level 0-4: Copper only (5 clicks)</color>`);
-      this.omegga.whisper(speaker, `<color="ff0">Level 5-9: Copper (3 clicks) | Iron (4 clicks)</color>`);
-      this.omegga.whisper(speaker, `<color="0ff">Level 10-14: Copper (2 clicks) | Iron (3 clicks) | Gold (4 clicks)</color>`);
-      this.omegga.whisper(speaker, `<color="f0f">Level 15-19: Copper (2 clicks) | Iron (2 clicks) | Gold (3 clicks)</color>`);
-      this.omegga.whisper(speaker, `<color="0f0">Level 20: Copper (1 click) | Iron (1 click) | Gold (2 clicks)</color>`);
-      
-      this.omegga.whisper(speaker, `<color="0ff">=== Progress Bar Example ===</color>`);
-      this.omegga.whisper(speaker, `<color="f0f">Progress: ${this.createProgressBar(3, 5)}</color>`);
-      this.omegga.whisper(speaker, `<color="f0f">Example: [<color="0f0">::::::::::::</color><color="888">--------</color>] (3/5 clicks)</color>`);
+      this.omegga.whisper(speaker, `<color="0ff">=== Mining Level Requirements ===</color>`);
+      this.omegga.whisper(speaker, `<color="fff">Copper: Any level</color>`);
+      this.omegga.whisper(speaker, `<color="0f0">Iron: Level 5+</color>`);
+      this.omegga.whisper(speaker, `<color="00f">Gold: Level 10+</color>`);
+      this.omegga.whisper(speaker, `<color="f0f">Obsidian: Level 15+</color>`);
+      this.omegga.whisper(speaker, `<color="f80">Diamond: Level 20+</color>`);
     });
 
-    // Fishing info command - shows fishing requirements and speed progression
+    // Fishing info command - shows fish rarity and level requirements
     this.omegga.on("cmd:fishinginfo", async (speaker: string) => {
-      this.omegga.whisper(speaker, `<color="0ff">=== Fishing System ===</color>`);
-      this.omegga.whisper(speaker, `<color="f0f">All fishing spots can catch any available fish type</color>`);
-      this.omegga.whisper(speaker, `<color="f0f">Fish availability is based on your fishing level</color>`);
-      this.omegga.whisper(speaker, `<color="f0f">Each fishing spot gives 5 attempts before going on cooldown</color>`);
-      
-      this.omegga.whisper(speaker, `<color="0ff">=== Fish Types & Rarity ===</color>`);
-      this.omegga.whisper(speaker, `<color="f0f">Gup: Common fish (any level)</color>`);
-      this.omegga.whisper(speaker, `<color="ff0">Cod: Uncommon fish (level 5+)</color>`);
-      this.omegga.whisper(speaker, `<color="f00">Shark: Rare fish (level 10+)</color>`);
-      
-      this.omegga.whisper(speaker, `<color="0ff">=== Fishing Speed Progression ===</color>`);
-      this.omegga.whisper(speaker, `<color="f0f">Level 0-4: 5 clicks</color>`);
-      this.omegga.whisper(speaker, `<color="ff0">Level 5-9: 3 clicks</color>`);
-      this.omegga.whisper(speaker, `<color="0ff">Level 10-14: 2 clicks</color>`);
-      this.omegga.whisper(speaker, `<color="f0f">Level 15-19: 2 clicks</color>`);
-      this.omegga.whisper(speaker, `<color="0f0">Level 20: 1 click</color>`);
-      
-      this.omegga.whisper(speaker, `<color="0ff">=== Progress Bar Example ===</color>`);
-      this.omegga.whisper(speaker, `<color="f0f">Progress: ${this.createProgressBar(3, 5)}</color>`);
-      this.omegga.whisper(speaker, `<color="f0f">Example: [<color="0f0">::::::::::::</color><color="888">--------</color>] (3/5 clicks)</color>`);
-      
-      this.omegga.whisper(speaker, `<color="0ff">=== Fish Catch Rates ===</color>`);
-      this.omegga.whisper(speaker, `<color="f0f">Level 0-4: 70% Gup, 25% Cod, 5% Shark</color>`);
-      this.omegga.whisper(speaker, `<color="ff0">Level 5-9: 65% Gup, 30% Cod, 5% Shark</color>`);
-      this.omegga.whisper(speaker, `<color="0ff">Level 10-14: 60% Gup, 30% Cod, 10% Shark</color>`);
-      this.omegga.whisper(speaker, `<color="f0f">Level 15-19: 50% Gup, 35% Cod, 15% Shark</color>`);
-      this.omegga.whisper(speaker, `<color="0f0">Level 20: 50% Gup, 35% Cod, 15% Shark</color>`);
+      this.omegga.whisper(speaker, `<color="0ff">=== Fish Rarity & Level Requirements ===</color>`);
+      this.omegga.whisper(speaker, `<color="fff">Gup: Common (any level)</color>`);
+      this.omegga.whisper(speaker, `<color="0f0">Cod: Uncommon (level 5+)</color>`);
+      this.omegga.whisper(speaker, `<color="00f">Shark: Rare (level 10+)</color>`);
+      this.omegga.whisper(speaker, `<color="f0f">Whale: Epic (level 15+)</color>`);
+      this.omegga.whisper(speaker, `<color="f80">Kraken: Legendary (level 20+)</color>`);
     });
 
-         
-
-      
-
-    
-
-     // Command to clear all RPG systems (for testing/resetting)
+    // Command to clear all RPG systems (for testing/resetting)
      this.omegga.on("cmd:rpgclearall", async (speaker: string) => {
               console.log(`[Hoopla RPG] RPG clear all command received from ${speaker}`);
       
@@ -2463,9 +3039,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
                  
                  if (result.success) {
                    // Success messages are now handled by middlePrint in triggerBrickAction
-                   if (trigger.type === 'sell') {
+                   if (trigger.type === 'sell' && !trigger.message?.includes('all_fish') && !trigger.message?.includes('all_ores')) {
                      console.log(`[Hoopla RPG] [${player.name}] successfully sold resource: ${result.reward?.item || 'unknown'}`);
-                   } else {
+                   } else if (trigger.type !== 'sell' && trigger.type !== 'bulk_sell') {
                      console.log(`[Hoopla RPG] [${player.name}] successfully collected resource: ${result.reward?.item || 'unknown'}`);
                    }
                  } else {
@@ -2571,7 +3147,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
                       return { 
           registeredCommands: [
-            "rpg", "rpginit", "rpghelp", "rpgclearall", "mininginfo", "fishinginfo"
+            "rpg", "rpginit", "rpghelp", "rpgclearall", "mininginfo", "fishinginfo", "rpgleaderboard"
           ] 
         };
   }
