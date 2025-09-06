@@ -631,10 +631,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         questgiver: {
           name: 'John Brickington',
           personality: 'A Gen Z fisherman who speaks in internet slang and brainrot terms while trying to sound professional about fish',
-          greeting: 'Yo no cap, you look like someone who could help me out fr fr. I\'m John Brickington, been fishing these waters for a minute now. You seem pretty based ngl.',
-          questExplanation: 'Okay so like, I\'m in a bit of a situation rn. I need exactly 5 Gups to get my fish business started and it\'s giving me anxiety fr. These are like the basic fish you know, but I need them to prove to my investors that I can actually catch stuff. Think you could help me out? I\'ll make sure you get paid well, no cap.',
-          reminderMessage: 'Oh bet, you\'re back! Still working on getting those 5 Gups for me? No rush but I need to show my investors something soon and I\'m lowkey stressing. Just make sure they\'re fresh ones okay? Nothing worse than showing up with stale fish to a business meeting, that would be so cringe.',
-          completionMessage: 'YOOO these are absolutely fire! Exactly what I needed, you\'re so real for this. My investors are gonna be so happy, this is gonna hit different. You did amazing work here, no cap. Here\'s your payment, and I threw in some extra fish bait as a thank you. You\'re literally the GOAT!'
+          greeting: 'Yo what\'s good fam! Names John Brickington and I\'m totally not sus at all. Just a regular fisherman trying to make it in this crazy world, you feel me? You look like someone who knows their way around a fishing rod ngl.',
+          questExplanation: 'So check it, I\'m starting this totally legit fish importing business right? My grandma left me this old fishing company and I need to get it running again. I need exactly 5 Gups to show my business partners I\'m serious about this whole operation. These little fishies are gonna be the foundation of my empire, no cap!',
+          reminderMessage: 'Yo yo yo, still need those 5 Gups fam! My business partners are getting kinda impatient and they\'re asking questions about the timeline. Just between us, they\'re kinda scary when they\'re mad so like, no pressure but also kinda pressure you know?',
+          completionMessage: 'YOOO these Gups are absolutely bussin! My business partners are gonna be so impressed with the quality. You\'re literally carrying my whole operation right now! This is just the beginning though, I got bigger plans brewing if you\'re interested in making some real money.'
         }
       },
       {
@@ -658,10 +658,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         questgiver: {
           name: 'John Brickington',
           personality: 'A Gen Z fisherman who speaks in internet slang and brainrot terms while trying to sound professional about fish',
-          greeting: 'Yo what\'s good! You\'re back and I\'m so hyped fr. The Gups you got me were absolutely bussin and my investors are going crazy over them. You\'re actually the real deal, no cap.',
-          questExplanation: 'So here\'s the thing, my business is popping off right now and I need to level up my fish game. I need exactly 5 Cod this time because my clients are asking for something a bit more premium. These Cod are like the next tier up from Gups you know? Think you could help me out again? I\'ll make sure you get paid even better this time, you\'re basically my business partner now.',
-          reminderMessage: 'Oh bet, you\'re back! Still working on getting those 5 Cod for me? No rush but my clients are getting impatient and I\'m lowkey stressing. Just make sure they\'re fresh ones okay? You know the drill by now, you\'re basically a pro at this point.',
-          completionMessage: 'YOOO these Cod are absolutely insane! You\'re literally carrying my business right now, no cap. My clients are gonna be so happy, this is gonna hit different. You did amazing work here, you\'re actually the GOAT of fishing. Here\'s your payment, and I threw in some extra fish bait as a thank you!'
+          greeting: 'Yooo my guy is back! Bro those Gups were straight fire, my business partners were so impressed they want to expand operations immediately. You\'ve got some serious fishing skills, I might have to poach you from whatever job you got going on lmao.',
+          questExplanation: 'Okay so like, plot twist time! My business partners want to expand into the premium fish market. They\'re asking for exactly 5 Cod this time because apparently they have some very specific clients with very specific tastes. I\'m not gonna lie, these clients sound kinda weird but they pay BANK so who am I to judge right?',
+          reminderMessage: 'Yo still need those 5 Cod! My business partners keep asking me about the timeline and honestly they\'re starting to give me weird vibes. They keep talking about some project called Operation Fishbowl but like, probably just a code name for the business expansion right? Right?',
+          completionMessage: 'Yooo these Cod are perfect! My business partners just called and they\'re absolutely losing their minds over the quality. They said something about the specimens being ideal for the next phase of Operation Fishbowl. I\'m sure it\'s just fancy business talk though, right?'
         }
       },
       {
@@ -685,10 +685,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         questgiver: {
           name: 'John Brickington',
           personality: 'A Gen Z fisherman who speaks in internet slang and brainrot terms while trying to sound professional about fish',
-          greeting: 'Yo what\'s good! You\'re back and I\'m so hyped fr. The Cod you got me were absolutely bussin and my clients are going crazy over them. You\'re actually the real deal, no cap.',
-          questExplanation: 'So here\'s the thing, my business is popping off right now and I need to level up my fish game even more. I need exactly 5 Sharks this time because my clients are asking for something way more premium. These Sharks are like the next tier up from Cod you know? Think you could help me out again? I\'ll make sure you get paid even better this time, you\'re basically my business partner now.',
-          reminderMessage: 'Oh bet, you\'re back! Still working on getting those 5 Sharks for me? No rush but my clients are getting impatient and I\'m lowkey stressing. Just make sure they\'re fresh ones okay? You know the drill by now, you\'re basically a pro at this point.',
-          completionMessage: 'YOOO these Sharks are absolutely insane! You\'re literally carrying my business right now, no cap. My clients are gonna be so happy, this is gonna hit different. You did amazing work here, you\'re actually the GOAT of fishing. Here\'s your payment, and I threw in some extra fish bait as a thank you!'
+          greeting: 'Yooo you\'re back! Okay so like, don\'t freak out but I think my business partners might not be who they said they were. They keep asking really weird questions about the fish and they have these fancy lab coats and clipboards and stuff. But hey, money is money right?',
+          questExplanation: 'Okay so like, things are getting kinda sus but hear me out. My business partners want 5 Sharks now and they keep talking about genetic sequencing and marine biology research. I asked them about it and they just laughed nervously and changed the subject. But like, they\'re paying me triple now so I\'m not asking too many questions you feel me?',
+          reminderMessage: 'Yo still need those 5 Sharks! My business partners showed up at my house yesterday with a whole van full of scientific equipment. They said they need to test the fish for purity levels or something. I\'m starting to think this isn\'t a normal fish business but the money is too good to stop now.',
+          completionMessage: 'Yooo these Sharks are perfect! My business partners just took them away in some kind of refrigerated truck with government plates. They said something about Phase 3 of the marine enhancement project. I\'m getting really worried but they just doubled my payment again so like, I guess we\'re in too deep now?'
         }
       },
       {
@@ -712,10 +712,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         questgiver: {
           name: 'John Brickington',
           personality: 'A Gen Z fisherman who speaks in internet slang and brainrot terms while trying to sound professional about fish',
-          greeting: 'Yo what\'s good! You\'re back and I\'m so hyped fr. The Sharks you got me were absolutely bussin and my clients are going crazy over them. You\'re actually the real deal, no cap.',
-          questExplanation: 'So here\'s the thing, my business is popping off right now and I need to level up my fish game even more. I need exactly 5 Whales this time because my clients are asking for something way more premium. These Whales are like the next tier up from Sharks you know? Think you could help me out again? I\'ll make sure you get paid even better this time, you\'re basically my business partner now.',
-          reminderMessage: 'Oh bet, you\'re back! Still working on getting those 5 Whales for me? No rush but my clients are getting impatient and I\'m lowkey stressing. Just make sure they\'re fresh ones okay? You know the drill by now, you\'re basically a pro at this point.',
-          completionMessage: 'YOOO these Whales are absolutely insane! You\'re literally carrying my business right now, no cap. My clients are gonna be so happy, this is gonna hit different. You did amazing work here, you\'re actually the GOAT of fishing. Here\'s your payment, and I threw in some extra fish bait as a thank you!'
+          greeting: 'Yooo okay so like, I need to tell you something kinda crazy. I found out my business partners aren\'t actually business partners. They\'re government scientists working on some top secret marine life project. But plot twist, they\'re paying me so much money I don\'t even care anymore lmao.',
+          questExplanation: 'Okay so like, the government scientists need 5 Whales for the final phase of their experiment. They told me they\'re trying to create some kind of super intelligent marine ecosystem or something wild like that. I\'m pretty sure we\'re helping them build an underwater army but honestly the money is so good I\'ve stopped asking questions.',
+          reminderMessage: 'Yo still need those 5 Whales! The government scientists keep calling me every hour asking about the timeline. They said something about needing to synchronize the Whales with the other marine specimens for the final phase. I\'m starting to think we might be in over our heads but like, YOLO right?',
+          completionMessage: 'Yooo these Whales are incredible! The government scientists just arrived with a whole convoy of trucks and helicopters. They said the Whales are the key to completing their marine intelligence network. I think we just helped them create some kind of underwater surveillance system but hey, we\'re rich now!'
         }
       },
       {
@@ -739,10 +739,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         questgiver: {
           name: 'John Brickington',
           personality: 'A Gen Z fisherman who speaks in internet slang and brainrot terms while trying to sound professional about fish',
-          greeting: 'Yo what\'s good! You\'re back and I\'m so hyped fr. The Whales you got me were absolutely bussin and my clients are going crazy over them. You\'re actually the real deal, no cap.',
-          questExplanation: 'So here\'s the thing, my business is popping off right now and I need to level up my fish game even more. I need exactly 1 Kraken this time because my clients are asking for something way more premium. This Kraken is like the ultimate tier you know? Think you could help me out again? I\'ll make sure you get paid even better this time, you\'re basically my business partner now.',
-          reminderMessage: 'Oh bet, you\'re back! Still working on getting that 1 Kraken for me? No rush but my clients are getting impatient and I\'m lowkey stressing. Just make sure it\'s fresh okay? You know the drill by now, you\'re basically a pro at this point.',
-          completionMessage: 'YOOO this Kraken is absolutely insane! You\'re literally carrying my business right now, no cap. My clients are gonna be so happy, this is gonna hit different. You did amazing work here, you\'re actually the GOAT of fishing. Here\'s your payment, and I threw in some extra fish bait as a thank you!'
+          greeting: 'Yooo my guy! Okay so like, I have a confession to make. I\'ve been lying to you this whole time. I\'m not actually John Brickington the fisherman. I\'m Agent John Brickington, undercover marine biologist for a top secret government project. Sorry for the deception but I needed your help!',
+          questExplanation: 'Okay so like, the truth is we\'ve been building a massive underwater communication network using marine life as biological transmitters. The Kraken is the final piece we need to complete Operation Fishbowl. It\'s gonna be the central hub that controls all the other fish we\'ve collected. Pretty wild right? You\'ve been helping save the world this whole time!',
+          reminderMessage: 'Yo still need that Kraken! My team at the lab is getting antsy because we need to activate the network before the enemy discovers what we\'re doing. The fate of underwater national security literally depends on this one Kraken. No pressure though, just the future of marine warfare lmao.',
+          completionMessage: 'YOOO WE DID IT! Operation Fishbowl is complete! The Kraken just connected to our network and we now have full underwater surveillance coverage of the entire ocean. You literally just helped us create the world\'s first biological internet! My real name is Agent Brickington and you\'ve been recruited as an honorary marine intelligence operative. Welcome to the team, no cap!'
         }
       }
     ];
