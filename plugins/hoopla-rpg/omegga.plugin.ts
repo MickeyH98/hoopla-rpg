@@ -3570,6 +3570,15 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         itemCounts[properItemName] = (itemCounts[properItemName] || 0) + 1;
       }
       
+      // Log full inventory to console with grouped items
+      console.log(`[Hoopla RPG] Player ${player.name} full inventory:`);
+      if (Object.keys(itemCounts).length === 0) {
+        console.log(`[Hoopla RPG] Inventory is empty`);
+      } else {
+        Object.entries(itemCounts).forEach(([item, count]) => {
+          console.log(`[Hoopla RPG] ${item} x${count}`);
+        });
+      }
       
       // Format inventory display with items in brackets, rarity colors, and count - ultra compact
       let inventoryDisplay = "Empty";
