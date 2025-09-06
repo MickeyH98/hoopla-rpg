@@ -147,8 +147,32 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     };
   }
 
+  // Memory cache for level 30 players to prevent data corruption
+  private level30PlayerCache: Map<string, RPGPlayer> = new Map();
+
+  // Clear cache for a specific player (useful for debugging)
+  clearPlayerCache(playerId: string): void {
+    this.level30PlayerCache.delete(playerId);
+    console.log(`[Hoopla RPG] DEBUG: Cleared cache for player ${playerId}`);
+  }
+
   async getPlayerData({ id }: PlayerId): Promise<RPGPlayer> {
-    return (await this.store.get("rpg_" + id)) ?? this.defaultPlayer();
+    // Check if this is a level 30 player in our cache
+    if (this.level30PlayerCache.has(id)) {
+      const cachedPlayer = this.level30PlayerCache.get(id)!;
+      console.log(`[Hoopla RPG] DEBUG: Using cached level 30 data for player ${id}, level: ${cachedPlayer.level}`);
+      return cachedPlayer;
+    }
+
+    const player = (await this.store.get("rpg_" + id)) ?? this.defaultPlayer();
+    
+    // If this player is level 30, cache them to prevent data corruption
+    if (player.level === 30) {
+      this.level30PlayerCache.set(id, { ...player });
+      console.log(`[Hoopla RPG] DEBUG: Cached level 30 player ${id} to prevent data corruption`);
+    }
+    
+    return player;
   }
 
   // Ensure player username is stored in database
@@ -466,6 +490,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     }
     
     await this.store.set("rpg_" + id, { ...baseData, ...safeData });
+    
+    // Update cache for level 30 players
+    if (safeData.level === 30) {
+      this.level30PlayerCache.set(id, { ...baseData, ...safeData });
+      console.log(`[Hoopla RPG] DEBUG: Updated cache for level 30 player ${id}`);
+    }
   }
 
   async addExperience({ id }: PlayerId, amount: number): Promise<{ leveledUp: boolean; newLevel: number }> {
@@ -519,10 +549,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         player.maxHealth += 10;
         player.health = player.maxHealth;
         
-        // CRITICAL: Save the data multiple times to ensure persistence
+        // CRITICAL: Save the data and update cache immediately
         await this.setPlayerData({ id }, player);
-        await this.setPlayerData({ id }, player); // Double save
-        await this.setPlayerData({ id }, player); // Triple save
+        
+        // Force update the cache to prevent reload issues
+        this.level30PlayerCache.set(id, { ...player });
+        console.log(`[Hoopla RPG] DEBUG: Force updated cache for ${playerName} to level 30`);
         
         // Verify the save worked
         const verifyPlayer = await this.getPlayerData({ id });
@@ -532,6 +564,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           verifyPlayer.maxHealth = player.maxHealth;
           verifyPlayer.health = player.health;
           await this.setPlayerData({ id }, verifyPlayer);
+          this.level30PlayerCache.set(id, { ...verifyPlayer });
         }
         
         // Announce the level up
@@ -598,8 +631,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         
         // CRITICAL: Extra save for level 30 players to prevent data loss
         await this.setPlayerData({ id }, player);
-        await this.setPlayerData({ id }, player); // Double save
-        console.log(`[Hoopla RPG] DEBUG: Extra save completed for ${playerName} at level 30`);
+        
+        // Force update the cache to prevent reload issues
+        this.level30PlayerCache.set(id, { ...player });
+        console.log(`[Hoopla RPG] DEBUG: Extra save and cache update completed for ${playerName} at level 30`);
       }
     } else if (oldLevel === 30 && newLevel === 30) {
       // Debug logging for level 30 players gaining XP
