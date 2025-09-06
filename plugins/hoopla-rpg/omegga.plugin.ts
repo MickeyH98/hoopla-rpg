@@ -543,6 +543,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       };
     }
     
+    // Always add XP for score tracking, even at max level
+    player.experience += amount;
+    
     // ADDITIONAL SAFEGUARD: Check if player has enough XP to be level 30 but is showing as level 29
     // This might indicate data corruption or race conditions
     if (oldLevel === 29) {
@@ -593,9 +596,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         };
       }
     }
-    
-    // Always add XP for score tracking, even at max level
-    player.experience += amount;
     
     // Calculate new level using proper scaling system
     let newLevel = oldLevel;
