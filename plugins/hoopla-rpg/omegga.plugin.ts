@@ -820,8 +820,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           const itemCount = player.inventory?.filter(item => 
             item.toLowerCase() === requirement.target.toLowerCase()
           ).length || 0;
-          console.log(`[Hoopla RPG] DEBUG: Item requirement check - looking for: "${requirement.target}", found: ${itemCount}, needed: ${requirement.amount}`);
-          console.log(`[Hoopla RPG] DEBUG: Player inventory:`, player.inventory || []); // Show full inventory
           requirementMet = itemCount >= requirement.amount;
           break;
           
@@ -2276,7 +2274,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       nodeName = quest ? quest.questgiver.name.toLowerCase() : 'questgiver';
     }
     
-    // console.log(`[Hoopla RPG] ${playerName} is ${interactionType}${nodeName ? ` ${nodeName}` : ''}`); // Temporarily muted for quest debugging
+    console.log(`[Hoopla RPG] ${playerName} is ${interactionType}${nodeName ? ` ${nodeName}` : ''}`);
 
     // Track node discovery for the player
     await this.addNodeToCollection({ id: playerId }, triggerId);
@@ -3127,14 +3125,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           
           const quest = this.getQuestById(questId);
           
-          // Debug logging for quest state
-          console.log(`[Hoopla RPG] DEBUG: Quest interaction - Player: ${playerId}, QuestId: ${questId}, Quest: ${quest ? quest.name : 'null'}`);
-          console.log(`[Hoopla RPG] DEBUG: Player quest state:`, questPlayer.quests || {});
-          if (questPlayer.quests) {
-            for (const [qId, qState] of Object.entries(questPlayer.quests)) {
-              console.log(`[Hoopla RPG] DEBUG: Quest ${qId}: status=${qState.status}, completedRequirements=${qState.completedRequirements?.length || 0}`);
-            }
-          }
           
           if (!quest) {
             const noQuestMessage = "Quest not found!";
@@ -3146,7 +3136,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           const currentQuest = questPlayer.quests?.[questId];
           if (!currentQuest) {
             // First time starting this quest - Step 1: Show greeting
-            console.log(`[Hoopla RPG] DEBUG: Starting new quest ${questId} - Step 1: Greeting`);
             if (!questPlayer.quests) {
               questPlayer.quests = {};
             }
@@ -3168,7 +3157,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           switch (currentQuest.interactionStep) {
             case 1:
               // Step 2: Show quest explanation
-              console.log(`[Hoopla RPG] DEBUG: Quest ${questId} - Step 2: Quest explanation`);
               currentQuest.interactionStep = 2;
               await this.setPlayerData({ id: playerId }, questPlayer);
               
@@ -3178,7 +3166,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
               
             case 2:
               // Step 3: Check requirements and attempt completion
-              console.log(`[Hoopla RPG] DEBUG: Quest ${questId} - Step 3: Check requirements`);
               const requirementCheck = this.checkQuestRequirements(questPlayer, quest);
               
               if (requirementCheck.completed) {
@@ -3207,7 +3194,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
               
             case 3:
               // Step 4: Check for next quest or show completion message
-              console.log(`[Hoopla RPG] DEBUG: Quest ${questId} - Step 4: Check for next quest`);
               const nextQuestId = this.getNextQuestInChain(questId);
               if (nextQuestId) {
                 const nextQuest = this.getQuestById(nextQuestId);
@@ -3235,7 +3221,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
               
             case 4:
               // Step 5: Start the next quest in the chain
-              console.log(`[Hoopla RPG] DEBUG: Quest ${questId} - Step 5: Starting next quest`);
               const nextQuestId2 = this.getNextQuestInChain(questId);
               if (nextQuestId2) {
                 const nextQuest = this.getQuestById(nextQuestId2);
