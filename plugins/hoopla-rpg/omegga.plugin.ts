@@ -4385,6 +4385,43 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
        }
     });
 
+    // Command to show all team names and indexes
+    this.omegga.on("cmd:rpgteams", async (speaker: string) => {
+      const player = this.omegga.getPlayer(speaker);
+      if (!player) return;
+
+      try {
+        const minigames = await this.omegga.getMinigames();
+        console.log(`[Hoopla RPG] Team information requested by ${speaker}:`);
+        
+        if (minigames.length === 0) {
+          this.omegga.whisper(speaker, `<color="f80">No minigames found. Teams may not be available.</color>`);
+          console.log(`[Hoopla RPG] No minigames found for team information`);
+          return;
+        }
+
+        // Log all team information to console
+        minigames.forEach((minigame, minigameIndex) => {
+          console.log(`[Hoopla RPG] Minigame ${minigameIndex}: ${minigame.name} (${minigame.ruleset})`);
+          if (minigame.teams && minigame.teams.length > 0) {
+            minigame.teams.forEach((team, teamIndex) => {
+              console.log(`[Hoopla RPG]   Team ${teamIndex}: "${team.name}" (${team.team}) - Color: [${team.color.join(', ')}] - Members: ${team.members.length}`);
+            });
+          } else {
+            console.log(`[Hoopla RPG]   No teams found in this minigame`);
+          }
+        });
+
+        // Send summary to player
+        const totalTeams = minigames.reduce((sum, mg) => sum + (mg.teams?.length || 0), 0);
+        this.omegga.whisper(speaker, `<color="0f0">Found ${minigames.length} minigame(s) with ${totalTeams} total teams. Check console for detailed team information.</color>`);
+        
+      } catch (error) {
+        console.error(`[Hoopla RPG] Error getting team information:`, error);
+        this.omegga.whisper(speaker, `<color="f00">Failed to get team information: ${error.message}</color>`);
+      }
+    });
+
     // Command to assign level 30 players to Fly team
     this.omegga.on("cmd:rpgassignlevel30roles", async (speaker: string) => {
       const player = this.omegga.getPlayer(speaker);
@@ -4443,7 +4480,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
                       return { 
           registeredCommands: [
-            "rpg", "rpginit", "rpghelp", "rpgclearall", "rpgcleartriggers", "rpgclearquests", "rpgresetquests", "rpgassignlevel30roles", "mininginfo", "fishinginfo", "rpgleaderboard"
+            "rpg", "rpginit", "rpghelp", "rpgclearall", "rpgcleartriggers", "rpgclearquests", "rpgresetquests", "rpgassignlevel30roles", "rpgteams", "mininginfo", "fishinginfo", "rpgleaderboard"
           ] 
         };
   }
