@@ -491,6 +491,17 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
       this.omegga.broadcast(`<color="ff0">Congratulations! ${playerName} has reached level ${newLevel}!</color>`);
       console.log(`[Hoopla RPG] ${playerName} leveled up from ${oldLevel} to ${newLevel}!`);
+      
+      // Assign special roles for level 30 players
+      if (newLevel === 30) {
+        try {
+          await this.omegga.writeln(`BRICKADIA.PLAYER.ADD_ROLE ${id} "Flyer"`);
+          await this.omegga.writeln(`BRICKADIA.PLAYER.ADD_ROLE ${id} "MINIGAME LEAVER"`);
+          console.log(`[Hoopla RPG] Assigned "Flyer" and "MINIGAME LEAVER" roles to ${playerName} for reaching level 30!`);
+        } catch (error) {
+          console.error(`[Hoopla RPG] Error assigning roles to ${playerName}:`, error);
+        }
+      }
     }
     
     await this.setPlayerData({ id }, player);
@@ -4094,6 +4105,44 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
        }
     });
 
+    // Command to assign level 30 roles to all existing level 30 players
+    this.omegga.on("cmd:rpgassignlevel30roles", async (speaker: string) => {
+      const player = this.omegga.getPlayer(speaker);
+      if (!player) return;
+
+      this.omegga.whisper(speaker, `<color="0ff">Assigning level 30 roles to all eligible players...</color>`);
+
+      try {
+        const allPlayers = this.omegga.getPlayers();
+        let assignedCount = 0;
+        let errorCount = 0;
+
+        for (const onlinePlayer of allPlayers) {
+          try {
+            const playerData = await this.getPlayerData({ id: onlinePlayer.id });
+            if (playerData && playerData.level === 30) {
+              await this.omegga.writeln(`BRICKADIA.PLAYER.ADD_ROLE ${onlinePlayer.id} "Flyer"`);
+              await this.omegga.writeln(`BRICKADIA.PLAYER.ADD_ROLE ${onlinePlayer.id} "MINIGAME LEAVER"`);
+              assignedCount++;
+              console.log(`[Hoopla RPG] Assigned level 30 roles to ${onlinePlayer.name}`);
+            }
+          } catch (error) {
+            console.error(`[Hoopla RPG] Error assigning roles to ${onlinePlayer.name}:`, error);
+            errorCount++;
+          }
+        }
+
+        this.omegga.whisper(speaker, `<color="0f0">Successfully assigned roles to ${assignedCount} level 30 players!</color>`);
+        if (errorCount > 0) {
+          this.omegga.whisper(speaker, `<color="f80">${errorCount} players had errors during role assignment.</color>`);
+        }
+         
+       } catch (error) {
+         console.error(`[Hoopla RPG] Error assigning level 30 roles:`, error);
+         this.omegga.whisper(speaker, `<color="f00">Failed to assign level 30 roles: ${error.message}</color>`);
+       }
+    });
+
 
 
 
@@ -4112,7 +4161,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
                       return { 
           registeredCommands: [
-            "rpg", "rpginit", "rpghelp", "rpgclearall", "rpgcleartriggers", "rpgclearquests", "rpgresetquests", "mininginfo", "fishinginfo", "rpgleaderboard"
+            "rpg", "rpginit", "rpghelp", "rpgclearall", "rpgcleartriggers", "rpgclearquests", "rpgresetquests", "rpgassignlevel30roles", "mininginfo", "fishinginfo", "rpgleaderboard"
           ] 
         };
   }
