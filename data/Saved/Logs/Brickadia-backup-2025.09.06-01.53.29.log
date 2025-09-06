@@ -1,0 +1,2015 @@
+﻿Hello!
+Brickadia Release-EA1 (PC-Shipping-CL11829), Engine 3fa5724a474a
+Public release build: 1
+Demo build: 0
+Log file open, 09/05/25 08:19:17
+LogPakFile: Initializing PakPlatformFile
+LogIoDispatcher: Display: Reading toc: ../../../Brickadia/Content/Paks/global.utoc
+LogIoDispatcher: Display: Toc loaded : ../../../Brickadia/Content/Paks/global.utoc, Id=ffffffffffffffff, Order=0, EntryCount=1, SignatureHash=0000000000000000000000000000000000000000
+LogIoDispatcher: Display: Mounting container '../../../Brickadia/Content/Paks/global.utoc' in location slot 0
+LogPakFile: Display: Initialized I/O dispatcher file backend. Mounted the global container: ../../../Brickadia/Content/Paks/global.utoc
+LogPakFile: Display: Found Pak file ../../../Brickadia/Content/Paks/Brickadia-LinuxServer.pak attempting to mount.
+LogPakFile: Display: Mounting pak file ../../../Brickadia/Content/Paks/Brickadia-LinuxServer.pak.
+LogIoDispatcher: Display: Reading toc: ../../../Brickadia/Content/Paks/Brickadia-LinuxServer.utoc
+LogIoDispatcher: Display: Toc loaded : ../../../Brickadia/Content/Paks/Brickadia-LinuxServer.utoc, Id=6d9af7ce3c435e73, Order=4, EntryCount=8426, SignatureHash=0000000000000000000000000000000000000000
+LogIoDispatcher: Display: Mounting container '../../../Brickadia/Content/Paks/Brickadia-LinuxServer.utoc' in location slot 0
+LogPakFile: Display: Mounted IoStore container "../../../Brickadia/Content/Paks/Brickadia-LinuxServer.utoc"
+LogFilePackageStore: Mounting container: Id=6d9af7ce3c435e73, Order=4, NumPackages=8425
+LogPakFile: Display: Mounted Pak file '../../../Brickadia/Content/Paks/Brickadia-LinuxServer.pak', mount point: '../../../'
+LogIris: FNetObjectFactoryRegistry::UnregisterFactory is unregistering factory: None name: NetActorFactory id: 0
+LogIris: FNetObjectFactoryRegistry::UnregisterFactory is unregistering factory: None name: NetSubObjectFactory id: 1
+LogICUInternationalization: OS requested locale 'c' is not supported. Using the OS requested language of 'en-US-POSIX' as the locale.
+LogICUInternationalization: ICU TimeZone Detection - Raw Offset: -5:00, Platform Override: ''
+LogInit: Session CrashGUID >====================================================
+         Session CrashGUID >   UECC-Linux-F0C3B3924FE7495A9EEFCC4491153F49
+         Session CrashGUID >====================================================
+LogConfig: Using compiled CustomConfig PublicRelease
+LogAssetRegistry: Premade AssetRegistry loaded from '../../../Brickadia/AssetRegistry.bin'
+LogPluginManager: Mounting Project plugin CommonLoadingScreen
+LogPluginManager: Mounting Project plugin RiderLink
+LogPluginManager: Mounting Project plugin ImGui
+LogPluginManager: Mounting Project plugin LivePP2
+LogPluginManager: Mounting Project plugin LoadingScreen
+LogPluginManager: Mounting Engine plugin Paper2D
+LogPluginManager: Mounting Engine plugin ACLPlugin
+LogPluginManager: Mounting Engine plugin AnimationData
+LogPluginManager: Mounting Engine plugin ControlRigModules
+LogPluginManager: Mounting Engine plugin ControlRigSpline
+LogPluginManager: Mounting Engine plugin ControlRig
+LogPluginManager: Mounting Engine plugin VoxelCore
+LogPluginManager: Mounting Engine plugin CameraShakePreviewer
+LogPluginManager: Mounting Engine plugin EngineCameras
+LogPluginManager: Mounting Engine plugin GameplayCameras
+LogPluginManager: Mounting Engine plugin PluginUtils
+LogPluginManager: Mounting Engine plugin RenderDocPlugin
+LogPluginManager: Mounting Engine plugin AssetSearch
+LogPluginManager: Mounting Engine plugin BlueprintHeaderView
+LogPluginManager: Mounting Engine plugin BlueprintMaterialTextureNodes
+LogPluginManager: Mounting Engine plugin ColorGrading
+LogPluginManager: Mounting Engine plugin ContentBrowserAssetDataSource
+LogPluginManager: Mounting Engine plugin DataValidation
+LogPluginManager: Mounting Engine plugin EditorScriptingUtilities
+LogPluginManager: Mounting Engine plugin LightMixer
+LogPluginManager: Mounting Engine plugin ObjectMixer
+LogPluginManager: Mounting Engine plugin UMGWidgetPreview
+LogPluginManager: Mounting Engine plugin WorldPartitionHLODUtilities
+LogPluginManager: Mounting Engine plugin EnhancedInput
+LogPluginManager: Mounting Engine plugin GPULightmass
+LogPluginManager: Mounting Engine plugin Iris
+LogPluginManager: Mounting Engine plugin Landmass
+LogPluginManager: Mounting Engine plugin PlatformCrypto
+LogPluginManager: Mounting Engine plugin StructUtils
+LogPluginManager: Mounting Engine plugin StudioTelemetry
+LogPluginManager: Mounting Engine plugin Water
+LogPluginManager: Mounting Engine plugin Niagara
+LogPluginManager: Mounting Engine plugin LevelSequenceEditor
+LogPluginManager: Mounting Engine plugin SequencerScripting
+LogPluginManager: Mounting Engine plugin TemplateSequence
+LogPluginManager: Mounting Engine plugin EOSShared
+LogPluginManager: Mounting Engine plugin OnlineBase
+LogPluginManager: Mounting Engine plugin OnlineServicesEOSGS
+LogPluginManager: Mounting Engine plugin OnlineServices
+LogPluginManager: Mounting Engine plugin OnlineSubsystemUtils
+LogPluginManager: Mounting Engine plugin OnlineSubsystem
+LogPluginManager: Mounting Engine plugin SocketSubsystemEOS
+LogPluginManager: Mounting Engine plugin AudioSynesthesia
+LogPluginManager: Mounting Engine plugin AudioWidgets
+LogPluginManager: Mounting Engine plugin CableComponent
+LogPluginManager: Mounting Engine plugin SQLiteCore
+LogPluginManager: Mounting Engine plugin ExampleDeviceProfileSelector
+LogPluginManager: Mounting Engine plugin GeometryProcessing
+LogPluginManager: Mounting Engine plugin LinuxDeviceProfileSelector
+LogPluginManager: Mounting Engine plugin Metasound
+LogPluginManager: Mounting Engine plugin ProceduralMeshComponent
+LogPluginManager: Mounting Engine plugin PropertyAccessEditor
+LogPluginManager: Mounting Engine plugin RigVM
+LogPluginManager: Mounting Engine plugin Spatialization
+LogPluginManager: Mounting Engine plugin StateTree
+LogPluginManager: Mounting Engine plugin WaveTable
+LogVoxel: Display: VOXEL_DEBUG=0
+LogEOSSDK: Initializing EOSSDK Version:1.17.0-41373641
+LogInit: Using libcurl 8.4.0
+LogInit:  - built for x86_64-unknown-linux-gnu
+LogInit:  - supports SSL with OpenSSL/1.1.1t
+LogInit:  - supports HTTP deflate (compression) using libz 1.3
+LogInit:  - other features:
+LogInit:      CURL_VERSION_SSL
+LogInit:      CURL_VERSION_LIBZ
+LogInit:      CURL_VERSION_IPV6
+LogInit:      CURL_VERSION_ASYNCHDNS
+LogInit:      CURL_VERSION_LARGEFILE
+LogInit:      CURL_VERSION_TLSAUTH_SRP
+LogInit:      CURL_VERSION_HTTP2
+LogInit:  CurlRequestOptions (configurable via config and command line):
+LogInit:  - bVerifyPeer = true  - Libcurl will verify peer certificate
+LogInit:  - bUseHttpProxy = false  - Libcurl will NOT use HTTP proxy
+LogInit:  - bDontReuseConnections = false  - Libcurl will reuse connections
+LogInit:  - MaxHostConnections = 16  - Libcurl will limit the number of connections to a host
+LogInit:  - LocalHostAddr = Default
+LogInit:  - BufferSize = 65536
+LogInit: CreateHttpThread using FCurlMultiPollEventLoopHttpThread
+LogInit: Creating http thread with maximum 2147483647 concurrent requests
+LogOnline: Warning: OSS: TryLoadSubsystemAndSetDefault: LoadSubsystemModule([NULL]) failed
+LogOnline: OSS: Failed to load any Online Subsystem Modules
+LogInit: ExecutableName: BrickadiaServer-Linux-Shipping
+LogInit: Build: UE5-CL-0
+LogInit: Platform=LinuxServer
+LogInit: MachineId=-000003e8
+LogInit: DeviceId=
+LogInit: Engine Version: 5.5.4-0+UE5
+LogInit: Compatible Engine Version: 5.5.0-0+UE5
+LogInit: Net CL: 0
+LogInit: OS: Ubuntu 20.04.4 LTS (6.6.87.2-microsoft-standard-WSL2), CPU: Intel(R) Core(TM) i9-14900K, GPU: UnknownVendor
+LogInit: Compiled (64-bit): Aug  3 2025 21:04:17
+LogInit: Architecture: x64
+LogInit: Compiled with Clang: 18.1.0rc (github.com/llvm/llvm-project 461274b81d8641eab64d494accddc81d7db8a09e)
+LogInit: Build Configuration: Shipping
+LogInit: Branch Name: UE5
+LogInit: Command Line:  -World="DedicatedWorld1" -NotInstalled -log -UserDir="/mnt/c/Users/micke/myServer/data" -Token="p9NFJ7nZf4vYBg9ovZgzh7QfMKkLJ5plgq/6REGVAQPX3xLT1gqRMMzlM8FhSTQ/tAYyxMmCBaWUFuvjOTkb9w==" -port="7777"
+LogInit: Allocator: Binned2
+LogInit: Installed Engine Build: 0
+LogInit: This binary is optimized with LTO: no, PGO: no, instrumented for PGO data collection: no
+LogConfig: Branch 'Lightmass' had been unloaded. Reloading on-demand took 0.29ms
+LogConfig: Branch 'CommonLoadingScreen' had been unloaded. Reloading on-demand took 0.04ms
+LogConfig: Branch 'RiderLink' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'ImGui' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'LivePP2' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'LoadingScreen' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'ACLPlugin' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'AnimationData' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'ControlRigModules' had been unloaded. Reloading on-demand took 0.04ms
+LogConfig: Branch 'ControlRigSpline' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'VoxelCore' had been unloaded. Reloading on-demand took 0.04ms
+LogConfig: Branch 'CameraShakePreviewer' had been unloaded. Reloading on-demand took 0.04ms
+LogConfig: Branch 'EngineCameras' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'PluginUtils' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'RenderDocPlugin' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'AssetSearch' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'BlueprintHeaderView' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'BlueprintMaterialTextureNodes' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'ColorGrading' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'ContentBrowserAssetDataSource' had been unloaded. Reloading on-demand took 0.04ms
+LogConfig: Branch 'DataValidation' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'LightMixer' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'ObjectMixer' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'UMGWidgetPreview' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'WorldPartitionHLODUtilities' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'GPULightmass' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'Iris' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'Landmass' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'PlatformCrypto' had been unloaded. Reloading on-demand took 0.04ms
+LogConfig: Branch 'StructUtils' had been unloaded. Reloading on-demand took 0.04ms
+LogConfig: Branch 'StudioTelemetry' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'Water' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'LevelSequenceEditor' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'SequencerScripting' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'TemplateSequence' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'EOSShared' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'OnlineBase' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'OnlineServicesEOSGS' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'OnlineServices' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'OnlineSubsystemUtils' had been unloaded. Reloading on-demand took 0.04ms
+LogConfig: Branch 'OnlineSubsystem' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'SocketSubsystemEOS' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'AudioSynesthesia' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'AudioWidgets' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'CableComponent' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'SQLiteCore' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'ExampleDeviceProfileSelector' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'GeometryProcessing' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'LinuxDeviceProfileSelector' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'ProceduralMeshComponent' had been unloaded. Reloading on-demand took 0.04ms
+LogConfig: Branch 'PropertyAccessEditor' had been unloaded. Reloading on-demand took 0.04ms
+LogConfig: Branch 'Spatialization' had been unloaded. Reloading on-demand took 0.03ms
+LogConfig: Branch 'WaveTable' had been unloaded. Reloading on-demand took 0.04ms
+LogInit: Presizing for max 2097152 objects, including 1 objects not considered by GC.
+LogStreaming: Display: AsyncLoading2 - Created: Event Driven Loader: false, Async Loading Thread: true, Async Post Load: true
+LogStreaming: Display: AsyncLoading2 - Initialized
+LogInit: Object subsystem initialized
+LogConfig: Changed CVar net.SubObjects.DefaultUseSubObjectReplicationList=1
+LogConfig: Changed CVar net.IsPushModelEnabled=1
+LogConfig: Changed CVar net.Iris.PushModelMode=1
+LogConfig: Changed CVar net.Iris.UseIrisReplication=1
+LogConfig: Changed CVar Slate.ToolTipWrapWidth=800
+LogConfig: Changed CVar Slate.TooltipSummonDelay=0.25
+LogConfig: Changed CVar con.MinLogVerbosity=7
+LogConfig: Changed CVar tick.AnimationDelaysEndGroup=0
+LogConfig: Changed CVar p.NetEnableListenServerSmoothing=1
+LogConfig: Changed CVar Net.ForceConnectionViewerPriority=0
+LogConfig: Changed CVar tick.AllowBatchedTicks=1
+LogConfig: Changed CVar a.ParallelBlendPhysics=0
+LogConfig: Changed CVar r.setres=1280x720
+LogConfig: Changed CVar fx.NiagaraAllowRuntimeScalabilityChanges=1
+LogConfig: Changed CVar r.Shadow.DetectVertexShaderLayerAtRuntime=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar net.SubObjects.DefaultUseSubObjectReplicationList=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar net.IsPushModelEnabled=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar net.Iris.PushModelMode=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar net.Iris.UseIrisReplication=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar Slate.ToolTipWrapWidth=800
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar Slate.TooltipSummonDelay=0.25
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar con.MinLogVerbosity=7
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar tick.AnimationDelaysEndGroup=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar p.NetEnableListenServerSmoothing=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar Net.ForceConnectionViewerPriority=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar tick.AllowBatchedTicks=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar a.ParallelBlendPhysics=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Unchanged CVar r.setres=1280x720
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar fx.NiagaraAllowRuntimeScalabilityChanges=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.DetectVertexShaderLayerAtRuntime=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Applying CVar settings from Section [/Script/Engine.RendererSettings] File [Engine]
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.GPUCrashDebugging=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Mobile.DisableVertexFog=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DiscardUnusedQuality=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.AllowStaticLighting=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.GenerateMeshDistanceFields=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DistanceFields.SupportEvenIfHardwareRayTracingSupported=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SeparateTranslucency=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.CustomDepth=3
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DefaultFeature.AutoExposure=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.EarlyZPass=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DBuffer=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.ClearSceneMethod=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.VelocityOutputPass=2
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SkinCache.CompileShaders=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Mobile.EnableStaticAndCSMShadowReceivers=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Mobile.EnableMovableLightCSMShaderCulling=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Mobile.AllowDistanceFieldShadows=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.GPUSkin.Limit2BoneInfluences=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Tonemapper.Sharpen=0.5
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.CalcLocalPlayerCachedLODDistanceFactor=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SSR.Temporal=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.RayTracing=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.RayTracing.EnableOnDemand=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.RayTracing.SkyLight=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.RayTracing.Shadows=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.HardwareRayTracing.LightingMode=2
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.Reflections.HardwareRayTracing.Reorder=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.RHICmdWidth=16
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.UseClusteredDeferredShading=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.TranslucentLightingVolume=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.MinScreenRadiusForLights=0.015
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.AmbientOcclusion.Method=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.GTAO.FilterWidth=2
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.GTAO.ThicknessBlend=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.GTAO.FalloffEnd=90
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.GTAO.UseNormals=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.TexelsPerPixelSpotlight=1.2
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.TexelsPerPixelPointlight=0.6
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.MinResolution=64
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.FadeResolution=128
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.MaxNumPointShadowCacheUpdatesPerFrame=4
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.MaxNumSpotShadowCacheUpdatesPerFrame=8
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.TemporalAASamples=4
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.TemporalAACurrentFrameWeight=0.2
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Nanite.ProjectEnabled=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Nanite=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.Virtual.ForceOnlyVirtualShadowMaps=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.Virtual.DistantLightMode=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.Virtual.UseFarShadowCulling=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.ReflectionMethod=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DistanceFieldAO=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SkyLight.RealTimeReflectionCapture.TimeSlice.SkyCloudCubeFacePerFrame=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.LumenScene.DirectLighting=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.TranslucencyReflections.FrontLayer.EnableForProject=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.TranslucencyVolume.Enable=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.ScreenProbeGather.MaxRayIntensity=2
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.ScreenProbeGather.Temporal.MaxFramesAccumulated=32
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.ScreenProbeGather.TemporalFilterProbes=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.ScreenProbeGather.ShortRangeAO.NumRaysOverride=16
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.Reflections.MaxRayIntensity=4
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.Reflections.SmoothBias=0.3
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.OIT.SortedPixels=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.OIT.SortedPixels.Enable=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.OIT.SortedPixels.PassType=3
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SkipDrawOnPSOPrecaching=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.PSOPrecache.GlobalShaders=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.PSOPrecache.Components=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.PSOPrecache.Resources=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar t.TargetFrameTimeThreshold=10
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.AllowHDR=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.HDR.Display.MidLuminance=26
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DefaultFeature.AutoExposure.ExtendDefaultLuminanceRange=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.GPUScene.ParallelUpdate=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar AllowAsyncRenderThreadUpdatesEditorGameWorld=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar FullSizeUnitGraph=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.NumBufferedOcclusionQueries=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.ApproximateOcclusionQueries=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.RHICmd.ParallelTranslate.CombineSingleAndParallel=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shaders.RemoveUnusedInterpolators=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Applying CVar settings from Section [/Script/Engine.RendererOverrideSettings] File [Engine]
+[2025.09.05-12.19.17:466][  0]LogConfig: Applying CVar settings from Section [/Script/Engine.StreamingSettings] File [Engine]
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar s.MinBulkDataSizeForAsyncLoading=131072
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar s.AsyncLoadingThreadEnabled=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar s.EventDrivenLoaderEnabled=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar s.WarnIfTimeLimitExceeded=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar s.TimeLimitExceededMultiplier=1.5
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar s.TimeLimitExceededMinTime=0.005
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar s.UseBackgroundLevelStreaming=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar s.PriorityAsyncLoadingExtraTime=15.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar s.LevelStreamingActorsUpdateTimeLimit=5.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar s.PriorityLevelStreamingActorsUpdateExtraTime=5.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar s.LevelStreamingComponentsRegistrationGranularity=10
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar s.UnregisterComponentsTimeLimit=1.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar s.LevelStreamingComponentsUnregistrationGranularity=5
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar s.FlushStreamingOnExit=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Applying CVar settings from Section [/Script/Engine.GarbageCollectionSettings] File [Engine]
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar gc.MaxObjectsNotConsideredByGC=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar gc.FlushStreamingOnGC=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar gc.NumRetriesBeforeForcingGC=10
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar gc.AllowParallelGC=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar gc.TimeBetweenPurgingPendingKillObjects=30.55
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar gc.MaxObjectsInEditor=25165824
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar gc.IncrementalBeginDestroyEnabled=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar gc.CreateGCClusters=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar gc.MinGCClusterSize=5
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar gc.AssetClustreringEnabled=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar gc.ActorClusteringEnabled=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar gc.VerifyUObjectsAreNotFGCObjects=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar gc.GarbageEliminationEnabled=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Applying CVar settings from Section [/Script/Engine.NetworkSettings] File [Engine]
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar net.PacketOrderMaxMissingPackets=31
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar net.PacketOrderMaxCachedPackets=512
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar net.EnableDetailedScopeCounters=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar net.VerifyMagicHeader=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar net.MaxChannelSize=8
+[2025.09.05-12.19.17:466][  0]LogConfig: Applying CVar settings from Section [ViewDistanceQuality@3] File [Scalability]
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SkeletalMeshLODBias=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.ViewDistanceScale=1.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.LightMaxDrawDistanceScale=1.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.StaticMeshLODDistanceScale=1.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Applying CVar settings from Section [AntiAliasingQuality@3] File [Scalability]
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.FXAA.Quality=4
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.TemporalAA.Quality=2
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.TSR.History.R11G11B10=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.TSR.History.ScreenPercentage=200
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.TSR.History.UpdateQuality=3
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.TSR.ShadingRejection.Flickering=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.TSR.RejectionAntiAliasingQuality=2
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.TSR.ReprojectionField=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.TSR.Resurrection=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Applying CVar settings from Section [ShadowQuality@3] File [Scalability]
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.LightFunctionQuality=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.ShadowQuality=5
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.CSM.MaxCascades=4
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.MaxResolution=2048
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.MaxCSMResolution=4096
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.RadiusThreshold=0.01
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.DistanceScale=1.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.CSM.TransitionScale=1.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.PreShadowResolutionFactor=1.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DistanceFieldShadowing=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.VolumetricFog=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.VolumetricFog.GridPixelSize=8
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.VolumetricFog.GridSizeZ=128
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.VolumetricFog.HistoryMissSupersampleCount=4
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.CapsuleShadows=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.Virtual.MaxPhysicalPages=4096
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.Virtual.ResolutionLodBiasDirectional=-1.5
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.Virtual.ResolutionLodBiasDirectionalMoving=-1.5
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.Virtual.ResolutionLodBiasLocal=0.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.Virtual.ResolutionLodBiasLocalMoving=1.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.Virtual.SMRT.RayCountDirectional=8
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.Virtual.SMRT.SamplesPerRayDirectional=4
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.Virtual.SMRT.RayCountLocal=8
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.Virtual.SMRT.SamplesPerRayLocal=4
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.ContactShadows=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Shadow.FilterMethod=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Applying CVar settings from Section [GlobalIlluminationQuality@3] File [Scalability]
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.AOQuality=2
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.DiffuseIndirect.Allow=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.LumenScene.Radiosity.ProbeSpacing=4
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.LumenScene.Radiosity.HemisphereProbeResolution=4
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.TraceMeshSDFs.Allow=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.ScreenProbeGather.RadianceCache.ProbeResolution=32
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.ScreenProbeGather.RadianceCache.NumProbesToTraceBudget=300
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.ScreenProbeGather.DownsampleFactor=16
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.ScreenProbeGather.TracingOctahedronResolution=8
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.ScreenProbeGather.IrradianceFormat=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.ScreenProbeGather.StochasticInterpolation=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.ScreenProbeGather.FullResolutionJitterWidth=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.ScreenProbeGather.TwoSidedFoliageBackfaceDiffuse=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.ScreenProbeGather.ScreenTraces.HZBTraversal.FullResDepth=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.ScreenProbeGather.ShortRangeAO.HardwareRayTracing=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.TranslucencyVolume.GridPixelSize=32
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.TranslucencyVolume.TraceFromVolume=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.TranslucencyVolume.TracingOctahedronResolution=3
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.TranslucencyVolume.RadianceCache.ProbeResolution=8
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.TranslucencyVolume.RadianceCache.NumProbesToTraceBudget=200
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SkyLight.RealTimeReflectionCapture=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SSGI.Quality=3
+[2025.09.05-12.19.17:466][  0]LogConfig: Applying CVar settings from Section [ReflectionQuality@3] File [Scalability]
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SSR.Quality=3
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SSR.HalfResSceneColor=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.Reflections.Allow=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.Reflections.DownsampleFactor=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.Reflections.MaxRoughnessToTraceForFoliage=0.4
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.ScreenProbeGather.MaxRoughnessToEvaluateRoughSpecularForFoliage=0.8
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.Reflections.ScreenSpaceReconstruction.TonemapMode=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.Reflections.ScreenSpaceReconstruction.MinWeight=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.TranslucencyReflections.FrontLayer.Allow=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Lumen.TranslucencyReflections.FrontLayer.Enable=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Applying CVar settings from Section [PostProcessQuality@3] File [Scalability]
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.MotionBlurQuality=4
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.MotionBlur.HalfResGather=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.AmbientOcclusionMipLevelFactor=0.4
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.AmbientOcclusionMaxQuality=100
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.AmbientOcclusionLevels=-1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.AmbientOcclusionRadiusScale=1.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DepthOfFieldQuality=2
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.RenderTargetPoolMin=400
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.LensFlareQuality=2
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SceneColorFringeQuality=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.EyeAdaptationQuality=2
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.BloomQuality=5
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Bloom.ScreenPercentage=50.000
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.FastBlurThreshold=100
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Upscale.Quality=3
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.LightShaftQuality=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Filter.SizeScale=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Tonemapper.Quality=5
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DOF.Gather.ResolutionDivisor=2         ; lower gathering resolution
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DOF.Gather.AccumulatorQuality=1        ; higher gathering accumulator quality
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DOF.Gather.PostfilterMethod=1          ; Median3x3 postfilering method
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DOF.Gather.EnableBokehSettings=0       ; no bokeh simulation when gathering
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DOF.Gather.RingCount=4                 ; medium number of samples when gathering
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DOF.Scatter.ForegroundCompositing=1    ; additive foreground scattering
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DOF.Scatter.BackgroundCompositing=2    ; additive background scattering
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DOF.Scatter.EnableBokehSettings=1      ; bokeh simulation when scattering
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DOF.Scatter.MaxSpriteRatio=0.1         ; only a maximum of 10% of scattered bokeh
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DOF.Recombine.Quality=1                ; cheap slight out of focus
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DOF.Recombine.EnableBokehSettings=0    ; no bokeh simulation on slight out of focus
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DOF.TemporalAAQuality=1                ; more stable temporal accumulation
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DOF.Kernel.MaxForegroundRadius=0.025
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DOF.Kernel.MaxBackgroundRadius=0.025
+[2025.09.05-12.19.17:466][  0]LogConfig: Applying CVar settings from Section [TextureQuality@3] File [Scalability]
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Streaming.MipBias=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Streaming.AmortizeCPUToGPUCopy=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Streaming.MaxNumTexturesToStreamPerFrame=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Streaming.Boost=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.MaxAnisotropy=8
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.VT.MaxAnisotropy=8
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Streaming.LimitPoolSizeToVRAM=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Streaming.PoolSize=1000
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Streaming.MaxEffectiveScreenSize=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Applying CVar settings from Section [EffectsQuality@3] File [Scalability]
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.TranslucencyLightingVolumeDim=64
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.RefractionQuality=2
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SceneColorFormat=4
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.DetailMode=3
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.TranslucencyVolumeBlur=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.MaterialQualityLevel=1 ; High quality
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SSS.Scale=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SSS.SampleSet=2
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SSS.Quality=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SSS.HalfRes=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.EmitterSpawnRateScale=1.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.ParticleLightQuality=2
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SkyAtmosphere.AerialPerspectiveLUT.FastApplyOnOpaque=1 ; Always have FastSkyLUT 1 in this case to avoid wrong sky
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SkyAtmosphere.AerialPerspectiveLUT.SampleCountMaxPerSlice=4
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SkyAtmosphere.AerialPerspectiveLUT.DepthResolution=16.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SkyAtmosphere.FastSkyLUT=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SkyAtmosphere.FastSkyLUT.SampleCountMin=4.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SkyAtmosphere.FastSkyLUT.SampleCountMax=128.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SkyAtmosphere.SampleCountMin=4.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SkyAtmosphere.SampleCountMax=128.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SkyAtmosphere.TransmittanceLUT.UseSmallFormat=0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SkyAtmosphere.TransmittanceLUT.SampleCount=10.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.SkyAtmosphere.MultiScatteringLUT.SampleCount=15.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar fx.Niagara.QualityLevel=3
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.Refraction.OffsetQuality=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.HeterogeneousVolumes.DownsampleFactor=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.HeterogeneousVolumes.MaxStepCount=512
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.HeterogeneousVolumes.Shadows.Resolution=512
+[2025.09.05-12.19.17:466][  0]LogConfig: Applying CVar settings from Section [FoliageQuality@3] File [Scalability]
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar foliage.DensityScale=1.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar grass.DensityScale=1.0
+[2025.09.05-12.19.17:466][  0]LogConfig: Applying CVar settings from Section [ShadingQuality@3] File [Scalability]
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.HairStrands.SkyLighting.IntegrationType=2
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.HairStrands.SkyAO.SampleCount=4
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.HairStrands.Visibility.MSAA.SamplePerPixel=4
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar r.AnisotropicMaterials=1
+[2025.09.05-12.19.17:466][  0]LogConfig: Applying CVar settings from Section [LandscapeQuality@3] File [Scalability]
+[2025.09.05-12.19.17:466][  0]LogLinux: Selected Device Profile: [LinuxServer]
+[2025.09.05-12.19.17:466][  0]LogInit: Selected Device Profile: [LinuxServer]
+[2025.09.05-12.19.17:466][  0]LogHAL: Display: Platform has ~ 32 GB [33525166080 / 34359738368 / 32], which maps to Largest [LargestMinGB=32, LargerMinGB=12, DefaultMinGB=8, SmallerMinGB=6, SmallestMinGB=0)
+[2025.09.05-12.19.17:466][  0]LogDeviceProfileManager: Going up to parent DeviceProfile [Linux]
+[2025.09.05-12.19.17:466][  0]LogDeviceProfileManager: Going up to parent DeviceProfile []
+[2025.09.05-12.19.17:466][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[UI.SlateSDFText.RasterizationMode:Bitmap -> Msdf]]
+[2025.09.05-12.19.17:466][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[UI.SlateSDFText.ResolutionLevel:2 -> 2]]
+[2025.09.05-12.19.17:466][  0]LogConfig: Applying CVar settings from Section [ConsoleVariables] File [Engine]
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar memory.MemoryPressureCriticalThresholdMB=512
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar p.ClientAuthorityThresholdOnBaseChange=150
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar p.MaxFallingCorrectionLeash=250
+[2025.09.05-12.19.17:466][  0]LogConfig: Changed CVar g.TimeoutForBlockOnRenderFence=60000
+[2025.09.05-12.19.17:466][  0]LogInit: Unix hardware info:
+[2025.09.05-12.19.17:466][  0]LogInit:  - we are the first instance of this executable
+[2025.09.05-12.19.17:466][  0]LogInit:  - this process' id (pid) is 13293, parent process' id (ppid) is 13271
+[2025.09.05-12.19.17:466][  0]LogInit:  - we are not running under debugger
+[2025.09.05-12.19.17:466][  0]LogInit:  - we're logged in locally
+[2025.09.05-12.19.17:466][  0]LogInit:  - we're running without rendering
+[2025.09.05-12.19.17:466][  0]LogInit:  - CPU: GenuineIntel 'Intel(R) Core(TM) i9-14900K' (signature: 0xB0671)
+[2025.09.05-12.19.17:466][  0]LogInit:  - Number of physical cores available for the process: 16
+[2025.09.05-12.19.17:466][  0]LogInit:  - Number of logical cores available for the process: 32
+[2025.09.05-12.19.17:466][  0]LogInit:  - GPU Brand Info: UnknownVendor
+[2025.09.05-12.19.17:466][  0]LogInit:  - Memory allocator used: Binned2
+[2025.09.05-12.19.17:466][  0]LogInit:  - This is an internal build.
+[2025.09.05-12.19.17:466][  0]LogCore: Benchmarking clocks:
+[2025.09.05-12.19.17:466][  0]LogCore:  - CLOCK_MONOTONIC (id=1) can sustain 58116500 (58117K, 58M) calls per second without zero deltas.
+[2025.09.05-12.19.17:466][  0]LogCore:  - CLOCK_MONOTONIC_RAW (id=4) can sustain 57197470 (57197K, 57M) calls per second without zero deltas.
+[2025.09.05-12.19.17:466][  0]LogCore:  - CLOCK_MONOTONIC_COARSE (id=6) can sustain 225827104 (225827K, 226M) calls per second with 99.999885% zero deltas.
+[2025.09.05-12.19.17:466][  0]LogCore: Selected clock_id 1 (CLOCK_MONOTONIC) since it is the fastest support clock without zero deltas.
+[2025.09.05-12.19.17:466][  0]LogInit: Unix-specific commandline switches:
+[2025.09.05-12.19.17:466][  0]LogInit:  -ansimalloc - use malloc()/free() from libc (useful for tools like valgrind and electric fence)
+[2025.09.05-12.19.17:466][  0]LogInit:  -jemalloc - use jemalloc for all memory allocation
+[2025.09.05-12.19.17:466][  0]LogInit:  -binnedmalloc - use binned malloc  for all memory allocation
+[2025.09.05-12.19.17:466][  0]LogInit:  -filemapcachesize=NUMBER - set the size for case-sensitive file mapping cache
+[2025.09.05-12.19.17:466][  0]LogInit:  -useksm - uses kernel same-page mapping (KSM) for mapped memory (OFF)
+[2025.09.05-12.19.17:466][  0]LogInit:  -ksmmergeall - marks all mmap'd memory pages suitable for KSM (OFF)
+[2025.09.05-12.19.17:466][  0]LogInit:  -preloadmodulesymbols - Loads the main module symbols file into memory (OFF)
+[2025.09.05-12.19.17:466][  0]LogInit:  -sigdfl=SIGNAL - Allows a specific signal to be set to its default handler rather then ignoring the signal
+[2025.09.05-12.19.17:466][  0]LogInit:  -crashhandlerstacksize - Allows setting crash handler stack sizes (204800)
+[2025.09.05-12.19.17:466][  0]LogInit:  -noexclusivelockonwrite - disables marking files created by the engine as exclusive locked while the engine has them opened
+[2025.09.05-12.19.17:466][  0]LogInit:  -httpproxy=ADDRESS:PORT - redirects HTTP requests to a proxy (only supported if compiled with libcurl)
+[2025.09.05-12.19.17:466][  0]LogInit:  -reuseconn - allow libcurl to reuse HTTP connections (only matters if compiled with libcurl)
+[2025.09.05-12.19.17:466][  0]LogInit:  -virtmemkb=NUMBER - sets process virtual memory (address space) limit (overrides VirtualMemoryLimitInKB value from .ini)
+[2025.09.05-12.19.17:466][  0]LogInit:  -allowsyscallfilterfile=PATH_TO_FILE - sets up a system call filter allow list. any invalid syscall in this list *will* cause a crash
+[2025.09.05-12.19.17:466][  0]LogInit:  - Physical RAM available (not considering process quota): 32 GB (31972 MB, 32739420 KB, 33525166080 bytes)
+[2025.09.05-12.19.17:466][  0]LogInit:  - VirtualMemoryAllocator pools will grow at scale 1
+[2025.09.05-12.19.17:466][  0]LogInit:  - MemoryRangeDecommit() will will evict the memory from RAM (re-run with -novmapoolevict to change)
+[2025.09.05-12.19.17:466][  0]LogInit:  - PageSize 4096
+[2025.09.05-12.19.17:466][  0]LogInit:  - BinnedPageSize 65536
+[2025.09.05-12.19.17:466][  0]LogInit: Physics initialised using underlying interface: PhysX
+[2025.09.05-12.19.17:468][  0]LogInit: Using OS detected language (en-US-POSIX).
+[2025.09.05-12.19.17:468][  0]LogInit: Using OS detected locale (en-US-POSIX).
+[2025.09.05-12.19.17:468][  0]LogTextLocalizationManager: No specific localization for 'en-US-POSIX' exists, so 'en' will be used for the language.
+[2025.09.05-12.19.17:476][  0]LogInit: Initializing FReadOnlyCVARCache
+[2025.09.05-12.19.17:481][  0]LogRendererCore: Ray tracing is disabled. Reason: not supported by current RHI.
+[2025.09.05-12.19.17:483][  0]LogInit: Using OS detected language (en-US-POSIX).
+[2025.09.05-12.19.17:483][  0]LogInit: Using OS detected locale (en-US-POSIX).
+[2025.09.05-12.19.17:483][  0]LogTextLocalizationManager: No specific localization for 'en-US-POSIX' exists, so 'en' will be used for the language.
+[2025.09.05-12.19.17:483][  0]LogAssetRegistry: FAssetRegistry took 0.0000 seconds to start up
+[2025.09.05-12.19.17:541][  0]LogStreaming: Display: FlushAsyncLoading(1): 1 QueuedPackages, 0 AsyncPackages
+[2025.09.05-12.19.17:542][  0]LogFilePackageStore: Updated: NewPackages=8425, OldPackages=0, TotalPackages=8426
+[2025.09.05-12.19.17:542][  0]LogLinux: Selected Device Profile: [LinuxServer]
+[2025.09.05-12.19.17:543][  0]LogDeviceProfileManager: Active device profile: [0x7d2e9de78ff8][0x7d2ebdef4060 66] LinuxServer
+[2025.09.05-12.19.17:545][  0]LogConfig: Branch 'EditorPerProjectUserSettings' had been unloaded. Reloading on-demand took 0.35ms
+[2025.09.05-12.19.17:554][  0]LogConfig: Branch 'GameplayTagsList' had been unloaded. Reloading on-demand took 0.29ms
+[2025.09.05-12.19.17:555][  0]LogConfig: Branch 'Mass' had been unloaded. Reloading on-demand took 0.26ms
+[2025.09.05-12.19.17:556][  0]LogConfig: Applying CVar settings from Section [/Script/VoxelCore.VoxelDeveloperSettings] File [Engine]
+[2025.09.05-12.19.17:556][  0]LogConfig: Applying CVar settings from Section [/Script/VoxelCore.VoxelShaderHooksSettings] File [Engine]
+[2025.09.05-12.19.17:557][  0]LogMetaSound: Display: MetaSound Page Target Initialized to 'Default'
+[2025.09.05-12.19.17:564][  0]LogConfig: Branch 'EditorBrickadiaAuthUserSettings' had been unloaded. Reloading on-demand took 0.30ms
+[2025.09.05-12.19.17:570][  0]LogStreaming: Warning: LoadPackage: SkipPackage: /Engine/EngineFonts/Roboto (0x6DC6E590848F5708) - The package to load does not exist on disk or in the loader
+[2025.09.05-12.19.17:570][  0]LogStreaming: Warning: LoadPackage: SkipPackage: /Game/UI/Shared/Fonts/GlacialIndifference/GlacialIndifference (0xF7BD004975117542) - The package to load does not exist on disk or in the loader
+[2025.09.05-12.19.17:574][  0]LogPackageLocalizationCache: Processed 25 localized package path(s) for 1 prioritized culture(s) in 0.000027 seconds
+[2025.09.05-12.19.17:584][  0]LogAudio: Display: Registering Engine Module Parameter Interfaces...
+[2025.09.05-12.19.17:585][  0]LogMetaSound: MetaSound Engine Initialized
+[2025.09.05-12.19.17:585][  0]LogBrickadia: Gathering outdated backups.
+[2025.09.05-12.19.17:585][  0]LogBrickadia: Found 0 files and 0 folders to delete from backups.
+[2025.09.05-12.19.17:589][  0]LogUObjectArray: 26130 objects as part of root set at end of initial load.
+[2025.09.05-12.19.17:589][  0]LogUObjectArray: 221 objects are not in the root set, but can never be destroyed because they are in the DisregardForGC set.
+[2025.09.05-12.19.17:589][  0]LogUObjectArray: CloseDisregardForGC: 26130/26130 objects in disregard for GC pool
+[2025.09.05-12.19.17:592][  0]LogStreaming: Display: AsyncLoading2 - NotifyRegistrationComplete: Registered 25350 public script object entries (663.99 KB)
+[2025.09.05-12.19.17:592][  0]LogStreaming: Display: AsyncLoading2 - Thread Started: true, IsInitialLoad: false
+[2025.09.05-12.19.17:593][  0]LogEngine: Initializing Engine...
+[2025.09.05-12.19.17:593][  0]LogStats: UGameplayTagsManager::InitializeManager -  0.000 s
+[2025.09.05-12.19.17:598][  0]LogAssetManager: Display: Ignoring PrimaryAssetType BrickAudioDescriptor - Conflicts with MusicDescriptor - Asset: MUS_Shimmer
+[2025.09.05-12.19.17:602][  0]LogNetVersion: Set ProjectVersion to 1.0.0.0. Version Checksum will be recalculated on next use.
+[2025.09.05-12.19.17:602][  0]LogInit: Texture streaming: Disabled
+[2025.09.05-12.19.17:627][  0]LogNiagara: UAV Float16 is not supported, compressed GPU emitters will be disabled.
+[2025.09.05-12.19.17:630][  0]LogGameSettings: Initializing game settings subsystem...
+[2025.09.05-12.19.17:632][  0]LogGameSettings: Found server settings class BRServerSettings_Color.
+[2025.09.05-12.19.17:632][  0]LogGameSettings: Creating instance to load config of game settings class BP_GameSettings_Audio_C.
+[2025.09.05-12.19.17:632][  0]LogGameSettings: Creating instance to load config of game settings class BP_GameSettings_Controls_C.
+[2025.09.05-12.19.17:632][  0]LogGameSettings: Caching default action and axis details...
+[2025.09.05-12.19.17:632][  0]LogGameSettings:   Got 153 action bindings and 31 axis bindings.
+[2025.09.05-12.19.17:632][  0]LogGameSettings:   Grouped 135 action details and 14 axis details.
+[2025.09.05-12.19.17:632][  0]LogGameSettings: Generating derived action and axis bindings...
+[2025.09.05-12.19.17:632][  0]LogGameSettings:   Got 135 action details and 14 axis details for defaults.
+[2025.09.05-12.19.17:632][  0]LogGameSettings:   Got 0 action details and 0 axis details for overrides.
+[2025.09.05-12.19.17:632][  0]LogGameSettings:   Created 145 action bindings and 31 axis bindings.
+[2025.09.05-12.19.17:632][  0]LogGameSettings: Creating instance to load config of game settings class BP_GameSettings_General_C.
+[2025.09.05-12.19.17:632][  0]LogGameSettings: Creating instance to load config of game settings class BP_GameSettings_Misc_C.
+[2025.09.05-12.19.17:632][  0]LogGameSettings: Found server settings class BP_ServerSettings_General_C.
+[2025.09.05-12.19.17:632][  0]LogGameSettings: Found server settings class BP_ServerSettingsAutoSave_C.
+[2025.09.05-12.19.17:632][  0]LogGameSettings: Took 0.001959 seconds to load all game settings.
+[2025.09.05-12.19.17:632][  0]LogPresets: Preset subsystem initializing.
+[2025.09.05-12.19.17:632][  0]LogChatCommands: Starting sync load for 46 preset descriptors.
+[2025.09.05-12.19.17:632][  0]LogPresets: Finished loading preset descriptors.
+[2025.09.05-12.19.17:668][  0]LogChatCommands: 46 types of preset were found.
+[2025.09.05-12.19.17:669][  0]LogBRAuthSubsystem: Initializing Auth Subsystem.
+[2025.09.05-12.19.17:669][  0]LogBRAuthSubsystem: Found token on command line. Sending check login request.
+[2025.09.05-12.19.17:669][  0]LogBRAuthSubsystem: Changing AuthState from Invalid to PendingManualCheckLogin.
+[2025.09.05-12.19.17:670][  0]LogInit: Display: Game Engine Initialized.
+[2025.09.05-12.19.17:670][  0]LogIris: FPolymorphicNetSerializerScriptStructCache::InitForType Updated CachedTypedIds for base RootMotionSource, NumCachedTypeIDs: 6
+[2025.09.05-12.19.17:670][  0]LogInit: Display: Starting Game.
+[2025.09.05-12.19.17:670][  0]LogGlobalStatus: operator() Started Browse: "/Game/Maps/ServerEntry/ServerEntry?Name=Player"
+[2025.09.05-12.19.17:670][  0]LogNet: Browse: /Game/Maps/ServerEntry/ServerEntry?Name=Player
+[2025.09.05-12.19.17:670][  0]LogLoad: LoadMap: /Game/Maps/ServerEntry/ServerEntry?Name=Player
+[2025.09.05-12.19.17:670][  0]LogWorld: BeginTearingDown for /Temp/Untitled_0
+[2025.09.05-12.19.17:670][  0]LogWorld: UWorld::CleanupWorld for Untitled, bSessionEnded=true, bCleanupResources=true
+[2025.09.05-12.19.17:671][  0]LogUObjectHash: Compacting FUObjectHashTables data took   0.57ms
+[2025.09.05-12.19.17:672][  0]LogUObjectHash: Compacting FUObjectHashTables data took   0.16ms
+[2025.09.05-12.19.17:694][  0]LogLoad: Game class is 'BP_MainMenuMode_C'
+[2025.09.05-12.19.17:695][  0]LogSockets: Warning: Unable to load SocketSubsystem module EOS
+[2025.09.05-12.19.17:695][  0]LogNetCore: DDoS detection status: detection enabled: 0 analytics enabled: 0
+[2025.09.05-12.19.17:695][  0]LogIris: Display: Iris ReplicationSystem[0]: ReplicationSystem_2147482441 (0x0x7d2e683c2e60) is created
+[2025.09.05-12.19.17:695][  0]LogIris: NetRefHandleManager: Configured with MaxActiveObjectCount=65536, MaxInternalNetRefIndex: 65536, Grow=16384, NetChunkedArray: Init=65536|Highest=65535
+[2025.09.05-12.19.17:697][  0]LogIrisDirtyTracker: FDirtyNetObjectTracker::Init[0]: CurrentMaxSize: 65536
+[2025.09.05-12.19.17:698][  0]LogIrisGroup: Created GroupHandle named: NotReplicated Index: 1 Id: 1
+[2025.09.05-12.19.17:698][  0]LogIrisGroup: Created GroupHandle named: NetGroupOwner Index: 2 Id: 2
+[2025.09.05-12.19.17:698][  0]LogIrisGroup: Created GroupHandle named: NetGroupReplay Index: 3 Id: 3
+[2025.09.05-12.19.17:698][  0]LogPushModel: PushModel HandleCreation is now disabled
+[2025.09.05-12.19.17:698][  0]LogNet: InitBase GameNetDriver (NetDriverDefinition GameNetDriver) using replication model Iris
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric NumConnections
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric Connections
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric InPacketsClientAvg
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric InPacketsClientMax
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric NumberOfActiveActors
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric NumberOfFullyDormantActors
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric NumClientUpdateLevelVisibility
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric NumReplicateActorCallsPerConAvg
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric OutKBytes
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric OutNetGUIDKBytesSec
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric OutPacketsClientAvg
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric OutPacketsClientMax
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric SatConnections
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric ServerReplicateActorTimeMS
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric OutgoingReliableMessageQueueMaxSize
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric IncomingReliableMessageQueueMaxSize
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric InPacketsPerFrame
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric OutPacketsPerFrame
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric InLostPacketsFoundPerFrame
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric OutLostPacketsFoundPerFrame
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric Ping
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric InRate
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric OutRate
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric AverageJitterInMS
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric InPacketsLost
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric OutPacketsLost
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric NumConnections
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric AvgPing
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric InBunches
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric InPackets
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric InPacketsClientPerSecondAvg
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric InPacketsClientPerSecondMax
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric InPacketsClientPerSecondMin
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric InPacketsLost
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric InRate
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric InRateClientAvg
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric InRateClientMax
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric InRateClientMin
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric MaxPacketOverhead
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric MaxPing
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric MinPing
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric NumClients
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric Connections
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric OutBunches
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric OutPackets
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric OutPacketsClientPerSecondAvg
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric OutPacketsClientPerSecondMax
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric OutPacketsClientPerSecondMin
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric OutPacketsLost
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric OutRate
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric OutRateClientAvg
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric OutRateClientMax
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric OutRateClientMin
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric PingBucketInt0
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric PingBucketInt1
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric PingBucketInt2
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric PingBucketInt3
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric PingBucketInt4
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric PingBucketInt5
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric PingBucketInt6
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric PingBucketInt7
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric ClosedConnectionsDueToReliableBufferOverflow
+[2025.09.05-12.19.17:698][  0]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric AddedConnections
+[2025.09.05-12.19.17:698][  0]LogInit: BSD IPv4/6: Socket queue. Rx: 425984 (config 524288) Tx: 425984 (config 524288)
+[2025.09.05-12.19.17:698][  0]LogNet: Created socket for bind address: 0.0.0.0:7777
+[2025.09.05-12.19.17:698][  0]PacketHandlerLog: Loaded PacketHandler component: Engine.EngineHandlerComponentFactory (StatelessConnectHandlerComponent)
+[2025.09.05-12.19.17:698][  0]LogNet: Name:GameNetDriver Def:GameNetDriver IpNetDriver_2147482443 IpNetDriver listening on port 7777
+[2025.09.05-12.19.17:698][  0]LogWorld: Bringing World /Game/Maps/ServerEntry/ServerEntry.ServerEntry up for play (max tick rate 60) at 2025.09.05-08.19.17
+[2025.09.05-12.19.17:698][  0]LogGameSettings: Creating instance to load config of server settings class BRServerSettings_Color.
+[2025.09.05-12.19.17:699][  0]LogGameSettings: Creating instance to load config of server settings class BP_ServerSettings_General_C.
+[2025.09.05-12.19.17:699][  0]LogGameSettings: Creating instance to load config of server settings class BP_ServerSettingsAutoSave_C.
+[2025.09.05-12.19.17:699][  0]LogWorld: Bringing up level for play took: 0.001012
+[2025.09.05-12.19.17:700][  0]LogLoad: Took 0.029397 seconds to LoadMap(/Game/Maps/ServerEntry/ServerEntry)
+[2025.09.05-12.19.17:700][  0]LogGlobalStatus: operator() Load map complete /Game/Maps/ServerEntry/ServerEntry
+[2025.09.05-12.19.17:704][  0]LogInit: Display: Engine is initialized. Leaving FEngineLoop::Init()
+[2025.09.05-12.19.17:704][  0]LogLoad: (Engine Initialization) Total time: 0.46 seconds
+[2025.09.05-12.19.17:989][ 16]LogBRAuthSubsystem: Received check login response, parsing.
+[2025.09.05-12.19.17:989][ 16]LogBRAuthSubsystem: Received user data successfully.
+[2025.09.05-12.19.17:989][ 16]LogBRAuthSubsystem: Saving login data.
+[2025.09.05-12.19.17:996][ 16]LogBRAuthSubsystem: Warning: Skipping Online Service EOS auto login.
+[2025.09.05-12.19.17:996][ 16]LogBRAuthSubsystem: Logged in as hoopla (hoopla - a913c7a5-f2eb-4e61-9e80-8b09d4b96322).
+[2025.09.05-12.19.17:996][ 16]LogBRAuthSubsystem: Changing AuthState from PendingManualCheckLogin to ValidOnline.
+[2025.09.05-12.19.17:997][ 16]LogBRAuthSubsystem: Loading world /mnt/c/Users/micke/myServer/data/Saved/Worlds/DedicatedWorld1.brdb on server.
+[2025.09.05-12.19.17:997][ 17]LogBRBundles: Opening existing bundle at /mnt/c/Users/micke/myServer/data/Saved/Worlds/DedicatedWorld1.brdb, access mode: 3
+[2025.09.05-12.19.18:003][ 17]LogSQLiteDatabase: Opened database '/mnt/c/Users/micke/myServer/data/Saved/Worlds/DedicatedWorld1.brdb'
+[2025.09.05-12.19.18:005][ 17]LogConsoleCmd: Chat.MessageForUnknownCommands 0
+[2025.09.05-12.19.18:005][ 17]Chat.MessageForUnknownCommands = "0"
+[2025.09.05-12.19.18:024][ 19]LogBRBundles: Validating database schema.
+[2025.09.05-12.19.18:024][ 19]LogBRBundles: Initializing database statements.
+[2025.09.05-12.19.18:024][ 19]LogBRBundles: Initializing bundle database statements.
+[2025.09.05-12.19.18:024][ 19]LogBRBundles: Database schema version: 1
+[2025.09.05-12.19.18:056][ 20]LogBRBundleManager: Is server, using ServerTravel to /Game/Maps/Plate/Plate.Plate
+[2025.09.05-12.19.18:056][ 20]LogGameMode: ProcessServerTravel: /Game/Maps/Plate/Plate?Listen
+[2025.09.05-12.19.20:050][139]LogEngine: Server switch level: /Game/Maps/Plate/Plate?Listen
+[2025.09.05-12.19.20:050][139]LogGlobalStatus: operator() Started Browse: "/Game/Maps/Plate/Plate?Listen"
+[2025.09.05-12.19.20:050][139]LogNet: Browse: /Game/Maps/Plate/Plate?Listen
+[2025.09.05-12.19.20:050][139]LogLoad: LoadMap: /Game/Maps/Plate/Plate?Listen
+[2025.09.05-12.19.20:050][139]LogWorld: BeginTearingDown for /Game/Maps/ServerEntry/ServerEntry
+[2025.09.05-12.19.20:050][139]LogNet: World NetDriver shutdown IpNetDriver_2147482443 [GameNetDriver]
+[2025.09.05-12.19.20:050][139]LogNet: DestroyNamedNetDriver IpNetDriver_2147482443 [GameNetDriver]
+[2025.09.05-12.19.20:050][139]LogIris: Display: Iris ReplicationSystem[0]: ReplicationSystem_2147482441 (0x0x7d2e683c2e60) is about to be destroyed
+[2025.09.05-12.19.20:050][139]LogExit: Name:GameNetDriver Def:GameNetDriver IpNetDriver_2147482443 shut down
+[2025.09.05-12.19.20:050][139]LogWorld: UWorld::CleanupWorld for ServerEntry, bSessionEnded=true, bCleanupResources=true
+[2025.09.05-12.19.20:054][139]LogUObjectHash: Compacting FUObjectHashTables data took   0.49ms
+[2025.09.05-12.19.20:054][139]LogUObjectHash: Compacting FUObjectHashTables data took   0.18ms
+[2025.09.05-12.19.20:084][139]LogChatCommands: Chat command world subsystem initializing.
+[2025.09.05-12.19.20:084][139]LogChatCommands: Starting async load for 1 chat command libraries.
+[2025.09.05-12.19.20:084][139]LogBrickComponents: Initializing brick registry...
+[2025.09.05-12.19.20:084][139]LogBrickAssets: Starting async load for 213 brick assets...
+[2025.09.05-12.19.20:094][139]LogBrickComponents: Loaded 99 brick component classes.
+[2025.09.05-12.19.20:094][139]LogBrickAssets: Canceling async loading brick assets, required NOW.
+[2025.09.05-12.19.20:097][139]LogBrickAssets: Finished async loading brick assets!
+[2025.09.05-12.19.20:109][139]LogBrickComponents: Loaded 51 entity classes.
+[2025.09.05-12.19.20:159][139]LogLoad: Game class is 'BP_GameModeBase_C'
+[2025.09.05-12.19.20:159][139]LogSockets: Warning: Unable to load SocketSubsystem module EOS
+[2025.09.05-12.19.20:159][139]LogNetCore: DDoS detection status: detection enabled: 0 analytics enabled: 0
+[2025.09.05-12.19.20:159][139]LogIris: Display: Iris ReplicationSystem[0]: ReplicationSystem_2147482368 (0x0x7d18d926a6c0) is created
+[2025.09.05-12.19.20:159][139]LogIris: NetRefHandleManager: Configured with MaxActiveObjectCount=65536, MaxInternalNetRefIndex: 65536, Grow=16384, NetChunkedArray: Init=65536|Highest=65535
+[2025.09.05-12.19.20:160][139]LogIrisDirtyTracker: FDirtyNetObjectTracker::Init[0]: CurrentMaxSize: 65536
+[2025.09.05-12.19.20:162][139]LogIrisGroup: Created GroupHandle named: NotReplicated Index: 1 Id: 1
+[2025.09.05-12.19.20:162][139]LogIrisGroup: Created GroupHandle named: NetGroupOwner Index: 2 Id: 2
+[2025.09.05-12.19.20:162][139]LogIrisGroup: Created GroupHandle named: NetGroupReplay Index: 3 Id: 3
+[2025.09.05-12.19.20:162][139]LogPushModel: PushModel HandleCreation is now disabled
+[2025.09.05-12.19.20:162][139]LogNet: InitBase GameNetDriver (NetDriverDefinition GameNetDriver) using replication model Iris
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric NumConnections
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric Connections
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric InPacketsClientAvg
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric InPacketsClientMax
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric NumberOfActiveActors
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric NumberOfFullyDormantActors
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric NumClientUpdateLevelVisibility
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric NumReplicateActorCallsPerConAvg
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric OutKBytes
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric OutNetGUIDKBytesSec
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric OutPacketsClientAvg
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric OutPacketsClientMax
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric SatConnections
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric ServerReplicateActorTimeMS
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric OutgoingReliableMessageQueueMaxSize
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric IncomingReliableMessageQueueMaxSize
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric InPacketsPerFrame
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric OutPacketsPerFrame
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric InLostPacketsFoundPerFrame
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric OutLostPacketsFoundPerFrame
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric Ping
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric InRate
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric OutRate
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric AverageJitterInMS
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric InPacketsLost
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsCSV_Replication for metric OutPacketsLost
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric NumConnections
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric AvgPing
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric InBunches
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric InPackets
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric InPacketsClientPerSecondAvg
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric InPacketsClientPerSecondMax
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric InPacketsClientPerSecondMin
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric InPacketsLost
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric InRate
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric InRateClientAvg
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric InRateClientMax
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric InRateClientMin
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric MaxPacketOverhead
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric MaxPing
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric MinPing
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric NumClients
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric Connections
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric OutBunches
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric OutPackets
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric OutPacketsClientPerSecondAvg
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric OutPacketsClientPerSecondMax
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric OutPacketsClientPerSecondMin
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric OutPacketsLost
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric OutRate
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric OutRateClientAvg
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric OutRateClientMax
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric OutRateClientMin
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric PingBucketInt0
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric PingBucketInt1
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric PingBucketInt2
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric PingBucketInt3
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric PingBucketInt4
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric PingBucketInt5
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric PingBucketInt6
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric PingBucketInt7
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric ClosedConnectionsDueToReliableBufferOverflow
+[2025.09.05-12.19.20:162][139]LogNet: Registering network metrics listener /Script/Engine.NetworkMetricsPerfCounters for metric AddedConnections
+[2025.09.05-12.19.20:162][139]LogInit: BSD IPv4/6: Socket queue. Rx: 425984 (config 524288) Tx: 425984 (config 524288)
+[2025.09.05-12.19.20:162][139]LogNet: Created socket for bind address: 0.0.0.0:7777
+[2025.09.05-12.19.20:162][139]PacketHandlerLog: Loaded PacketHandler component: Engine.EngineHandlerComponentFactory (StatelessConnectHandlerComponent)
+[2025.09.05-12.19.20:162][139]LogNet: Name:GameNetDriver Def:GameNetDriver IpNetDriver_2147482370 IpNetDriver listening on port 7777
+[2025.09.05-12.19.20:162][139]LogWorld: Bringing World /Game/Maps/Plate/Plate.Plate up for play (max tick rate 60) at 2025.09.05-08.19.20
+[2025.09.05-12.19.20:162][139]LogGameSettings: Creating instance to load config of server settings class BRServerSettings_Color.
+[2025.09.05-12.19.20:163][139]LogGameSettings: Creating instance to load config of server settings class BP_ServerSettings_General_C.
+[2025.09.05-12.19.20:163][139]LogGameSettings: Creating instance to load config of server settings class BP_ServerSettingsAutoSave_C.
+[2025.09.05-12.19.20:163][139]LogTemp: Warning: SetSystemSleepAllowed not implemented for this platform.
+[2025.09.05-12.19.20:163][139]LogServerList: ABRGameSession::StartPostingServer
+[2025.09.05-12.19.20:163][139]LogServerList: Starting periodic server posting.
+[2025.09.05-12.19.20:163][139]LogServerList: Posting server.
+[2025.09.05-12.19.20:164][139]LogBRWorldManager: World initialization started.
+[2025.09.05-12.19.20:164][139]LogBRWorldManager: Loading world from bundle.
+[2025.09.05-12.19.20:164][139]LogBrickComponents: World NetMode is DedicatedServer
+[2025.09.05-12.19.20:164][139]LogBRWorldManager: Loading world global data.
+[2025.09.05-12.19.20:168][139]LogBRWorldSerializer: Creating entity serializers.
+[2025.09.05-12.19.20:169][139]LogBRWorldSerializer: Deserializing entity chunks.
+[2025.09.05-12.19.20:169][139]LogBRWorldSerializer: Spawning entities and grid serializers.
+[2025.09.05-12.19.20:169][139]LogBRWorldSerializer: Creating brick chunk serializers.
+[2025.09.05-12.19.20:170][139]LogBRWorldSerializer: Deserializing brick chunks.
+[2025.09.05-12.19.20:173][139]LogBRWorldSerializer: Applying brick chunks.
+[2025.09.05-12.19.20:175][139]LogBRWorldSerializer: Parallel generating 1017 brick types.
+[2025.09.05-12.19.20:196][139]LogBRWorldManager: World successfully loaded.
+[2025.09.05-12.19.20:196][139]LogBRWorldManager: Importing global environment settings.
+[2025.09.05-12.19.20:197][139]LogBRWorldManager: Importing global minigame settings.
+[2025.09.05-12.19.20:198][139]LogBRWorldManager: Minigame preset loaded.
+[2025.09.05-12.19.20:198][139]LogBRWorldManager: World initialization: Run registry tick.
+[2025.09.05-12.19.20:198][139]LogBRWorldManager: World initialization complete.
+[2025.09.05-12.19.20:198][139]LogWorld: Bringing up level for play took: 0.036091
+[2025.09.05-12.19.20:198][139]LogAutoSave: Initializing auto save subsystem.
+[2025.09.05-12.19.20:198][139]LogAutoSave: Regular auto saves enabled every 600 seconds.
+[2025.09.05-12.19.20:198][139]LogBackgroundMusic: Background music is disabled in dedicated servers.
+[2025.09.05-12.19.20:200][139]r.VolumetricCloud.DistanceToSampleMaxCount = "2"
+[2025.09.05-12.19.20:200][139]r.EyeAdaptation.BlackHistogramBucketInfluence = "0.5"
+[2025.09.05-12.19.20:200][139]LogBlueprintUserMessages: Warning: Failed to find console variable 'r.Lumen.HardwareRayTracing.SkipBackFaceHitDistance'.
+[2025.09.05-12.19.20:207][139]LogBrickadia: Permissions: Loaded 2 custom roles.
+[2025.09.05-12.19.20:209][139]LogBrickadia: Moderator role exists, checking all default permission settings are defined.
+[2025.09.05-12.19.20:257][139]LogBrickadia: Admin role exists, checking all default permission settings are defined.
+[2025.09.05-12.19.20:276][139]LogBrickadia: Default role always exists, checking all default permission settings are defined.
+[2025.09.05-12.19.20:285][139]LogBrickadia: Starting background load for 1188 primary assets.
+[2025.09.05-12.19.20:288][139]LogLoad: Took 0.238491 seconds to LoadMap(/Game/Maps/Plate/Plate)
+[2025.09.05-12.19.20:288][139]LogGlobalStatus: operator() Load map complete /Game/Maps/Plate/Plate
+[2025.09.05-12.19.20:292][140]LogChatCommands: Finished async loading chat command libraries.
+[2025.09.05-12.19.20:292][140]LogChatCommands: - 3 chat command libraries.
+[2025.09.05-12.19.20:292][140]LogChatCommands: - 27 chat commands (42 counting overloads).
+[2025.09.05-12.19.20:459][150]LogBrickadia: Finished preloading primary assets
+[2025.09.05-12.19.20:559][156]LogSpawn: Warning: SpawnActor failed because no class was specified
+[2025.09.05-12.19.20:559][156]LogSpawn: Warning: SpawnActor failed because no class was specified
+[2025.09.05-12.19.20:559][156]LogSpawn: Warning: SpawnActor failed because no class was specified
+[2025.09.05-12.19.20:559][156]LogSpawn: Warning: SpawnActor failed because no class was specified
+[2025.09.05-12.19.20:559][156]LogSpawn: Warning: SpawnActor failed because no class was specified
+[2025.09.05-12.19.20:559][156]LogSpawn: Warning: SpawnActor failed because no class was specified
+[2025.09.05-12.19.21:917][237]LogConsoleCmd: Bricks.Save "omegga_hoopla-rpg_temp1757074761911_0"
+[2025.09.05-12.19.21:917][237]LogBrickSerializer: Trying to save save to path /mnt/c/Users/micke/myServer/data/Saved/Builds/omegga_hoopla-rpg_temp1757074761911_0.brs...
+[2025.09.05-12.19.21:917][237]LogBrickSerializer: Warning: Requested screenshot capture, but we're running in headless mode.
+[2025.09.05-12.19.21:917][237]LogBrickSerializer: Warning: Failed to read screenshot, file /mnt/c/Users/micke/myServer/data/Saved/Builds/omegga_hoopla-rpg_temp1757074761911_0.brs not found.
+[2025.09.05-12.19.21:917][237]LogBrickSerializer: Warning: Not capturing a screenshot, and no existing one loaded.
+[2025.09.05-12.19.21:923][237]LogTemp: Data compressed (80 -> 64 bytes, factor 0.800000)
+[2025.09.05-12.19.21:923][237]LogTemp: Data compressed (1557 -> 951 bytes, factor 0.610790)
+[2025.09.05-12.19.21:932][237]LogTemp: Data compressed (428270 -> 146227 bytes, factor 0.341436)
+[2025.09.05-12.19.21:932][237]LogTemp: Data compressed (11684 -> 2900 bytes, factor 0.248203)
+[2025.09.05-12.19.21:932][237]LogTemp: Data compressed (644 -> 241 bytes, factor 0.374224)
+[2025.09.05-12.19.21:940][237]LogBrickSerializer: Saved 28,550 bricks and 148 components from 3 owners in 0.023454 seconds.
+[2025.09.05-12.20.20:064][706]LogServerList: Posting server.
+[2025.09.05-12.21.20:054][285]LogServerList: Posting server.
+[2025.09.05-12.22.20:066][865]LogServerList: Posting server.
+[2025.09.05-12.23.20:061][444]LogServerList: Posting server.
+[2025.09.05-12.24.20:059][ 23]LogServerList: Posting server.
+[2025.09.05-12.25.20:066][602]LogServerList: Posting server.
+[2025.09.05-12.26.20:051][180]LogServerList: Posting server.
+[2025.09.05-12.27.20:066][760]LogServerList: Posting server.
+[2025.09.05-12.28.20:062][339]LogServerList: Posting server.
+[2025.09.05-12.29.20:057][918]LogServerList: Posting server.
+[2025.09.05-12.29.20:057][918]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-12.30.20:053][497]LogServerList: Posting server.
+[2025.09.05-12.31.20:052][ 76]LogServerList: Posting server.
+[2025.09.05-12.32.20:065][656]LogServerList: Posting server.
+[2025.09.05-12.33.20:066][235]LogServerList: Posting server.
+[2025.09.05-12.34.20:060][814]LogServerList: Posting server.
+[2025.09.05-12.35.20:056][393]LogServerList: Posting server.
+[2025.09.05-12.36.20:053][972]LogServerList: Posting server.
+[2025.09.05-12.37.20:055][551]LogServerList: Posting server.
+[2025.09.05-12.38.20:064][131]LogServerList: Posting server.
+[2025.09.05-12.39.20:051][710]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-12.39.20:051][710]LogServerList: Posting server.
+[2025.09.05-12.40.20:062][291]LogServerList: Posting server.
+[2025.09.05-12.41.20:058][871]LogServerList: Posting server.
+[2025.09.05-12.42.20:053][451]LogServerList: Posting server.
+[2025.09.05-12.43.20:065][ 32]LogServerList: Posting server.
+[2025.09.05-12.44.20:060][612]LogServerList: Posting server.
+[2025.09.05-12.45.20:053][192]LogServerList: Posting server.
+[2025.09.05-12.46.20:062][773]LogServerList: Posting server.
+[2025.09.05-12.47.20:057][353]LogServerList: Posting server.
+[2025.09.05-12.48.20:052][933]LogServerList: Posting server.
+[2025.09.05-12.49.20:065][514]LogServerList: Posting server.
+[2025.09.05-12.49.20:065][514]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-12.50.20:056][ 94]LogServerList: Posting server.
+[2025.09.05-12.51.20:065][675]LogServerList: Posting server.
+[2025.09.05-12.52.20:062][255]LogServerList: Posting server.
+[2025.09.05-12.53.20:056][835]LogServerList: Posting server.
+[2025.09.05-12.54.20:063][416]LogServerList: Posting server.
+[2025.09.05-12.55.20:060][996]LogServerList: Posting server.
+[2025.09.05-12.56.20:055][576]LogServerList: Posting server.
+[2025.09.05-12.57.20:067][157]LogServerList: Posting server.
+[2025.09.05-12.58.20:059][737]LogServerList: Posting server.
+[2025.09.05-12.59.20:055][317]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-12.59.20:055][317]LogServerList: Posting server.
+[2025.09.05-13.00.20:067][898]LogServerList: Posting server.
+[2025.09.05-13.01.20:064][478]LogServerList: Posting server.
+[2025.09.05-13.02.20:059][ 58]LogServerList: Posting server.
+[2025.09.05-13.03.20:052][638]LogServerList: Posting server.
+[2025.09.05-13.04.20:062][219]LogServerList: Posting server.
+[2025.09.05-13.05.20:053][799]LogServerList: Posting server.
+[2025.09.05-13.06.20:063][380]LogServerList: Posting server.
+[2025.09.05-13.07.20:057][960]LogServerList: Posting server.
+[2025.09.05-13.08.20:054][540]LogServerList: Posting server.
+[2025.09.05-13.09.20:065][121]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-13.09.20:065][121]LogServerList: Posting server.
+[2025.09.05-13.10.20:059][701]LogServerList: Posting server.
+[2025.09.05-13.11.20:053][281]LogServerList: Posting server.
+[2025.09.05-13.12.20:062][862]LogServerList: Posting server.
+[2025.09.05-13.13.20:062][442]LogServerList: Posting server.
+[2025.09.05-13.14.20:056][ 22]LogServerList: Posting server.
+[2025.09.05-13.15.20:066][603]LogServerList: Posting server.
+[2025.09.05-13.16.20:056][183]LogServerList: Posting server.
+[2025.09.05-13.17.20:063][764]LogServerList: Posting server.
+[2025.09.05-13.18.20:058][344]LogServerList: Posting server.
+[2025.09.05-13.19.20:053][924]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-13.19.20:053][924]LogServerList: Posting server.
+[2025.09.05-13.20.20:065][505]LogServerList: Posting server.
+[2025.09.05-13.21.20:055][ 85]LogServerList: Posting server.
+[2025.09.05-13.22.20:067][666]LogServerList: Posting server.
+[2025.09.05-13.23.20:056][246]LogServerList: Posting server.
+[2025.09.05-13.24.20:065][827]LogServerList: Posting server.
+[2025.09.05-13.25.20:061][407]LogServerList: Posting server.
+[2025.09.05-13.26.20:054][987]LogServerList: Posting server.
+[2025.09.05-13.27.20:064][568]LogServerList: Posting server.
+[2025.09.05-13.28.20:058][148]LogServerList: Posting server.
+[2025.09.05-13.29.20:054][728]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-13.29.20:054][728]LogServerList: Posting server.
+[2025.09.05-13.30.20:067][309]LogServerList: Posting server.
+[2025.09.05-13.31.20:062][889]LogServerList: Posting server.
+[2025.09.05-13.32.20:060][469]LogServerList: Posting server.
+[2025.09.05-13.33.20:053][ 49]LogServerList: Posting server.
+[2025.09.05-13.34.20:063][630]LogServerList: Posting server.
+[2025.09.05-13.35.20:054][210]LogServerList: Posting server.
+[2025.09.05-13.36.20:061][791]LogServerList: Posting server.
+[2025.09.05-13.37.20:061][371]LogServerList: Posting server.
+[2025.09.05-13.38.20:056][951]LogServerList: Posting server.
+[2025.09.05-13.39.20:053][531]LogServerList: Posting server.
+[2025.09.05-13.39.20:053][531]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-13.40.20:064][112]LogServerList: Posting server.
+[2025.09.05-13.41.20:055][692]LogServerList: Posting server.
+[2025.09.05-13.42.20:064][273]LogServerList: Posting server.
+[2025.09.05-13.43.20:062][853]LogServerList: Posting server.
+[2025.09.05-13.44.20:057][433]LogServerList: Posting server.
+[2025.09.05-13.45.20:052][ 13]LogServerList: Posting server.
+[2025.09.05-13.46.20:065][594]LogServerList: Posting server.
+[2025.09.05-13.47.20:066][174]LogServerList: Posting server.
+[2025.09.05-13.48.20:056][754]LogServerList: Posting server.
+[2025.09.05-13.49.20:067][335]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-13.49.20:067][335]LogServerList: Posting server.
+[2025.09.05-13.50.20:062][915]LogServerList: Posting server.
+[2025.09.05-13.51.20:057][495]LogServerList: Posting server.
+[2025.09.05-13.52.20:051][ 75]LogServerList: Posting server.
+[2025.09.05-13.53.20:061][656]LogServerList: Posting server.
+[2025.09.05-13.54.20:053][236]LogServerList: Posting server.
+[2025.09.05-13.55.20:051][816]LogServerList: Posting server.
+[2025.09.05-13.56.20:063][397]LogServerList: Posting server.
+[2025.09.05-13.57.20:061][977]LogServerList: Posting server.
+[2025.09.05-13.58.20:057][557]LogServerList: Posting server.
+[2025.09.05-13.59.20:065][138]LogServerList: Posting server.
+[2025.09.05-13.59.20:065][138]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-14.00.20:055][718]LogServerList: Posting server.
+[2025.09.05-14.01.20:054][298]LogServerList: Posting server.
+[2025.09.05-14.02.20:064][879]LogServerList: Posting server.
+[2025.09.05-14.03.20:058][459]LogServerList: Posting server.
+[2025.09.05-14.04.20:053][ 39]LogServerList: Posting server.
+[2025.09.05-14.05.20:059][620]LogServerList: Posting server.
+[2025.09.05-14.06.20:066][201]LogServerList: Posting server.
+[2025.09.05-14.07.20:065][781]LogServerList: Posting server.
+[2025.09.05-14.08.20:057][361]LogServerList: Posting server.
+[2025.09.05-14.09.20:066][942]LogServerList: Posting server.
+[2025.09.05-14.09.20:066][943]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-14.10.20:057][522]LogServerList: Posting server.
+[2025.09.05-14.11.20:067][103]LogServerList: Posting server.
+[2025.09.05-14.12.20:061][683]LogServerList: Posting server.
+[2025.09.05-14.13.20:056][263]LogServerList: Posting server.
+[2025.09.05-14.14.20:067][844]LogServerList: Posting server.
+[2025.09.05-14.15.20:059][424]LogServerList: Posting server.
+[2025.09.05-14.16.20:051][  4]LogServerList: Posting server.
+[2025.09.05-14.17.20:064][585]LogServerList: Posting server.
+[2025.09.05-14.18.20:057][165]LogServerList: Posting server.
+[2025.09.05-14.19.20:051][745]LogServerList: Posting server.
+[2025.09.05-14.19.20:052][745]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-14.20.20:062][326]LogServerList: Posting server.
+[2025.09.05-14.21.20:054][906]LogServerList: Posting server.
+[2025.09.05-14.22.20:066][487]LogServerList: Posting server.
+[2025.09.05-14.23.20:059][ 67]LogServerList: Posting server.
+[2025.09.05-14.24.20:066][648]LogServerList: Posting server.
+[2025.09.05-14.25.19:846][215]LogNet: NotifyAcceptingConnection accepted from: 172.25.64.1:58912
+[2025.09.05-14.25.20:064][228]LogServerList: Posting server.
+[2025.09.05-14.26.20:061][808]LogServerList: Posting server.
+[2025.09.05-14.27.20:055][388]LogServerList: Posting server.
+[2025.09.05-14.28.20:051][968]LogServerList: Posting server.
+[2025.09.05-14.29.20:062][549]LogServerList: Posting server.
+[2025.09.05-14.29.20:062][549]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-14.30.20:055][129]LogServerList: Posting server.
+[2025.09.05-14.31.20:051][709]LogServerList: Posting server.
+[2025.09.05-14.32.20:064][290]LogServerList: Posting server.
+[2025.09.05-14.33.20:058][870]LogServerList: Posting server.
+[2025.09.05-14.34.20:051][450]LogServerList: Posting server.
+[2025.09.05-14.35.20:059][ 31]LogServerList: Posting server.
+[2025.09.05-14.36.20:052][611]LogServerList: Posting server.
+[2025.09.05-14.37.20:051][191]LogServerList: Posting server.
+[2025.09.05-14.38.20:058][772]LogServerList: Posting server.
+[2025.09.05-14.39.20:067][353]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-14.39.20:067][353]LogServerList: Posting server.
+[2025.09.05-14.40.20:057][933]LogServerList: Posting server.
+[2025.09.05-14.41.20:051][513]LogServerList: Posting server.
+[2025.09.05-14.42.20:063][ 94]LogServerList: Posting server.
+[2025.09.05-14.43.20:063][674]LogServerList: Posting server.
+[2025.09.05-14.44.20:055][254]LogServerList: Posting server.
+[2025.09.05-14.45.20:067][835]LogServerList: Posting server.
+[2025.09.05-14.46.20:058][415]LogServerList: Posting server.
+[2025.09.05-14.47.20:055][995]LogServerList: Posting server.
+[2025.09.05-14.48.20:064][576]LogServerList: Posting server.
+[2025.09.05-14.49.20:058][156]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-14.49.20:058][156]LogServerList: Posting server.
+[2025.09.05-14.50.20:053][736]LogServerList: Posting server.
+[2025.09.05-14.51.20:062][317]LogServerList: Posting server.
+[2025.09.05-14.52.20:055][897]LogServerList: Posting server.
+[2025.09.05-14.53.20:066][478]LogServerList: Posting server.
+[2025.09.05-14.54.20:062][ 58]LogServerList: Posting server.
+[2025.09.05-14.55.20:059][638]LogServerList: Posting server.
+[2025.09.05-14.56.20:053][218]LogServerList: Posting server.
+[2025.09.05-14.57.20:065][799]LogServerList: Posting server.
+[2025.09.05-14.58.20:060][379]LogServerList: Posting server.
+[2025.09.05-14.59.20:052][959]LogServerList: Posting server.
+[2025.09.05-14.59.20:052][959]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-15.00.20:061][540]LogServerList: Posting server.
+[2025.09.05-15.01.20:059][120]LogServerList: Posting server.
+[2025.09.05-15.02.20:053][700]LogServerList: Posting server.
+[2025.09.05-15.03.20:051][280]LogServerList: Posting server.
+[2025.09.05-15.04.20:062][861]LogServerList: Posting server.
+[2025.09.05-15.05.20:057][441]LogServerList: Posting server.
+[2025.09.05-15.06.20:067][ 22]LogServerList: Posting server.
+[2025.09.05-15.07.20:060][602]LogServerList: Posting server.
+[2025.09.05-15.08.20:056][182]LogServerList: Posting server.
+[2025.09.05-15.09.20:064][763]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-15.09.20:064][763]LogServerList: Posting server.
+[2025.09.05-15.10.20:060][343]LogServerList: Posting server.
+[2025.09.05-15.11.20:066][924]LogServerList: Posting server.
+[2025.09.05-15.12.20:057][504]LogServerList: Posting server.
+[2025.09.05-15.13.20:055][ 84]LogServerList: Posting server.
+[2025.09.05-15.14.20:067][665]LogServerList: Posting server.
+[2025.09.05-15.15.20:059][245]LogServerList: Posting server.
+[2025.09.05-15.16.20:052][825]LogServerList: Posting server.
+[2025.09.05-15.17.20:060][406]LogServerList: Posting server.
+[2025.09.05-15.18.20:067][987]LogServerList: Posting server.
+[2025.09.05-15.19.20:062][567]LogServerList: Posting server.
+[2025.09.05-15.19.20:062][567]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-15.20.20:058][147]LogServerList: Posting server.
+[2025.09.05-15.21.20:067][728]LogServerList: Posting server.
+[2025.09.05-15.22.20:059][308]LogServerList: Posting server.
+[2025.09.05-15.23.20:066][889]LogServerList: Posting server.
+[2025.09.05-15.24.20:061][469]LogServerList: Posting server.
+[2025.09.05-15.25.20:056][ 49]LogServerList: Posting server.
+[2025.09.05-15.26.20:066][630]LogServerList: Posting server.
+[2025.09.05-15.27.20:058][210]LogServerList: Posting server.
+[2025.09.05-15.28.20:053][790]LogServerList: Posting server.
+[2025.09.05-15.29.20:065][371]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-15.29.20:065][371]LogServerList: Posting server.
+[2025.09.05-15.30.20:062][951]LogServerList: Posting server.
+[2025.09.05-15.31.20:060][531]LogServerList: Posting server.
+[2025.09.05-15.32.20:053][111]LogServerList: Posting server.
+[2025.09.05-15.33.20:064][692]LogServerList: Posting server.
+[2025.09.05-15.34.20:059][272]LogServerList: Posting server.
+[2025.09.05-15.35.20:055][852]LogServerList: Posting server.
+[2025.09.05-15.36.20:065][433]LogServerList: Posting server.
+[2025.09.05-15.37.20:062][ 13]LogServerList: Posting server.
+[2025.09.05-15.38.20:051][593]LogServerList: Posting server.
+[2025.09.05-15.39.20:063][174]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-15.39.20:063][174]LogServerList: Posting server.
+[2025.09.05-15.40.20:059][754]LogServerList: Posting server.
+[2025.09.05-15.41.20:051][334]LogServerList: Posting server.
+[2025.09.05-15.42.20:062][915]LogServerList: Posting server.
+[2025.09.05-15.43.20:061][495]LogServerList: Posting server.
+[2025.09.05-15.44.20:053][ 75]LogServerList: Posting server.
+[2025.09.05-15.45.20:064][656]LogServerList: Posting server.
+[2025.09.05-15.46.20:055][236]LogServerList: Posting server.
+[2025.09.05-15.47.20:066][817]LogServerList: Posting server.
+[2025.09.05-15.48.20:061][397]LogServerList: Posting server.
+[2025.09.05-15.49.20:057][977]LogServerList: Posting server.
+[2025.09.05-15.49.20:057][977]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-15.50.20:065][558]LogServerList: Posting server.
+[2025.09.05-15.51.20:057][138]LogServerList: Posting server.
+[2025.09.05-15.52.20:066][719]LogServerList: Posting server.
+[2025.09.05-15.53.20:062][299]LogServerList: Posting server.
+[2025.09.05-15.54.20:056][879]LogServerList: Posting server.
+[2025.09.05-15.55.20:057][459]LogServerList: Posting server.
+[2025.09.05-15.56.20:051][ 39]LogServerList: Posting server.
+[2025.09.05-15.57.20:058][620]LogServerList: Posting server.
+[2025.09.05-15.58.20:051][200]LogServerList: Posting server.
+[2025.09.05-15.59.20:062][781]LogServerList: Posting server.
+[2025.09.05-15.59.20:063][781]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-16.00.20:055][361]LogServerList: Posting server.
+[2025.09.05-16.01.20:053][941]LogServerList: Posting server.
+[2025.09.05-16.02.20:065][522]LogServerList: Posting server.
+[2025.09.05-16.03.20:060][102]LogServerList: Posting server.
+[2025.09.05-16.04.20:056][682]LogServerList: Posting server.
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: request failed, libcurl error: 65 (Send failed since rewinding of the data stream failed)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 0 (Found bundle for host: 0x7d2e6b546fa0 [serially])
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 1 (Re-using existing connection with host brickadia.com)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 2 (We are completely uploaded and fine)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 3 (Recv failure: Connection reset by peer)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 4 (OpenSSL SSL_read: Connection reset by peer, errno 104)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 5 (Connection died, retrying a fresh connect (retry count: 1))
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 6 (state.rewindbeforesend = TRUE)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 7 (Closing connection)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 8 (Send failure: Broken pipe)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 9 (Issue another request to this URL: 'https://brickadia.com/api/v1/servers')
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 10 (  Trying 104.26.3.39:443...)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 11 (Connected to brickadia.com (104.26.3.39) port 443)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 12 (ALPN: curl offers http/1.1)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 13 (SSL reusing session ID)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 14 (TLSv1.3 (OUT), TLS handshake, Client hello (1):)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 15 (TLSv1.3 (IN), TLS handshake, Server hello (2):)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 16 (TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 17 (TLSv1.3 (IN), TLS handshake, Certificate (11):)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 18 (TLSv1.3 (IN), TLS handshake, CERT verify (15):)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 19 (TLSv1.3 (IN), TLS handshake, Finished (20):)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 20 (TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 21 (TLSv1.3 (OUT), TLS handshake, Finished (20):)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 22 (SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 23 (ALPN: server accepted http/1.1)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 24 (Server certificate:)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 25 ( subject: CN=brickadia.com)
+[2025.09.05-16.04.20:307][697]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 26 ( start date: Aug 14 13:53:59 2025 GMT)
+[2025.09.05-16.04.20:307][698]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 27 ( expire date: Nov 12 14:53:57 2025 GMT)
+[2025.09.05-16.04.20:307][698]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 28 ( subjectAltName: host "brickadia.com" matched cert's "brickadia.com")
+[2025.09.05-16.04.20:307][698]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 29 ( issuer: C=US; O=Google Trust Services; CN=WE1)
+[2025.09.05-16.04.20:307][698]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 30 ( SSL certificate verify ok.)
+[2025.09.05-16.04.20:307][698]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 31 (using HTTP/1.1)
+[2025.09.05-16.04.20:307][698]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 32 (necessary data rewind wasn't possible)
+[2025.09.05-16.04.20:307][698]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 33 (Closing connection)
+[2025.09.05-16.04.20:307][698]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 34 (TLSv1.3 (OUT), TLS alert, close notify (256):)
+[2025.09.05-16.04.20:307][698]LogServerList: Error: Failed to post server - internal error or timed out.
+[2025.09.05-16.05.20:054][262]LogServerList: Posting server.
+[2025.09.05-16.06.20:064][843]LogServerList: Posting server.
+[2025.09.05-16.07.20:062][423]LogServerList: Posting server.
+[2025.09.05-16.08.20:057][  3]LogServerList: Posting server.
+[2025.09.05-16.09.20:057][583]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-16.09.20:057][583]LogServerList: Posting server.
+[2025.09.05-16.10.20:055][163]LogServerList: Posting server.
+[2025.09.05-16.11.20:063][744]LogServerList: Posting server.
+[2025.09.05-16.12.20:054][324]LogServerList: Posting server.
+[2025.09.05-16.13.20:055][904]LogServerList: Posting server.
+[2025.09.05-16.14.20:064][485]LogServerList: Posting server.
+[2025.09.05-16.15.20:055][ 65]LogServerList: Posting server.
+[2025.09.05-16.16.20:065][646]LogServerList: Posting server.
+[2025.09.05-16.17.20:063][226]LogServerList: Posting server.
+[2025.09.05-16.18.20:056][806]LogServerList: Posting server.
+[2025.09.05-16.19.20:065][387]LogServerList: Posting server.
+[2025.09.05-16.19.20:065][387]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-16.20.20:060][967]LogServerList: Posting server.
+[2025.09.05-16.21.20:052][547]LogServerList: Posting server.
+[2025.09.05-16.22.20:064][128]LogServerList: Posting server.
+[2025.09.05-16.23.20:057][708]LogServerList: Posting server.
+[2025.09.05-16.24.20:051][288]LogServerList: Posting server.
+[2025.09.05-16.25.20:062][869]LogServerList: Posting server.
+[2025.09.05-16.26.20:058][449]LogServerList: Posting server.
+[2025.09.05-16.27.20:052][ 29]LogServerList: Posting server.
+[2025.09.05-16.28.20:063][610]LogServerList: Posting server.
+[2025.09.05-16.29.20:054][190]LogServerList: Posting server.
+[2025.09.05-16.29.20:054][190]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-16.30.20:064][771]LogServerList: Posting server.
+[2025.09.05-16.31.20:064][351]LogServerList: Posting server.
+[2025.09.05-16.32.20:062][931]LogServerList: Posting server.
+[2025.09.05-16.33.20:062][511]LogServerList: Posting server.
+[2025.09.05-16.34.20:058][ 91]LogServerList: Posting server.
+[2025.09.05-16.35.20:054][671]LogServerList: Posting server.
+[2025.09.05-16.36.20:065][252]LogServerList: Posting server.
+[2025.09.05-16.37.20:059][832]LogServerList: Posting server.
+[2025.09.05-16.38.20:051][412]LogServerList: Posting server.
+[2025.09.05-16.39.20:061][993]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-16.39.20:061][993]LogServerList: Posting server.
+[2025.09.05-16.40.20:056][573]LogServerList: Posting server.
+[2025.09.05-16.41.20:064][154]LogServerList: Posting server.
+[2025.09.05-16.42.20:063][734]LogServerList: Posting server.
+[2025.09.05-16.43.20:062][314]LogServerList: Posting server.
+[2025.09.05-16.44.20:059][894]LogServerList: Posting server.
+[2025.09.05-16.45.20:054][474]LogServerList: Posting server.
+[2025.09.05-16.46.20:051][ 54]LogServerList: Posting server.
+[2025.09.05-16.47.20:050][634]LogServerList: Posting server.
+[2025.09.05-16.48.20:061][215]LogServerList: Posting server.
+[2025.09.05-16.49.20:060][795]LogServerList: Posting server.
+[2025.09.05-16.49.20:060][795]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-16.50.20:056][375]LogServerList: Posting server.
+[2025.09.05-16.51.20:065][956]LogServerList: Posting server.
+[2025.09.05-16.52.20:062][536]LogServerList: Posting server.
+[2025.09.05-16.53.20:057][116]LogServerList: Posting server.
+[2025.09.05-16.54.20:062][697]LogServerList: Posting server.
+[2025.09.05-16.55.20:057][277]LogServerList: Posting server.
+[2025.09.05-16.56.20:063][858]LogServerList: Posting server.
+[2025.09.05-16.57.20:058][438]LogServerList: Posting server.
+[2025.09.05-16.58.20:066][ 19]LogServerList: Posting server.
+[2025.09.05-16.59.20:062][599]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-16.59.20:062][599]LogServerList: Posting server.
+[2025.09.05-17.00.20:056][179]LogServerList: Posting server.
+[2025.09.05-17.01.20:065][760]LogServerList: Posting server.
+[2025.09.05-17.02.20:059][340]LogServerList: Posting server.
+[2025.09.05-17.03.20:055][920]LogServerList: Posting server.
+[2025.09.05-17.04.20:053][500]LogServerList: Posting server.
+[2025.09.05-17.05.20:065][ 81]LogServerList: Posting server.
+[2025.09.05-17.06.20:056][661]LogServerList: Posting server.
+[2025.09.05-17.07.20:066][242]LogServerList: Posting server.
+[2025.09.05-17.08.20:058][822]LogServerList: Posting server.
+[2025.09.05-17.09.20:054][402]LogServerList: Posting server.
+[2025.09.05-17.09.20:054][403]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-17.10.20:065][983]LogServerList: Posting server.
+[2025.09.05-17.11.20:060][563]LogServerList: Posting server.
+[2025.09.05-17.12.20:052][143]LogServerList: Posting server.
+[2025.09.05-17.13.20:065][724]LogServerList: Posting server.
+[2025.09.05-17.14.20:063][304]LogServerList: Posting server.
+[2025.09.05-17.15.20:061][884]LogServerList: Posting server.
+[2025.09.05-17.16.20:053][464]LogServerList: Posting server.
+[2025.09.05-17.17.20:061][ 45]LogServerList: Posting server.
+[2025.09.05-17.18.20:055][625]LogServerList: Posting server.
+[2025.09.05-17.19.20:052][205]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-17.19.20:052][205]LogServerList: Posting server.
+[2025.09.05-17.20.20:064][786]LogServerList: Posting server.
+[2025.09.05-17.21.20:059][366]LogServerList: Posting server.
+[2025.09.05-17.22.20:052][946]LogServerList: Posting server.
+[2025.09.05-17.23.20:059][527]LogServerList: Posting server.
+[2025.09.05-17.24.20:054][107]LogServerList: Posting server.
+[2025.09.05-17.25.20:051][687]LogServerList: Posting server.
+[2025.09.05-17.26.20:059][268]LogServerList: Posting server.
+[2025.09.05-17.27.20:051][848]LogServerList: Posting server.
+[2025.09.05-17.28.20:061][429]LogServerList: Posting server.
+[2025.09.05-17.29.20:054][  9]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-17.29.20:054][  9]LogServerList: Posting server.
+[2025.09.05-17.30.20:067][590]LogServerList: Posting server.
+[2025.09.05-17.31.20:051][169]LogServerList: Posting server.
+[2025.09.05-17.32.20:061][750]LogServerList: Posting server.
+[2025.09.05-17.33.20:057][330]LogServerList: Posting server.
+[2025.09.05-17.34.20:051][910]LogServerList: Posting server.
+[2025.09.05-17.35.20:064][491]LogServerList: Posting server.
+[2025.09.05-17.36.20:058][ 71]LogServerList: Posting server.
+[2025.09.05-17.37.20:057][651]LogServerList: Posting server.
+[2025.09.05-17.38.20:067][232]LogServerList: Posting server.
+[2025.09.05-17.39.20:059][812]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-17.39.20:059][812]LogServerList: Posting server.
+[2025.09.05-17.40.20:052][392]LogServerList: Posting server.
+[2025.09.05-17.41.20:062][973]LogServerList: Posting server.
+[2025.09.05-17.42.20:058][553]LogServerList: Posting server.
+[2025.09.05-17.43.20:066][134]LogServerList: Posting server.
+[2025.09.05-17.44.20:059][714]LogServerList: Posting server.
+[2025.09.05-17.45.20:060][294]LogServerList: Posting server.
+[2025.09.05-17.46.20:067][875]LogServerList: Posting server.
+[2025.09.05-17.47.20:062][455]LogServerList: Posting server.
+[2025.09.05-17.48.20:054][ 35]LogServerList: Posting server.
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: request failed, libcurl error: 65 (Send failed since rewinding of the data stream failed)
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 0 (Found bundle for host: 0x7d18875321d0 [serially])
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 1 (Re-using existing connection with host brickadia.com)
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 2 (We are completely uploaded and fine)
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 3 (Recv failure: Connection reset by peer)
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 4 (OpenSSL SSL_read: Connection reset by peer, errno 104)
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 5 (Connection died, retrying a fresh connect (retry count: 1))
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 6 (state.rewindbeforesend = TRUE)
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 7 (Closing connection)
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 8 (Send failure: Broken pipe)
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 9 (Issue another request to this URL: 'https://brickadia.com/api/v1/servers')
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 10 (  Trying 104.26.3.39:443...)
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 11 (Connected to brickadia.com (104.26.3.39) port 443)
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 12 (ALPN: curl offers http/1.1)
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 13 (SSL reusing session ID)
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 14 (TLSv1.3 (OUT), TLS handshake, Client hello (1):)
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 15 (TLSv1.3 (IN), TLS handshake, Server hello (2):)
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 16 (TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):)
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 17 (TLSv1.3 (IN), TLS handshake, Certificate (11):)
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 18 (TLSv1.3 (IN), TLS handshake, CERT verify (15):)
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 19 (TLSv1.3 (IN), TLS handshake, Finished (20):)
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 20 (TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):)
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 21 (TLSv1.3 (OUT), TLS handshake, Finished (20):)
+[2025.09.05-17.48.20:205][ 44]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 22 (SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384)
+[2025.09.05-17.48.20:205][ 45]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 23 (ALPN: server accepted http/1.1)
+[2025.09.05-17.48.20:205][ 45]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 24 (Server certificate:)
+[2025.09.05-17.48.20:205][ 45]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 25 ( subject: CN=brickadia.com)
+[2025.09.05-17.48.20:205][ 45]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 26 ( start date: Aug 14 13:53:59 2025 GMT)
+[2025.09.05-17.48.20:205][ 45]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 27 ( expire date: Nov 12 14:53:57 2025 GMT)
+[2025.09.05-17.48.20:205][ 45]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 28 ( subjectAltName: host "brickadia.com" matched cert's "brickadia.com")
+[2025.09.05-17.48.20:205][ 45]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 29 ( issuer: C=US; O=Google Trust Services; CN=WE1)
+[2025.09.05-17.48.20:205][ 45]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 30 ( SSL certificate verify ok.)
+[2025.09.05-17.48.20:205][ 45]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 31 (using HTTP/1.1)
+[2025.09.05-17.48.20:205][ 45]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 32 (necessary data rewind wasn't possible)
+[2025.09.05-17.48.20:205][ 45]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 33 (Closing connection)
+[2025.09.05-17.48.20:205][ 45]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 34 (TLSv1.3 (OUT), TLS alert, close notify (256):)
+[2025.09.05-17.48.20:205][ 45]LogServerList: Error: Failed to post server - internal error or timed out.
+[2025.09.05-17.49.20:062][616]LogServerList: Posting server.
+[2025.09.05-17.49.20:062][616]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-17.50.20:054][196]LogServerList: Posting server.
+[2025.09.05-17.51.20:067][777]LogServerList: Posting server.
+[2025.09.05-17.52.20:053][356]LogServerList: Posting server.
+[2025.09.05-17.53.20:053][936]LogServerList: Posting server.
+[2025.09.05-17.54.20:051][516]LogServerList: Posting server.
+[2025.09.05-17.55.20:063][ 97]LogServerList: Posting server.
+[2025.09.05-17.56.20:056][677]LogServerList: Posting server.
+[2025.09.05-17.57.20:061][258]LogServerList: Posting server.
+[2025.09.05-17.58.20:052][838]LogServerList: Posting server.
+[2025.09.05-17.58.20:186][846]LogHttp: Warning: 0x7d188b2ef160: request failed, libcurl error: 65 (Send failed since rewinding of the data stream failed)
+[2025.09.05-17.58.20:186][846]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 0 (Found bundle for host: 0x7d1887534390 [serially])
+[2025.09.05-17.58.20:186][846]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 1 (Re-using existing connection with host brickadia.com)
+[2025.09.05-17.58.20:186][846]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 2 (We are completely uploaded and fine)
+[2025.09.05-17.58.20:186][846]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 3 (Recv failure: Connection reset by peer)
+[2025.09.05-17.58.20:186][846]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 4 (OpenSSL SSL_read: Connection reset by peer, errno 104)
+[2025.09.05-17.58.20:186][846]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 5 (Connection died, retrying a fresh connect (retry count: 1))
+[2025.09.05-17.58.20:186][846]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 6 (state.rewindbeforesend = TRUE)
+[2025.09.05-17.58.20:186][846]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 7 (Closing connection)
+[2025.09.05-17.58.20:186][846]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 8 (Send failure: Broken pipe)
+[2025.09.05-17.58.20:186][846]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 9 (Issue another request to this URL: 'https://brickadia.com/api/v1/servers')
+[2025.09.05-17.58.20:186][846]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 10 (  Trying 104.26.2.39:443...)
+[2025.09.05-17.58.20:186][846]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 11 (Connected to brickadia.com (104.26.2.39) port 443)
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 12 (ALPN: curl offers http/1.1)
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 13 (SSL reusing session ID)
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 14 (TLSv1.3 (OUT), TLS handshake, Client hello (1):)
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 15 (TLSv1.3 (IN), TLS handshake, Server hello (2):)
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 16 (TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):)
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 17 (TLSv1.3 (IN), TLS handshake, Certificate (11):)
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 18 (TLSv1.3 (IN), TLS handshake, CERT verify (15):)
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 19 (TLSv1.3 (IN), TLS handshake, Finished (20):)
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 20 (TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):)
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 21 (TLSv1.3 (OUT), TLS handshake, Finished (20):)
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 22 (SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384)
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 23 (ALPN: server accepted http/1.1)
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 24 (Server certificate:)
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 25 ( subject: CN=brickadia.com)
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 26 ( start date: Aug 14 13:53:59 2025 GMT)
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 27 ( expire date: Nov 12 14:53:57 2025 GMT)
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 28 ( subjectAltName: host "brickadia.com" matched cert's "brickadia.com")
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 29 ( issuer: C=US; O=Google Trust Services; CN=WE1)
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 30 ( SSL certificate verify ok.)
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 31 (using HTTP/1.1)
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 32 (necessary data rewind wasn't possible)
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 33 (Closing connection)
+[2025.09.05-17.58.20:186][847]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 34 (TLSv1.3 (OUT), TLS alert, close notify (256):)
+[2025.09.05-17.58.20:186][847]LogServerList: Error: Failed to post server - internal error or timed out.
+[2025.09.05-17.59.20:062][419]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-17.59.20:062][419]LogServerList: Posting server.
+[2025.09.05-18.00.20:053][999]LogServerList: Posting server.
+[2025.09.05-18.01.20:065][580]LogServerList: Posting server.
+[2025.09.05-18.02.20:058][160]LogServerList: Posting server.
+[2025.09.05-18.03.20:055][740]LogServerList: Posting server.
+[2025.09.05-18.04.20:065][321]LogServerList: Posting server.
+[2025.09.05-18.05.20:061][901]LogServerList: Posting server.
+[2025.09.05-18.06.20:056][481]LogServerList: Posting server.
+[2025.09.05-18.07.20:054][ 61]LogServerList: Posting server.
+[2025.09.05-18.08.20:065][642]LogServerList: Posting server.
+[2025.09.05-18.09.20:058][222]LogServerList: Posting server.
+[2025.09.05-18.09.20:058][222]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-18.10.20:053][802]LogServerList: Posting server.
+[2025.09.05-18.11.20:066][383]LogServerList: Posting server.
+[2025.09.05-18.12.20:061][963]LogServerList: Posting server.
+[2025.09.05-18.13.20:059][543]LogServerList: Posting server.
+[2025.09.05-18.14.20:058][123]LogServerList: Posting server.
+[2025.09.05-18.15.20:053][703]LogServerList: Posting server.
+[2025.09.05-18.16.20:063][284]LogServerList: Posting server.
+[2025.09.05-18.17.20:055][864]LogServerList: Posting server.
+[2025.09.05-18.18.20:065][445]LogServerList: Posting server.
+[2025.09.05-18.19.20:067][ 25]LogServerList: Posting server.
+[2025.09.05-18.19.20:067][ 25]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-18.20.20:058][605]LogServerList: Posting server.
+[2025.09.05-18.21.20:052][185]LogServerList: Posting server.
+[2025.09.05-18.22.20:060][766]LogServerList: Posting server.
+[2025.09.05-18.23.20:058][346]LogServerList: Posting server.
+[2025.09.05-18.24.20:051][926]LogServerList: Posting server.
+[2025.09.05-18.25.20:060][507]LogServerList: Posting server.
+[2025.09.05-18.26.20:054][ 87]LogServerList: Posting server.
+[2025.09.05-18.27.20:063][668]LogServerList: Posting server.
+[2025.09.05-18.28.20:060][248]LogServerList: Posting server.
+[2025.09.05-18.29.20:052][828]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-18.29.20:052][828]LogServerList: Posting server.
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: request failed, libcurl error: 65 (Send failed since rewinding of the data stream failed)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 0 (Found bundle for host: 0x7d18875345a0 [serially])
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 1 (Re-using existing connection with host brickadia.com)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 2 (We are completely uploaded and fine)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 3 (Recv failure: Connection reset by peer)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 4 (OpenSSL SSL_read: Connection reset by peer, errno 104)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 5 (Connection died, retrying a fresh connect (retry count: 1))
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 6 (state.rewindbeforesend = TRUE)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 7 (Closing connection)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 8 (Send failure: Broken pipe)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 9 (Issue another request to this URL: 'https://brickadia.com/api/v1/servers')
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 10 (  Trying 104.26.2.39:443...)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 11 (Connected to brickadia.com (104.26.2.39) port 443)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 12 (ALPN: curl offers http/1.1)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 13 (SSL reusing session ID)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 14 (TLSv1.3 (OUT), TLS handshake, Client hello (1):)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 15 (TLSv1.3 (IN), TLS handshake, Server hello (2):)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 16 (TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 17 (TLSv1.3 (IN), TLS handshake, Certificate (11):)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 18 (TLSv1.3 (IN), TLS handshake, CERT verify (15):)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 19 (TLSv1.3 (IN), TLS handshake, Finished (20):)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 20 (TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 21 (TLSv1.3 (OUT), TLS handshake, Finished (20):)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 22 (SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 23 (ALPN: server accepted http/1.1)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 24 (Server certificate:)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 25 ( subject: CN=brickadia.com)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 26 ( start date: Aug 14 13:53:59 2025 GMT)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 27 ( expire date: Nov 12 14:53:57 2025 GMT)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 28 ( subjectAltName: host "brickadia.com" matched cert's "brickadia.com")
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 29 ( issuer: C=US; O=Google Trust Services; CN=WE1)
+[2025.09.05-18.29.20:287][842]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 30 ( SSL certificate verify ok.)
+[2025.09.05-18.29.20:287][843]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 31 (using HTTP/1.1)
+[2025.09.05-18.29.20:287][843]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 32 (necessary data rewind wasn't possible)
+[2025.09.05-18.29.20:287][843]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 33 (Closing connection)
+[2025.09.05-18.29.20:287][843]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 34 (TLSv1.3 (OUT), TLS alert, close notify (256):)
+[2025.09.05-18.29.20:287][843]LogServerList: Error: Failed to post server - internal error or timed out.
+[2025.09.05-18.30.20:061][409]LogServerList: Posting server.
+[2025.09.05-18.31.20:058][989]LogServerList: Posting server.
+[2025.09.05-18.32.20:065][570]LogServerList: Posting server.
+[2025.09.05-18.33.20:063][150]LogServerList: Posting server.
+[2025.09.05-18.34.20:058][730]LogServerList: Posting server.
+[2025.09.05-18.35.20:054][310]LogServerList: Posting server.
+[2025.09.05-18.36.20:064][891]LogServerList: Posting server.
+[2025.09.05-18.37.20:063][471]LogServerList: Posting server.
+[2025.09.05-18.38.20:052][ 51]LogServerList: Posting server.
+[2025.09.05-18.39.20:060][632]LogServerList: Posting server.
+[2025.09.05-18.39.20:060][632]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-18.40.20:053][212]LogServerList: Posting server.
+[2025.09.05-18.41.20:067][793]LogServerList: Posting server.
+[2025.09.05-18.42.20:064][373]LogServerList: Posting server.
+[2025.09.05-18.43.20:063][953]LogServerList: Posting server.
+[2025.09.05-18.44.20:058][533]LogServerList: Posting server.
+[2025.09.05-18.45.20:064][114]LogServerList: Posting server.
+[2025.09.05-18.46.20:056][694]LogServerList: Posting server.
+[2025.09.05-18.47.20:051][274]LogServerList: Posting server.
+[2025.09.05-18.48.20:064][855]LogServerList: Posting server.
+[2025.09.05-18.49.20:060][435]LogServerList: Posting server.
+[2025.09.05-18.49.20:060][435]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-18.50.20:057][ 15]LogServerList: Posting server.
+[2025.09.05-18.51.20:067][596]LogServerList: Posting server.
+[2025.09.05-18.52.20:063][176]LogServerList: Posting server.
+[2025.09.05-18.53.20:058][756]LogServerList: Posting server.
+[2025.09.05-18.54.20:067][337]LogServerList: Posting server.
+[2025.09.05-18.55.20:061][917]LogServerList: Posting server.
+[2025.09.05-18.56.20:051][497]LogServerList: Posting server.
+[2025.09.05-18.57.20:064][ 78]LogServerList: Posting server.
+[2025.09.05-18.58.20:062][658]LogServerList: Posting server.
+[2025.09.05-18.59.20:056][238]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-18.59.20:056][238]LogServerList: Posting server.
+[2025.09.05-19.00.20:057][818]LogServerList: Posting server.
+[2025.09.05-19.01.20:051][398]LogServerList: Posting server.
+[2025.09.05-19.02.20:060][979]LogServerList: Posting server.
+[2025.09.05-19.03.20:054][559]LogServerList: Posting server.
+[2025.09.05-19.04.20:066][140]LogServerList: Posting server.
+[2025.09.05-19.05.20:059][720]LogServerList: Posting server.
+[2025.09.05-19.06.20:065][301]LogServerList: Posting server.
+[2025.09.05-19.07.20:060][881]LogServerList: Posting server.
+[2025.09.05-19.08.20:054][461]LogServerList: Posting server.
+[2025.09.05-19.09.20:063][ 42]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-19.09.20:064][ 42]LogServerList: Posting server.
+[2025.09.05-19.10.20:056][622]LogServerList: Posting server.
+[2025.09.05-19.11.20:067][203]LogServerList: Posting server.
+[2025.09.05-19.12.20:062][783]LogServerList: Posting server.
+[2025.09.05-19.13.20:063][363]LogServerList: Posting server.
+[2025.09.05-19.14.20:059][943]LogServerList: Posting server.
+[2025.09.05-19.15.20:056][523]LogServerList: Posting server.
+[2025.09.05-19.16.20:052][103]LogServerList: Posting server.
+[2025.09.05-19.17.20:061][684]LogServerList: Posting server.
+[2025.09.05-19.18.20:057][264]LogServerList: Posting server.
+[2025.09.05-19.19.20:055][844]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-19.19.20:055][844]LogServerList: Posting server.
+[2025.09.05-19.20.20:066][425]LogServerList: Posting server.
+[2025.09.05-19.21.20:059][  5]LogServerList: Posting server.
+[2025.09.05-19.22.20:055][585]LogServerList: Posting server.
+[2025.09.05-19.23.20:064][166]LogServerList: Posting server.
+[2025.09.05-19.24.20:056][746]LogServerList: Posting server.
+[2025.09.05-19.25.20:058][326]LogServerList: Posting server.
+[2025.09.05-19.26.20:066][907]LogServerList: Posting server.
+[2025.09.05-19.27.20:059][487]LogServerList: Posting server.
+[2025.09.05-19.28.20:056][ 67]LogServerList: Posting server.
+[2025.09.05-19.29.20:067][648]LogServerList: Posting server.
+[2025.09.05-19.29.20:067][648]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-19.30.20:059][228]LogServerList: Posting server.
+[2025.09.05-19.31.20:056][808]LogServerList: Posting server.
+[2025.09.05-19.32.20:064][389]LogServerList: Posting server.
+[2025.09.05-19.33.20:060][969]LogServerList: Posting server.
+[2025.09.05-19.34.20:055][549]LogServerList: Posting server.
+[2025.09.05-19.35.20:066][130]LogServerList: Posting server.
+[2025.09.05-19.36.20:059][710]LogServerList: Posting server.
+[2025.09.05-19.37.20:056][290]LogServerList: Posting server.
+[2025.09.05-19.38.20:065][871]LogServerList: Posting server.
+[2025.09.05-19.39.20:060][451]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-19.39.20:060][451]LogServerList: Posting server.
+[2025.09.05-19.40.20:053][ 31]LogServerList: Posting server.
+[2025.09.05-19.41.20:060][612]LogServerList: Posting server.
+[2025.09.05-19.42.20:052][192]LogServerList: Posting server.
+[2025.09.05-19.43.20:064][773]LogServerList: Posting server.
+[2025.09.05-19.44.20:059][353]LogServerList: Posting server.
+[2025.09.05-19.45.20:066][934]LogServerList: Posting server.
+[2025.09.05-19.46.20:056][514]LogServerList: Posting server.
+[2025.09.05-19.47.20:065][ 95]LogServerList: Posting server.
+[2025.09.05-19.48.20:056][675]LogServerList: Posting server.
+[2025.09.05-19.49.20:067][256]LogServerList: Posting server.
+[2025.09.05-19.49.20:067][256]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-19.50.20:060][836]LogServerList: Posting server.
+[2025.09.05-19.51.20:052][416]LogServerList: Posting server.
+[2025.09.05-19.52.20:063][997]LogServerList: Posting server.
+[2025.09.05-19.53.20:055][577]LogServerList: Posting server.
+[2025.09.05-19.54.20:060][158]LogServerList: Posting server.
+[2025.09.05-19.55.20:060][738]LogServerList: Posting server.
+[2025.09.05-19.56.20:054][318]LogServerList: Posting server.
+[2025.09.05-19.57.20:063][898]LogServerList: Posting server.
+[2025.09.05-19.58.20:054][478]LogServerList: Posting server.
+[2025.09.05-19.59.20:065][ 59]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-19.59.20:065][ 59]LogServerList: Posting server.
+[2025.09.05-20.00.20:060][639]LogServerList: Posting server.
+[2025.09.05-20.01.20:058][219]LogServerList: Posting server.
+[2025.09.05-20.02.20:066][800]LogServerList: Posting server.
+[2025.09.05-20.03.20:059][380]LogServerList: Posting server.
+[2025.09.05-20.04.20:055][960]LogServerList: Posting server.
+[2025.09.05-20.05.20:066][541]LogServerList: Posting server.
+[2025.09.05-20.06.20:059][121]LogServerList: Posting server.
+[2025.09.05-20.07.20:054][701]LogServerList: Posting server.
+[2025.09.05-20.08.20:065][282]LogServerList: Posting server.
+[2025.09.05-20.09.20:059][862]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-20.09.20:059][862]LogServerList: Posting server.
+[2025.09.05-20.10.20:067][443]LogServerList: Posting server.
+[2025.09.05-20.11.20:059][ 23]LogServerList: Posting server.
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: request failed, libcurl error: 65 (Send failed since rewinding of the data stream failed)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 0 (Found bundle for host: 0x7d1887533b20 [serially])
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 1 (Re-using existing connection with host brickadia.com)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 2 (We are completely uploaded and fine)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 3 (Recv failure: Connection reset by peer)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 4 (OpenSSL SSL_read: Connection reset by peer, errno 104)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 5 (Connection died, retrying a fresh connect (retry count: 1))
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 6 (state.rewindbeforesend = TRUE)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 7 (Closing connection)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 8 (Send failure: Broken pipe)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 9 (Issue another request to this URL: 'https://brickadia.com/api/v1/servers')
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 10 (  Trying 104.26.2.39:443...)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 11 (Connected to brickadia.com (104.26.2.39) port 443)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 12 (ALPN: curl offers http/1.1)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 13 (SSL reusing session ID)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 14 (TLSv1.3 (OUT), TLS handshake, Client hello (1):)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 15 (TLSv1.3 (IN), TLS handshake, Server hello (2):)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 16 (TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 17 (TLSv1.3 (IN), TLS handshake, Certificate (11):)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 18 (TLSv1.3 (IN), TLS handshake, CERT verify (15):)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 19 (TLSv1.3 (IN), TLS handshake, Finished (20):)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 20 (TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 21 (TLSv1.3 (OUT), TLS handshake, Finished (20):)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 22 (SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 23 (ALPN: server accepted http/1.1)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 24 (Server certificate:)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 25 ( subject: CN=brickadia.com)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 26 ( start date: Aug 14 13:53:59 2025 GMT)
+[2025.09.05-20.11.20:344][ 40]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 27 ( expire date: Nov 12 14:53:57 2025 GMT)
+[2025.09.05-20.11.20:344][ 41]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 28 ( subjectAltName: host "brickadia.com" matched cert's "brickadia.com")
+[2025.09.05-20.11.20:344][ 41]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 29 ( issuer: C=US; O=Google Trust Services; CN=WE1)
+[2025.09.05-20.11.20:344][ 41]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 30 ( SSL certificate verify ok.)
+[2025.09.05-20.11.20:344][ 41]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 31 (using HTTP/1.1)
+[2025.09.05-20.11.20:344][ 41]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 32 (necessary data rewind wasn't possible)
+[2025.09.05-20.11.20:344][ 41]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 33 (Closing connection)
+[2025.09.05-20.11.20:344][ 41]LogHttp: Warning: 0x7d188b2ef160: libcurl info message cache 34 (TLSv1.3 (OUT), TLS alert, close notify (256):)
+[2025.09.05-20.11.20:344][ 41]LogServerList: Error: Failed to post server - internal error or timed out.
+[2025.09.05-20.12.20:067][604]LogServerList: Posting server.
+[2025.09.05-20.13.20:064][184]LogServerList: Posting server.
+[2025.09.05-20.14.20:057][764]LogServerList: Posting server.
+[2025.09.05-20.15.20:065][345]LogServerList: Posting server.
+[2025.09.05-20.16.20:055][925]LogServerList: Posting server.
+[2025.09.05-20.17.20:063][506]LogServerList: Posting server.
+[2025.09.05-20.18.20:054][ 86]LogServerList: Posting server.
+[2025.09.05-20.19.20:064][667]LogServerList: Posting server.
+[2025.09.05-20.19.20:064][667]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-20.20.20:058][247]LogServerList: Posting server.
+[2025.09.05-20.21.20:065][828]LogServerList: Posting server.
+[2025.09.05-20.22.20:057][408]LogServerList: Posting server.
+[2025.09.05-20.23.20:065][989]LogServerList: Posting server.
+[2025.09.05-20.24.20:055][569]LogServerList: Posting server.
+[2025.09.05-20.25.20:067][150]LogServerList: Posting server.
+[2025.09.05-20.26.20:059][730]LogServerList: Posting server.
+[2025.09.05-20.27.20:052][310]LogServerList: Posting server.
+[2025.09.05-20.28.20:063][891]LogServerList: Posting server.
+[2025.09.05-20.29.20:055][471]LogServerList: Posting server.
+[2025.09.05-20.29.20:055][471]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-20.30.20:064][ 52]LogServerList: Posting server.
+[2025.09.05-20.31.20:060][632]LogServerList: Posting server.
+[2025.09.05-20.32.20:052][212]LogServerList: Posting server.
+[2025.09.05-20.33.20:059][793]LogServerList: Posting server.
+[2025.09.05-20.34.20:064][374]LogServerList: Posting server.
+[2025.09.05-20.35.20:055][954]LogServerList: Posting server.
+[2025.09.05-20.36.20:062][535]LogServerList: Posting server.
+[2025.09.05-20.37.20:057][115]LogServerList: Posting server.
+[2025.09.05-20.38.20:066][696]LogServerList: Posting server.
+[2025.09.05-20.39.20:052][276]LogServerList: Posting server.
+[2025.09.05-20.39.20:053][276]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-20.40.20:060][857]LogServerList: Posting server.
+[2025.09.05-20.41.20:064][438]LogServerList: Posting server.
+[2025.09.05-20.42.20:055][ 18]LogServerList: Posting server.
+[2025.09.05-20.43.20:066][599]LogServerList: Posting server.
+[2025.09.05-20.44.20:057][179]LogServerList: Posting server.
+[2025.09.05-20.45.20:066][760]LogServerList: Posting server.
+[2025.09.05-20.46.20:058][340]LogServerList: Posting server.
+[2025.09.05-20.47.20:051][920]LogServerList: Posting server.
+[2025.09.05-20.48.20:063][501]LogServerList: Posting server.
+[2025.09.05-20.49.20:056][ 81]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-20.49.20:056][ 81]LogServerList: Posting server.
+[2025.09.05-20.50.20:062][662]LogServerList: Posting server.
+[2025.09.05-20.51.20:052][242]LogServerList: Posting server.
+[2025.09.05-20.52.20:062][823]LogServerList: Posting server.
+[2025.09.05-20.53.20:056][403]LogServerList: Posting server.
+[2025.09.05-20.54.20:055][983]LogServerList: Posting server.
+[2025.09.05-20.55.20:053][563]LogServerList: Posting server.
+[2025.09.05-20.56.20:059][144]LogServerList: Posting server.
+[2025.09.05-20.57.20:066][725]LogServerList: Posting server.
+[2025.09.05-20.58.20:056][305]LogServerList: Posting server.
+[2025.09.05-20.59.20:051][885]LogServerList: Posting server.
+[2025.09.05-20.59.20:051][885]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-21.00.20:058][466]LogServerList: Posting server.
+[2025.09.05-21.01.20:057][ 46]LogServerList: Posting server.
+[2025.09.05-21.02.20:053][626]LogServerList: Posting server.
+[2025.09.05-21.03.20:051][206]LogServerList: Posting server.
+[2025.09.05-21.04.20:061][787]LogServerList: Posting server.
+[2025.09.05-21.05.20:053][367]LogServerList: Posting server.
+[2025.09.05-21.06.20:066][948]LogServerList: Posting server.
+[2025.09.05-21.07.20:065][528]LogServerList: Posting server.
+[2025.09.05-21.08.20:059][108]LogServerList: Posting server.
+[2025.09.05-21.09.20:053][688]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-21.09.20:053][688]LogServerList: Posting server.
+[2025.09.05-21.10.20:064][269]LogServerList: Posting server.
+[2025.09.05-21.11.20:057][849]LogServerList: Posting server.
+[2025.09.05-21.12.20:055][429]LogServerList: Posting server.
+[2025.09.05-21.13.20:054][  9]LogServerList: Posting server.
+[2025.09.05-21.14.20:067][590]LogServerList: Posting server.
+[2025.09.05-21.15.20:059][170]LogServerList: Posting server.
+[2025.09.05-21.16.20:051][750]LogServerList: Posting server.
+[2025.09.05-21.17.20:059][331]LogServerList: Posting server.
+[2025.09.05-21.18.20:053][911]LogServerList: Posting server.
+[2025.09.05-21.19.20:066][492]LogServerList: Posting server.
+[2025.09.05-21.19.20:066][492]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-21.20.20:061][ 72]LogServerList: Posting server.
+[2025.09.05-21.21.20:053][652]LogServerList: Posting server.
+[2025.09.05-21.22.20:064][233]LogServerList: Posting server.
+[2025.09.05-21.23.20:059][813]LogServerList: Posting server.
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: request failed, libcurl error: 65 (Send failed since rewinding of the data stream failed)
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 0 (Found bundle for host: 0x7d1887534b40 [serially])
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 1 (Re-using existing connection with host brickadia.com)
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 2 (We are completely uploaded and fine)
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 3 (Recv failure: Connection reset by peer)
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 4 (OpenSSL SSL_read: Connection reset by peer, errno 104)
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 5 (Connection died, retrying a fresh connect (retry count: 1))
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 6 (state.rewindbeforesend = TRUE)
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 7 (Closing connection)
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 8 (Send failure: Broken pipe)
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 9 (Issue another request to this URL: 'https://brickadia.com/api/v1/servers')
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 10 (  Trying 104.26.2.39:443...)
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 11 (Connected to brickadia.com (104.26.2.39) port 443)
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 12 (ALPN: curl offers http/1.1)
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 13 (SSL reusing session ID)
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 14 (TLSv1.3 (OUT), TLS handshake, Client hello (1):)
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 15 (TLSv1.3 (IN), TLS handshake, Server hello (2):)
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 16 (TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):)
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 17 (TLSv1.3 (IN), TLS handshake, Certificate (11):)
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 18 (TLSv1.3 (IN), TLS handshake, CERT verify (15):)
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 19 (TLSv1.3 (IN), TLS handshake, Finished (20):)
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 20 (TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):)
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 21 (TLSv1.3 (OUT), TLS handshake, Finished (20):)
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 22 (SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384)
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 23 (ALPN: server accepted http/1.1)
+[2025.09.05-21.23.20:327][829]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 24 (Server certificate:)
+[2025.09.05-21.23.20:327][830]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 25 ( subject: CN=brickadia.com)
+[2025.09.05-21.23.20:327][830]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 26 ( start date: Aug 14 13:53:59 2025 GMT)
+[2025.09.05-21.23.20:327][830]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 27 ( expire date: Nov 12 14:53:57 2025 GMT)
+[2025.09.05-21.23.20:327][830]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 28 ( subjectAltName: host "brickadia.com" matched cert's "brickadia.com")
+[2025.09.05-21.23.20:327][830]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 29 ( issuer: C=US; O=Google Trust Services; CN=WE1)
+[2025.09.05-21.23.20:327][830]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 30 ( SSL certificate verify ok.)
+[2025.09.05-21.23.20:327][830]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 31 (using HTTP/1.1)
+[2025.09.05-21.23.20:327][830]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 32 (necessary data rewind wasn't possible)
+[2025.09.05-21.23.20:327][830]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 33 (Closing connection)
+[2025.09.05-21.23.20:327][830]LogHttp: Warning: 0x7d2e68dc0010: libcurl info message cache 34 (TLSv1.3 (OUT), TLS alert, close notify (256):)
+[2025.09.05-21.23.20:327][830]LogServerList: Error: Failed to post server - internal error or timed out.
+[2025.09.05-21.24.20:051][393]LogServerList: Posting server.
+[2025.09.05-21.25.20:062][974]LogServerList: Posting server.
+[2025.09.05-21.26.20:054][554]LogServerList: Posting server.
+[2025.09.05-21.27.20:064][135]LogServerList: Posting server.
+[2025.09.05-21.28.20:053][715]LogServerList: Posting server.
+[2025.09.05-21.29.20:061][296]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-21.29.20:061][296]LogServerList: Posting server.
+[2025.09.05-21.30.20:051][876]LogServerList: Posting server.
+[2025.09.05-21.31.20:063][457]LogServerList: Posting server.
+[2025.09.05-21.32.20:056][ 37]LogServerList: Posting server.
+[2025.09.05-21.33.20:051][617]LogServerList: Posting server.
+[2025.09.05-21.34.20:060][198]LogServerList: Posting server.
+[2025.09.05-21.35.20:057][778]LogServerList: Posting server.
+[2025.09.05-21.36.20:051][358]LogServerList: Posting server.
+[2025.09.05-21.37.20:063][939]LogServerList: Posting server.
+[2025.09.05-21.38.20:060][519]LogServerList: Posting server.
+[2025.09.05-21.39.20:054][ 99]LogServerList: Posting server.
+[2025.09.05-21.39.20:054][ 99]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-21.40.20:061][680]LogServerList: Posting server.
+[2025.09.05-21.41.20:052][260]LogServerList: Posting server.
+[2025.09.05-21.42.20:061][841]LogServerList: Posting server.
+[2025.09.05-21.43.20:060][421]LogServerList: Posting server.
+[2025.09.05-21.44.20:053][  1]LogServerList: Posting server.
+[2025.09.05-21.45.20:062][582]LogServerList: Posting server.
+[2025.09.05-21.46.20:053][162]LogServerList: Posting server.
+[2025.09.05-21.47.20:065][743]LogServerList: Posting server.
+[2025.09.05-21.48.20:058][323]LogServerList: Posting server.
+[2025.09.05-21.49.20:053][903]LogServerList: Posting server.
+[2025.09.05-21.49.20:053][903]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-21.50.20:063][484]LogServerList: Posting server.
+[2025.09.05-21.51.20:054][ 64]LogServerList: Posting server.
+[2025.09.05-21.52.20:062][645]LogServerList: Posting server.
+[2025.09.05-21.53.20:054][225]LogServerList: Posting server.
+[2025.09.05-21.54.20:063][806]LogServerList: Posting server.
+[2025.09.05-21.55.20:058][386]LogServerList: Posting server.
+[2025.09.05-21.56.20:051][966]LogServerList: Posting server.
+[2025.09.05-21.57.20:057][547]LogServerList: Posting server.
+[2025.09.05-21.58.20:052][127]LogServerList: Posting server.
+[2025.09.05-21.59.20:064][708]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-21.59.20:064][708]LogServerList: Posting server.
+[2025.09.05-22.00.20:054][288]LogServerList: Posting server.
+[2025.09.05-22.01.20:065][869]LogServerList: Posting server.
+[2025.09.05-22.02.20:056][449]LogServerList: Posting server.
+[2025.09.05-22.03.20:051][ 29]LogServerList: Posting server.
+[2025.09.05-22.04.20:062][610]LogServerList: Posting server.
+[2025.09.05-22.05.20:054][190]LogServerList: Posting server.
+[2025.09.05-22.06.20:061][771]LogServerList: Posting server.
+[2025.09.05-22.07.20:056][351]LogServerList: Posting server.
+[2025.09.05-22.08.20:065][932]LogServerList: Posting server.
+[2025.09.05-22.09.20:061][512]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-22.09.20:061][512]LogServerList: Posting server.
+[2025.09.05-22.10.20:053][ 92]LogServerList: Posting server.
+[2025.09.05-22.11.20:060][673]LogServerList: Posting server.
+[2025.09.05-22.12.20:052][253]LogServerList: Posting server.
+[2025.09.05-22.13.20:064][834]LogServerList: Posting server.
+[2025.09.05-22.14.20:055][414]LogServerList: Posting server.
+[2025.09.05-22.15.20:064][995]LogServerList: Posting server.
+[2025.09.05-22.16.20:057][575]LogServerList: Posting server.
+[2025.09.05-22.17.20:051][155]LogServerList: Posting server.
+[2025.09.05-22.18.20:061][736]LogServerList: Posting server.
+[2025.09.05-22.19.20:054][316]LogServerList: Posting server.
+[2025.09.05-22.19.20:054][317]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-22.20.20:065][897]LogServerList: Posting server.
+[2025.09.05-22.21.20:058][477]LogServerList: Posting server.
+[2025.09.05-22.22.20:055][ 57]LogServerList: Posting server.
+[2025.09.05-22.23.20:053][637]LogServerList: Posting server.
+[2025.09.05-22.24.20:065][218]LogServerList: Posting server.
+[2025.09.05-22.25.20:062][798]LogServerList: Posting server.
+[2025.09.05-22.26.20:053][378]LogServerList: Posting server.
+[2025.09.05-22.27.20:065][959]LogServerList: Posting server.
+[2025.09.05-22.28.20:058][539]LogServerList: Posting server.
+[2025.09.05-22.29.20:066][120]LogServerList: Posting server.
+[2025.09.05-22.29.20:066][120]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-22.30.20:061][700]LogServerList: Posting server.
+[2025.09.05-22.31.20:059][280]LogServerList: Posting server.
+[2025.09.05-22.32.20:051][860]LogServerList: Posting server.
+[2025.09.05-22.33.20:057][441]LogServerList: Posting server.
+[2025.09.05-22.34.20:065][ 22]LogServerList: Posting server.
+[2025.09.05-22.35.20:056][602]LogServerList: Posting server.
+[2025.09.05-22.36.20:066][183]LogServerList: Posting server.
+[2025.09.05-22.37.20:062][763]LogServerList: Posting server.
+[2025.09.05-22.38.20:060][343]LogServerList: Posting server.
+[2025.09.05-22.39.20:054][923]LogServerList: Posting server.
+[2025.09.05-22.39.20:054][923]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-22.40.20:067][504]LogServerList: Posting server.
+[2025.09.05-22.41.20:056][ 84]LogServerList: Posting server.
+[2025.09.05-22.42.20:064][665]LogServerList: Posting server.
+[2025.09.05-22.43.20:058][245]LogServerList: Posting server.
+[2025.09.05-22.44.20:053][825]LogServerList: Posting server.
+[2025.09.05-22.45.20:062][406]LogServerList: Posting server.
+[2025.09.05-22.46.20:055][986]LogServerList: Posting server.
+[2025.09.05-22.47.20:066][567]LogServerList: Posting server.
+[2025.09.05-22.48.20:054][147]LogServerList: Posting server.
+[2025.09.05-22.49.20:060][726]LogServerList: Posting server.
+[2025.09.05-22.49.20:060][726]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-22.50.20:052][306]LogServerList: Posting server.
+[2025.09.05-22.51.20:064][887]LogServerList: Posting server.
+[2025.09.05-22.52.20:054][467]LogServerList: Posting server.
+[2025.09.05-22.53.20:065][ 48]LogServerList: Posting server.
+[2025.09.05-22.54.20:059][628]LogServerList: Posting server.
+[2025.09.05-22.55.20:063][208]LogServerList: Posting server.
+[2025.09.05-22.56.20:064][788]LogServerList: Posting server.
+[2025.09.05-22.57.20:063][368]LogServerList: Posting server.
+[2025.09.05-22.58.20:058][948]LogServerList: Posting server.
+[2025.09.05-22.59.20:056][528]LogServerList: Posting server.
+[2025.09.05-22.59.20:056][528]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-23.00.20:054][108]LogServerList: Posting server.
+[2025.09.05-23.01.20:054][688]LogServerList: Posting server.
+[2025.09.05-23.02.20:065][269]LogServerList: Posting server.
+[2025.09.05-23.03.20:061][849]LogServerList: Posting server.
+[2025.09.05-23.04.20:062][429]LogServerList: Posting server.
+[2025.09.05-23.05.20:057][  9]LogServerList: Posting server.
+[2025.09.05-23.06.20:053][589]LogServerList: Posting server.
+[2025.09.05-23.07.20:055][169]LogServerList: Posting server.
+[2025.09.05-23.08.20:056][749]LogServerList: Posting server.
+[2025.09.05-23.09.20:054][329]LogServerList: Posting server.
+[2025.09.05-23.09.20:054][329]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-23.10.20:055][909]LogServerList: Posting server.
+[2025.09.05-23.11.20:052][489]LogServerList: Posting server.
+[2025.09.05-23.12.20:067][ 70]LogServerList: Posting server.
+[2025.09.05-23.13.20:051][649]LogServerList: Posting server.
+[2025.09.05-23.14.20:064][230]LogServerList: Posting server.
+[2025.09.05-23.15.20:065][810]LogServerList: Posting server.
+[2025.09.05-23.16.20:067][390]LogServerList: Posting server.
+[2025.09.05-23.17.20:064][970]LogServerList: Posting server.
+[2025.09.05-23.18.20:062][550]LogServerList: Posting server.
+[2025.09.05-23.19.20:065][130]LogServerList: Posting server.
+[2025.09.05-23.19.20:065][130]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-23.20.20:061][710]LogServerList: Posting server.
+[2025.09.05-23.21.20:062][290]LogServerList: Posting server.
+[2025.09.05-23.22.20:061][870]LogServerList: Posting server.
+[2025.09.05-23.23.20:059][450]LogServerList: Posting server.
+[2025.09.05-23.24.20:057][ 30]LogServerList: Posting server.
+[2025.09.05-23.25.20:053][610]LogServerList: Posting server.
+[2025.09.05-23.26.20:053][190]LogServerList: Posting server.
+[2025.09.05-23.27.20:066][771]LogServerList: Posting server.
+[2025.09.05-23.28.20:062][351]LogServerList: Posting server.
+[2025.09.05-23.29.20:058][931]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-23.29.20:058][931]LogServerList: Posting server.
+[2025.09.05-23.30.20:059][511]LogServerList: Posting server.
+[2025.09.05-23.31.20:060][ 91]LogServerList: Posting server.
+[2025.09.05-23.32.20:056][671]LogServerList: Posting server.
+[2025.09.05-23.33.20:054][251]LogServerList: Posting server.
+[2025.09.05-23.34.20:051][831]LogServerList: Posting server.
+[2025.09.05-23.35.20:064][412]LogServerList: Posting server.
+[2025.09.05-23.36.20:059][992]LogServerList: Posting server.
+[2025.09.05-23.37.20:066][572]LogServerList: Posting server.
+[2025.09.05-23.38.20:065][152]LogServerList: Posting server.
+[2025.09.05-23.39.20:052][731]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-23.39.20:052][731]LogServerList: Posting server.
+[2025.09.05-23.40.20:062][312]LogServerList: Posting server.
+[2025.09.05-23.41.20:059][892]LogServerList: Posting server.
+[2025.09.05-23.42.20:051][472]LogServerList: Posting server.
+[2025.09.05-23.43.20:053][ 52]LogServerList: Posting server.
+[2025.09.05-23.44.20:063][633]LogServerList: Posting server.
+[2025.09.05-23.45.20:057][213]LogServerList: Posting server.
+[2025.09.05-23.46.20:054][793]LogServerList: Posting server.
+[2025.09.05-23.47.20:051][373]LogServerList: Posting server.
+[2025.09.05-23.48.20:062][954]LogServerList: Posting server.
+[2025.09.05-23.49.20:060][534]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.05-23.49.20:060][534]LogServerList: Posting server.
+[2025.09.05-23.50.20:055][114]LogServerList: Posting server.
+[2025.09.05-23.51.20:051][694]LogServerList: Posting server.
+[2025.09.05-23.52.20:064][275]LogServerList: Posting server.
+[2025.09.05-23.53.20:060][855]LogServerList: Posting server.
+[2025.09.05-23.54.20:052][435]LogServerList: Posting server.
+[2025.09.05-23.55.20:063][ 16]LogServerList: Posting server.
+[2025.09.05-23.56.20:059][596]LogServerList: Posting server.
+[2025.09.05-23.57.20:053][176]LogServerList: Posting server.
+[2025.09.05-23.58.20:065][757]LogServerList: Posting server.
+[2025.09.05-23.59.20:057][337]LogServerList: Posting server.
+[2025.09.05-23.59.20:057][337]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.06-00.00.20:054][917]LogServerList: Posting server.
+[2025.09.06-00.01.20:052][497]LogServerList: Posting server.
+[2025.09.06-00.02.20:064][ 78]LogServerList: Posting server.
+[2025.09.06-00.03.20:062][658]LogServerList: Posting server.
+[2025.09.06-00.04.20:057][238]LogServerList: Posting server.
+[2025.09.06-00.05.20:065][819]LogServerList: Posting server.
+[2025.09.06-00.06.20:061][399]LogServerList: Posting server.
+[2025.09.06-00.07.20:059][979]LogServerList: Posting server.
+[2025.09.06-00.08.20:051][559]LogServerList: Posting server.
+[2025.09.06-00.09.20:063][140]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.06-00.09.20:063][140]LogServerList: Posting server.
+[2025.09.06-00.10.20:056][720]LogServerList: Posting server.
+[2025.09.06-00.11.20:065][301]LogServerList: Posting server.
+[2025.09.06-00.12.20:061][881]LogServerList: Posting server.
+[2025.09.06-00.13.20:058][461]LogServerList: Posting server.
+[2025.09.06-00.14.20:066][ 42]LogServerList: Posting server.
+[2025.09.06-00.15.20:061][622]LogServerList: Posting server.
+[2025.09.06-00.16.20:054][202]LogServerList: Posting server.
+[2025.09.06-00.17.20:051][782]LogServerList: Posting server.
+[2025.09.06-00.18.20:065][363]LogServerList: Posting server.
+[2025.09.06-00.19.20:065][943]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.06-00.19.20:065][943]LogServerList: Posting server.
+[2025.09.06-00.20.20:060][523]LogServerList: Posting server.
+[2025.09.06-00.21.20:055][103]LogServerList: Posting server.
+[2025.09.06-00.22.20:067][684]LogServerList: Posting server.
+[2025.09.06-00.23.20:061][264]LogServerList: Posting server.
+[2025.09.06-00.24.20:059][844]LogServerList: Posting server.
+[2025.09.06-00.25.20:060][424]LogServerList: Posting server.
+[2025.09.06-00.26.20:053][  4]LogServerList: Posting server.
+[2025.09.06-00.27.20:052][584]LogServerList: Posting server.
+[2025.09.06-00.28.20:052][164]LogServerList: Posting server.
+[2025.09.06-00.29.20:062][745]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.06-00.29.20:062][745]LogServerList: Posting server.
+[2025.09.06-00.30.20:054][325]LogServerList: Posting server.
+[2025.09.06-00.31.20:053][905]LogServerList: Posting server.
+[2025.09.06-00.32.20:063][486]LogServerList: Posting server.
+[2025.09.06-00.33.20:054][ 66]LogServerList: Posting server.
+[2025.09.06-00.34.20:067][647]LogServerList: Posting server.
+[2025.09.06-00.35.20:061][227]LogServerList: Posting server.
+[2025.09.06-00.36.20:054][807]LogServerList: Posting server.
+[2025.09.06-00.37.20:056][387]LogServerList: Posting server.
+[2025.09.06-00.38.20:054][967]LogServerList: Posting server.
+[2025.09.06-00.39.20:051][547]LogServerList: Posting server.
+[2025.09.06-00.39.20:051][547]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.06-00.40.20:058][128]LogServerList: Posting server.
+[2025.09.06-00.41.20:055][708]LogServerList: Posting server.
+[2025.09.06-00.42.20:065][289]LogServerList: Posting server.
+[2025.09.06-00.43.20:059][869]LogServerList: Posting server.
+[2025.09.06-00.44.20:054][449]LogServerList: Posting server.
+[2025.09.06-00.45.20:064][ 30]LogServerList: Posting server.
+[2025.09.06-00.46.20:058][610]LogServerList: Posting server.
+[2025.09.06-00.47.20:055][190]LogServerList: Posting server.
+[2025.09.06-00.48.20:051][770]LogServerList: Posting server.
+[2025.09.06-00.49.20:062][351]LogServerList: Posting server.
+[2025.09.06-00.49.20:062][351]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.06-00.50.20:055][931]LogServerList: Posting server.
+[2025.09.06-00.51.20:064][512]LogServerList: Posting server.
+[2025.09.06-00.52.20:058][ 92]LogServerList: Posting server.
+[2025.09.06-00.53.20:053][672]LogServerList: Posting server.
+[2025.09.06-00.54.20:064][253]LogServerList: Posting server.
+[2025.09.06-00.55.20:058][833]LogServerList: Posting server.
+[2025.09.06-00.56.20:053][413]LogServerList: Posting server.
+[2025.09.06-00.57.20:066][994]LogServerList: Posting server.
+[2025.09.06-00.58.20:066][574]LogServerList: Posting server.
+[2025.09.06-00.59.20:064][154]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.06-00.59.20:064][154]LogServerList: Posting server.
+[2025.09.06-01.00.20:058][734]LogServerList: Posting server.
+[2025.09.06-01.01.20:057][314]LogServerList: Posting server.
+[2025.09.06-01.02.20:052][894]LogServerList: Posting server.
+[2025.09.06-01.03.20:062][475]LogServerList: Posting server.
+[2025.09.06-01.04.20:055][ 55]LogServerList: Posting server.
+[2025.09.06-01.05.20:053][635]LogServerList: Posting server.
+[2025.09.06-01.06.20:066][216]LogServerList: Posting server.
+[2025.09.06-01.07.20:051][795]LogServerList: Posting server.
+[2025.09.06-01.08.20:064][376]LogServerList: Posting server.
+[2025.09.06-01.09.20:056][955]LogServerList: Posting server.
+[2025.09.06-01.09.20:056][955]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.06-01.10.20:054][535]LogServerList: Posting server.
+[2025.09.06-01.11.20:065][116]LogServerList: Posting server.
+[2025.09.06-01.12.20:059][696]LogServerList: Posting server.
+[2025.09.06-01.13.20:058][276]LogServerList: Posting server.
+[2025.09.06-01.14.20:053][856]LogServerList: Posting server.
+[2025.09.06-01.15.20:065][437]LogServerList: Posting server.
+[2025.09.06-01.16.20:061][ 17]LogServerList: Posting server.
+[2025.09.06-01.17.20:060][597]LogServerList: Posting server.
+[2025.09.06-01.18.20:058][177]LogServerList: Posting server.
+[2025.09.06-01.19.20:059][757]LogServerList: Posting server.
+[2025.09.06-01.19.20:059][757]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.06-01.20.20:052][337]LogServerList: Posting server.
+[2025.09.06-01.21.20:063][918]LogServerList: Posting server.
+[2025.09.06-01.22.20:059][498]LogServerList: Posting server.
+[2025.09.06-01.23.20:051][ 78]LogServerList: Posting server.
+[2025.09.06-01.24.20:050][657]LogServerList: Posting server.
+[2025.09.06-01.25.20:061][235]LogServerList: Posting server.
+[2025.09.06-01.26.20:057][812]LogServerList: Posting server.
+[2025.09.06-01.27.20:063][390]LogServerList: Posting server.
+[2025.09.06-01.28.20:060][968]LogServerList: Posting server.
+[2025.09.06-01.29.20:057][546]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.06-01.29.20:057][546]LogServerList: Posting server.
+[2025.09.06-01.30.20:063][124]LogServerList: Posting server.
+[2025.09.06-01.31.20:059][702]LogServerList: Posting server.
+[2025.09.06-01.32.20:067][281]LogServerList: Posting server.
+[2025.09.06-01.33.20:061][860]LogServerList: Posting server.
+[2025.09.06-01.34.20:066][440]LogServerList: Posting server.
+[2025.09.06-01.35.20:062][ 19]LogServerList: Posting server.
+[2025.09.06-01.36.20:056][598]LogServerList: Posting server.
+[2025.09.06-01.37.20:051][177]LogServerList: Posting server.
+[2025.09.06-01.38.20:056][670]LogServerList: Posting server.
+[2025.09.06-01.39.20:066][236]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.06-01.39.20:066][236]LogServerList: Posting server.
+[2025.09.06-01.40.20:056][815]LogServerList: Posting server.
+[2025.09.06-01.41.20:050][394]LogServerList: Posting server.
+[2025.09.06-01.42.20:062][974]LogServerList: Posting server.
+[2025.09.06-01.43.20:055][553]LogServerList: Posting server.
+[2025.09.06-01.44.20:050][132]LogServerList: Posting server.
+[2025.09.06-01.45.20:060][712]LogServerList: Posting server.
+[2025.09.06-01.46.20:065][292]LogServerList: Posting server.
+[2025.09.06-01.47.20:058][871]LogServerList: Posting server.
+[2025.09.06-01.48.20:057][451]LogServerList: Posting server.
+[2025.09.06-01.49.20:061][ 31]LogServerList: Posting server.
+[2025.09.06-01.49.20:061][ 31]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.06-01.50.20:064][610]LogServerList: Posting server.
+[2025.09.06-01.51.20:051][188]LogServerList: Posting server.
+[2025.09.06-01.52.20:067][768]LogServerList: Posting server.
+[2025.09.06-01.53.20:064][347]LogServerList: Posting server.
+[2025.09.06-01.53.29:220][895]LogCore: Engine exit requested (reason: EngineExit() was called; note: exit was already requested)
+[2025.09.06-01.53.29:220][895]LogInit: Display: PreExit Game.
+[2025.09.06-01.53.29:220][895]LogWorld: BeginTearingDown for /Game/Maps/Plate/Plate
+[2025.09.06-01.53.29:220][895]LogNet: World NetDriver shutdown IpNetDriver_2147482370 [GameNetDriver]
+[2025.09.06-01.53.29:220][895]LogNet: DestroyNamedNetDriver IpNetDriver_2147482370 [GameNetDriver]
+[2025.09.06-01.53.29:220][895]LogIris: Display: Iris ReplicationSystem[0]: ReplicationSystem_2147482368 (0x0x7d18d926a6c0) is about to be destroyed
+[2025.09.06-01.53.29:221][895]LogExit: Name:GameNetDriver Def:GameNetDriver IpNetDriver_2147482370 shut down
+[2025.09.06-01.53.29:221][895]LogTemp: Warning: SetSystemSleepAllowed not implemented for this platform.
+[2025.09.06-01.53.29:221][895]LogServerList: Deleting server.
+[2025.09.06-01.53.29:222][895]LogBRAuthSubsystem: Shutting down Auth Subsystem.
+[2025.09.06-01.53.29:222][895]LogWorld: UWorld::CleanupWorld for Plate, bSessionEnded=true, bCleanupResources=true
+[2025.09.06-01.53.29:226][895]LogExit: Preparing to exit.
+[2025.09.06-01.53.29:240][895]LogDemo: Cleaned up 0 splitscreen connections, owner deletion: enabled
+[2025.09.06-01.53.29:241][895]LogExit: Game engine shut down
+[2025.09.06-01.53.29:277][895]LogExit: Object subsystem successfully closed.
+[2025.09.06-01.53.29:402][895]LogEOSSDK: FEOSSDKManager::Shutdown EOS_Shutdown Result=[EOS_Success]
+[2025.09.06-01.53.29:402][895]LogIris: FNetObjectFactoryRegistry::UnregisterFactory is unregistering factory: None name: NetActorFactory id: 0
+[2025.09.06-01.53.29:402][895]LogIris: FNetObjectFactoryRegistry::UnregisterFactory is unregistering factory: None name: NetSubObjectFactory id: 1
+[2025.09.06-01.53.29:402][895]LogPakFile: Destroying PakPlatformFile
+[2025.09.06-01.53.29:414][895]LogExit: Exiting.
+[2025.09.06-01.53.29:414][895]LogCore: FUnixPlatformMisc::RequestExit(bForce=false, ReturnCode=143)
+[2025.09.06-01.53.29:491][895]Log file closed, 09/05/25 21:53:29
+Goodbye!

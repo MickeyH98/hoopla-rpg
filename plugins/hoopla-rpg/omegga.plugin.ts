@@ -483,6 +483,50 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     };
   }
 
+  // Get proper item name with rarity color
+  getItemDisplayName(itemType: string): string {
+    const item = itemType.toLowerCase();
+    
+    // Map ore types to proper display names with rarity colors
+    switch (item) {
+      case 'copper':
+        return '<color="fff">Copper Ore</color>'; // White - Common
+      case 'iron':
+        return '<color="0f0">Iron Ore</color>'; // Green - Uncommon
+      case 'gold':
+        return '<color="08f">Gold Ore</color>'; // Blue - Rare
+      case 'obsidian':
+        return '<color="80f">Obsidian Ore</color>'; // Purple - Epic
+      case 'diamond':
+        return '<color="f80">Diamond Ore</color>'; // Orange - Legendary
+      default:
+        // For other items, use title case
+        return this.standardizeItemCasing(itemType);
+    }
+  }
+
+  // Get item name without color tags for inventory storage
+  getItemName(itemType: string): string {
+    const item = itemType.toLowerCase();
+    
+    // Map ore types to proper names
+    switch (item) {
+      case 'copper':
+        return 'Copper Ore';
+      case 'iron':
+        return 'Iron Ore';
+      case 'gold':
+        return 'Gold Ore';
+      case 'diamond':
+        return 'Diamond Ore';
+      case 'obsidian':
+        return 'Obsidian Ore';
+      default:
+        // For other items, use title case
+        return this.standardizeItemCasing(itemType);
+    }
+  }
+
   // Standardize item casing to title case (first letter capitalized)
   standardizeItemCasing(itemName: string): string {
     if (!itemName || itemName.length === 0) return itemName;
@@ -1014,21 +1058,47 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     return `[<color="0f0">${filledBar}</color><color="888">${emptyBar}</color>]`;
   }
 
+  /**
+   * RARITY COLOR SYSTEM - DOCUMENTED FOR REFERENCE
+   * 
+   * MINING RESOURCES (Common → Legendary):
+   * - Copper Ore: Common (White)
+   * - Iron Ore: Uncommon (Green) 
+   * - Gold Ore: Rare (Blue)
+   * - Obsidian Ore: Epic (Purple)
+   * - Diamond Ore: Legendary (Orange)
+   * 
+   * FISHING RESOURCES (Common → Legendary):
+   * - Gup: Common (White)
+   * - Cod: Uncommon (Green)
+   * - Shark: Rare (Blue)
+   * - Whale: Epic (Purple)
+   * - Kraken: Legendary (Orange)
+   * 
+   * CONSUMABLES: All Common (White)
+   * 
+   * COLOR CODES:
+   * - Common: White (#ffffff)
+   * - Uncommon: Green (#00ff00)
+   * - Rare: Blue (#0080ff)
+   * - Epic: Purple (#8000ff)
+   * - Legendary: Orange (#ff8000)
+   */
   getResourceColor(resourceName: string): string {
     const resource = resourceName.toLowerCase();
     
-    // Mining resources
-    if (resource === 'copper') return 'fff'; // White (Common)
-    if (resource === 'iron') return '0f0';   // Green (Uncommon)
-    if (resource === 'gold') return '00f';   // Blue (Rare)
-    if (resource === 'obsidian') return 'f0f'; // Purple (Epic)
-    if (resource === 'diamond') return 'f80';  // Orange (Legendary)
+    // Mining resources - handle both old and new formats
+    if (resource === 'copper' || resource === 'copper ore') return 'fff';     // White (Common)
+    if (resource === 'iron' || resource === 'iron ore') return '0f0';         // Green (Uncommon)
+    if (resource === 'gold' || resource === 'gold ore') return '08f';         // Blue (Rare)
+    if (resource === 'obsidian' || resource === 'obsidian ore') return '80f'; // Purple (Epic)
+    if (resource === 'diamond' || resource === 'diamond ore') return 'f80';   // Orange (Legendary)
     
     // Fishing resources
     if (resource === 'gup') return 'fff';    // White (Common)
-    if (resource === 'cod') return '0f0';   // Green (Uncommon)
-    if (resource === 'shark') return '00f';  // Blue (Rare)
-    if (resource === 'whale') return 'f0f';  // Purple (Epic)
+    if (resource === 'cod') return '0f0';    // Green (Uncommon)
+    if (resource === 'shark') return '08f';  // Blue (Rare)
+    if (resource === 'whale') return '80f';  // Purple (Epic)
     if (resource === 'kraken') return 'f80'; // Orange (Legendary)
     
     // Consumable items (all common rarity - white)
@@ -2000,9 +2070,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             };
           }
           
-          // Mining complete - add to inventory and grant XP with standardized casing
-          const standardizedOreType = this.standardizeItemCasing(trigger.message);
-          await this.addToInventory({ id: playerId }, standardizedOreType);
+          // Mining complete - add to inventory and grant XP with proper item name
+          const extractedOreType = trigger.message.replace('Mining ', '').replace('...', ''); // Extract ore type from "Mining gold..."
+          const properItemName = this.getItemName(extractedOreType);
+          await this.addToInventory({ id: playerId }, properItemName);
           
           // Calculate XP rewards based on ore rarity and mining skill level
           const generalXP = this.getXPReward(trigger.message, miningLevel, 'mining');
@@ -2035,11 +2106,11 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           
           // Get updated inventory to show total count
           const updatedPlayer = await this.getPlayerData({ id: playerId });
-          const itemCount = updatedPlayer.inventory.filter(item => item === standardizedOreType).length;
+          const itemCount = updatedPlayer.inventory.filter(item => item === properItemName).length;
           
           // New simplified message format with middlePrint - items in brackets with rarity colors
-          const resourceColor = this.getResourceColor(standardizedOreType);
-          const message = `Mined 1 <color="${resourceColor}">[${standardizedOreType}]</color> (<color="ff0">x${itemCount}</color> in bag), Gained ${generalXP}XP and ${miningXP} Mining XP`;
+          const displayName = this.getItemDisplayName(extractedOreType);
+          const message = `Mined 1 ${displayName} (<color="ff0">x${itemCount}</color> in bag), Gained ${generalXP}XP and ${miningXP} Mining XP`;
           
           // Use middlePrint for the result
           this.omegga.middlePrint(playerId, message);
@@ -2053,7 +2124,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             message: message,
             reward: { 
               type: 'item', 
-              item: standardizedOreType, 
+              item: properItemName, 
               xpGained: generalXP, 
               miningXpGained: miningXP,
               leveledUp: miningXpResult.leveledUp, 
@@ -2485,8 +2556,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             );
             
             if (!sellPlayer.inventory || !itemToSell) {
-              const standardizedItemName = this.standardizeItemCasing(trigger.message);
-              const noItemMessage = `You don't have any ${standardizedItemName} to sell!`;
+              const itemType = trigger.message.replace('Shopkeeper: ', ''); // Extract item type from "Shopkeeper: gold"
+              const properItemName = this.getItemName(itemType);
+              const noItemMessage = `You don't have any ${properItemName} to sell!`;
               this.omegga.middlePrint(playerId, noItemMessage);
               return { 
                 success: false, 
@@ -2986,22 +3058,54 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         }
       };
       
-      // Count items by type for better display
+      // Count items by type for better display and convert malformed names
       const itemCounts: { [key: string]: number } = {};
       for (const item of safeRpgData.inventory) {
-        itemCounts[item] = (itemCounts[item] || 0) + 1;
+        // Convert malformed item names to proper names
+        let properItemName = item;
+        if (item === 'Mining gold...') {
+          properItemName = 'Gold Ore';
+        } else if (item === 'Mining diamond...') {
+          properItemName = 'Diamond Ore';
+        } else if (item === 'Mining iron...') {
+          properItemName = 'Iron Ore';
+        } else if (item === 'Mining copper...') {
+          properItemName = 'Copper Ore';
+        } else if (item === 'Mining obsidian...') {
+          properItemName = 'Obsidian Ore';
+        } else if (item === 'Obsidian') {
+          properItemName = 'Obsidian Ore';
+        }
+        
+        itemCounts[properItemName] = (itemCounts[properItemName] || 0) + 1;
       }
       
-      // Format inventory display with items in brackets, rarity colors, and yellow count
+      // Debug: Log inventory data
+      console.log(`[Hoopla RPG] DEBUG: Player ${speaker} inventory:`, safeRpgData.inventory);
+      console.log(`[Hoopla RPG] DEBUG: Item counts:`, itemCounts);
+      
+      // Format inventory display with items in brackets, rarity colors, and count - ultra compact
       let inventoryDisplay = "Empty";
       if (Object.keys(itemCounts).length > 0) {
         inventoryDisplay = Object.entries(itemCounts)
           .map(([item, count]) => {
             const itemColor = this.getResourceColor(item);
-            return `<color="ff0">x${count}</color> <color="${itemColor}">[${item}]</color>`;
+            console.log(`[Hoopla RPG] DEBUG: Item "${item}" -> Color: "${itemColor}"`);
+            
+            // Use shorter names for common items to save space
+            let shortName = item;
+            if (item === 'Gold Ore') shortName = 'Gold';
+            else if (item === 'Iron Ore') shortName = 'Iron';
+            else if (item === 'Copper Ore') shortName = 'Copper';
+            else if (item === 'Diamond Ore') shortName = 'Diamond';
+            else if (item === 'Obsidian Ore') shortName = 'Obsidian';
+            
+            return `<color="${itemColor}">[${shortName}]</color><color="ff0">x${count}</color>`;
           })
-          .join(", ");
+          .join(",");
       }
+      
+      console.log(`[Hoopla RPG] DEBUG: Final inventory display: "${inventoryDisplay}"`);
       
       // Format consumables display
       let consumablesDisplay = "None";
@@ -3059,8 +3163,66 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       this.omegga.whisper(speaker, `${miningDisplay} | ${barteringDisplay}`);
       this.omegga.whisper(speaker, `${fishingDisplay}`);
       
-      // Display inventory
-      this.omegga.whisper(speaker, `<color="fff">Inventory: ${inventoryDisplay}</>`);
+      // Display inventory - split into two lines to avoid character limit
+      console.log(`[Hoopla RPG] DEBUG: About to whisper inventory: "${inventoryDisplay}"`);
+      
+      // Sort items by rarity (common to legendary)
+      const rarityOrder = {
+        'Gup': 1,           // Common (White)
+        'Copper Ore': 2,    // Common (White)
+        'Iron Ore': 3,      // Uncommon (Green)
+        'Cod': 4,           // Uncommon (Green)
+        'Gold Ore': 5,      // Rare (Blue)
+        'Shark': 6,         // Rare (Blue)
+        'Whale': 7,         // Epic (Purple)
+        'Obsidian Ore': 8,  // Epic (Purple)
+        'Kraken': 9,        // Legendary (Orange)
+        'Diamond Ore': 10   // Legendary (Orange)
+      };
+      
+      const items = Object.entries(itemCounts).sort(([itemA], [itemB]) => {
+        const rarityA = rarityOrder[itemA] || 999; // Unknown items go to end
+        const rarityB = rarityOrder[itemB] || 999;
+        return rarityA - rarityB; // Sort by rarity order (common first, legendary last)
+      });
+      
+      const midPoint = Math.ceil(items.length / 2);
+      const firstHalf = items.slice(0, midPoint);
+      const secondHalf = items.slice(midPoint);
+      
+      // Format first line
+      const firstLine = firstHalf
+        .map(([item, count]) => {
+          const itemColor = this.getResourceColor(item);
+          let shortName = item;
+          if (item === 'Gold Ore') shortName = 'Gold';
+          else if (item === 'Iron Ore') shortName = 'Iron';
+          else if (item === 'Copper Ore') shortName = 'Copper';
+          else if (item === 'Diamond Ore') shortName = 'Diamond';
+          else if (item === 'Obsidian Ore') shortName = 'Obsidian';
+          return `<color="${itemColor}">[${shortName}]</color><color="ff0">x${count}</color>`;
+        })
+        .join(",");
+      
+      // Format second line
+      const secondLine = secondHalf
+        .map(([item, count]) => {
+          const itemColor = this.getResourceColor(item);
+          let shortName = item;
+          if (item === 'Gold Ore') shortName = 'Gold';
+          else if (item === 'Iron Ore') shortName = 'Iron';
+          else if (item === 'Copper Ore') shortName = 'Copper';
+          else if (item === 'Diamond Ore') shortName = 'Diamond';
+          else if (item === 'Obsidian Ore') shortName = 'Obsidian';
+          return `<color="${itemColor}">[${shortName}]</color><color="ff0">x${count}</color>`;
+        })
+        .join(",");
+      
+      // Send inventory display
+      this.omegga.whisper(speaker, `<color="fff">Inventory: ${firstLine}</>`);
+      if (secondLine) {
+        this.omegga.whisper(speaker, `<color="fff">  ${secondLine}</>`);
+      }
       
       // Display consumables
       this.omegga.whisper(speaker, `<color="fff">Consumables: ${consumablesDisplay}</>`);
@@ -3334,6 +3496,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         await this.processBrickInteraction(data, eventName);
       });
     }
+
+    // Announce plugin reload to all players
+    this.omegga.broadcast(`<color="0f0">Hoopla RPG plugin has been reloaded successfully!</color>`);
+    console.log("Hoopla RPG: Plugin reload announcement sent to all players");
 
                       return { 
           registeredCommands: [
