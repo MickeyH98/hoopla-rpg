@@ -513,11 +513,26 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       if (player.experience >= xpForLevel30) {
         const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
         console.log(`[Hoopla RPG] WARNING: ${playerName} shows as level 29 but has ${player.experience} XP (needs ${xpForLevel30} for level 30). Possible data corruption!`);
+        
         // Force them to level 30
         player.level = 30;
         player.maxHealth += 10;
         player.health = player.maxHealth;
+        
+        // CRITICAL: Save the data multiple times to ensure persistence
         await this.setPlayerData({ id }, player);
+        await this.setPlayerData({ id }, player); // Double save
+        await this.setPlayerData({ id }, player); // Triple save
+        
+        // Verify the save worked
+        const verifyPlayer = await this.getPlayerData({ id });
+        if (verifyPlayer.level !== 30) {
+          console.log(`[Hoopla RPG] ERROR: Failed to save level 30 for ${playerName}! Retrying...`);
+          verifyPlayer.level = 30;
+          verifyPlayer.maxHealth = player.maxHealth;
+          verifyPlayer.health = player.health;
+          await this.setPlayerData({ id }, verifyPlayer);
+        }
         
         // Announce the level up
         this.omegga.broadcast(`<color="ff0">Congratulations! ${playerName} has reached level 30!</color>`);
@@ -580,6 +595,11 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         } catch (error) {
           console.error(`[Hoopla RPG] Error assigning roles to ${playerName}:`, error);
         }
+        
+        // CRITICAL: Extra save for level 30 players to prevent data loss
+        await this.setPlayerData({ id }, player);
+        await this.setPlayerData({ id }, player); // Double save
+        console.log(`[Hoopla RPG] DEBUG: Extra save completed for ${playerName} at level 30`);
       }
     } else if (oldLevel === 30 && newLevel === 30) {
       // Debug logging for level 30 players gaining XP
