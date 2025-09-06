@@ -479,6 +479,27 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     
     const oldLevel = player.level;
     
+    // Debug logging for level 30 players
+    if (oldLevel === 30) {
+      const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
+      console.log(`[Hoopla RPG] DEBUG: ${playerName} (level 30) gaining ${amount} XP. Current experience: ${player.experience}, Level: ${oldLevel}`);
+    }
+    
+    // CRITICAL FIX: If player is already level 30, don't allow any level changes
+    if (oldLevel === 30) {
+      // Still add XP for tracking purposes, but don't change level
+      player.experience += amount;
+      await this.setPlayerData({ id }, player);
+      
+      const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
+      console.log(`[Hoopla RPG] DEBUG: ${playerName} is already level 30, skipping level calculation. Added ${amount} XP for tracking.`);
+      
+      return { 
+        leveledUp: false, 
+        newLevel: 30 
+      };
+    }
+    
     // Always add XP for score tracking, even at max level
     player.experience += amount;
     
@@ -520,6 +541,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       // Debug logging for level 30 players gaining XP
       const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
       console.log(`[Hoopla RPG] DEBUG: ${playerName} (level 30) gained XP but did not level up. Old level: ${oldLevel}, New level: ${newLevel}, Experience: ${player.experience}`);
+    } else if (oldLevel !== newLevel) {
+      // This should never happen, but log it if it does
+      const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
+      console.log(`[Hoopla RPG] WARNING: Unexpected level change for ${playerName}! Old level: ${oldLevel}, New level: ${newLevel}`);
     }
     
     // Additional safeguard: Check if the player's stored level is different from what we calculated
