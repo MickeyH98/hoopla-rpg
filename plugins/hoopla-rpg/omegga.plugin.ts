@@ -184,23 +184,17 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   }
 
   async getPlayerData({ id }: PlayerId): Promise<RPGPlayer> {
-    console.log(`[Hoopla RPG] DEBUG: getPlayerData called for player ${id}`);
-    console.log(`[Hoopla RPG] DEBUG: Cache contents: ${Array.from(this.level30PlayerCache.keys()).join(', ')}`);
-    
     // Check if this is a level 30 player in our cache
     if (this.level30PlayerCache.has(id)) {
       const cachedPlayer = this.level30PlayerCache.get(id)!;
-      console.log(`[Hoopla RPG] DEBUG: Using cached level 30 data for player ${id}, level: ${cachedPlayer.level}`);
       return cachedPlayer;
     }
 
     const player = (await this.store.get("rpg_" + id)) ?? this.defaultPlayer();
-    console.log(`[Hoopla RPG] DEBUG: Loaded player ${id} from storage, level: ${player.level}, experience: ${player.experience}`);
     
     // If this player is level 30, cache them to prevent data corruption
     if (player.level === 30) {
       this.level30PlayerCache.set(id, { ...player });
-      console.log(`[Hoopla RPG] DEBUG: Cached level 30 player ${id} to prevent data corruption`);
     }
     
     return player;
@@ -432,7 +426,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   }
 
   async setPlayerData({ id }: PlayerId, data: RPGPlayer) {
-    console.log(`[Hoopla RPG] DEBUG: setPlayerData called for player ID: ${id}, level: ${data.level}, experience: ${data.experience}`);
     // Ensure levels don't exceed max level
     const safeData = { ...data };
     safeData.level = Math.min(safeData.level, 30);
@@ -532,12 +525,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     // Update cache for level 30 players
     if (safeData.level === 30) {
       this.level30PlayerCache.set(id, { ...baseData, ...safeData });
-      console.log(`[Hoopla RPG] DEBUG: Updated cache for level 30 player ID: ${id}, level: ${safeData.level}, experience: ${safeData.experience}`);
     }
   }
 
   async addExperience({ id }: PlayerId, amount: number): Promise<{ leveledUp: boolean; newLevel: number }> {
-    console.log(`[Hoopla RPG] DEBUG: addExperience called for player ID: ${id}`);
     const player = await this.getPlayerData({ id });
     
     // Ensure all required properties exist with fallbacks
@@ -547,19 +538,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     if (player.maxHealth === undefined) player.maxHealth = this.config.startingHealth;
     
     const oldLevel = player.level;
-    
-    // Debug logging for level 30 players
-    if (oldLevel === 30) {
-      const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
-      console.log(`[Hoopla RPG] DEBUG: ${playerName} (level 30) gaining ${amount} XP. Current experience: ${player.experience}, Level: ${oldLevel}`);
-    }
-    
-    // Debug logging for level 29 players (potential level 30 candidates)
-    if (oldLevel === 29) {
-      const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
-      console.log(`[Hoopla RPG] DEBUG: ${playerName} (level 29) gaining ${amount} XP. Current experience: ${player.experience}, Level: ${oldLevel}`);
-      console.log(`[Hoopla RPG] DEBUG: Player ID in addExperience: ${id}, Player name: ${playerName}`);
-    }
     
     // CRITICAL FIX: If player is already level 30, don't allow any level changes
     if (oldLevel === 30) {
@@ -597,7 +575,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         
         // Force update the cache to prevent reload issues
         this.level30PlayerCache.set(id, { ...player });
-        console.log(`[Hoopla RPG] DEBUG: Force updated cache for ${playerName} (ID: ${id}) to level 30`);
         
         // Verify the save worked
         const verifyPlayer = await this.getPlayerData({ id });
@@ -651,14 +628,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       
       // Announce level-up to the whole server
       const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
-      console.log(`[Hoopla RPG] DEBUG: Level-up announcement - Player ID: ${id}, Player name: ${playerName}`);
       this.omegga.broadcast(`<color="ff0">Congratulations! ${playerName} has reached level ${newLevel}!</color>`);
       console.log(`[Hoopla RPG] ${playerName} leveled up from ${oldLevel} to ${newLevel}!`);
-      
-      // Additional debugging for level 30 level-ups
-      if (newLevel === 30) {
-        console.log(`[Hoopla RPG] DEBUG: ${playerName} reached level 30! Experience: ${player.experience}, Max Health: ${player.maxHealth}`);
-      }
       
       // Assign special roles for level 30 players
       if (newLevel === 30) {
@@ -675,12 +646,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         
         // Force update the cache to prevent reload issues
         this.level30PlayerCache.set(id, { ...player });
-        console.log(`[Hoopla RPG] DEBUG: Extra save and cache update completed for ${playerName} (ID: ${id}) at level 30`);
       }
-    } else if (oldLevel === 30 && newLevel === 30) {
-      // Debug logging for level 30 players gaining XP
-      const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
-      console.log(`[Hoopla RPG] DEBUG: ${playerName} (level 30) gained XP but did not level up. Old level: ${oldLevel}, New level: ${newLevel}, Experience: ${player.experience}`);
     } else if (oldLevel !== newLevel) {
       // This should never happen, but log it if it does
       const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
