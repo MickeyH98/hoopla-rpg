@@ -34,6 +34,7 @@ type RPGPlayer = {
   consumables: ConsumableItem[]; // Track consumable items with charges
   nodesCollected: string[]; // Track which nodes the player has discovered
   username?: string; // Store player's username for leaderboard display
+  quests: { [questId: string]: QuestProgress }; // Track quest progress
   skills: {
     mining: { level: number; experience: number };
     bartering: { level: number; experience: number };
@@ -41,9 +42,44 @@ type RPGPlayer = {
   };
 };
 
+type QuestProgress = {
+  questId: string;
+  status: 'not_started' | 'in_progress' | 'completed';
+  requirements: QuestRequirement[];
+  completedRequirements: string[]; // Track which requirements are met
+};
+
+type QuestRequirement = {
+  id: string;
+  type: 'item' | 'kill' | 'level' | 'skill';
+  target: string; // Item name, enemy name, level number, or skill name
+  amount: number; // How many items, kills, or level required
+  description: string; // Human-readable description
+};
+
+type Quest = {
+  id: string;
+  name: string;
+  description: string;
+  requirements: QuestRequirement[];
+  rewards: {
+    xp: number;
+    currency: number;
+    items?: string[];
+  };
+  questgiver: {
+    name: string;
+    personality: string;
+    greeting: string;
+    questExplanation: string;
+    reminderMessage: string;
+    completionMessage: string;
+  };
+};
+
 type BrickTrigger = {
   id: string;
-  type: 'xp' | 'currency' | 'item' | 'heal' | 'sell' | 'fish' | 'bulk_sell' | 'buy';
+  type: 'xp' | 'currency' | 'item' | 'heal' | 'sell' | 'fish' | 'bulk_sell' | 'buy' | 'quest';
   value: number;
   cooldown: number;
   lastUsed: { [playerId: string]: number };
@@ -101,6 +137,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       consumables: [],
       nodesCollected: [],
       username: undefined, // Will be set when player first interacts
+      quests: {}, // Initialize empty quest progress
       skills: {
         mining: { level: 0, experience: 0 },
         bartering: { level: 0, experience: 0 },
@@ -203,6 +240,20 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           };
           break;
           
+        case 'quest':
+          trigger = {
+            id: triggerId,
+            type: 'quest',
+            value: 0,
+            cooldown: 0, // No cooldown for quest interactions
+            lastUsed: {},
+            message: subtype, // Store the quest ID in the message (e.g., "john_brickington")
+            color: '#9D4EDD', // Purple color for quests
+            brickPositions: [{ x: position[0], y: position[1], z: position[2] }],
+            triggerType: 'click'
+          };
+          break;
+          
         default:
           return false; // No trigger created
       }
@@ -235,10 +286,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         // Check if this is an RPG console tag interaction
         if (data.message || data.tag) {
           const message = data.message || data.tag;
-          const rpgMatch = message.match(/^rpg_(mining|fishing|sell|buy)_(.+)$/i);
+          const rpgMatch = message.match(/^rpg_(mining|fishing|sell|buy|quest)_(.+)$/i);
           if (rpgMatch) {
-            const nodeType = rpgMatch[1]; // mining, fishing, sell, buy
-            const nodeSubtype = rpgMatch[2]; // iron, gold, spot, etc.
+            const nodeType = rpgMatch[1]; // mining, fishing, sell, buy, quest
+            const nodeSubtype = rpgMatch[2]; // iron, gold, spot, john_brickington, etc.
             
             // Store RPG node data by position
             const nodeKey = `${data.position[0]},${data.position[1]},${data.position[2]}`;
@@ -265,6 +316,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
                 initMessage = `Shop initialized! Click again to sell items.`;
               } else if (nodeData.type === 'buy') {
                 initMessage = `Shop initialized! Click again to buy items.`;
+              } else if (nodeData.type === 'quest') {
+                initMessage = `<color="ff0">Questgiver initialized!</color> Click again to talk to the questgiver.`;
               }
               if (initMessage) {
                 this.omegga.middlePrint(player.id, initMessage);
@@ -549,6 +602,160 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         // For other items, return as-is
         return item;
     }
+  }
+
+  // QUEST SYSTEM METHODS
+
+  // Get all available quests
+  getAllQuests(): Quest[] {
+    return [
+      {
+        id: 'john_brickington',
+        name: 'John Brickington\'s Fishy Business',
+        description: 'Help John Brickington with his fishy business by bringing him 5 Cod.',
+        requirements: [
+          {
+            id: 'cod_requirement',
+            type: 'item',
+            target: 'Cod',
+            amount: 5,
+            description: 'Bring 5 Cod to John Brickington'
+          }
+        ],
+        rewards: {
+          xp: 1000, // Substantial XP reward
+          currency: 500,
+          items: ['Fish bait'] // Bonus reward
+        },
+        questgiver: {
+          name: 'John Brickington',
+          personality: 'A Gen Z fisherman who speaks in internet slang and brainrot terms while trying to sound professional about fish',
+          greeting: 'Yo no cap, you look like someone who could help me out fr fr. I\'m John Brickington, been fishing these waters for a minute now. You seem pretty based ngl.',
+          questExplanation: 'Okay so like, I\'m in a bit of a situation rn. I need exactly 5 Cod for this meeting I got coming up and it\'s giving me anxiety fr. These clients are being so picky about their fish, like they want the premium stuff not that mid quality fish you find everywhere. Think you could help me out? I\'ll make sure you get paid well, no cap.',
+          reminderMessage: 'Oh bet, you\'re back! Still working on getting those 5 Cod for me? No rush but the meeting is coming up soon and I\'m lowkey stressing. Just make sure they\'re fresh ones okay? Nothing worse than showing up with stale fish to a business meeting, that would be so cringe.',
+          completionMessage: 'YOOO these are absolutely fire! Exactly what I needed, you\'re so real for this. My clients are gonna be so happy, this is gonna hit different. You did amazing work here, no cap. Here\'s your payment, and I threw in some extra fish bait as a thank you. You\'re literally the GOAT!'
+        }
+      }
+    ];
+  }
+
+  // Helper function to send long messages as multiple whispers
+  sendLongMessage(playerId: string, message: string, maxLength: number = 200): void {
+    // Split message into chunks that fit within the character limit
+    const chunks = [];
+    let currentChunk = '';
+    
+    // Split by words to avoid breaking words
+    const words = message.split(' ');
+    
+    for (const word of words) {
+      // Check if adding this word would exceed the limit
+      if (currentChunk.length + word.length + 1 > maxLength && currentChunk.length > 0) {
+        chunks.push(currentChunk.trim());
+        currentChunk = word;
+      } else {
+        currentChunk += (currentChunk.length > 0 ? ' ' : '') + word;
+      }
+    }
+    
+    // Add the last chunk if it's not empty
+    if (currentChunk.trim().length > 0) {
+      chunks.push(currentChunk.trim());
+    }
+    
+    // Send each chunk as a separate whisper
+    for (const chunk of chunks) {
+      this.omegga.whisper(playerId, chunk);
+    }
+  }
+
+  // Get quest by ID
+  getQuestById(questId: string): Quest | null {
+    const quests = this.getAllQuests();
+    return quests.find(quest => quest.id === questId) || null;
+  }
+
+  // Check if player has completed quest requirements
+  checkQuestRequirements(player: RPGPlayer, quest: Quest): { completed: boolean; completedRequirements: string[] } {
+    const completedRequirements: string[] = [];
+    
+    for (const requirement of quest.requirements) {
+      let requirementMet = false;
+      
+      switch (requirement.type) {
+        case 'item':
+          const itemCount = player.inventory?.filter(item => 
+            item.toLowerCase() === requirement.target.toLowerCase()
+          ).length || 0;
+          requirementMet = itemCount >= requirement.amount;
+          break;
+          
+        case 'level':
+          requirementMet = player.level >= requirement.amount;
+          break;
+          
+        case 'skill':
+          const skillLevel = player.skills?.[requirement.target as keyof typeof player.skills]?.level || 0;
+          requirementMet = skillLevel >= requirement.amount;
+          break;
+          
+        case 'kill':
+          // For future implementation - track kills
+          requirementMet = false;
+          break;
+      }
+      
+      if (requirementMet) {
+        completedRequirements.push(requirement.id);
+      }
+    }
+    
+    return {
+      completed: completedRequirements.length === quest.requirements.length,
+      completedRequirements
+    };
+  }
+
+  // Complete quest and give rewards
+  async completeQuest(playerId: string, quest: Quest): Promise<void> {
+    const player = await this.getPlayerData({ id: playerId });
+    
+    // Remove required items from inventory
+    for (const requirement of quest.requirements) {
+      if (requirement.type === 'item') {
+        let itemsToRemove = requirement.amount;
+        player.inventory = player.inventory.filter(item => {
+          if (itemsToRemove > 0 && item.toLowerCase() === requirement.target.toLowerCase()) {
+            itemsToRemove--;
+            return false; // Remove this item
+          }
+          return true; // Keep this item
+        });
+      }
+    }
+    
+    // Give rewards
+    await this.addExperience({ id: playerId }, quest.rewards.xp);
+    await this.currency.add(playerId, "currency", quest.rewards.currency);
+    
+    if (quest.rewards.items) {
+      for (const item of quest.rewards.items) {
+        await this.addToInventory({ id: playerId }, item);
+      }
+    }
+    
+    // Mark quest as completed
+    if (!player.quests) {
+      player.quests = {};
+    }
+    player.quests[quest.id] = {
+      questId: quest.id,
+      status: 'completed',
+      requirements: quest.requirements,
+      completedRequirements: quest.requirements.map(req => req.id)
+    };
+    
+    await this.setPlayerData({ id: playerId }, player);
   }
 
   // Standardize item casing to title case (first letter capitalized)
@@ -1712,8 +1919,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         const playerData = await this.getPlayerData({ id: playerId });
         const score = await this.getPlayerScore(playerId);
         
-          // Only include players who have some XP (not just default players)
-          if (score > 0) {
+        // Only include players who have some XP (not just default players)
+        if (score > 0) {
             // Get stored player name from database, fallback to online player name, then truncated ID
             const storedPlayerName = playerData.username;
             const onlinePlayer = this.omegga.getPlayer(playerId);
@@ -1892,7 +2099,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     if (!trigger) {
       return { success: false, message: "Trigger not found!" };
     }
-
+    
     // Get player name for logging
     const player = this.omegga.getPlayer(playerId);
     const playerName = player?.name || `Player_${playerId.substring(0, 8)}`;
@@ -1925,6 +2132,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       } else {
         nodeName = 'items';
       }
+    } else if (trigger.type === 'quest') {
+      interactionType = 'talking to questgiver';
+      // Extract questgiver name from trigger message (quest ID)
+      const questId = trigger.message;
+      const quest = this.getQuestById(questId);
+      nodeName = quest ? quest.questgiver.name.toLowerCase() : 'questgiver';
     }
     
     console.log(`[Hoopla RPG] ${playerName} is ${interactionType}${nodeName ? ` ${nodeName}` : ''}`);
@@ -1984,8 +2197,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           if (this.isNodeOnCooldown(trigger, playerId)) {
             const remainingSeconds = this.getNodeCooldownRemaining(trigger, playerId);
             const cooldownMessage = `Node depleted! Try again in ${remainingSeconds} seconds.`;
-            this.omegga.middlePrint(playerId, cooldownMessage);
-            return { success: false, message: cooldownMessage };
+              this.omegga.middlePrint(playerId, cooldownMessage);
+              return { success: false, message: cooldownMessage };
           }
           
           // Get player's mining skill level
@@ -2132,16 +2345,16 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             if (this.isNodeOnCooldown(trigger, playerId)) {
               const remainingSeconds = this.getNodeCooldownRemaining(trigger, playerId);
               const cooldownMessage = `Fishing spot depleted! Try again in ${remainingSeconds} seconds.`;
-              this.omegga.middlePrint(playerId, cooldownMessage);
-              return { success: false, message: cooldownMessage };
-            }
-            
-            // Initialize fishing attempts for this player (5 attempts per node)
+                this.omegga.middlePrint(playerId, cooldownMessage);
+                return { success: false, message: cooldownMessage };
+              }
+              
+                          // Initialize fishing attempts for this player (5 attempts per node)
             if (!trigger.fishingAttemptsRemaining) {
               trigger.fishingAttemptsRemaining = {};
             }
             if (!trigger.fishingAttemptsRemaining[playerId]) {
-              trigger.fishingAttemptsRemaining[playerId] = 5;
+            trigger.fishingAttemptsRemaining[playerId] = 5;
             }
             
             // Also ensure fishing progress is initialized
@@ -2751,6 +2964,90 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             return { success: false, message: unknownMessage };
           }
 
+        case 'quest':
+          // Handle quest interactions
+          const questPlayer = await this.getPlayerData({ id: playerId });
+          const questId = trigger.message; // Quest ID is stored in the message
+          const quest = this.getQuestById(questId);
+          
+          if (!quest) {
+            const noQuestMessage = "Quest not found!";
+            this.omegga.whisper(playerId, noQuestMessage);
+            return { success: false, message: noQuestMessage };
+          }
+          
+          // Check if player has already completed this quest
+          if (questPlayer.quests?.[questId]?.status === 'completed') {
+            const completedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Oh bet, you already helped me out with that fish situation. Thanks again, you're so real for that!"`;
+            this.sendLongMessage(playerId, completedMessage);
+            return { success: true, message: completedMessage };
+          }
+          
+          // Check quest requirements
+          const requirementCheck = this.checkQuestRequirements(questPlayer, quest);
+          
+          if (requirementCheck.completed) {
+            // Quest requirements met - complete the quest
+            await this.completeQuest(playerId, quest);
+            
+            // Send completion message separately
+            const completionMessage = `<color="ff0">${quest.questgiver.name}</color>: "${quest.questgiver.completionMessage}"`;
+            this.sendLongMessage(playerId, completionMessage);
+            
+            // Format and send rewards message separately
+            const formattedItems = quest.rewards.items ? quest.rewards.items.map(item => `<color="fff">[${item}]</color>`).join(', ') : '';
+            const formattedCurrency = await this.currency.format(quest.rewards.currency);
+            const rewardMessage = `Quest completed! Rewards: <color="ff0">${quest.rewards.xp} XP</color>, <color="0f0">${formattedCurrency}</color>${formattedItems ? `, ${formattedItems}` : ''}`;
+            this.omegga.whisper(playerId, rewardMessage);
+            
+            return { 
+              success: true, 
+              message: completionMessage,
+              reward: { 
+                type: 'quest_completion', 
+                questId: quest.id,
+                xp: quest.rewards.xp,
+                currency: quest.rewards.currency,
+                items: quest.rewards.items
+              }
+            };
+          } else {
+            // Quest requirements not met
+            if (!questPlayer.quests?.[questId]) {
+              // First time talking to questgiver - start the quest
+              if (!questPlayer.quests) {
+                questPlayer.quests = {};
+              }
+              questPlayer.quests[questId] = {
+                questId: quest.id,
+                status: 'in_progress',
+                requirements: quest.requirements,
+                completedRequirements: requirementCheck.completedRequirements
+              };
+              await this.setPlayerData({ id: playerId }, questPlayer);
+              
+              // Combine greeting and quest explanation into one message
+              const combinedMessage = `<color="ff0">${quest.questgiver.name}</color>: "${quest.questgiver.greeting} ${quest.questgiver.questExplanation}"`;
+              this.sendLongMessage(playerId, combinedMessage);
+              
+              return { 
+                success: true, 
+                message: combinedMessage,
+                reward: { type: 'quest_started', questId: quest.id }
+              };
+            } else {
+              // Quest already started but requirements not met - show reminder
+              const reminderMessage = `<color="ff0">${quest.questgiver.name}</color>: "${quest.questgiver.reminderMessage}"`;
+              this.sendLongMessage(playerId, reminderMessage);
+              
+              return { 
+                success: true, 
+                message: reminderMessage,
+                reward: { type: 'quest_reminder', questId: quest.id }
+              };
+            }
+          }
+
         default:
           return { success: false, message: "Unknown trigger type!" };
        }
@@ -3224,14 +3521,14 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       try {
         // Initialize the interaction-based RPG system
         await this.initializeRPGOnInteraction();
-        
+
         this.omegga.whisper(speaker, `<color="0f0">RPG systems initialized successfully!</color>`);
         this.omegga.whisper(speaker, `<color="888">Click on RPG bricks to discover and activate them.</color>`);
 
-      } catch (error) {
+        } catch (error) {
         console.error(`[Hoopla RPG] Error during RPG initialization:`, error);
         this.omegga.whisper(speaker, `<color="f00">Error initializing RPG systems: ${error.message}</color>`);
-      }
+       }
     });
 
     // RPG help command - shows all available commands
@@ -3344,11 +3641,41 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
         this.omegga.whisper(speaker, `<color="0f0">All RPG triggers cleared successfully!</color>`);
         this.omegga.whisper(speaker, `<color="888">Click on RPG bricks to recreate them with updated prices.</color>`);
-
-      } catch (error) {
+         
+       } catch (error) {
         console.error(`[Hoopla RPG] Error clearing RPG triggers:`, error);
         this.omegga.whisper(speaker, `<color="f00">Error clearing RPG triggers: ${error.message}</color>`);
       }
+    });
+
+    // RPG clear quest triggers command - clears only quest triggers
+    this.omegga.on("cmd:rpgclearquests", async (speaker: string) => {
+      const player = this.omegga.getPlayer(speaker);
+      if (!player) return;
+
+      this.omegga.whisper(speaker, `<color="f00">Clearing quest triggers...</color>`);
+
+      try {
+        const triggers = await this.getBrickTriggers();
+        let questTriggerCount = 0;
+        
+        // Find and remove quest triggers
+        for (const [triggerId, trigger] of Object.entries(triggers)) {
+          if (trigger.type === 'quest') {
+            delete triggers[triggerId];
+            questTriggerCount++;
+          }
+        }
+        
+        await this.setBrickTriggers(triggers);
+
+        this.omegga.whisper(speaker, `<color="0f0">Cleared ${questTriggerCount} quest triggers!</color>`);
+        this.omegga.whisper(speaker, `<color="888">Click on quest bricks to recreate them.</color>`);
+         
+       } catch (error) {
+         console.error(`[Hoopla RPG] Error clearing quest triggers:`, error);
+         this.omegga.whisper(speaker, `<color="f00">Failed to clear quest triggers: ${error.message}</color>`);
+       }
     });
 
 
@@ -3369,7 +3696,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
                       return { 
           registeredCommands: [
-            "rpg", "rpginit", "rpghelp", "rpgclearall", "rpgcleartriggers", "mininginfo", "fishinginfo", "rpgleaderboard"
+            "rpg", "rpginit", "rpghelp", "rpgclearall", "rpgcleartriggers", "rpgclearquests", "mininginfo", "fishinginfo", "rpgleaderboard"
           ] 
         };
   }
