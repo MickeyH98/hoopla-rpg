@@ -150,10 +150,37 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   // Memory cache for level 30 players to prevent data corruption
   private level30PlayerCache: Map<string, RPGPlayer> = new Map();
 
+  // Click debounce system - track last click times per player
+  private playerClickTimes: Map<string, number[]> = new Map();
+  private readonly MAX_CLICKS_PER_SECOND = 10;
+
   // Clear cache for a specific player (useful for debugging)
   clearPlayerCache(playerId: string): void {
     this.level30PlayerCache.delete(playerId);
     console.log(`[Hoopla RPG] DEBUG: Cleared cache for player ${playerId}`);
+  }
+
+  // Check if player can click (debounce system)
+  canPlayerClick(playerId: string): boolean {
+    const now = Date.now();
+    const oneSecondAgo = now - 1000;
+    
+    // Get or create click times array for this player
+    let clickTimes = this.playerClickTimes.get(playerId) || [];
+    
+    // Remove clicks older than 1 second
+    clickTimes = clickTimes.filter(time => time > oneSecondAgo);
+    
+    // Check if player has exceeded the limit
+    if (clickTimes.length >= this.MAX_CLICKS_PER_SECOND) {
+      return false;
+    }
+    
+    // Add current click time
+    clickTimes.push(now);
+    this.playerClickTimes.set(playerId, clickTimes);
+    
+    return true;
   }
 
   async getPlayerData({ id }: PlayerId): Promise<RPGPlayer> {
@@ -322,6 +349,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         
         const player = this.omegga.getPlayer(playerId);
         if (!player) return;
+
+        // Check click debounce - limit to 10 clicks per second
+        if (!this.canPlayerClick(playerId)) {
+          console.log(`[Hoopla RPG] Click rate limited for player ${playerName} (${playerId})`);
+          return;
+        }
 
         // Store player username for leaderboard display
         await this.ensurePlayerUsername(player.id, player.name);
