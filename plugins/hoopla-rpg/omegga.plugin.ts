@@ -551,6 +551,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
   async addExperience({ id }: PlayerId, amount: number): Promise<{ leveledUp: boolean; newLevel: number }> {
     const player = await this.getPlayerData({ id });
+    const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
+    
+    // DEBUG: Log player data for keygen specifically
+    if (playerName === "keygen") {
+      console.log(`[Hoopla RPG] DEBUG: keygen addExperience called - Level: ${player.level}, XP: ${player.experience}, Amount: ${amount}`);
+    }
     
     // Ensure all required properties exist with fallbacks
     if (player.level === undefined) player.level = this.config.startingLevel;
@@ -585,6 +591,11 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       if (player.experience >= xpForLevel30) {
         const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
         console.log(`[Hoopla RPG] WARNING: ${playerName} shows as level 29 but has ${player.experience} XP (needs ${xpForLevel30} for level 30). Possible data corruption!`);
+        
+        // DEBUG: Additional logging for keygen
+        if (playerName === "keygen") {
+          console.log(`[Hoopla RPG] DEBUG: keygen triggering level 29 corruption fix - oldLevel: ${oldLevel}, XP: ${player.experience}, xpForLevel30: ${xpForLevel30}`);
+        }
         
         // Force them to level 30
         player.level = 30;
@@ -649,6 +660,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       
       // Announce level-up to the whole server
       const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
+      
+      // DEBUG: Additional logging for keygen
+      if (playerName === "keygen") {
+        console.log(`[Hoopla RPG] DEBUG: keygen normal level-up path - oldLevel: ${oldLevel}, newLevel: ${newLevel}, XP: ${player.experience}`);
+      }
+      
       this.omegga.broadcast(`<color="ff0">Congratulations! ${playerName} has reached level ${newLevel}!</color>`);
       console.log(`[Hoopla RPG] ${playerName} leveled up from ${oldLevel} to ${newLevel}!`);
       
