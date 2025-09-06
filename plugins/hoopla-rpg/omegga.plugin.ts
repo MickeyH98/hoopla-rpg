@@ -744,6 +744,141 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           reminderMessage: 'Yo still need that Kraken! My team at the lab is getting antsy because we need to activate the network before the enemy discovers what we\'re doing. The fate of underwater national security literally depends on this one Kraken. No pressure though lmao.',
           completionMessage: 'YOOO WE DID IT! Operation Fishbowl is complete! The Kraken just connected to our network and we now have full underwater surveillance coverage of the entire ocean. You literally just helped us create the world\'s first biological internet! My real name is Agent Brickington and you\'ve been recruited as an honorary marine intelligence operative. Welcome to the team, no cap!'
         }
+      },
+      {
+        id: 'frank_bricktavious_1',
+        name: 'Frank Bricktavious\'s Copper Foundation',
+        description: 'Help Frank Bricktavious get 10 Copper Ore to start his monument project',
+        requirements: [
+          {
+            id: 'copper_requirement',
+            type: 'item',
+            target: 'Copper Ore',
+            amount: 10,
+            description: 'Collect 10 Copper Ore from mining'
+          }
+        ],
+        rewards: {
+          xp: 600,
+          currency: 300,
+          items: ['Fish bait']
+        },
+        questgiver: {
+          name: 'Frank Bricktavious',
+          personality: 'A retired mining engineer with a thick southern accent who speaks like an old-timey prospector but uses modern slang',
+          greeting: 'Well howdy there, partner! Name\'s Frank Bricktavious, retired mining engineer extraordinaire. I been workin\' these mines for nigh on forty years, and I reckon you look like someone who knows their way around a pickaxe.',
+          questExplanation: 'See here, I\'m buildin\' myself a mighty fine monument to my legacy as the greatest miner this side of the Mississippi. I need exactly 10 pieces of Copper Ore to get the foundation started. This here monument\'s gonna be the talk of the town, no cap!',
+          reminderMessage: 'Howdy again! Still workin\' on gatherin\' those 10 Copper Ore pieces for my monument? No rush, but I\'m gettin\' mighty excited to see this thing come together. Just make sure they\'re good quality ore, ya hear?',
+          completionMessage: 'Well I\'ll be! These Copper Ore pieces are absolutely magnificent! You\'ve got the eye of a true miner, my friend. This foundation is gonna be rock solid, literally! I can already see my monument takin\' shape in my mind\'s eye.'
+        }
+      },
+      {
+        id: 'frank_bricktavious_2',
+        name: 'Frank Bricktavious\'s Iron Framework',
+        description: 'Help Frank Bricktavious get 10 Iron Ore for the monument\'s framework',
+        requirements: [
+          {
+            id: 'iron_requirement',
+            type: 'item',
+            target: 'Iron Ore',
+            amount: 10,
+            description: 'Collect 10 Iron Ore from mining'
+          }
+        ],
+        rewards: {
+          xp: 900,
+          currency: 500,
+          items: ['Fish bait']
+        },
+        questgiver: {
+          name: 'Frank Bricktavious',
+          personality: 'A retired mining engineer with a thick southern accent who speaks like an old-timey prospector but uses modern slang',
+          greeting: 'Well howdy there, partner! That Copper foundation you brought me is lookin\' mighty fine. I been tellin\' everyone in town about the skilled miner who\'s helpin\' me build my legacy monument.',
+          questExplanation: 'Now we need to move on to the framework, and for that I need exactly 10 pieces of Iron Ore. This here monument\'s gonna be so sturdy it\'ll last a thousand years! I been dreamin\' about this day since I first picked up a pickaxe as a young whippersnapper.',
+          reminderMessage: 'Howdy again! Still workin\' on gatherin\' those 10 Iron Ore pieces for the framework? I been measurin\' and plannin\' all day, and I reckon this monument\'s gonna be the most impressive thing this town has ever seen!',
+          completionMessage: 'Hot diggity! These Iron Ore pieces are exactly what I needed! The framework is gonna be so strong it could hold up a mountain. You\'re turnin\' out to be quite the mining partner, I tell ya what!'
+        }
+      },
+      {
+        id: 'frank_bricktavious_3',
+        name: 'Frank Bricktavious\'s Golden Glory',
+        description: 'Help Frank Bricktavious get 10 Gold Ore for the monument\'s golden accents',
+        requirements: [
+          {
+            id: 'gold_requirement',
+            type: 'item',
+            target: 'Gold Ore',
+            amount: 10,
+            description: 'Collect 10 Gold Ore from mining'
+          }
+        ],
+        rewards: {
+          xp: 1200,
+          currency: 700,
+          items: ['Fish bait']
+        },
+        questgiver: {
+          name: 'Frank Bricktavious',
+          personality: 'A retired mining engineer with a thick southern accent who speaks like an old-timey prospector but uses modern slang',
+          greeting: 'Well howdy there, partner! That Iron framework is lookin\' absolutely spectacular! I been gettin\' so many compliments from folks passin\' by. They can\'t believe how fast this monument is comin\' together.',
+          questExplanation: 'Now for the real showstopper - I need exactly 10 pieces of Gold Ore for the golden accents. This here monument\'s gonna shine brighter than the sun itself! I want people to see it from miles away and know that Frank Bricktavious built something truly magnificent.',
+          reminderMessage: 'Howdy again! Still workin\' on gatherin\' those 10 Gold Ore pieces for the golden accents? I been polishin\' the plans and I reckon this monument\'s gonna be so shiny it\'ll blind folks with its beauty!',
+          completionMessage: 'Well butter my biscuit! These Gold Ore pieces are absolutely gorgeous! The golden accents are gonna make this monument look like it came straight out of a fairy tale. You\'re makin\' an old miner\'s dreams come true!'
+        }
+      },
+      {
+        id: 'frank_bricktavious_4',
+        name: 'Frank Bricktavious\'s Obsidian Opulence',
+        description: 'Help Frank Bricktavious get 10 Obsidian Ore for the monument\'s dark accents',
+        requirements: [
+          {
+            id: 'obsidian_requirement',
+            type: 'item',
+            target: 'Obsidian Ore',
+            amount: 10,
+            description: 'Collect 10 Obsidian Ore from mining'
+          }
+        ],
+        rewards: {
+          xp: 1500,
+          currency: 900,
+          items: ['Fish bait']
+        },
+        questgiver: {
+          name: 'Frank Bricktavious',
+          personality: 'A retired mining engineer with a thick southern accent who speaks like an old-timey prospector but uses modern slang',
+          greeting: 'Well howdy there, partner! That Gold Ore you brought me is makin\' this monument shine like a beacon of hope! I been gettin\' visitors from three counties over just to see the progress.',
+          questExplanation: 'Now I need exactly 10 pieces of Obsidian Ore for the dark accents. This here monument\'s gonna have the perfect contrast - bright gold and deep obsidian black. It\'ll be like a work of art that tells the story of my forty years in the mines.',
+          reminderMessage: 'Howdy again! Still workin\' on gatherin\' those 10 Obsidian Ore pieces for the dark accents? I been thinkin\' about the design and I reckon this contrast between gold and obsidian is gonna be absolutely breathtaking!',
+          completionMessage: 'Well I\'ll be hornswoggled! These Obsidian Ore pieces are exactly what I needed! The contrast between the gold and obsidian is gonna be so striking it\'ll take folks\' breath away. You\'re helpin\' me create a true masterpiece!'
+        }
+      },
+      {
+        id: 'frank_bricktavious_5',
+        name: 'Frank Bricktavious\'s Diamond Destiny',
+        description: 'Help Frank Bricktavious get 1 Diamond Ore for the monument\'s crown jewel',
+        requirements: [
+          {
+            id: 'diamond_requirement',
+            type: 'item',
+            target: 'Diamond Ore',
+            amount: 1,
+            description: 'Collect 1 Diamond Ore from mining'
+          }
+        ],
+        rewards: {
+          xp: 2500,
+          currency: 2000,
+          items: ['Fish bait']
+        },
+        questgiver: {
+          name: 'Frank Bricktavious',
+          personality: 'A retired mining engineer with a thick southern accent who speaks like an old-timey prospector but uses modern slang',
+          greeting: 'Well howdy there, partner! This monument is lookin\' absolutely magnificent! I been gettin\' so emotional thinkin\' about what this represents. But I got one final request that\'ll make this monument truly legendary.',
+          questExplanation: 'I need exactly 1 piece of Diamond Ore for the crown jewel of my monument. This here diamond\'s gonna be the centerpiece that represents all my years of hard work and dedication to the mining craft. It\'ll be the final touch that makes this monument a true testament to the mining life.',
+          reminderMessage: 'Howdy again! Still workin\' on findin\' that 1 Diamond Ore for the crown jewel? I know it\'s a tall order, but this diamond\'s gonna be the perfect finishing touch to my legacy monument. No pressure, but it\'s the most important piece of all!',
+          completionMessage: 'WELL I\'LL BE DARNED! This Diamond Ore is absolutely perfect! My monument is finally complete, and it\'s more beautiful than I ever dreamed possible. You\'ve helped me create something that\'ll stand as a testament to the mining life for generations to come. Thank you, partner, from the bottom of my heart!'
+        }
       }
     ];
   }
@@ -787,12 +922,18 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       return quests.find(quest => quest.id === 'john_brickington_1') || null;
     }
     
+    // Handle Frank Bricktavious quest ID - redirect to first quest in chain
+    if (questId === 'frank_bricktavious') {
+      return quests.find(quest => quest.id === 'frank_bricktavious_1') || null;
+    }
+    
     return quests.find(quest => quest.id === questId) || null;
   }
 
   // Get next quest in chain
   getNextQuestInChain(currentQuestId: string): string | null {
-    const questChain = [
+    // John Brickington quest chain
+    const johnQuestChain = [
       'john_brickington_1',
       'john_brickington_2', 
       'john_brickington_3',
@@ -800,9 +941,25 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       'john_brickington_5'
     ];
     
-    const currentIndex = questChain.indexOf(currentQuestId);
-    if (currentIndex >= 0 && currentIndex < questChain.length - 1) {
-      return questChain[currentIndex + 1];
+    // Frank Bricktavious quest chain
+    const frankQuestChain = [
+      'frank_bricktavious_1',
+      'frank_bricktavious_2',
+      'frank_bricktavious_3',
+      'frank_bricktavious_4',
+      'frank_bricktavious_5'
+    ];
+    
+    // Check John's quest chain
+    const johnIndex = johnQuestChain.indexOf(currentQuestId);
+    if (johnIndex >= 0 && johnIndex < johnQuestChain.length - 1) {
+      return johnQuestChain[johnIndex + 1];
+    }
+    
+    // Check Frank's quest chain
+    const frankIndex = frankQuestChain.indexOf(currentQuestId);
+    if (frankIndex >= 0 && frankIndex < frankQuestChain.length - 1) {
+      return frankQuestChain[frankIndex + 1];
     }
     
     return null; // No next quest in chain
@@ -3106,12 +3263,20 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           // Handle legacy quest ID - redirect to first quest in chain
           if (questId === 'john_brickington') {
             questId = 'john_brickington_1';
+          } else if (questId === 'frank_bricktavious') {
+            questId = 'frank_bricktavious_1';
           }
           
           // Determine which quest the player should be interacting with
           // Always start with the first quest in the chain and work sequentially
           if (questPlayer.quests) {
-            const questChain = ['john_brickington_1', 'john_brickington_2', 'john_brickington_3', 'john_brickington_4', 'john_brickington_5'];
+            // Determine which quest chain to use based on the original quest ID
+            let questChain: string[] = [];
+            if (trigger.message === 'john_brickington' || questId.startsWith('john_brickington_')) {
+              questChain = ['john_brickington_1', 'john_brickington_2', 'john_brickington_3', 'john_brickington_4', 'john_brickington_5'];
+            } else if (trigger.message === 'frank_bricktavious' || questId.startsWith('frank_bricktavious_')) {
+              questChain = ['frank_bricktavious_1', 'frank_bricktavious_2', 'frank_bricktavious_3', 'frank_bricktavious_4', 'frank_bricktavious_5'];
+            }
             
             // Find the first quest that is not completed
             for (const chainQuestId of questChain) {
