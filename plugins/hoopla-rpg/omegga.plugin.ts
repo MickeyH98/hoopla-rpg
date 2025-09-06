@@ -623,13 +623,15 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         this.omegga.broadcast(`<color="ff0">Congratulations! ${playerName} has reached level 30!</color>`);
         console.log(`[Hoopla RPG] ${playerName} leveled up from 29 to 30! (Data corruption fix)`);
         
-        // Assign roles
+        // Assign to Fly team
         try {
-          await this.omegga.writeln(`Chat.Command /grantRole "Flyer" "${playerName}"`);
-          await this.omegga.writeln(`Chat.Command /grantRole "MINIGAME LEAVER" "${playerName}"`);
-          console.log(`[Hoopla RPG] Assigned "Flyer" and "MINIGAME LEAVER" roles to ${playerName} for reaching level 30!`);
+          const player = this.omegga.getPlayer(id);
+          if (player) {
+            player.setTeam(1); // Assuming team index 1 is the "Fly" team
+            console.log(`[Hoopla RPG] Assigned ${playerName} to Fly team for reaching level 30!`);
+          }
         } catch (error) {
-          console.error(`[Hoopla RPG] Error assigning roles to ${playerName}:`, error);
+          console.error(`[Hoopla RPG] Error assigning ${playerName} to Fly team:`, error);
         }
         
         return { 
@@ -669,14 +671,16 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       this.omegga.broadcast(`<color="ff0">Congratulations! ${playerName} has reached level ${newLevel}!</color>`);
       console.log(`[Hoopla RPG] ${playerName} leveled up from ${oldLevel} to ${newLevel}!`);
       
-      // Assign special roles for level 30 players
+      // Assign to Fly team for level 30 players
       if (newLevel === 30) {
         try {
-          await this.omegga.writeln(`Chat.Command /grantRole "Flyer" "${playerName}"`);
-          await this.omegga.writeln(`Chat.Command /grantRole "MINIGAME LEAVER" "${playerName}"`);
-          console.log(`[Hoopla RPG] Assigned "Flyer" and "MINIGAME LEAVER" roles to ${playerName} for reaching level 30!`);
+          const player = this.omegga.getPlayer(id);
+          if (player) {
+            player.setTeam(1); // Assuming team index 1 is the "Fly" team
+            console.log(`[Hoopla RPG] Assigned ${playerName} to Fly team for reaching level 30!`);
+          }
         } catch (error) {
-          console.error(`[Hoopla RPG] Error assigning roles to ${playerName}:`, error);
+          console.error(`[Hoopla RPG] Error assigning ${playerName} to Fly team:`, error);
         }
         
         // CRITICAL: Extra save for level 30 players to prevent data loss
@@ -4381,12 +4385,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
        }
     });
 
-    // Command to assign level 30 roles to all existing level 30 players
+    // Command to assign level 30 players to Fly team
     this.omegga.on("cmd:rpgassignlevel30roles", async (speaker: string) => {
       const player = this.omegga.getPlayer(speaker);
       if (!player) return;
 
-      this.omegga.whisper(speaker, `<color="0ff">Assigning level 30 roles to all eligible players...</color>`);
+      this.omegga.whisper(speaker, `<color="0ff">Assigning level 30 players to Fly team...</color>`);
 
       try {
         const allPlayers = this.omegga.getPlayers();
@@ -4397,25 +4401,27 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           try {
             const playerData = await this.getPlayerData({ id: onlinePlayer.id });
             if (playerData && playerData.level === 30) {
-              await this.omegga.writeln(`Chat.Command /grantRole "Flyer" "${onlinePlayer.name}"`);
-              await this.omegga.writeln(`Chat.Command /grantRole "MINIGAME LEAVER" "${onlinePlayer.name}"`);
-              assignedCount++;
-              console.log(`[Hoopla RPG] Assigned level 30 roles to ${onlinePlayer.name}`);
+              const fullPlayer = this.omegga.getPlayer(onlinePlayer.id);
+              if (fullPlayer) {
+                fullPlayer.setTeam(1); // Assuming team index 1 is the "Fly" team
+                assignedCount++;
+                console.log(`[Hoopla RPG] Assigned ${onlinePlayer.name} to Fly team (level 30)`);
+              }
             }
           } catch (error) {
-            console.error(`[Hoopla RPG] Error assigning roles to ${onlinePlayer.name}:`, error);
+            console.error(`[Hoopla RPG] Error assigning ${onlinePlayer.name} to Fly team:`, error);
             errorCount++;
           }
         }
 
-        this.omegga.whisper(speaker, `<color="0f0">Successfully assigned roles to ${assignedCount} level 30 players!</color>`);
+        this.omegga.whisper(speaker, `<color="0f0">Successfully assigned ${assignedCount} level 30 players to Fly team!</color>`);
         if (errorCount > 0) {
-          this.omegga.whisper(speaker, `<color="f80">${errorCount} players had errors during role assignment.</color>`);
+          this.omegga.whisper(speaker, `<color="f80">${errorCount} players had errors during team assignment.</color>`);
         }
          
        } catch (error) {
-         console.error(`[Hoopla RPG] Error assigning level 30 roles:`, error);
-         this.omegga.whisper(speaker, `<color="f00">Failed to assign level 30 roles: ${error.message}</color>`);
+         console.error(`[Hoopla RPG] Error assigning level 30 players to Fly team:`, error);
+         this.omegga.whisper(speaker, `<color="f00">Failed to assign level 30 players to Fly team: ${error.message}</color>`);
        }
     });
 
