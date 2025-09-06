@@ -320,6 +320,25 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           };
           break;
           
+        case 'damage':
+          // Handle Damage property console print (e.g., rpg_damage_lava)
+          if (subtype === 'lava') {
+            trigger = {
+              id: triggerId,
+              type: 'lava',
+              value: 25, // Default lava damage amount
+              cooldown: 1000, // 1 second cooldown between damage ticks
+              lastUsed: {},
+              message: 'Lava damage (touch)',
+              color: '#FF4500', // Orange-red color for lava
+              brickPositions: [{ x: position[0], y: position[1], z: position[2] }],
+              triggerType: 'click' // Still use click for consistency with existing system
+            };
+          } else {
+            return false; // Unknown damage type
+          }
+          break;
+          
         default:
           return false; // No trigger created
       }
@@ -358,9 +377,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         // Check if this is an RPG console tag interaction
         if (data.message || data.tag) {
           const message = data.message || data.tag;
-          const rpgMatch = message.match(/^rpg_(mining|fishing|sell|buy|quest|lava)_(.+)$/i);
+          const rpgMatch = message.match(/^rpg_(mining|fishing|sell|buy|quest|lava|damage)_(.+)$/i);
           if (rpgMatch) {
-            const nodeType = rpgMatch[1]; // mining, fishing, sell, buy, quest, lava
+            const nodeType = rpgMatch[1]; // mining, fishing, sell, buy, quest, lava, damage
             const nodeSubtype = rpgMatch[2]; // iron, gold, spot, john_brickington, damage_lava, etc.
             
             // Store RPG node data by position
