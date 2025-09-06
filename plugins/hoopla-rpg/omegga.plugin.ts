@@ -485,6 +485,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       console.log(`[Hoopla RPG] DEBUG: ${playerName} (level 30) gaining ${amount} XP. Current experience: ${player.experience}, Level: ${oldLevel}`);
     }
     
+    // Debug logging for level 29 players (potential level 30 candidates)
+    if (oldLevel === 29) {
+      const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
+      console.log(`[Hoopla RPG] DEBUG: ${playerName} (level 29) gaining ${amount} XP. Current experience: ${player.experience}, Level: ${oldLevel}`);
+    }
+    
     // CRITICAL FIX: If player is already level 30, don't allow any level changes
     if (oldLevel === 30) {
       // Still add XP for tracking purposes, but don't change level
@@ -498,6 +504,39 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         leveledUp: false, 
         newLevel: 30 
       };
+    }
+    
+    // ADDITIONAL SAFEGUARD: Check if player has enough XP to be level 30 but is showing as level 29
+    // This might indicate data corruption or race conditions
+    if (oldLevel === 29) {
+      const xpForLevel30 = this.getXPForNextLevel(29);
+      if (player.experience >= xpForLevel30) {
+        const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
+        console.log(`[Hoopla RPG] WARNING: ${playerName} shows as level 29 but has ${player.experience} XP (needs ${xpForLevel30} for level 30). Possible data corruption!`);
+        // Force them to level 30
+        player.level = 30;
+        player.maxHealth += 10;
+        player.health = player.maxHealth;
+        await this.setPlayerData({ id }, player);
+        
+        // Announce the level up
+        this.omegga.broadcast(`<color="ff0">Congratulations! ${playerName} has reached level 30!</color>`);
+        console.log(`[Hoopla RPG] ${playerName} leveled up from 29 to 30! (Data corruption fix)`);
+        
+        // Assign roles
+        try {
+          await this.omegga.writeln(`BRICKADIA.PLAYER.ADD_ROLE ${id} "Flyer"`);
+          await this.omegga.writeln(`BRICKADIA.PLAYER.ADD_ROLE ${id} "MINIGAME LEAVER"`);
+          console.log(`[Hoopla RPG] Assigned "Flyer" and "MINIGAME LEAVER" roles to ${playerName} for reaching level 30!`);
+        } catch (error) {
+          console.error(`[Hoopla RPG] Error assigning roles to ${playerName}:`, error);
+        }
+        
+        return { 
+          leveledUp: true, 
+          newLevel: 30 
+        };
+      }
     }
     
     // Always add XP for score tracking, even at max level
@@ -526,6 +565,11 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
       this.omegga.broadcast(`<color="ff0">Congratulations! ${playerName} has reached level ${newLevel}!</color>`);
       console.log(`[Hoopla RPG] ${playerName} leveled up from ${oldLevel} to ${newLevel}!`);
+      
+      // Additional debugging for level 30 level-ups
+      if (newLevel === 30) {
+        console.log(`[Hoopla RPG] DEBUG: ${playerName} reached level 30! Experience: ${player.experience}, Max Health: ${player.maxHealth}`);
+      }
       
       // Assign special roles for level 30 players
       if (newLevel === 30) {
