@@ -60,6 +60,8 @@ type BrickTrigger = {
   fishingProgress?: { [playerId: string]: number };
   // Fishing attempts remaining per node
   fishingAttemptsRemaining?: { [playerId: string]: number };
+  // Node cooldown tracking (30 seconds after depletion)
+  nodeCooldown?: { [playerId: string]: number };
 };
 
 type Config = { 
@@ -445,15 +447,15 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     };
   }
 
-  // Calculate XP needed to reach next level with reasonable scaling
+  // Calculate XP needed to reach next level with doubled requirements
   getXPForNextLevel(currentLevel: number): number {
     if (currentLevel >= 30) return 0; // Max level reached
     
-    // Much more reasonable scaling: each level requires a moderate increase
-    // Level 1: 100 XP, Level 2: 150 XP, Level 3: 200 XP, etc.
-    // Uses a linear progression with slight increases for higher levels
-    const baseXP = 100;
-    const levelIncrease = 50; // +50 XP per level
+    // Doubled XP requirements for longer progression
+    // Level 1: 200 XP, Level 2: 300 XP, Level 3: 400 XP, etc.
+    // Uses a linear progression with doubled base values
+    const baseXP = 200; // Doubled from 100
+    const levelIncrease = 100; // Doubled from 50
     
     // Calculate total XP needed for next level
     const totalXP = baseXP + (currentLevel * levelIncrease);
@@ -524,6 +526,28 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       default:
         // For other items, use title case
         return this.standardizeItemCasing(itemType);
+    }
+  }
+
+  // Get short item name from proper item name (for price lookup)
+  getShortItemName(properItemName: string): string {
+    const item = properItemName.toLowerCase();
+    
+    // Map proper names back to short names
+    switch (item) {
+      case 'copper ore':
+        return 'copper';
+      case 'iron ore':
+        return 'iron';
+      case 'gold ore':
+        return 'gold';
+      case 'diamond ore':
+        return 'diamond';
+      case 'obsidian ore':
+        return 'obsidian';
+      default:
+        // For other items, return as-is
+        return item;
     }
   }
 
@@ -771,6 +795,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   }
 
   // Calculate mining clicks required based on skill level and ore type
+  // New scaling: 10 clicks at low level → 1 click at max level
+  // Each ore tier has different base click requirements
   getMiningClicksRequired(miningLevel: number, oreType: string): number {
     // Check if player can mine this ore type
     if (!this.canMineOreType(miningLevel, oreType)) {
@@ -779,63 +805,34 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     
     const ore = oreType.toLowerCase();
     
-    // Copper: Available at level 0, scales from 0-30
-    if (ore === 'copper') {
-      if (miningLevel >= 30) return 1; // Max level = 1 click
-      if (miningLevel >= 25) return 1; // Level 25-29 = 1 click
-      if (miningLevel >= 20) return 2; // Level 20-24 = 2 clicks
-      if (miningLevel >= 15) return 2; // Level 15-19 = 2 clicks
-      if (miningLevel >= 10) return 2; // Level 10-14 = 2 clicks
-      if (miningLevel >= 5) return 3;  // Level 5-9 = 3 clicks
-      return 4; // Level 0-4 = 4 clicks
-    }
+    // Define base click requirements for each ore tier (when first unlocked)
+    let baseClicks = 10; // Default base clicks
     
-    // Iron: Available at level 5, scales from 5-30
-    if (ore === 'iron') {
-      if (miningLevel >= 30) return 1; // Max level = 1 click
-      if (miningLevel >= 25) return 1; // Level 25-29 = 1 click
-      if (miningLevel >= 20) return 2; // Level 20-24 = 2 clicks
-      if (miningLevel >= 15) return 2; // Level 15-19 = 2 clicks
-      if (miningLevel >= 10) return 3; // Level 10-14 = 3 clicks
-      if (miningLevel >= 5) return 4;  // Level 5-9 = 4 clicks
-      return -1; // Cannot mine iron below level 5
-    }
+    if (ore === 'copper') baseClicks = 8;      // Common - 8 clicks when first unlocked
+    else if (ore === 'iron') baseClicks = 9;   // Uncommon - 9 clicks when first unlocked  
+    else if (ore === 'gold') baseClicks = 10;  // Rare - 10 clicks when first unlocked
+    else if (ore === 'obsidian') baseClicks = 12; // Epic - 12 clicks when first unlocked
+    else if (ore === 'diamond') baseClicks = 15;  // Legendary - 15 clicks when first unlocked
     
-    // Gold: Available at level 10, scales from 10-30
-    if (ore === 'gold') {
-      if (miningLevel >= 30) return 1; // Max level = 1 click
-      if (miningLevel >= 25) return 2; // Level 25-29 = 2 clicks
-      if (miningLevel >= 20) return 2; // Level 20-24 = 2 clicks
-      if (miningLevel >= 15) return 3; // Level 15-19 = 3 clicks
-      if (miningLevel >= 10) return 4; // Level 10-14 = 4 clicks
-      return -1; // Cannot mine gold below level 10
-    }
+    // Calculate scaling: from baseClicks at unlock level to 1 at level 30
+    // Linear scaling from unlock level to level 30
+    let unlockLevel = 0;
+    if (ore === 'copper') unlockLevel = 0;
+    else if (ore === 'iron') unlockLevel = 5;
+    else if (ore === 'gold') unlockLevel = 10;
+    else if (ore === 'obsidian') unlockLevel = 15;
+    else if (ore === 'diamond') unlockLevel = 20;
     
-    // Obsidian: Available at level 15, scales from 15-30
-    if (ore === 'obsidian') {
-      if (miningLevel >= 30) return 2; // Max level = 2 clicks
-      if (miningLevel >= 25) return 3; // Level 25-29 = 3 clicks
-      if (miningLevel >= 20) return 3; // Level 20-24 = 3 clicks
-      if (miningLevel >= 15) return 4; // Level 15-19 = 4 clicks
-      return -1; // Cannot mine obsidian below level 15
-    }
+    // Calculate clicks based on level progression
+    const levelRange = 30 - unlockLevel; // Levels from unlock to max
+    const clickReduction = baseClicks - 1; // Total clicks to reduce (baseClicks → 1)
+    const clicksPerLevel = clickReduction / levelRange; // Clicks reduced per level
     
-    // Diamond: Available at level 20, scales from 20-30
-    if (ore === 'diamond') {
-      if (miningLevel >= 30) return 2; // Max level = 2 clicks
-      if (miningLevel >= 25) return 3; // Level 25-29 = 3 clicks
-      if (miningLevel >= 20) return 4; // Level 20-24 = 4 clicks
-      return -1; // Cannot mine diamond below level 20
-    }
+    // Calculate current clicks required
+    const levelsProgressed = miningLevel - unlockLevel;
+    const currentClicks = Math.max(1, Math.ceil(baseClicks - (levelsProgressed * clicksPerLevel)));
     
-    // Default for any other ore types
-    if (miningLevel >= 30) return Math.max(1, Math.floor(5 * 0.1)); // Max level = 10% of base
-    if (miningLevel >= 25) return Math.max(1, Math.floor(5 * 0.15)); // Level 25-29 = 15% of base
-    if (miningLevel >= 20) return Math.max(1, Math.floor(5 * 0.2)); // Level 20-24 = 20% of base
-    if (miningLevel >= 15) return Math.max(1, Math.floor(5 * 0.3)); // Level 15-19 = 30% of base
-    if (miningLevel >= 10) return Math.max(1, Math.floor(5 * 0.4)); // Level 10-14 = 40% of base
-    if (miningLevel >= 5) return Math.max(1, Math.floor(5 * 0.6));  // Level 5-9 = 60% of base
-    return 5; // Level 0-4 = 100% of base (full clicks)
+    return currentClicks;
   }
 
   // Check if player can mine a specific ore type based on mining level
@@ -862,6 +859,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   }
 
   // Calculate fishing clicks required based on skill level and fish type
+  // New scaling: 10 clicks at low level → 1 click at max level
+  // Each fish tier has different base click requirements
   getFishingClicksRequired(fishingLevel: number, fishType: string): number {
     // Check if player can catch this fish type
     if (!this.canCatchFishType(fishingLevel, fishType)) {
@@ -870,63 +869,69 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     
     const fish = fishType.toLowerCase();
     
-    // Gup: Available at level 0, scales from 0-30
-    if (fish === 'gup') {
-      if (fishingLevel >= 30) return 1; // Max level = 1 click
-      if (fishingLevel >= 25) return 1; // Level 25-29 = 1 click
-      if (fishingLevel >= 20) return 2; // Level 20-24 = 2 clicks
-      if (fishingLevel >= 15) return 2; // Level 15-19 = 2 clicks
-      if (fishingLevel >= 10) return 2; // Level 10-14 = 2 clicks
-      if (fishingLevel >= 5) return 3;  // Level 5-9 = 3 clicks
-      return 4; // Level 0-4 = 4 clicks
+    // Define base click requirements for each fish tier (when first unlocked)
+    let baseClicks = 10; // Default base clicks
+    
+    if (fish === 'gup') baseClicks = 8;      // Common - 8 clicks when first unlocked
+    else if (fish === 'cod') baseClicks = 9;   // Uncommon - 9 clicks when first unlocked  
+    else if (fish === 'shark') baseClicks = 10;  // Rare - 10 clicks when first unlocked
+    else if (fish === 'whale') baseClicks = 12; // Epic - 12 clicks when first unlocked
+    else if (fish === 'kraken') baseClicks = 15;  // Legendary - 15 clicks when first unlocked
+    
+    // Calculate scaling: from baseClicks at unlock level to 1 at level 30
+    // Linear scaling from unlock level to level 30
+    let unlockLevel = 0;
+    if (fish === 'gup') unlockLevel = 0;
+    else if (fish === 'cod') unlockLevel = 5;
+    else if (fish === 'shark') unlockLevel = 10;
+    else if (fish === 'whale') unlockLevel = 15;
+    else if (fish === 'kraken') unlockLevel = 20;
+    
+    // Calculate clicks based on level progression
+    const levelRange = 30 - unlockLevel; // Levels from unlock to max
+    const clickReduction = baseClicks - 1; // Total clicks to reduce (baseClicks → 1)
+    const clicksPerLevel = clickReduction / levelRange; // Clicks reduced per level
+    
+    // Calculate current clicks required
+    const levelsProgressed = fishingLevel - unlockLevel;
+    const currentClicks = Math.max(1, Math.ceil(baseClicks - (levelsProgressed * clicksPerLevel)));
+    
+    return currentClicks;
+  }
+
+  // Check if a node is on cooldown for a specific player (30 seconds after depletion)
+  isNodeOnCooldown(trigger: BrickTrigger, playerId: string): boolean {
+    if (!trigger.nodeCooldown || !trigger.nodeCooldown[playerId]) {
+      return false; // No cooldown set
     }
     
-    // Cod: Available at level 5, scales from 5-30
-    if (fish === 'cod') {
-      if (fishingLevel >= 30) return 1; // Max level = 1 click
-      if (fishingLevel >= 25) return 1; // Level 25-29 = 1 click
-      if (fishingLevel >= 20) return 2; // Level 20-24 = 2 clicks
-      if (fishingLevel >= 15) return 2; // Level 15-19 = 2 clicks
-      if (fishingLevel >= 10) return 3; // Level 10-14 = 3 clicks
-      if (fishingLevel >= 5) return 4;  // Level 5-9 = 4 clicks
-      return -1; // Cannot catch cod below level 5
+    const cooldownEndTime = trigger.nodeCooldown[playerId];
+    const currentTime = Date.now();
+    
+    return currentTime < cooldownEndTime;
+  }
+
+  // Set node cooldown for a specific player (30 seconds)
+  setNodeCooldown(trigger: BrickTrigger, playerId: string): void {
+    if (!trigger.nodeCooldown) {
+      trigger.nodeCooldown = {};
     }
     
-    // Shark: Available at level 10, scales from 10-30
-    if (fish === 'shark') {
-      if (fishingLevel >= 30) return 1; // Max level = 1 click
-      if (fishingLevel >= 25) return 2; // Level 25-29 = 2 clicks
-      if (fishingLevel >= 20) return 2; // Level 20-24 = 2 clicks
-      if (fishingLevel >= 15) return 3; // Level 15-19 = 3 clicks
-      if (fishingLevel >= 10) return 4; // Level 10-14 = 4 clicks
-      return -1; // Cannot catch shark below level 10
+    const cooldownDuration = 30 * 1000; // 30 seconds in milliseconds
+    trigger.nodeCooldown[playerId] = Date.now() + cooldownDuration;
+  }
+
+  // Get remaining cooldown time in seconds
+  getNodeCooldownRemaining(trigger: BrickTrigger, playerId: string): number {
+    if (!trigger.nodeCooldown || !trigger.nodeCooldown[playerId]) {
+      return 0; // No cooldown
     }
     
-    // Whale: Available at level 15, scales from 15-30
-    if (fish === 'whale') {
-      if (fishingLevel >= 30) return 2; // Max level = 2 clicks
-      if (fishingLevel >= 25) return 3; // Level 25-29 = 3 clicks
-      if (fishingLevel >= 20) return 3; // Level 20-24 = 3 clicks
-      if (fishingLevel >= 15) return 4; // Level 15-19 = 4 clicks
-      return -1; // Cannot catch whale below level 15
-    }
+    const cooldownEndTime = trigger.nodeCooldown[playerId];
+    const currentTime = Date.now();
+    const remainingMs = cooldownEndTime - currentTime;
     
-    // Kraken: Available at level 20, scales from 20-30
-    if (fish === 'kraken') {
-      if (fishingLevel >= 30) return 2; // Max level = 2 clicks
-      if (fishingLevel >= 25) return 3; // Level 25-29 = 3 clicks
-      if (fishingLevel >= 20) return 4; // Level 20-24 = 4 clicks
-      return -1; // Cannot catch kraken below level 20
-    }
-    
-    // Default for any other fish types
-    if (fishingLevel >= 30) return Math.max(1, Math.floor(5 * 0.1)); // Max level = 10% of base
-    if (fishingLevel >= 25) return Math.max(1, Math.floor(5 * 0.15)); // Level 25-29 = 15% of base
-    if (fishingLevel >= 20) return Math.max(1, Math.floor(5 * 0.2)); // Level 20-24 = 20% of base
-    if (fishingLevel >= 15) return Math.max(1, Math.floor(5 * 0.3)); // Level 15-19 = 30% of base
-    if (fishingLevel >= 10) return Math.max(1, Math.floor(5 * 0.4)); // Level 10-14 = 40% of base
-    if (fishingLevel >= 5) return Math.max(1, Math.floor(5 * 0.6));  // Level 5-9 = 60% of base
-    return 5; // Level 0-4 = 100% of base (full clicks)
+    return Math.max(0, Math.ceil(remainingMs / 1000)); // Convert to seconds
   }
 
   // Calculate fishing failure chance based on fishing level
@@ -1975,16 +1980,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           };
 
         case 'item':
-          // Check cooldown only if this is a fresh mining attempt (no progress)
-          if (!trigger.miningProgress || !trigger.miningProgress[playerId]) {
-            const now = Date.now();
-            const lastUsed = trigger.lastUsed[playerId] || 0;
-            if (now - lastUsed < trigger.cooldown) {
-              const remaining = Math.ceil((trigger.cooldown - (now - lastUsed)) / 1000);
-              const cooldownMessage = `Cooldown active! Try again in ${remaining} seconds.`;
-              this.omegga.middlePrint(playerId, cooldownMessage);
-              return { success: false, message: cooldownMessage };
-            }
+          // Check if node is on cooldown for this player (30 seconds after depletion)
+          if (this.isNodeOnCooldown(trigger, playerId)) {
+            const remainingSeconds = this.getNodeCooldownRemaining(trigger, playerId);
+            const cooldownMessage = `Node depleted! Try again in ${remainingSeconds} seconds.`;
+            this.omegga.middlePrint(playerId, cooldownMessage);
+            return { success: false, message: cooldownMessage };
           }
           
           // Get player's mining skill level
@@ -2088,21 +2089,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           // Reset mining progress for this player
           trigger.miningProgress[playerId] = 0;
           
-          // NOW trigger the cooldown after successful mining
-          const now = Date.now();
-          trigger.lastUsed[playerId] = now;
+          // Set 30-second node cooldown after successful mining
+          this.setNodeCooldown(trigger, playerId);
           
-          // Mark the mining node as depleted during cooldown
-          await this.setMiningNodeStatus(triggerId, false);
-          
-          // Set a timer to restore its status when cooldown expires
-          setTimeout(async () => {
-            try {
-              await this.setMiningNodeStatus(triggerId, true);
-            } catch (error) {
-              console.error(`[Hoopla RPG] Error restoring mining node status after cooldown:`, error);
-            }
-          }, trigger.cooldown);
+          // Update trigger data with cooldown
+          triggers[triggerId] = trigger;
+          await this.setBrickTriggers(triggers);
           
           // Get updated inventory to show total count
           const updatedPlayer = await this.getPlayerData({ id: playerId });
@@ -2136,22 +2128,21 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
         case 'fish':
           try {
-            // Check cooldown only if this is a fresh fishing node (no attempts remaining)
-            if (!trigger.fishingAttemptsRemaining || !trigger.fishingAttemptsRemaining[playerId]) {
-              const now = Date.now();
-              const lastUsed = trigger.lastUsed[playerId] || 0;
-              if (now - lastUsed < trigger.cooldown) {
-                const remaining = Math.ceil((trigger.cooldown - (now - lastUsed)) / 1000);
-                const cooldownMessage = `Cooldown active! Try again in ${remaining} seconds.`;
-                this.omegga.middlePrint(playerId, cooldownMessage);
-                return { success: false, message: cooldownMessage };
-              }
-              
-                          // Initialize fishing attempts for this player (5 attempts per node)
+            // Check if node is on cooldown for this player (30 seconds after depletion)
+            if (this.isNodeOnCooldown(trigger, playerId)) {
+              const remainingSeconds = this.getNodeCooldownRemaining(trigger, playerId);
+              const cooldownMessage = `Fishing spot depleted! Try again in ${remainingSeconds} seconds.`;
+              this.omegga.middlePrint(playerId, cooldownMessage);
+              return { success: false, message: cooldownMessage };
+            }
+            
+            // Initialize fishing attempts for this player (5 attempts per node)
             if (!trigger.fishingAttemptsRemaining) {
               trigger.fishingAttemptsRemaining = {};
             }
-            trigger.fishingAttemptsRemaining[playerId] = 5;
+            if (!trigger.fishingAttemptsRemaining[playerId]) {
+              trigger.fishingAttemptsRemaining[playerId] = 5;
+            }
             
             // Also ensure fishing progress is initialized
             if (!trigger.fishingProgress) {
@@ -2159,7 +2150,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             }
             if (!trigger.fishingProgress[playerId]) {
               trigger.fishingProgress[playerId] = 0;
-            }
             }
           
           // Get player's fishing skill level
@@ -2272,10 +2262,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             
             // Check if this was the last attempt
             if (attemptsRemaining <= 0) {
-              // Node is depleted - trigger cooldown
-              const fishingNow = Date.now();
-              trigger.lastUsed[playerId] = fishingNow;
-              
+              // Node is depleted - set 30-second cooldown
+              this.setNodeCooldown(trigger, playerId);
               
               // Clear attempts remaining for this player
               delete trigger.fishingAttemptsRemaining[playerId];
@@ -2285,7 +2273,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
               await this.setBrickTriggers(triggers);
               
               // Combined message for final attempt: failure + depletion notice (prevents message overlap)
-              const combinedFailureMessage = `The fish got away! Better luck next time. - Fishing spot depleted! Come back in 60 seconds.`;
+              const combinedFailureMessage = `The fish got away! Better luck next time. - Fishing spot depleted! Come back in 30 seconds.`;
               this.omegga.middlePrint(playerId, combinedFailureMessage);
               
               return { 
@@ -2336,10 +2324,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           
           // Check if this was the last attempt
           if (attemptsRemaining <= 0) {
-            // Node is depleted - trigger cooldown
-            const fishingNow = Date.now();
-            trigger.lastUsed[playerId] = fishingNow;
-            
+            // Node is depleted - set 30-second cooldown
+            this.setNodeCooldown(trigger, playerId);
             
             // Clear attempts remaining for this player
             delete trigger.fishingAttemptsRemaining[playerId];
@@ -2351,7 +2337,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             // Combined message for final attempt: fish result + depletion notice (prevents message overlap)
             const fishColor = this.getResourceColor(fishType);
             const baitText = usedBait ? " (with Fish bait)" : "";
-            const fishingMessage = `Caught 1 <color="${fishColor}">[${fishType}]</color> (<color="ff0">x${fishCount}</color> in bag), Gained ${generalXP}XP and ${fishingXP} Fishing XP${baitText} - Fishing spot depleted! Come back in 60 seconds.`;
+            const fishingMessage = `Caught 1 <color="${fishColor}">[${fishType}]</color> (<color="ff0">x${fishCount}</color> in bag), Gained ${generalXP}XP and ${fishingXP} Fishing XP${baitText} - Fishing spot depleted! Come back in 30 seconds.`;
             
             // Use middlePrint for the combined result
             this.omegga.middlePrint(playerId, fishingMessage);
@@ -2359,7 +2345,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             // Announce legendary fish catches to the server
             if (fishType.toLowerCase() === 'kraken') {
               const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
-              this.omegga.broadcast(`<color="fff">LEGENDARY CATCH! ${playerName} has caught a <color="f80">[Kraken]</color>!</color>`);
+              const fishColor = this.getResourceColor(fishType);
+              this.omegga.broadcast(`<color="fff">LEGENDARY CATCH! ${playerName} has caught a <color="${fishColor}">[${fishType}]</color>!</color>`);
             }
             
             // Update trigger data
@@ -2399,7 +2386,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           // Announce legendary fish catches to the server
           if (fishType.toLowerCase() === 'kraken') {
             const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
-            this.omegga.broadcast(`<color="fff">LEGENDARY CATCH! ${playerName} has caught a <color="f80">[Kraken]</color>!</color>`);
+            const fishColor = this.getResourceColor(fishType);
+            this.omegga.broadcast(`<color="fff">LEGENDARY CATCH! ${playerName} has caught a <color="${fishColor}">[${fishType}]</color>!</color>`);
           }
           
           // Update trigger data
@@ -2456,7 +2444,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             if (bulkType === 'rpg_sell_all_fish' || bulkType.toLowerCase().includes('all_fish')) {
               itemsToSell = ['gup', 'cod', 'shark', 'whale', 'kraken'];
             } else if (bulkType === 'rpg_sell_all_ores' || bulkType.toLowerCase().includes('all_ores')) {
-              itemsToSell = ['copper', 'iron', 'gold', 'obsidian', 'diamond'];
+              itemsToSell = ['Copper Ore', 'Iron Ore', 'Gold Ore', 'Obsidian Ore', 'Diamond Ore'];
             }
             
             // Count items in inventory
@@ -2474,7 +2462,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
                 // Use the actual item name from inventory (with proper capitalization)
                 const actualItemName = matchingItems[0];
                 itemCounts[actualItemName] = count;
-                const basePrice = this.getResourceSellPrice(item);
+                // Convert proper item name back to short name for price lookup
+                const shortName = this.getShortItemName(actualItemName);
+                const basePrice = this.getResourceSellPrice(shortName);
                 const barteringLevel = bulkPlayer.skills?.bartering?.level || 0;
                 const barteringMultiplier = this.getBarteringMultiplier(barteringLevel);
                 const finalPrice = Math.floor(basePrice * barteringMultiplier);
@@ -3080,9 +3070,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         itemCounts[properItemName] = (itemCounts[properItemName] || 0) + 1;
       }
       
-      // Debug: Log inventory data
-      console.log(`[Hoopla RPG] DEBUG: Player ${speaker} inventory:`, safeRpgData.inventory);
-      console.log(`[Hoopla RPG] DEBUG: Item counts:`, itemCounts);
       
       // Format inventory display with items in brackets, rarity colors, and count - ultra compact
       let inventoryDisplay = "Empty";
@@ -3090,7 +3077,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         inventoryDisplay = Object.entries(itemCounts)
           .map(([item, count]) => {
             const itemColor = this.getResourceColor(item);
-            console.log(`[Hoopla RPG] DEBUG: Item "${item}" -> Color: "${itemColor}"`);
             
             // Use shorter names for common items to save space
             let shortName = item;
@@ -3105,7 +3091,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           .join(",");
       }
       
-      console.log(`[Hoopla RPG] DEBUG: Final inventory display: "${inventoryDisplay}"`);
       
       // Format consumables display
       let consumablesDisplay = "None";
@@ -3164,7 +3149,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       this.omegga.whisper(speaker, `${fishingDisplay}`);
       
       // Display inventory - split into two lines to avoid character limit
-      console.log(`[Hoopla RPG] DEBUG: About to whisper inventory: "${inventoryDisplay}"`);
       
       // Sort items by rarity (common to legendary)
       const rarityOrder = {
@@ -3371,131 +3355,13 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
 
 
-    // Brick interaction event handler - using the 'interact' event from Omegga
-    this.omegga.on("interact", async (data: any) => {
-      try {
-        // Extract data according to Omegga documentation structure
-        const { player, position, brick_asset } = data;
-        
-        if (!player || !position) {
-          return;
-        }
+    // Duplicate interact event listener removed - using main one in initializeRPGOnInteraction()
 
-        const triggers = await this.getBrickTriggers();
-        
-        // Check for click-based triggers on this brick
-        let matchFound = false;
-        for (const [triggerId, trigger] of Object.entries(triggers)) {
-          if (trigger.triggerType === 'click' && trigger.brickPositions) {
-            for (const brickPos of trigger.brickPositions) {
-                             // Position is an array [x, y, z] according to Omegga docs
-               if (brickPos.x === position[0] && brickPos.y === position[1] && brickPos.z === position[2]) {
-                 matchFound = true;
-                 
-                 const result = await this.triggerBrickAction(player.id, triggerId);
-                 
-                 if (result.success) {
-                   // Success messages are now handled by middlePrint in triggerBrickAction
-                 } else {
-                   // Error messages are now handled by middlePrint in triggerBrickAction
-                 }
-                 break;
-               }
-            }
-          }
-        }
-        
-        if (!matchFound) {
-          // Optional: use middlePrint to inform player that this brick has no triggers
-          this.omegga.middlePrint(player.id, `This brick has no RPG triggers set up.`);
-         }
-         
-       } catch (error) {
-       console.error(`[Hoopla RPG] Error handling brick interaction:`, error);
-     }
-    });
-
-    // Additional interaction event handlers for different event types (for debugging)
+    // Additional event listeners removed - using only the main interact listener
     
-    // Try all possible interaction event names that Omegga might use
-    const possibleEvents = [
-      "brick:interact", "player:interact", "click", "brick", "player:click", 
-      "interaction", "brick:click", "player:brick", "brick:player", "select",
-      "brick:select", "player:select", "target", "brick:target", "player:target",
-      "use", "brick:use", "player:use", "activate", "brick:activate", "player:activate",
-      "trigger", "brick:trigger", "player:trigger", "hit", "brick:hit", "player:hit",
-      "touch", "brick:touch", "player:touch", "press", "brick:press", "player:press"
-    ];
+    // All component interaction listeners removed - using only the main interact listener
     
-    for (const eventName of possibleEvents) {
-      this.omegga.on(eventName, async (data: any) => {
-        // If this looks like a brick interaction, try to process it
-        if (data && (data.player || data.position || data.brick || data.brick_asset)) {
-          await this.processBrickInteraction(data, eventName);
-        }
-      });
-    }
-    
-    // Also try some generic event listeners that might catch everything
-    this.omegga.on("*", async (eventName: string, data: any) => {
-      if (eventName.includes('interact') || eventName.includes('click') || eventName.includes('brick')) {
-        // Silent wildcard event listener
-      }
-    });
-    
-    // Try component-based interaction events that Omegga might use
-    
-    // Listen for component interaction events
-    this.omegga.on("component:interact", async (data: any) => {
-      await this.processBrickInteraction(data, "component:interact");
-    });
-    
-    // Try the specific component name from your brick
-    this.omegga.on("Component_Interact", async (data: any) => {
-      await this.processBrickInteraction(data, "Component_Interact");
-    });
-    
-    // Try lowercase version
-    this.omegga.on("component_interact", async (data: any) => {
-      await this.processBrickInteraction(data, "component_interact");
-    });
-    
-    // Try some other possible component event names
-    const componentEvents = [
-      "interact:component", "component:click", "component:use", "component:activate",
-      "interact:Component_Interact", "Component_Interact:interact", "Component_Interact:click"
-    ];
-    
-    // Listen for Interactable component events (this is what you actually have!)
-    this.omegga.on("Interactable", async (data: any) => {
-      await this.processBrickInteraction(data, "Interactable");
-    });
-    
-    // Try variations of Interactable events
-    const interactableEvents = [
-      "interactable", "interactable:interact", "interactable:click", "interactable:use",
-      "component:interactable", "interactable:component", "interactable:activate"
-    ];
-    
-    for (const eventName of interactableEvents) {
-      this.omegga.on(eventName, async (data: any) => {
-        await this.processBrickInteraction(data, eventName);
-      });
-    }
-    
-    // Also listen for console tag events (these might be fired when Component_Interact is clicked)
-    this.omegga.on("console", async (data: any) => {
-      // If this is a console tag from our brick, process it
-      if (data && data.tag && data.tag.includes('rpg') || data.tag && data.tag.includes('mining')) {
-        await this.processBrickInteraction(data, "console");
-      }
-    });
-    
-    for (const eventName of componentEvents) {
-      this.omegga.on(eventName, async (data: any) => {
-        await this.processBrickInteraction(data, eventName);
-      });
-    }
+    // Console event listener removed - using only the main interact listener
 
     // Announce plugin reload to all players
     this.omegga.broadcast(`<color="0f0">Hoopla RPG plugin has been reloaded successfully!</color>`);
