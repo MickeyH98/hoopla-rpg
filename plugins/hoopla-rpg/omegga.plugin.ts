@@ -80,7 +80,7 @@ type Quest = {
 
 type BrickTrigger = {
   id: string;
-  type: 'xp' | 'currency' | 'item' | 'heal' | 'sell' | 'fish' | 'bulk_sell' | 'buy' | 'quest';
+  type: 'xp' | 'currency' | 'item' | 'heal' | 'sell' | 'fish' | 'bulk_sell' | 'buy' | 'quest' | 'lava';
   value: number;
   cooldown: number;
   lastUsed: { [playerId: string]: number };
@@ -255,6 +255,20 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           };
           break;
           
+        case 'lava':
+          trigger = {
+            id: triggerId,
+            type: 'lava',
+            value: 25, // Default lava damage amount
+            cooldown: 1000, // 1 second cooldown between damage ticks
+            lastUsed: {},
+            message: 'Lava damage',
+            color: '#FF4500', // Orange-red color for lava
+            brickPositions: [{ x: position[0], y: position[1], z: position[2] }],
+            triggerType: 'click'
+          };
+          break;
+          
         default:
           return false; // No trigger created
       }
@@ -287,10 +301,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         // Check if this is an RPG console tag interaction
         if (data.message || data.tag) {
           const message = data.message || data.tag;
-          const rpgMatch = message.match(/^rpg_(mining|fishing|sell|buy|quest)_(.+)$/i);
+          const rpgMatch = message.match(/^rpg_(mining|fishing|sell|buy|quest|lava)_(.+)$/i);
           if (rpgMatch) {
-            const nodeType = rpgMatch[1]; // mining, fishing, sell, buy, quest
-            const nodeSubtype = rpgMatch[2]; // iron, gold, spot, john_brickington, etc.
+            const nodeType = rpgMatch[1]; // mining, fishing, sell, buy, quest, lava
+            const nodeSubtype = rpgMatch[2]; // iron, gold, spot, john_brickington, damage_lava, etc.
             
             // Store RPG node data by position
             const nodeKey = `${data.position[0]},${data.position[1]},${data.position[2]}`;
@@ -502,6 +516,17 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           console.error(`[Hoopla RPG] Error assigning roles to ${playerName}:`, error);
         }
       }
+    } else if (oldLevel === 30 && newLevel === 30) {
+      // Debug logging for level 30 players gaining XP
+      const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
+      console.log(`[Hoopla RPG] DEBUG: ${playerName} (level 30) gained XP but did not level up. Old level: ${oldLevel}, New level: ${newLevel}, Experience: ${player.experience}`);
+    }
+    
+    // Additional safeguard: Check if the player's stored level is different from what we calculated
+    if (player.level !== newLevel) {
+      const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
+      console.log(`[Hoopla RPG] WARNING: Level mismatch for ${playerName}! Stored level: ${player.level}, Calculated level: ${newLevel}. Correcting...`);
+      player.level = newLevel;
     }
     
     await this.setPlayerData({ id }, player);
@@ -3440,6 +3465,64 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
               return { success: true, message: resetMessage };
           }
 
+        case 'lava':
+          // Handle lava damage
+          const lavaPlayer = await this.getPlayerData({ id: playerId });
+          if (!lavaPlayer) {
+            return { success: false, message: "Player data not found!" };
+          }
+
+          // Check cooldown for lava damage
+          const lavaNow = Date.now();
+          const lavaLastUsed = trigger.lastUsed[playerId] || 0;
+          if (lavaNow - lavaLastUsed < trigger.cooldown) {
+            return { success: false, message: "Lava damage on cooldown!" };
+          }
+
+          // Update last used time
+          trigger.lastUsed[playerId] = lavaNow;
+          await this.setBrickTriggers(await this.getBrickTriggers());
+
+          // Calculate damage
+          const damageAmount = trigger.value || 25; // Default 25 damage
+          const oldHealth = lavaPlayer.health || 100;
+          const newHealth = Math.max(0, oldHealth - damageAmount);
+          
+          // Update player health
+          lavaPlayer.health = newHealth;
+          await this.setPlayerData({ id: playerId }, lavaPlayer);
+
+          // Show damage message
+          const damageMessage = `<color="ff4500">🔥 BURNING!</color> <color="f00">-${damageAmount}</color> damage! <color="0f0">Health: ${newHealth}/${lavaPlayer.maxHealth}</color>`;
+          this.omegga.middlePrint(playerId, damageMessage);
+
+          // Check if player died
+          if (newHealth <= 0) {
+            try {
+              const player = this.omegga.getPlayer(playerId);
+              if (player) {
+                player.kill();
+                const deathMessage = `<color="f00">💀 You died from burning in lava!</color>`;
+                this.omegga.middlePrint(playerId, deathMessage);
+                console.log(`[Hoopla RPG] ${player.name} died from lava damage!`);
+              }
+            } catch (error) {
+              console.error(`[Hoopla RPG] Error killing player from lava:`, error);
+            }
+          }
+
+          return { 
+            success: true, 
+            message: damageMessage,
+            reward: { 
+              type: 'lava_damage', 
+              damage: damageAmount,
+              newHealth: newHealth,
+              maxHealth: lavaPlayer.maxHealth,
+              died: newHealth <= 0
+            }
+          };
+
         default:
           return { success: false, message: "Unknown trigger type!" };
        }
@@ -3532,6 +3615,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           }
         }
       }
+      
       
       if (!matchFound) {
         // Optional: use middlePrint to inform player that this brick has no triggers
