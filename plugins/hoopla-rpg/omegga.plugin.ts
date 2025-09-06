@@ -272,6 +272,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
               itemPrice = 100; // Fish bait costs 100 currency for 20 pieces
             } else if (consoleTag.includes('pickaxe')) {
               itemPrice = 100; // Pickaxe costs 100 currency
+            } else if (consoleTag.includes('saber')) {
+              itemPrice = 5000; // Saber costs 5000 currency
             } else {
               itemPrice = 25; // Default price for other items
             }
@@ -593,8 +595,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         
         // Assign roles
         try {
-          await this.omegga.writeln(`BRICKADIA.PLAYER.ADD_ROLE ${id} "Flyer"`);
-          await this.omegga.writeln(`BRICKADIA.PLAYER.ADD_ROLE ${id} "MINIGAME LEAVER"`);
+          await this.omegga.writeln(`Chat.Command /grantRole "Flyer" "${playerName}"`);
+          await this.omegga.writeln(`Chat.Command /grantRole "MINIGAME LEAVER" "${playerName}"`);
           console.log(`[Hoopla RPG] Assigned "Flyer" and "MINIGAME LEAVER" roles to ${playerName} for reaching level 30!`);
         } catch (error) {
           console.error(`[Hoopla RPG] Error assigning roles to ${playerName}:`, error);
@@ -634,8 +636,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       // Assign special roles for level 30 players
       if (newLevel === 30) {
         try {
-          await this.omegga.writeln(`BRICKADIA.PLAYER.ADD_ROLE ${id} "Flyer"`);
-          await this.omegga.writeln(`BRICKADIA.PLAYER.ADD_ROLE ${id} "MINIGAME LEAVER"`);
+          await this.omegga.writeln(`Chat.Command /grantRole "Flyer" "${playerName}"`);
+          await this.omegga.writeln(`Chat.Command /grantRole "MINIGAME LEAVER" "${playerName}"`);
           console.log(`[Hoopla RPG] Assigned "Flyer" and "MINIGAME LEAVER" roles to ${playerName} for reaching level 30!`);
         } catch (error) {
           console.error(`[Hoopla RPG] Error assigning roles to ${playerName}:`, error);
@@ -3396,7 +3398,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           // Deduct currency
           await this.currency.add(playerId, "currency", -itemPrice);
           
-          // Add consumable based on type
+          // Add item based on type
           if (buyType === 'rpg_buy_bait') {
             await this.addConsumable({ id: playerId }, 'Fish bait', 20);
             const newCurrency = await this.currency.getCurrency(playerId);
@@ -3412,6 +3414,29 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
                 type: 'buy', 
                 item: 'Fish bait',
                 charges: 20,
+                price: itemPrice,
+                newCurrency: formattedCurrency
+              }
+            };
+          } else if (buyType === 'rpg_buy_saber') {
+            // Give the player a Sabre item using the giveItem method
+            const player = this.omegga.getPlayer(playerId);
+            if (player) {
+              player.giveItem('Weapon_Sabre');
+            }
+            
+            const newCurrency = await this.currency.getCurrency(playerId);
+            const formattedCurrency = await this.currency.format(newCurrency);
+            
+            const buyMessage = `Purchased <color="fff">[Sabre]</color> for ${await this.currency.format(itemPrice)}! You now have ${formattedCurrency}.`;
+            this.omegga.middlePrint(playerId, buyMessage);
+            
+            return { 
+              success: true, 
+              message: buyMessage,
+              reward: { 
+                type: 'buy', 
+                item: 'Sabre',
                 price: itemPrice,
                 newCurrency: formattedCurrency
               }
@@ -4336,8 +4361,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           try {
             const playerData = await this.getPlayerData({ id: onlinePlayer.id });
             if (playerData && playerData.level === 30) {
-              await this.omegga.writeln(`BRICKADIA.PLAYER.ADD_ROLE ${onlinePlayer.id} "Flyer"`);
-              await this.omegga.writeln(`BRICKADIA.PLAYER.ADD_ROLE ${onlinePlayer.id} "MINIGAME LEAVER"`);
+              await this.omegga.writeln(`Chat.Command /grantRole "Flyer" "${onlinePlayer.name}"`);
+              await this.omegga.writeln(`Chat.Command /grantRole "MINIGAME LEAVER" "${onlinePlayer.name}"`);
               assignedCount++;
               console.log(`[Hoopla RPG] Assigned level 30 roles to ${onlinePlayer.name}`);
             }
