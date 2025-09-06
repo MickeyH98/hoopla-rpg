@@ -176,6 +176,16 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       console.log(`[Hoopla RPG] DEBUG: Cached level 30 player ${id} to prevent data corruption`);
     }
     
+    // TEMPORARY FIX: If this is Orodan and he should be level 30, force cache him
+    if (id === '26c2843f-f5fb-43da-bde9-20af489427ff' && player.experience >= 3100) {
+      console.log(`[Hoopla RPG] DEBUG: TEMPORARY FIX - Forcing Orodan to level 30 in cache`);
+      player.level = 30;
+      player.maxHealth = 390;
+      player.health = 390;
+      this.level30PlayerCache.set(id, { ...player });
+      return player;
+    }
+    
     return player;
   }
 
@@ -498,7 +508,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     // Update cache for level 30 players
     if (safeData.level === 30) {
       this.level30PlayerCache.set(id, { ...baseData, ...safeData });
-      console.log(`[Hoopla RPG] DEBUG: Updated cache for level 30 player ${id}, level: ${safeData.level}, experience: ${safeData.experience}`);
+      console.log(`[Hoopla RPG] DEBUG: Updated cache for level 30 player ID: ${id}, level: ${safeData.level}, experience: ${safeData.experience}`);
     }
   }
 
@@ -558,7 +568,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         
         // Force update the cache to prevent reload issues
         this.level30PlayerCache.set(id, { ...player });
-        console.log(`[Hoopla RPG] DEBUG: Force updated cache for ${playerName} to level 30`);
+        console.log(`[Hoopla RPG] DEBUG: Force updated cache for ${playerName} (ID: ${id}) to level 30`);
         
         // Verify the save worked
         const verifyPlayer = await this.getPlayerData({ id });
@@ -638,7 +648,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         
         // Force update the cache to prevent reload issues
         this.level30PlayerCache.set(id, { ...player });
-        console.log(`[Hoopla RPG] DEBUG: Extra save and cache update completed for ${playerName} at level 30`);
+        console.log(`[Hoopla RPG] DEBUG: Extra save and cache update completed for ${playerName} (ID: ${id}) at level 30`);
       }
     } else if (oldLevel === 30 && newLevel === 30) {
       // Debug logging for level 30 players gaining XP
