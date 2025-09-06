@@ -917,26 +917,17 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   getQuestById(questId: string): Quest | null {
     const quests = this.getAllQuests();
     
-    console.log(`[Hoopla RPG] DEBUG: getQuestById called with questId: "${questId}"`);
-    console.log(`[Hoopla RPG] DEBUG: Available quest IDs:`, quests.map(q => q.id));
-    
     // Handle legacy quest ID - redirect to first quest in chain
     if (questId === 'john_brickington') {
-      const quest = quests.find(quest => quest.id === 'john_brickington_1') || null;
-      console.log(`[Hoopla RPG] DEBUG: John quest redirect result:`, quest ? quest.name : null);
-      return quest;
+      return quests.find(quest => quest.id === 'john_brickington_1') || null;
     }
     
     // Handle Frank Bricktavious quest ID - redirect to first quest in chain
     if (questId === 'frank_bricktavious') {
-      const quest = quests.find(quest => quest.id === 'frank_bricktavious_1') || null;
-      console.log(`[Hoopla RPG] DEBUG: Frank quest redirect result:`, quest ? quest.name : null);
-      return quest;
+      return quests.find(quest => quest.id === 'frank_bricktavious_1') || null;
     }
     
-    const quest = quests.find(quest => quest.id === questId) || null;
-    console.log(`[Hoopla RPG] DEBUG: Direct quest lookup result:`, quest ? quest.name : null);
-    return quest;
+    return quests.find(quest => quest.id === questId) || null;
   }
 
   // Get next quest in chain
@@ -3299,10 +3290,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           
           const quest = this.getQuestById(questId);
           
-          // Debug logging for quest resolution
-          console.log(`[Hoopla RPG] DEBUG: Quest interaction - trigger.message: "${trigger.message}", questId: "${questId}"`);
-          console.log(`[Hoopla RPG] DEBUG: Quest found:`, quest ? quest.name : null);
-          
           if (!quest) {
             const noQuestMessage = "Quest not found!";
             this.omegga.whisper(playerId, noQuestMessage);
@@ -3384,13 +3371,27 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
                   return { success: true, message: nextQuestHint };
                 } else if (nextQuest && questPlayer.quests?.[nextQuestId]) {
                   // Next quest already exists, show completion message
-                  const allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Yo you've literally completed my entire fish business empire! You're the GOAT of fishing, no cap. Thanks for everything, you're so real for that!"`;
+                  let allCompletedMessage = '';
+                  if (quest.questgiver.name === 'John Brickington') {
+                    allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Yo you've literally completed my entire fish business empire! You're the GOAT of fishing, no cap. Thanks for everything, you're so real for that!"`;
+                  } else if (quest.questgiver.name === 'Frank Bricktavious') {
+                    allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Well I'll be hornswoggled! You've helped me build the most magnificent monument this side of the Mississippi! You're a true mining legend, partner. Thanks for makin' an old miner's dreams come true!"`;
+                  } else {
+                    allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Thank you for completing all my quests! You're truly amazing!"`;
+                  }
                   this.sendLongMessage(playerId, allCompletedMessage);
                   return { success: true, message: allCompletedMessage };
                 }
               } else {
                 // No next quest - all quests completed
-                const allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Yo you've literally completed my entire fish business empire! You're the GOAT of fishing, no cap. Thanks for everything, you're so real for that!"`;
+                let allCompletedMessage = '';
+                if (quest.questgiver.name === 'John Brickington') {
+                  allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Yo you've literally completed my entire fish business empire! You're the GOAT of fishing, no cap. Thanks for everything, you're so real for that!"`;
+                } else if (quest.questgiver.name === 'Frank Bricktavious') {
+                  allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Well I'll be hornswoggled! You've helped me build the most magnificent monument this side of the Mississippi! You're a true mining legend, partner. Thanks for makin' an old miner's dreams come true!"`;
+                } else {
+                  allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Thank you for completing all my quests! You're truly amazing!"`;
+                }
                 this.sendLongMessage(playerId, allCompletedMessage);
                 return { success: true, message: allCompletedMessage };
               }
