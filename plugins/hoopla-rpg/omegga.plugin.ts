@@ -47,6 +47,7 @@ type QuestProgress = {
   status: 'not_started' | 'in_progress' | 'completed';
   requirements: QuestRequirement[];
   completedRequirements: string[]; // Track which requirements are met
+  interactionStep: number; // Track which step of the quest interaction we're on
 };
 
 type QuestRequirement = {
@@ -610,30 +611,138 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   getAllQuests(): Quest[] {
     return [
       {
-        id: 'john_brickington',
-        name: 'John Brickington\'s Fishy Business',
-        description: 'Help John Brickington with his fishy business by bringing him 5 Cod.',
+        id: 'john_brickington_1',
+        name: 'John Brickington\'s Starter Pack',
+        description: 'Help John Brickington get 5 Gups to start his fish business',
+        requirements: [
+          {
+            id: 'gup_requirement',
+            type: 'item',
+            target: 'Gup',
+            amount: 5,
+            description: 'Collect 5 Gups from fishing'
+          }
+        ],
+        rewards: {
+          xp: 500,
+          currency: 250,
+          items: ['Fish bait']
+        },
+        questgiver: {
+          name: 'John Brickington',
+          personality: 'A Gen Z fisherman who speaks in internet slang and brainrot terms while trying to sound professional about fish',
+          greeting: 'Yo no cap, you look like someone who could help me out fr fr. I\'m John Brickington, been fishing these waters for a minute now. You seem pretty based ngl.',
+          questExplanation: 'Okay so like, I\'m in a bit of a situation rn. I need exactly 5 Gups to get my fish business started and it\'s giving me anxiety fr. These are like the basic fish you know, but I need them to prove to my investors that I can actually catch stuff. Think you could help me out? I\'ll make sure you get paid well, no cap.',
+          reminderMessage: 'Oh bet, you\'re back! Still working on getting those 5 Gups for me? No rush but I need to show my investors something soon and I\'m lowkey stressing. Just make sure they\'re fresh ones okay? Nothing worse than showing up with stale fish to a business meeting, that would be so cringe.',
+          completionMessage: 'YOOO these are absolutely fire! Exactly what I needed, you\'re so real for this. My investors are gonna be so happy, this is gonna hit different. You did amazing work here, no cap. Here\'s your payment, and I threw in some extra fish bait as a thank you. You\'re literally the GOAT!'
+        }
+      },
+      {
+        id: 'john_brickington_2',
+        name: 'John Brickington\'s Cod Collection',
+        description: 'Help John Brickington get 5 Cod for his expanding business',
         requirements: [
           {
             id: 'cod_requirement',
             type: 'item',
             target: 'Cod',
             amount: 5,
-            description: 'Bring 5 Cod to John Brickington'
+            description: 'Collect 5 Cod from fishing'
           }
         ],
         rewards: {
-          xp: 1000, // Substantial XP reward
-          currency: 500,
-          items: ['Fish bait'] // Bonus reward
+          xp: 750,
+          currency: 400,
+          items: ['Fish bait']
         },
         questgiver: {
           name: 'John Brickington',
           personality: 'A Gen Z fisherman who speaks in internet slang and brainrot terms while trying to sound professional about fish',
-          greeting: 'Yo no cap, you look like someone who could help me out fr fr. I\'m John Brickington, been fishing these waters for a minute now. You seem pretty based ngl.',
-          questExplanation: 'Okay so like, I\'m in a bit of a situation rn. I need exactly 5 Cod for this meeting I got coming up and it\'s giving me anxiety fr. These clients are being so picky about their fish, like they want the premium stuff not that mid quality fish you find everywhere. Think you could help me out? I\'ll make sure you get paid well, no cap.',
-          reminderMessage: 'Oh bet, you\'re back! Still working on getting those 5 Cod for me? No rush but the meeting is coming up soon and I\'m lowkey stressing. Just make sure they\'re fresh ones okay? Nothing worse than showing up with stale fish to a business meeting, that would be so cringe.',
-          completionMessage: 'YOOO these are absolutely fire! Exactly what I needed, you\'re so real for this. My clients are gonna be so happy, this is gonna hit different. You did amazing work here, no cap. Here\'s your payment, and I threw in some extra fish bait as a thank you. You\'re literally the GOAT!'
+          greeting: 'Yo what\'s good! You\'re back and I\'m so hyped fr. The Gups you got me were absolutely bussin and my investors are going crazy over them. You\'re actually the real deal, no cap.',
+          questExplanation: 'So here\'s the thing, my business is popping off right now and I need to level up my fish game. I need exactly 5 Cod this time because my clients are asking for something a bit more premium. These Cod are like the next tier up from Gups you know? Think you could help me out again? I\'ll make sure you get paid even better this time, you\'re basically my business partner now.',
+          reminderMessage: 'Oh bet, you\'re back! Still working on getting those 5 Cod for me? No rush but my clients are getting impatient and I\'m lowkey stressing. Just make sure they\'re fresh ones okay? You know the drill by now, you\'re basically a pro at this point.',
+          completionMessage: 'YOOO these Cod are absolutely insane! You\'re literally carrying my business right now, no cap. My clients are gonna be so happy, this is gonna hit different. You did amazing work here, you\'re actually the GOAT of fishing. Here\'s your payment, and I threw in some extra fish bait as a thank you!'
+        }
+      },
+      {
+        id: 'john_brickington_3',
+        name: 'John Brickington\'s Shark Showdown',
+        description: 'Help John Brickington get 5 Sharks for his premium clientele',
+        requirements: [
+          {
+            id: 'shark_requirement',
+            type: 'item',
+            target: 'Shark',
+            amount: 5,
+            description: 'Collect 5 Sharks from fishing'
+          }
+        ],
+        rewards: {
+          xp: 1000,
+          currency: 600,
+          items: ['Fish bait']
+        },
+        questgiver: {
+          name: 'John Brickington',
+          personality: 'A Gen Z fisherman who speaks in internet slang and brainrot terms while trying to sound professional about fish',
+          greeting: 'Yo what\'s good! You\'re back and I\'m so hyped fr. The Cod you got me were absolutely bussin and my clients are going crazy over them. You\'re actually the real deal, no cap.',
+          questExplanation: 'So here\'s the thing, my business is popping off right now and I need to level up my fish game even more. I need exactly 5 Sharks this time because my clients are asking for something way more premium. These Sharks are like the next tier up from Cod you know? Think you could help me out again? I\'ll make sure you get paid even better this time, you\'re basically my business partner now.',
+          reminderMessage: 'Oh bet, you\'re back! Still working on getting those 5 Sharks for me? No rush but my clients are getting impatient and I\'m lowkey stressing. Just make sure they\'re fresh ones okay? You know the drill by now, you\'re basically a pro at this point.',
+          completionMessage: 'YOOO these Sharks are absolutely insane! You\'re literally carrying my business right now, no cap. My clients are gonna be so happy, this is gonna hit different. You did amazing work here, you\'re actually the GOAT of fishing. Here\'s your payment, and I threw in some extra fish bait as a thank you!'
+        }
+      },
+      {
+        id: 'john_brickington_4',
+        name: 'John Brickington\'s Whale Wonder',
+        description: 'Help John Brickington get 5 Whales for his elite clientele',
+        requirements: [
+          {
+            id: 'whale_requirement',
+            type: 'item',
+            target: 'Whale',
+            amount: 5,
+            description: 'Collect 5 Whales from fishing'
+          }
+        ],
+        rewards: {
+          xp: 1250,
+          currency: 800,
+          items: ['Fish bait']
+        },
+        questgiver: {
+          name: 'John Brickington',
+          personality: 'A Gen Z fisherman who speaks in internet slang and brainrot terms while trying to sound professional about fish',
+          greeting: 'Yo what\'s good! You\'re back and I\'m so hyped fr. The Sharks you got me were absolutely bussin and my clients are going crazy over them. You\'re actually the real deal, no cap.',
+          questExplanation: 'So here\'s the thing, my business is popping off right now and I need to level up my fish game even more. I need exactly 5 Whales this time because my clients are asking for something way more premium. These Whales are like the next tier up from Sharks you know? Think you could help me out again? I\'ll make sure you get paid even better this time, you\'re basically my business partner now.',
+          reminderMessage: 'Oh bet, you\'re back! Still working on getting those 5 Whales for me? No rush but my clients are getting impatient and I\'m lowkey stressing. Just make sure they\'re fresh ones okay? You know the drill by now, you\'re basically a pro at this point.',
+          completionMessage: 'YOOO these Whales are absolutely insane! You\'re literally carrying my business right now, no cap. My clients are gonna be so happy, this is gonna hit different. You did amazing work here, you\'re actually the GOAT of fishing. Here\'s your payment, and I threw in some extra fish bait as a thank you!'
+        }
+      },
+      {
+        id: 'john_brickington_5',
+        name: 'John Brickington\'s Kraken Quest',
+        description: 'Help John Brickington get 1 Kraken for his ultimate client',
+        requirements: [
+          {
+            id: 'kraken_requirement',
+            type: 'item',
+            target: 'Kraken',
+            amount: 1,
+            description: 'Collect 1 Kraken from fishing'
+          }
+        ],
+        rewards: {
+          xp: 2000,
+          currency: 1500,
+          items: ['Fish bait']
+        },
+        questgiver: {
+          name: 'John Brickington',
+          personality: 'A Gen Z fisherman who speaks in internet slang and brainrot terms while trying to sound professional about fish',
+          greeting: 'Yo what\'s good! You\'re back and I\'m so hyped fr. The Whales you got me were absolutely bussin and my clients are going crazy over them. You\'re actually the real deal, no cap.',
+          questExplanation: 'So here\'s the thing, my business is popping off right now and I need to level up my fish game even more. I need exactly 1 Kraken this time because my clients are asking for something way more premium. This Kraken is like the ultimate tier you know? Think you could help me out again? I\'ll make sure you get paid even better this time, you\'re basically my business partner now.',
+          reminderMessage: 'Oh bet, you\'re back! Still working on getting that 1 Kraken for me? No rush but my clients are getting impatient and I\'m lowkey stressing. Just make sure it\'s fresh okay? You know the drill by now, you\'re basically a pro at this point.',
+          completionMessage: 'YOOO this Kraken is absolutely insane! You\'re literally carrying my business right now, no cap. My clients are gonna be so happy, this is gonna hit different. You did amazing work here, you\'re actually the GOAT of fishing. Here\'s your payment, and I threw in some extra fish bait as a thank you!'
         }
       }
     ];
@@ -672,7 +781,31 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   // Get quest by ID
   getQuestById(questId: string): Quest | null {
     const quests = this.getAllQuests();
+    
+    // Handle legacy quest ID - redirect to first quest in chain
+    if (questId === 'john_brickington') {
+      return quests.find(quest => quest.id === 'john_brickington_1') || null;
+    }
+    
     return quests.find(quest => quest.id === questId) || null;
+  }
+
+  // Get next quest in chain
+  getNextQuestInChain(currentQuestId: string): string | null {
+    const questChain = [
+      'john_brickington_1',
+      'john_brickington_2', 
+      'john_brickington_3',
+      'john_brickington_4',
+      'john_brickington_5'
+    ];
+    
+    const currentIndex = questChain.indexOf(currentQuestId);
+    if (currentIndex >= 0 && currentIndex < questChain.length - 1) {
+      return questChain[currentIndex + 1];
+    }
+    
+    return null; // No next quest in chain
   }
 
   // Check if player has completed quest requirements
@@ -687,6 +820,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           const itemCount = player.inventory?.filter(item => 
             item.toLowerCase() === requirement.target.toLowerCase()
           ).length || 0;
+          console.log(`[Hoopla RPG] DEBUG: Item requirement check - looking for: "${requirement.target}", found: ${itemCount}, needed: ${requirement.amount}`);
+          console.log(`[Hoopla RPG] DEBUG: Player inventory:`, player.inventory || []); // Show full inventory
           requirementMet = itemCount >= requirement.amount;
           break;
           
@@ -752,7 +887,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       questId: quest.id,
       status: 'completed',
       requirements: quest.requirements,
-      completedRequirements: quest.requirements.map(req => req.id)
+      completedRequirements: quest.requirements.map(req => req.id),
+      interactionStep: 3
     };
     
     await this.setPlayerData({ id: playerId }, player);
@@ -2140,7 +2276,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       nodeName = quest ? quest.questgiver.name.toLowerCase() : 'questgiver';
     }
     
-    console.log(`[Hoopla RPG] ${playerName} is ${interactionType}${nodeName ? ` ${nodeName}` : ''}`);
+    // console.log(`[Hoopla RPG] ${playerName} is ${interactionType}${nodeName ? ` ${nodeName}` : ''}`); // Temporarily muted for quest debugging
 
     // Track node discovery for the player
     await this.addNodeToCollection({ id: playerId }, triggerId);
@@ -2967,8 +3103,38 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         case 'quest':
           // Handle quest interactions
           const questPlayer = await this.getPlayerData({ id: playerId });
-          const questId = trigger.message; // Quest ID is stored in the message
+          let questId = trigger.message; // Quest ID is stored in the message
+          
+          // Handle legacy quest ID - redirect to first quest in chain
+          if (questId === 'john_brickington') {
+            questId = 'john_brickington_1';
+          }
+          
+          // Determine which quest the player should be interacting with
+          // Always start with the first quest in the chain and work sequentially
+          if (questPlayer.quests) {
+            const questChain = ['john_brickington_1', 'john_brickington_2', 'john_brickington_3', 'john_brickington_4', 'john_brickington_5'];
+            
+            // Find the first quest that is not completed
+            for (const chainQuestId of questChain) {
+              const questState = questPlayer.quests[chainQuestId];
+              if (!questState || questState.status !== 'completed') {
+                questId = chainQuestId;
+                break;
+              }
+            }
+          }
+          
           const quest = this.getQuestById(questId);
+          
+          // Debug logging for quest state
+          console.log(`[Hoopla RPG] DEBUG: Quest interaction - Player: ${playerId}, QuestId: ${questId}, Quest: ${quest ? quest.name : 'null'}`);
+          console.log(`[Hoopla RPG] DEBUG: Player quest state:`, questPlayer.quests || {});
+          if (questPlayer.quests) {
+            for (const [qId, qState] of Object.entries(questPlayer.quests)) {
+              console.log(`[Hoopla RPG] DEBUG: Quest ${qId}: status=${qState.status}, completedRequirements=${qState.completedRequirements?.length || 0}`);
+            }
+          }
           
           if (!quest) {
             const noQuestMessage = "Quest not found!";
@@ -2976,76 +3142,128 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             return { success: false, message: noQuestMessage };
           }
           
-          // Check if player has already completed this quest
-          if (questPlayer.quests?.[questId]?.status === 'completed') {
-            const completedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Oh bet, you already helped me out with that fish situation. Thanks again, you're so real for that!"`;
-            this.sendLongMessage(playerId, completedMessage);
-            return { success: true, message: completedMessage };
+          // Handle step-by-step quest interactions
+          const currentQuest = questPlayer.quests?.[questId];
+          if (!currentQuest) {
+            // First time starting this quest - Step 1: Show greeting
+            console.log(`[Hoopla RPG] DEBUG: Starting new quest ${questId} - Step 1: Greeting`);
+            if (!questPlayer.quests) {
+              questPlayer.quests = {};
+            }
+            questPlayer.quests[questId] = {
+              questId: quest.id,
+              status: 'in_progress',
+              requirements: quest.requirements,
+              completedRequirements: [],
+              interactionStep: 1
+            };
+            await this.setPlayerData({ id: playerId }, questPlayer);
+            
+            const greetingMessage = `<color="ff0">${quest.questgiver.name}</color>: "${quest.questgiver.greeting}"`;
+            this.sendLongMessage(playerId, greetingMessage);
+            return { success: true, message: greetingMessage };
           }
           
-          // Check quest requirements
-          const requirementCheck = this.checkQuestRequirements(questPlayer, quest);
-          
-          if (requirementCheck.completed) {
-            // Quest requirements met - complete the quest
-            await this.completeQuest(playerId, quest);
-            
-            // Send completion message separately
-            const completionMessage = `<color="ff0">${quest.questgiver.name}</color>: "${quest.questgiver.completionMessage}"`;
-            this.sendLongMessage(playerId, completionMessage);
-            
-            // Format and send rewards message separately
-            const formattedItems = quest.rewards.items ? quest.rewards.items.map(item => `<color="fff">[${item}]</color>`).join(', ') : '';
-            const formattedCurrency = await this.currency.format(quest.rewards.currency);
-            const rewardMessage = `Quest completed! Rewards: <color="ff0">${quest.rewards.xp} XP</color>, <color="0f0">${formattedCurrency}</color>${formattedItems ? `, ${formattedItems}` : ''}`;
-            this.omegga.whisper(playerId, rewardMessage);
-            
-            return { 
-              success: true, 
-              message: completionMessage,
-              reward: { 
-                type: 'quest_completion', 
-                questId: quest.id,
-                xp: quest.rewards.xp,
-                currency: quest.rewards.currency,
-                items: quest.rewards.items
-              }
-            };
-          } else {
-            // Quest requirements not met
-            if (!questPlayer.quests?.[questId]) {
-              // First time talking to questgiver - start the quest
-              if (!questPlayer.quests) {
-                questPlayer.quests = {};
-              }
-              questPlayer.quests[questId] = {
-                questId: quest.id,
-                status: 'in_progress',
-                requirements: quest.requirements,
-                completedRequirements: requirementCheck.completedRequirements
-              };
+          // Handle existing quest based on interaction step
+          switch (currentQuest.interactionStep) {
+            case 1:
+              // Step 2: Show quest explanation
+              console.log(`[Hoopla RPG] DEBUG: Quest ${questId} - Step 2: Quest explanation`);
+              currentQuest.interactionStep = 2;
               await this.setPlayerData({ id: playerId }, questPlayer);
               
-              // Combine greeting and quest explanation into one message
-              const combinedMessage = `<color="ff0">${quest.questgiver.name}</color>: "${quest.questgiver.greeting} ${quest.questgiver.questExplanation}"`;
-              this.sendLongMessage(playerId, combinedMessage);
+              const questExplanationMessage = `<color="ff0">${quest.questgiver.name}</color>: "${quest.questgiver.questExplanation}"`;
+              this.sendLongMessage(playerId, questExplanationMessage);
+              return { success: true, message: questExplanationMessage };
               
-              return { 
-                success: true, 
-                message: combinedMessage,
-                reward: { type: 'quest_started', questId: quest.id }
-              };
-            } else {
-              // Quest already started but requirements not met - show reminder
-              const reminderMessage = `<color="ff0">${quest.questgiver.name}</color>: "${quest.questgiver.reminderMessage}"`;
-              this.sendLongMessage(playerId, reminderMessage);
+            case 2:
+              // Step 3: Check requirements and attempt completion
+              console.log(`[Hoopla RPG] DEBUG: Quest ${questId} - Step 3: Check requirements`);
+              const requirementCheck = this.checkQuestRequirements(questPlayer, quest);
               
-              return { 
-                success: true, 
-                message: reminderMessage,
-                reward: { type: 'quest_reminder', questId: quest.id }
-              };
-            }
+              if (requirementCheck.completed) {
+                // Complete the quest
+                await this.completeQuest(playerId, quest);
+                currentQuest.status = 'completed';
+                currentQuest.interactionStep = 3;
+                await this.setPlayerData({ id: playerId }, questPlayer);
+                
+                const completionMessage = `<color="ff0">${quest.questgiver.name}</color>: "${quest.questgiver.completionMessage}"`;
+                this.sendLongMessage(playerId, completionMessage);
+                
+                // Format and send rewards message separately
+                const formattedItems = quest.rewards.items ? quest.rewards.items.map(item => `<color="fff">[${item}]</color>`).join(', ') : '';
+                const formattedCurrency = await this.currency.format(quest.rewards.currency);
+                const rewardMessage = `Quest completed! Rewards: <color="ff0">${quest.rewards.xp} XP</color>, <color="0f0">${formattedCurrency}</color>${formattedItems ? `, ${formattedItems}` : ''}`;
+                this.omegga.whisper(playerId, rewardMessage);
+                
+                return { success: true, message: completionMessage };
+              } else {
+                // Show reminder
+                const reminderMessage = `<color="ff0">${quest.questgiver.name}</color>: "${quest.questgiver.reminderMessage}"`;
+                this.sendLongMessage(playerId, reminderMessage);
+                return { success: true, message: reminderMessage };
+              }
+              
+            case 3:
+              // Step 4: Check for next quest or show completion message
+              console.log(`[Hoopla RPG] DEBUG: Quest ${questId} - Step 4: Check for next quest`);
+              const nextQuestId = this.getNextQuestInChain(questId);
+              if (nextQuestId) {
+                const nextQuest = this.getQuestById(nextQuestId);
+                if (nextQuest && !questPlayer.quests?.[nextQuestId]) {
+                  // Show hint about next quest and advance to step 4
+                  currentQuest.interactionStep = 4;
+                  await this.setPlayerData({ id: playerId }, questPlayer);
+                  
+                  const nextQuestHint = `<color="ff0">New quest available!</color> Talk to ${quest.questgiver.name} again to start the next quest in the chain.`;
+                  this.omegga.whisper(playerId, nextQuestHint);
+                  return { success: true, message: nextQuestHint };
+                } else if (nextQuest && questPlayer.quests?.[nextQuestId]) {
+                  // Next quest already exists, show completion message
+                  const allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Yo you've literally completed my entire fish business empire! You're the GOAT of fishing, no cap. Thanks for everything, you're so real for that!"`;
+                  this.sendLongMessage(playerId, allCompletedMessage);
+                  return { success: true, message: allCompletedMessage };
+                }
+              } else {
+                // No next quest - all quests completed
+                const allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Yo you've literally completed my entire fish business empire! You're the GOAT of fishing, no cap. Thanks for everything, you're so real for that!"`;
+                this.sendLongMessage(playerId, allCompletedMessage);
+                return { success: true, message: allCompletedMessage };
+              }
+              break;
+              
+            case 4:
+              // Step 5: Start the next quest in the chain
+              console.log(`[Hoopla RPG] DEBUG: Quest ${questId} - Step 5: Starting next quest`);
+              const nextQuestId2 = this.getNextQuestInChain(questId);
+              if (nextQuestId2) {
+                const nextQuest = this.getQuestById(nextQuestId2);
+                if (nextQuest && !questPlayer.quests?.[nextQuestId2]) {
+                  // Start the next quest
+                  questPlayer.quests[nextQuestId2] = {
+                    questId: nextQuest.id,
+                    status: 'in_progress',
+                    requirements: nextQuest.requirements,
+                    completedRequirements: [],
+                    interactionStep: 1
+                  };
+                  await this.setPlayerData({ id: playerId }, questPlayer);
+                  
+                  const nextQuestGreeting = `<color="ff0">${nextQuest.questgiver.name}</color>: "${nextQuest.questgiver.greeting}"`;
+                  this.sendLongMessage(playerId, nextQuestGreeting);
+                  return { success: true, message: nextQuestGreeting };
+                }
+              }
+              break;
+              
+            default:
+              // Reset to step 1 if something goes wrong
+              currentQuest.interactionStep = 1;
+              await this.setPlayerData({ id: playerId }, questPlayer);
+              const resetMessage = `<color="ff0">${quest.questgiver.name}</color>: "${quest.questgiver.greeting}"`;
+              this.sendLongMessage(playerId, resetMessage);
+              return { success: true, message: resetMessage };
           }
 
         default:
@@ -3678,6 +3896,32 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
        }
     });
 
+    // RPG reset quest progress command - clears only your own quest progress
+    this.omegga.on("cmd:rpgresetquests", async (speaker: string) => {
+      const player = this.omegga.getPlayer(speaker);
+      if (!player) return;
+
+      this.omegga.whisper(speaker, `<color="f00">Resetting your quest progress...</color>`);
+
+      try {
+        const playerData = await this.getPlayerData({ id: player.id });
+        if (playerData && playerData.quests) {
+          const questCount = Object.keys(playerData.quests).length;
+          playerData.quests = {}; // Clear all quest progress and interaction steps
+          await this.setPlayerData({ id: player.id }, playerData);
+          
+          this.omegga.whisper(speaker, `<color="0f0">Reset ${questCount} quests!</color>`);
+          this.omegga.whisper(speaker, `<color="888">You can now start quests from the beginning.</color>`);
+        } else {
+          this.omegga.whisper(speaker, `<color="888">No quest progress to reset.</color>`);
+        }
+         
+       } catch (error) {
+         console.error(`[Hoopla RPG] Error resetting quest progress:`, error);
+         this.omegga.whisper(speaker, `<color="f00">Failed to reset quest progress: ${error.message}</color>`);
+       }
+    });
+
 
 
 
@@ -3696,7 +3940,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
                       return { 
           registeredCommands: [
-            "rpg", "rpginit", "rpghelp", "rpgclearall", "rpgcleartriggers", "rpgclearquests", "mininginfo", "fishinginfo", "rpgleaderboard"
+            "rpg", "rpginit", "rpghelp", "rpgclearall", "rpgcleartriggers", "rpgclearquests", "rpgresetquests", "mininginfo", "fishinginfo", "rpgleaderboard"
           ] 
         };
   }
