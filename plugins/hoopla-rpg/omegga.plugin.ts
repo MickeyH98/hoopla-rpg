@@ -917,17 +917,26 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   getQuestById(questId: string): Quest | null {
     const quests = this.getAllQuests();
     
+    console.log(`[Hoopla RPG] DEBUG: getQuestById called with questId: "${questId}"`);
+    console.log(`[Hoopla RPG] DEBUG: Available quest IDs:`, quests.map(q => q.id));
+    
     // Handle legacy quest ID - redirect to first quest in chain
     if (questId === 'john_brickington') {
-      return quests.find(quest => quest.id === 'john_brickington_1') || null;
+      const quest = quests.find(quest => quest.id === 'john_brickington_1') || null;
+      console.log(`[Hoopla RPG] DEBUG: John quest redirect result:`, quest ? quest.name : null);
+      return quest;
     }
     
     // Handle Frank Bricktavious quest ID - redirect to first quest in chain
     if (questId === 'frank_bricktavious') {
-      return quests.find(quest => quest.id === 'frank_bricktavious_1') || null;
+      const quest = quests.find(quest => quest.id === 'frank_bricktavious_1') || null;
+      console.log(`[Hoopla RPG] DEBUG: Frank quest redirect result:`, quest ? quest.name : null);
+      return quest;
     }
     
-    return quests.find(quest => quest.id === questId) || null;
+    const quest = quests.find(quest => quest.id === questId) || null;
+    console.log(`[Hoopla RPG] DEBUG: Direct quest lookup result:`, quest ? quest.name : null);
+    return quest;
   }
 
   // Get next quest in chain
@@ -3290,6 +3299,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           
           const quest = this.getQuestById(questId);
           
+          // Debug logging for quest resolution
+          console.log(`[Hoopla RPG] DEBUG: Quest interaction - trigger.message: "${trigger.message}", questId: "${questId}"`);
+          console.log(`[Hoopla RPG] DEBUG: Quest found:`, quest ? quest.name : null);
           
           if (!quest) {
             const noQuestMessage = "Quest not found!";
