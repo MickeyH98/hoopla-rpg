@@ -399,6 +399,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   }
 
   async setPlayerData({ id }: PlayerId, data: RPGPlayer) {
+    console.log(`[Hoopla RPG] DEBUG: setPlayerData called for player ID: ${id}, level: ${data.level}, experience: ${data.experience}`);
     // Ensure levels don't exceed max level
     const safeData = { ...data };
     safeData.level = Math.min(safeData.level, 30);
