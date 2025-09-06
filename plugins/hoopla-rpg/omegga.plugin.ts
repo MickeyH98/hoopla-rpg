@@ -176,16 +176,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       console.log(`[Hoopla RPG] DEBUG: Cached level 30 player ${id} to prevent data corruption`);
     }
     
-    // TEMPORARY FIX: If this is Orodan and he should be level 30, force cache him
-    if (id === '26c2843f-f5fb-43da-bde9-20af489427ff' && player.experience >= 3100) {
-      console.log(`[Hoopla RPG] DEBUG: TEMPORARY FIX - Forcing Orodan to level 30 in cache`);
-      player.level = 30;
-      player.maxHealth = 390;
-      player.health = 390;
-      this.level30PlayerCache.set(id, { ...player });
-      return player;
-    }
-    
     return player;
   }
 
@@ -513,6 +503,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   }
 
   async addExperience({ id }: PlayerId, amount: number): Promise<{ leveledUp: boolean; newLevel: number }> {
+    console.log(`[Hoopla RPG] DEBUG: addExperience called for player ID: ${id}`);
     const player = await this.getPlayerData({ id });
     
     // Ensure all required properties exist with fallbacks
@@ -533,6 +524,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     if (oldLevel === 29) {
       const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
       console.log(`[Hoopla RPG] DEBUG: ${playerName} (level 29) gaining ${amount} XP. Current experience: ${player.experience}, Level: ${oldLevel}`);
+      console.log(`[Hoopla RPG] DEBUG: Player ID in addExperience: ${id}, Player name: ${playerName}`);
     }
     
     // CRITICAL FIX: If player is already level 30, don't allow any level changes
@@ -625,6 +617,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       
       // Announce level-up to the whole server
       const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
+      console.log(`[Hoopla RPG] DEBUG: Level-up announcement - Player ID: ${id}, Player name: ${playerName}`);
       this.omegga.broadcast(`<color="ff0">Congratulations! ${playerName} has reached level ${newLevel}!</color>`);
       console.log(`[Hoopla RPG] ${playerName} leveled up from ${oldLevel} to ${newLevel}!`);
       
@@ -4317,9 +4310,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           
           this.omegga.whisper(speaker, `<color="0f0">Reset ${questCount} quests!</color>`);
           this.omegga.whisper(speaker, `<color="888">You can now start quests from the beginning.</color>`);
-        } else {
+                 } else {
           this.omegga.whisper(speaker, `<color="888">No quest progress to reset.</color>`);
-        }
+         }
          
        } catch (error) {
          console.error(`[Hoopla RPG] Error resetting quest progress:`, error);
