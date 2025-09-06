@@ -157,6 +157,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   }
 
   async getPlayerData({ id }: PlayerId): Promise<RPGPlayer> {
+    console.log(`[Hoopla RPG] DEBUG: getPlayerData called for player ${id}`);
+    console.log(`[Hoopla RPG] DEBUG: Cache contents: ${Array.from(this.level30PlayerCache.keys()).join(', ')}`);
+    
     // Check if this is a level 30 player in our cache
     if (this.level30PlayerCache.has(id)) {
       const cachedPlayer = this.level30PlayerCache.get(id)!;
@@ -165,6 +168,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     }
 
     const player = (await this.store.get("rpg_" + id)) ?? this.defaultPlayer();
+    console.log(`[Hoopla RPG] DEBUG: Loaded player ${id} from storage, level: ${player.level}, experience: ${player.experience}`);
     
     // If this player is level 30, cache them to prevent data corruption
     if (player.level === 30) {
@@ -494,7 +498,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     // Update cache for level 30 players
     if (safeData.level === 30) {
       this.level30PlayerCache.set(id, { ...baseData, ...safeData });
-      console.log(`[Hoopla RPG] DEBUG: Updated cache for level 30 player ${id}`);
+      console.log(`[Hoopla RPG] DEBUG: Updated cache for level 30 player ${id}, level: ${safeData.level}, experience: ${safeData.experience}`);
     }
   }
 
