@@ -33,6 +33,7 @@ type RPGPlayer = {
   inventory: string[];
   consumables: ConsumableItem[]; // Track consumable items with charges
   nodesCollected: string[]; // Track which nodes the player has discovered
+  username?: string; // Store player's username for leaderboard display
   skills: {
     mining: { level: number; experience: number };
     bartering: { level: number; experience: number };
@@ -97,6 +98,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       inventory: [],
       consumables: [],
       nodesCollected: [],
+      username: undefined, // Will be set when player first interacts
       skills: {
         mining: { level: 0, experience: 0 },
         bartering: { level: 0, experience: 0 },
@@ -107,6 +109,195 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
   async getPlayerData({ id }: PlayerId): Promise<RPGPlayer> {
     return (await this.store.get("rpg_" + id)) ?? this.defaultPlayer();
+  }
+
+  // Ensure player username is stored in database
+  async ensurePlayerUsername(playerId: string, username: string): Promise<void> {
+    const player = await this.getPlayerData({ id: playerId });
+    if (!player.username || player.username !== username) {
+      player.username = username;
+      await this.setPlayerData({ id: playerId }, player);
+    }
+  }
+
+  // Initialize a single RPG node based on interaction
+  async initializeRPGNode(player: any, nodeData: { type: string; subtype: string; position: number[]; consoleTag: string; lastUsed: number }): Promise<boolean> {
+    try {
+      const { type, subtype, position, consoleTag } = nodeData;
+      const nodeKey = `${position[0]},${position[1]},${position[2]}`;
+      
+      // Check if this node already has a trigger
+      const existingTriggers = await this.getBrickTriggers();
+      const existingTrigger = Object.values(existingTriggers).find(trigger => 
+        trigger.brickPositions && trigger.brickPositions.some(pos => 
+          pos.x === position[0] && pos.y === position[1] && pos.z === position[2]
+        )
+      );
+      
+      if (existingTrigger) {
+        return false; // No new trigger created
+      }
+      
+      // Create appropriate trigger based on node type
+      const triggerId = `rpg_${type}_${subtype}_${nodeKey}`;
+      let trigger: BrickTrigger;
+      
+      switch (type) {
+        case 'mining':
+          trigger = {
+            id: triggerId,
+            type: 'item',
+            value: 1,
+            cooldown: 5000,
+            lastUsed: {},
+            message: `Mining ${subtype}...`,
+            color: '#FFD700',
+            brickPositions: [{ x: position[0], y: position[1], z: position[2] }],
+            triggerType: 'click',
+            miningProgress: {}
+          };
+          break;
+          
+        case 'fishing':
+          trigger = {
+            id: triggerId,
+            type: 'fish',
+            value: 1,
+            cooldown: 3000,
+            lastUsed: {},
+            message: `Fishing for ${subtype}...`,
+            color: '#00BFFF',
+            brickPositions: [{ x: position[0], y: position[1], z: position[2] }],
+            triggerType: 'click',
+            fishingProgress: {},
+            fishingAttemptsRemaining: {}
+          };
+          break;
+          
+        case 'sell':
+        case 'buy':
+          // Set appropriate price based on item type
+          let itemPrice = 1;
+          if (type === 'buy') {
+            if (consoleTag.includes('bait')) {
+              itemPrice = 100; // Fish bait costs 100 currency for 20 pieces
+            } else if (consoleTag.includes('pickaxe')) {
+              itemPrice = 100; // Pickaxe costs 100 currency
+            } else {
+              itemPrice = 25; // Default price for other items
+            }
+          }
+          
+          trigger = {
+            id: triggerId,
+            type: type === 'sell' ? 'sell' : 'buy',
+            value: itemPrice,
+            cooldown: 1000,
+            lastUsed: {},
+            message: `Shopkeeper: ${consoleTag}`,
+            color: '#FFA500',
+            brickPositions: [{ x: position[0], y: position[1], z: position[2] }],
+            triggerType: 'click'
+          };
+          break;
+          
+        default:
+          return false; // No trigger created
+      }
+      
+      // Create the trigger
+      await this.createBrickTrigger(triggerId, trigger);
+      return true; // New trigger created
+      
+    } catch (error) {
+      console.error(`[Hoopla RPG] Error initializing RPG node:`, error);
+      return false; // No trigger created due to error
+    }
+  }
+
+  // Initialize the interaction-based RPG system
+  async initializeRPGOnInteraction(): Promise<void> {
+    // Set up interaction listeners for RPG nodes
+    this.omegga.on("interact", async (data: any) => {
+      try {
+        // Handle both old format (string) and new format (object) for player data
+        const playerId = typeof data.player === 'string' ? data.player : data.player?.id;
+        const playerName = typeof data.player === 'string' ? data.player : data.player?.name;
+        
+        const player = this.omegga.getPlayer(playerId);
+        if (!player) return;
+
+        // Store player username for leaderboard display
+        await this.ensurePlayerUsername(player.id, player.name);
+
+        // Check if this is an RPG console tag interaction
+        if (data.message || data.tag) {
+          const message = data.message || data.tag;
+          const rpgMatch = message.match(/^rpg_(mining|fishing|sell|buy)_(.+)$/i);
+          if (rpgMatch) {
+            const nodeType = rpgMatch[1]; // mining, fishing, sell, buy
+            const nodeSubtype = rpgMatch[2]; // iron, gold, spot, etc.
+            
+            // Store RPG node data by position
+            const nodeKey = `${data.position[0]},${data.position[1]},${data.position[2]}`;
+            const nodeData = {
+              type: nodeType,
+              subtype: nodeSubtype,
+              position: [data.position[0], data.position[1], data.position[2]],
+              consoleTag: message,
+              lastUsed: Date.now()
+            };
+            
+            await this.store.set(`rpg_node_${nodeKey}`, nodeData as any);
+            
+            // Initialize the RPG node if it doesn't exist as a trigger
+            const triggerCreated = await this.initializeRPGNode(player, nodeData);
+            if (triggerCreated) {
+              // If we just created a new trigger, show a message and continue to process it
+              let initMessage = "";
+              if (nodeData.type === 'fishing') {
+                initMessage = `Fishing spot initialized! Click again to start fishing.`;
+              } else if (nodeData.type === 'mining') {
+                initMessage = `Mining spot initialized! Click again to start mining.`;
+              } else if (nodeData.type === 'sell') {
+                initMessage = `Shop initialized! Click again to sell items.`;
+              } else if (nodeData.type === 'buy') {
+                initMessage = `Shop initialized! Click again to buy items.`;
+              }
+              if (initMessage) {
+                this.omegga.middlePrint(player.id, initMessage);
+              }
+            }
+            // Don't return early - continue to process the interaction
+          }
+        }
+
+        // Process existing triggers
+        const triggers = await this.getBrickTriggers();
+        let matchFound = false;
+        for (const [triggerId, trigger] of Object.entries(triggers)) {
+          if (trigger.triggerType === 'click' && trigger.brickPositions) {
+            for (const brickPos of trigger.brickPositions) {
+              if (brickPos.x === data.position[0] && brickPos.y === data.position[1] && brickPos.z === data.position[2]) {
+                matchFound = true;
+                const result = await this.triggerBrickAction(player.id, triggerId);
+                
+                if (result.success) {
+                  // Success messages are now handled by middlePrint in triggerBrickAction
+                } else {
+                  // Error messages are now handled by middlePrint in triggerBrickAction
+                }
+                break;
+              }
+            }
+          }
+          if (matchFound) break;
+        }
+
+      } catch (error) {
+        console.error(`[Hoopla RPG] Error processing interaction:`, error);
+      }
+    });
   }
 
   async setPlayerData({ id }: PlayerId, data: RPGPlayer) {
@@ -1446,11 +1637,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         const playerData = await this.getPlayerData({ id: playerId });
         const score = await this.getPlayerScore(playerId);
         
-        // Only include players who have some XP (not just default players)
-        if (score > 0) {
-          // Get player name from Omegga's player list if online, fallback to truncated ID
-          const player = this.omegga.getPlayer(playerId);
-          const playerName = player?.name || `Player_${playerId.substring(0, 8)}`;
+          // Only include players who have some XP (not just default players)
+          if (score > 0) {
+            // Get stored player name from database, fallback to online player name, then truncated ID
+            const storedPlayerName = playerData.username;
+            const onlinePlayer = this.omegga.getPlayer(playerId);
+            const playerName = storedPlayerName || onlinePlayer?.name || `Player_${playerId.substring(0, 8)}`;
           
           leaderboard.push({
             playerId,
@@ -1625,8 +1817,42 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     if (!trigger) {
       return { success: false, message: "Trigger not found!" };
     }
-    
 
+    // Get player name for logging
+    const player = this.omegga.getPlayer(playerId);
+    const playerName = player?.name || `Player_${playerId.substring(0, 8)}`;
+    
+    // Extract node type and name from trigger
+    let interactionType: string = trigger.type;
+    let nodeName = "unknown";
+    
+    if (trigger.type === 'item') {
+      interactionType = 'mining';
+      // Extract ore type from trigger ID (e.g., "rpg_mining_iron_100,50,200" -> "iron")
+      const match = triggerId.match(/rpg_mining_([^_]+)_/);
+      nodeName = match ? match[1] : 'ore';
+    } else if (trigger.type === 'fish') {
+      interactionType = 'fishing';
+      nodeName = '';
+    } else if (trigger.type === 'sell') {
+      interactionType = 'selling';
+      // Extract resource type from trigger ID
+      const match = triggerId.match(/rpg_sell_([^_]+)_/);
+      nodeName = match ? match[1] : 'items';
+    } else if (trigger.type === 'buy') {
+      interactionType = 'buying';
+      // Extract item type from trigger message
+      const buyType = trigger.message.replace('Shopkeeper: ', '');
+      if (buyType.includes('bait')) {
+        nodeName = 'fish bait';
+      } else if (buyType.includes('pickaxe')) {
+        nodeName = 'pickaxe';
+      } else {
+        nodeName = 'items';
+      }
+    }
+    
+    console.log(`[Hoopla RPG] ${playerName} is ${interactionType}${nodeName ? ` ${nodeName}` : ''}`);
 
     // Track node discovery for the player
     await this.addNodeToCollection({ id: playerId }, triggerId);
@@ -1753,9 +1979,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           const currentProgress = previousProgress + 1;
           trigger.miningProgress[playerId] = currentProgress;
           
-          // Simple progress logging to debug the issue
-          console.log(`[Hoopla RPG] Mining progress: ${previousProgress} → ${currentProgress} / ${clicksRequired}`);
-          console.log(`[Hoopla RPG] Progress types: previous=${typeof previousProgress}, current=${typeof currentProgress}`);
           
           // Check if mining is complete
           if (currentProgress < clicksRequired) {
@@ -1766,8 +1989,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             const remainingClicks = clicksRequired - currentProgress;
             const progressBar = this.createProgressBar(currentProgress, clicksRequired);
             
-            // Log the progress calculation
-            console.log(`[Hoopla RPG] Progress: ${currentProgress}/${clicksRequired} = ${((currentProgress/clicksRequired)*100).toFixed(1)}%`);
             
             // Use middlePrint for progress updates
             this.omegga.middlePrint(playerId, `Mining ${trigger.message}... ${progressBar}`);
@@ -1860,7 +2081,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
               trigger.fishingAttemptsRemaining = {};
             }
             trigger.fishingAttemptsRemaining[playerId] = 5;
-            console.log(`[Hoopla RPG] Initialized fishing node for player ${playerId} with 5 attempts`);
             
             // Also ensure fishing progress is initialized
             if (!trigger.fishingProgress) {
@@ -1886,7 +2106,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           }
           
           if (!fishingPlayer.skills.fishing) {
-            console.log(`[Hoopla RPG] Player ${playerId} has no fishing skill, initializing...`);
             fishingPlayer.skills.fishing = { level: 0, experience: 0 };
             await this.setPlayerData({ id: playerId }, fishingPlayer);
           }
@@ -1905,7 +2124,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           const currentFishingProgress = trigger.fishingProgress[playerId] + 1;
           trigger.fishingProgress[playerId] = currentFishingProgress;
           
-          console.log(`[Hoopla RPG] Fishing progress for player ${playerId}: ${currentFishingProgress} clicks, attempts remaining: ${trigger.fishingAttemptsRemaining?.[playerId] || 'undefined'}`);
           
           // Determine clicks required based on fishing level (using Gup as base since it's always available)
           const fishingClicksRequired = this.getFishingClicksRequired(fishingLevel, 'gup');
@@ -1927,12 +2145,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
                 trigger.fishingAttemptsRemaining = {};
               }
               trigger.fishingAttemptsRemaining[playerId] = 5;
-              console.log(`[Hoopla RPG] Re-initialized fishing attempts for player ${playerId}`);
             }
             
             // Final safety check before returning
             const finalAttemptsLeft = trigger.fishingAttemptsRemaining[playerId];
-            console.log(`[Hoopla RPG] Returning fishing progress for player ${playerId}: ${currentFishingProgress}/${fishingClicksRequired} clicks, ${finalAttemptsLeft} attempts remaining`);
             
             const progressBar = this.createProgressBar(currentFishingProgress, fishingClicksRequired);
             
@@ -1973,13 +2189,11 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
               trigger.fishingAttemptsRemaining = {};
             }
             trigger.fishingAttemptsRemaining[playerId] = 5;
-            console.log(`[Hoopla RPG] Re-initialized fishing attempts for player ${playerId} when completing fishing`);
           }
           
           trigger.fishingAttemptsRemaining[playerId]--;
           const attemptsRemaining = trigger.fishingAttemptsRemaining[playerId];
           
-          console.log(`[Hoopla RPG] Fishing complete for player ${playerId}. Fish result:`, fishResult ? `${fishResult.fishType}` : 'Failed to catch', `Attempts remaining: ${attemptsRemaining}`);
           
           if (!fishResult) {
             // Failed to catch anything
@@ -1991,7 +2205,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
               const fishingNow = Date.now();
               trigger.lastUsed[playerId] = fishingNow;
               
-              console.log(`[Hoopla RPG] Fishing node depleted for player ${playerId}. Triggering 60s cooldown.`);
               
               // Clear attempts remaining for this player
               delete trigger.fishingAttemptsRemaining[playerId];
@@ -2048,9 +2261,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           const fishingXpResult = await this.addExperience({ id: playerId }, generalXP);
           
           // Grant Fishing XP
-          console.log(`[Hoopla RPG] Adding ${fishingXP} fishing XP to player ${playerId}. Current skills:`, fishingPlayer.skills);
           const fishingSkillResult = await this.addSkillExperience({ id: playerId }, 'fishing', fishingXP);
-          console.log(`[Hoopla RPG] Fishing XP result for player ${playerId}:`, fishingSkillResult);
           
           // Check if this was the last attempt
           if (attemptsRemaining <= 0) {
@@ -2058,7 +2269,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             const fishingNow = Date.now();
             trigger.lastUsed[playerId] = fishingNow;
             
-            console.log(`[Hoopla RPG] Fishing node depleted for player ${playerId} after successful catch. Triggering 60s cooldown.`);
             
             // Clear attempts remaining for this player
             delete trigger.fishingAttemptsRemaining[playerId];
@@ -2432,11 +2642,17 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         case 'buy':
           // Handle buying consumable items
           const buyPlayer = await this.getPlayerData({ id: playerId });
-          const buyType = trigger.message; // 'rpg_buy_bait' or other buy triggers
+          // Extract the actual buy type from the message (remove "Shopkeeper: " prefix)
+          const buyType = trigger.message.replace('Shopkeeper: ', ''); // 'rpg_buy_bait' or other buy triggers
+          
+          // Update price if it's the old incorrect price (1)
+          let itemPrice = trigger.value;
+          if (itemPrice === 1 && buyType.includes('bait')) {
+            itemPrice = 100; // Update to correct fish bait price
+          }
           
           // Check if player has enough currency
           const currentCurrency = await this.currency.getCurrency(playerId);
-          const itemPrice = trigger.value;
           
           if (currentCurrency < itemPrice) {
             const insufficientMessage = `Insufficient funds! You need ${await this.currency.format(itemPrice)} but only have ${await this.currency.format(currentCurrency)}.`;
@@ -2467,9 +2683,11 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
                 newCurrency: formattedCurrency
               }
             };
+          } else {
+            const unknownMessage = `Unknown item to buy: ${buyType}`;
+            this.omegga.middlePrint(playerId, unknownMessage);
+            return { success: false, message: unknownMessage };
           }
-          
-          return { success: false, message: "Unknown item to buy!" };
 
         default:
           return { success: false, message: "Unknown trigger type!" };
@@ -2544,13 +2762,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         if (trigger.triggerType === 'click' && trigger.brickPositions) {
           for (const brickPos of trigger.brickPositions) {
                          if (brickPos.x === posArray[0] && brickPos.y === posArray[1] && brickPos.z === posArray[2]) {
-               if (trigger.type === 'sell') {
-                 console.log(`[Hoopla RPG] [${player.name}] is selling to shopkeeper: ${triggerId.replace('shopkeeper_', '').split('_')[0]}_${triggerId.split('_').slice(-2).join('_')}`);
-               } else if (trigger.type === 'fish') {
-                 console.log(`[Hoopla RPG] [${player.name}] is fishing node: ${triggerId.replace('fishing_', '').split('_')[0]}_${triggerId.split('_').slice(-2).join('_')}`);
-               } else if (trigger.type === 'item') {
-                 console.log(`[Hoopla RPG] [${player.name}] is mining node: ${triggerId.replace('mining_', '').split('_')[0]}_${triggerId.split('_').slice(-2).join('_')}`);
-               }
                matchFound = true;
               
               const result = await this.triggerBrickAction(player.id, triggerId);
@@ -2744,6 +2955,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
     console.log("Hoopla RPG: Leaderboard system initialized - announcements every 10 minutes");
 
+    // Initialize the interaction-based RPG system
+    await this.initializeRPGOnInteraction();
+    console.log("Hoopla RPG: Interaction-based RPG system initialized");
+
 
 
 
@@ -2853,7 +3068,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       this.omegga.whisper(speaker, `<color="888">Try /rpghelp for more commands</color>`);
     });
 
-    // RPG initialization command - will eventually handle mining nodes, class selection, shopkeepers, and questgivers
+    // RPG initialization command - sets up interaction-based system
     this.omegga.on("cmd:rpginit", async (speaker: string) => {
       const player = this.omegga.getPlayer(speaker);
       if (!player) return;
@@ -2861,49 +3076,16 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       this.omegga.whisper(speaker, `<color="f0f">Initializing RPG systems...</color>`);
 
       try {
-        // Try to read world data once and share it across all auto-detection methods
-        let worldData = null;
-        try {
-          worldData = await this.omegga.getSaveData();
-        } catch (error) {
-          console.error(`[Hoopla RPG] Failed to read world save data during initialization:`, error);
-          this.omegga.whisper(speaker, `<color="f00">Failed to read world data. The world save may be corrupted or too large.</color>`);
-          this.omegga.whisper(speaker, `<color="ff0">Try using /rpginit again later, or set up nodes manually.</color>`);
-          return;
-        }
+        // Initialize the interaction-based RPG system
+        await this.initializeRPGOnInteraction();
         
-        if (!worldData) {
-          this.omegga.whisper(speaker, `<color="f00">Unable to read world data. The world may be too large or corrupted.</color>`);
-          this.omegga.whisper(speaker, `<color="ff0">Try using /rpginit again later, or set up nodes manually.</color>`);
-          return;
-        }
-
-        // Initialize mining nodes
-        this.omegga.whisper(speaker, `<color="0ff">Initializing mining nodes...</color>`);
-        console.log(`[Hoopla RPG] Main command passing worldData to mining:`, !!worldData, typeof worldData);
-        await this.autoDetectMiningNodes(speaker, worldData);
-
-        // Initialize fishing nodes
-        this.omegga.whisper(speaker, `<color="0ff">Initializing fishing nodes...</color>`);
-        await this.autoDetectFishingNodes(speaker, worldData);
-
-        // Initialize shopkeepers
-        this.omegga.whisper(speaker, `<color="0ff">Initializing shopkeepers...</color>`);
-        await this.autoDetectShopkeepers(speaker, worldData);
-
-                 // Restore status for any mining nodes that have finished their cooldown
-         this.omegga.whisper(speaker, `<color="0ff">Restoring mining node status...</color>`);
-         await this.restoreAllMiningNodeStatus();
-
-        // TODO: Add class selection brick initialization
-        // TODO: Add questgiver initialization
-
         this.omegga.whisper(speaker, `<color="0f0">RPG systems initialized successfully!</color>`);
+        this.omegga.whisper(speaker, `<color="888">Click on RPG bricks to discover and activate them.</color>`);
 
-        } catch (error) {
-         console.error(`[Hoopla RPG] Failed to initialize RPG systems:`, error);
-         this.omegga.whisper(speaker, `<color="f00">Failed to initialize RPG systems: ${error.message}</color>`);
-       }
+      } catch (error) {
+        console.error(`[Hoopla RPG] Error during RPG initialization:`, error);
+        this.omegga.whisper(speaker, `<color="f00">Error initializing RPG systems: ${error.message}</color>`);
+      }
     });
 
     // RPG help command - shows all available commands
@@ -3003,6 +3185,26 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
        }
     });
 
+    // RPG clear triggers command - clears only triggers (keeps player data)
+    this.omegga.on("cmd:rpgcleartriggers", async (speaker: string) => {
+      const player = this.omegga.getPlayer(speaker);
+      if (!player) return;
+
+      this.omegga.whisper(speaker, `<color="f00">Clearing all RPG triggers...</color>`);
+
+      try {
+        // Clear all triggers
+        await this.setBrickTriggers({});
+
+        this.omegga.whisper(speaker, `<color="0f0">All RPG triggers cleared successfully!</color>`);
+        this.omegga.whisper(speaker, `<color="888">Click on RPG bricks to recreate them with updated prices.</color>`);
+
+      } catch (error) {
+        console.error(`[Hoopla RPG] Error clearing RPG triggers:`, error);
+        this.omegga.whisper(speaker, `<color="f00">Error clearing RPG triggers: ${error.message}</color>`);
+      }
+    });
+
 
 
 
@@ -3026,24 +3228,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             for (const brickPos of trigger.brickPositions) {
                              // Position is an array [x, y, z] according to Omegga docs
                if (brickPos.x === position[0] && brickPos.y === position[1] && brickPos.z === position[2]) {
-                 if (trigger.type === 'sell') {
-                   console.log(`[Hoopla RPG] [${player.name}] is selling to shopkeeper: ${triggerId.replace('shopkeeper_', '').split('_')[0]}_${triggerId.split('_').slice(-2).join('_')}`);
-                 } else if (trigger.type === 'fish') {
-                   console.log(`[Hoopla RPG] [${player.name}] is fishing node: ${triggerId.replace('fishing_', '').split('_')[0]}_${triggerId.split('_')[0]}_${triggerId.split('_').slice(-2).join('_')}`);
-                 } else if (trigger.type === 'item') {
-                   console.log(`[Hoopla RPG] [${player.name}] is mining node: ${triggerId.replace('mining_', '').split('_')[0]}_${triggerId.split('_')[0]}_${triggerId.split('_').slice(-2).join('_')}`);
-                 }
                  matchFound = true;
                  
                  const result = await this.triggerBrickAction(player.id, triggerId);
                  
                  if (result.success) {
                    // Success messages are now handled by middlePrint in triggerBrickAction
-                   if (trigger.type === 'sell' && !trigger.message?.includes('all_fish') && !trigger.message?.includes('all_ores')) {
-                     console.log(`[Hoopla RPG] [${player.name}] successfully sold resource: ${result.reward?.item || 'unknown'}`);
-                   } else if (trigger.type !== 'sell' && trigger.type !== 'bulk_sell') {
-                     console.log(`[Hoopla RPG] [${player.name}] successfully collected resource: ${result.reward?.item || 'unknown'}`);
-                   }
                  } else {
                    // Error messages are now handled by middlePrint in triggerBrickAction
                  }
@@ -3147,7 +3337,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
                       return { 
           registeredCommands: [
-            "rpg", "rpginit", "rpghelp", "rpgclearall", "mininginfo", "fishinginfo", "rpgleaderboard"
+            "rpg", "rpginit", "rpghelp", "rpgclearall", "rpgcleartriggers", "mininginfo", "fishinginfo", "rpgleaderboard"
           ] 
         };
   }
