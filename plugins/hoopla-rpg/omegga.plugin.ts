@@ -272,25 +272,16 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           break;
           
         case 'fishing':
-          // Debug logging to see what subtype is being captured
-          console.log(`[Hoopla RPG] DEBUG: Initializing fishing node with subtype: "${subtype}"`);
-          
           // Determine fishing spot type and set appropriate message
           let fishingMessage = `Fishing for ${subtype}...`;
           if (subtype === 'spot') {
             fishingMessage = `Fishing in freshwater...`;
-            console.log(`[Hoopla RPG] DEBUG: Setting up freshwater fishing spot`);
           } else if (subtype === 'spot_2') {
             fishingMessage = `Fishing in deep ocean...`;
-            console.log(`[Hoopla RPG] DEBUG: Setting up deep ocean fishing spot`);
           } else if (subtype === 'spot_3') {
             fishingMessage = `Fishing in tropical reef...`;
-            console.log(`[Hoopla RPG] DEBUG: Setting up tropical reef fishing spot`);
           } else if (subtype === 'spot_4') {
             fishingMessage = `Fishing in arctic waters...`;
-            console.log(`[Hoopla RPG] DEBUG: Setting up arctic fishing spot`);
-          } else {
-            console.log(`[Hoopla RPG] DEBUG: Unknown fishing subtype: "${subtype}", using default message`);
           }
           
           trigger = {
@@ -443,10 +434,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             const nodeType = rpgMatch[1]; // mining, fishing, sell, buy, quest, lava, damage
             const nodeSubtype = rpgMatch[2]; // iron, gold, spot, john_brickington, damage_lava, etc.
             
-            // Debug logging for fishing nodes
-            if (nodeType === 'fishing') {
-              console.log(`[Hoopla RPG] DEBUG: Fishing node detected - Full message: "${message}", NodeType: "${nodeType}", NodeSubtype: "${nodeSubtype}"`);
-            }
             
             // Store RPG node data by position
             const nodeKey = `${data.position[0]},${data.position[1]},${data.position[2]}`;
@@ -648,8 +635,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       player.experience += amount;
       await this.setPlayerData({ id }, player);
       
-      const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
-      console.log(`[Hoopla RPG] DEBUG: ${playerName} is already level 30, skipping level calculation. Added ${amount} XP for tracking.`);
       
       return { 
         leveledUp: false, 
@@ -747,7 +732,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       }
       
       if (newLevel === 30) {
-        this.omegga.broadcast(`<color="ff0">Congratulations! ${playerName} has reached level ${newLevel}!</color>`);
+      this.omegga.broadcast(`<color="ff0">Congratulations! ${playerName} has reached level ${newLevel}!</color>`);
         this.omegga.broadcast(`<color="0ff">${playerName} can now fly and leave minigames at will!</color>`);
       } else {
         this.omegga.broadcast(`<color="ff0">Congratulations! ${playerName} has reached level ${newLevel}!</color>`);
@@ -989,7 +974,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           }
         ],
         rewards: {
-          xp: 500,
+          xp: 167,
           currency: 250,
           items: ['Fish bait']
         },
@@ -1016,7 +1001,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           }
         ],
         rewards: {
-          xp: 750,
+          xp: 250,
           currency: 400,
           items: ['Fish bait']
         },
@@ -1043,7 +1028,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           }
         ],
         rewards: {
-          xp: 1000,
+          xp: 333,
           currency: 600,
           items: ['Fish bait']
         },
@@ -1070,7 +1055,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           }
         ],
         rewards: {
-          xp: 1250,
+          xp: 417,
           currency: 800,
           items: ['Fish bait']
         },
@@ -1097,7 +1082,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           }
         ],
         rewards: {
-          xp: 2000,
+          xp: 667,
           currency: 1500,
           items: ['Fish bait']
         },
@@ -1124,7 +1109,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           }
         ],
         rewards: {
-          xp: 600,
+          xp: 200,
           currency: 300,
           items: ['Fish bait']
         },
@@ -1151,7 +1136,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           }
         ],
         rewards: {
-          xp: 900,
+          xp: 300,
           currency: 500,
           items: ['Fish bait']
         },
@@ -1178,7 +1163,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           }
         ],
         rewards: {
-          xp: 1200,
+          xp: 400,
           currency: 700,
           items: ['Fish bait']
         },
@@ -1205,7 +1190,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           }
         ],
         rewards: {
-          xp: 1500,
+          xp: 500,
           currency: 900,
           items: ['Fish bait']
         },
@@ -1232,7 +1217,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           }
         ],
         rewards: {
-          xp: 2500,
+          xp: 833,
           currency: 2000,
           items: ['Fish bait']
         },
@@ -1259,7 +1244,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           }
         ],
         rewards: {
-          xp: 3000,
+          xp: 1000,
           currency: 2000,
           items: ['Fish bait', 'Fish bait']
         },
@@ -1270,6 +1255,62 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           questExplanation: 'I need you to find my Brickingway Boxes. You must collect exactly 10 of them to complete this quest. Each contains fragments of stories I never finished. Stories of courage, of loss, of the human condition. But more than that... they contain the truth about this place. Look for them near the waterfall and in the surrounding area. Start your search at the waterfall itself. The water may have carried them downstream, or they may be hidden among the rocks and trees nearby. Search carefully - they are small wooden boxes with my name carved into them. They are not just boxes. They are pieces of my soul, and pieces of a secret that will shake you to your core.',
           reminderMessage: 'The boxes are still out there, near the waterfall and beyond. You need to find all 10 Brickingway Boxes to complete this quest. Each one you find brings me closer to completing what I started. The stories must be told. They demand to be heard. Have you searched the waterfall area thoroughly? Look for small wooden boxes with my name carved into them. How many have you found so far? The truth about this island waits in those boxes, and it will change everything you think you know.',
           completionMessage: 'You have done what I could not. You have brought my stories home from the waterfall\'s embrace. Now I can tell you the truth. This island did not exist a week ago. It simply appeared, fully formed, as if it had always been here. But it hadn\'t. I was there when it materialized from nothing. The waterfall you searched? It was the first thing I saw when this impossible place came into being. My boxes contained the only record of what happened that day - the day the world changed forever. Thank you, friend. The stories will live again, and now you know the impossible truth.'
+        }
+      },
+
+      // Ice King Quest Chain
+      {
+        id: 'ice_king_1',
+        name: 'Ice King\'s Frozen Memories',
+        description: 'Help the Ice King retrieve 4 Ice Boxes from around the ice mountain',
+        requirements: [
+          {
+            id: 'ice_box_requirement',
+            type: 'item',
+            target: 'Ice Box',
+            amount: 4,
+            description: 'Collect 4 Ice Boxes from around the ice mountain'
+          }
+        ],
+        rewards: {
+          xp: 800,
+          currency: 2000,
+          items: ['Ice Crystal']
+        },
+        questgiver: {
+          name: 'Ice King',
+          personality: 'A dramatic and eccentric ice wizard who speaks in grandiose terms but is actually quite lonely and misunderstood, based on Adventure Time\'s Ice King',
+          greeting: 'Ah, another mortal dares to approach the mighty Ice King! *dramatic pose* I am the ruler of this frozen domain, master of ice and snow! But... *sighs dramatically* Even the most powerful ice wizard needs help sometimes. You see, I\'ve been having these... memory problems lately.',
+          questExplanation: 'My precious Ice Boxes! They contain fragments of my memories, scattered across this mountain like frozen tears! I need exactly 4 of them to piece together what I\'ve forgotten. You see, I used to be someone else... someone important. But the ice magic has been eating away at my mind, and I can\'t remember who I was before I became the Ice King. These boxes hold the key to my past!',
+          reminderMessage: 'My Ice Boxes are still out there, frozen in the mountain\'s embrace! I need all 4 of them to unlock my memories. Without them, I\'ll never remember who I truly am. The ice is calling to them, but they need a brave soul like you to bring them home to their king!',
+          completionMessage: 'YES! My precious Ice Boxes! *dramatically clutches chest* I can feel the memories flooding back! I remember now... I was once a scholar, a seeker of knowledge! But something went wrong with my experiments, and the ice magic consumed me. But wait... there\'s more. I need something from the Nether to complete the ritual that will restore my true self!'
+        }
+      },
+      {
+        id: 'ice_king_2',
+        name: 'Ice King\'s Nether Ritual',
+        description: 'Help the Ice King retrieve an Ice Chest from the Nether dimension',
+        requirements: [
+          {
+            id: 'ice_chest_requirement',
+            type: 'item',
+            target: 'Ice Chest',
+            amount: 1,
+            description: 'Collect 1 Ice Chest from the Nether dimension'
+          }
+        ],
+        rewards: {
+          xp: 1200,
+          currency: 3000,
+          items: ['Ice Crown', 'Frozen Heart']
+        },
+        questgiver: {
+          name: 'Ice King',
+          personality: 'A dramatic and eccentric ice wizard who speaks in grandiose terms but is actually quite lonely and misunderstood, based on Adventure Time\'s Ice King',
+          greeting: 'Ah, my brave adventurer returns! *strikes dramatic pose* The Ice Boxes have awakened something within me... I remember now! I was once a great wizard, but my experiments with dimensional magic went horribly wrong!',
+          questExplanation: 'You see, I was trying to create a portal to the Nether to study the properties of fire and ice magic together. But the ritual backfired, and instead of opening a portal, it created this entire ice mountain! The Nether\'s heat was trapped in a single Ice Chest, and I need it to reverse the spell and restore balance to the world! The chest is hidden deep in the Nether, protected by the very fire demons I was trying to study!',
+          reminderMessage: 'The Ice Chest is still in the Nether, waiting for a hero brave enough to face the fire demons! I know it\'s dangerous, but without it, this ice mountain will continue to grow and consume everything! The portal in the volcano is the only way to reach the Nether. Please, help me fix what I\'ve broken!',
+          completionMessage: 'INCREDIBLE! You\'ve done it! *dramatically raises arms* The Ice Chest! With this, I can finally reverse the dimensional spell that created this mountain! *begins casting* Behold, as the Ice King restores balance to the world! *mountain begins to shrink* I remember everything now... I was Simon Petrikov, a scholar who became corrupted by the crown\'s power. But now, with your help, I can be free! Thank you, my friend. The ice mountain will return to normal, and I can finally rest in peace.'
         }
       }
     ];
@@ -1347,6 +1388,11 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       'emmet_brickingway_1'
     ];
     
+    const iceKingQuestChain = [
+      'ice_king_1',
+      'ice_king_2'
+    ];
+    
     // Check John's quest chain
     const johnIndex = johnQuestChain.indexOf(currentQuestId);
     if (johnIndex >= 0 && johnIndex < johnQuestChain.length - 1) {
@@ -1363,6 +1409,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     const emmetIndex = emmetQuestChain.indexOf(currentQuestId);
     if (emmetIndex >= 0 && emmetIndex < emmetQuestChain.length - 1) {
       return emmetQuestChain[emmetIndex + 1];
+    }
+    
+    // Check Ice King's quest chain
+    const iceKingIndex = iceKingQuestChain.indexOf(currentQuestId);
+    if (iceKingIndex >= 0 && iceKingIndex < iceKingQuestChain.length - 1) {
+      return iceKingQuestChain[iceKingIndex + 1];
     }
     
     return null; // No next quest in chain
@@ -3083,7 +3135,19 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       nodeName = match ? match[1] : 'ore';
     } else if (trigger.type === 'fish') {
       interactionType = 'fishing';
-      nodeName = '';
+      // Determine fishing spot type for logging
+      const fishingSpotType = trigger.fishingSpotType || 'spot';
+      if (fishingSpotType === 'spot') {
+        nodeName = 'freshwater';
+      } else if (fishingSpotType === 'spot_2') {
+        nodeName = 'deep ocean';
+      } else if (fishingSpotType === 'spot_3') {
+        nodeName = 'tropical reef';
+      } else if (fishingSpotType === 'spot_4') {
+        nodeName = 'arctic';
+      } else {
+        nodeName = 'unknown spot';
+      }
     } else if (trigger.type === 'sell') {
       interactionType = 'selling';
       // Extract resource type from trigger ID
@@ -3103,7 +3167,19 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     } else if (trigger.type === 'quest') {
       interactionType = 'talking to questgiver';
       // Extract questgiver name from trigger message (quest ID)
-      const questId = trigger.message;
+      let questId = trigger.message;
+      
+      // Handle quest ID mapping for questgivers
+      if (questId === 'john_brickington') {
+        questId = 'john_brickington_1';
+      } else if (questId === 'frank_bricktavious') {
+        questId = 'frank_bricktavious_1';
+      } else if (questId === 'emmet_brickingway') {
+        questId = 'emmet_brickingway_1';
+      } else if (questId === 'ice_king') {
+        questId = 'ice_king_1';
+      }
+      
       const quest = this.getQuestById(questId);
       nodeName = quest ? quest.questgiver.name.toLowerCase() : 'questgiver';
     }
@@ -3431,33 +3507,23 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           let fishResult;
           const finalFishingSpotType = trigger.fishingSpotType || 'spot'; // Default to original spot if not set
           
-          console.log(`[Hoopla RPG] DEBUG: Fishing complete - Spot type: "${finalFishingSpotType}", Used bait: ${usedBait}, Fishing level: ${fishingLevel}`);
-          console.log(`[Hoopla RPG] DEBUG: Trigger fishingSpotType property:`, trigger.fishingSpotType);
-          console.log(`[Hoopla RPG] DEBUG: Trigger message:`, trigger.message);
-          
           if (finalFishingSpotType === 'spot') {
             // Original freshwater fishing spot
-            console.log(`[Hoopla RPG] DEBUG: Using original fish generation (freshwater)`);
             fishResult = usedBait ? this.getRandomFishType(fishingLevel, true) : this.getRandomFishType(fishingLevel);
           } else if (finalFishingSpotType === 'spot_2') {
             // Deep ocean fishing spot
-            console.log(`[Hoopla RPG] DEBUG: Using deep ocean fish generation`);
             fishResult = usedBait ? this.getRandomFishType_2(fishingLevel, true) : this.getRandomFishType_2(fishingLevel);
           } else if (finalFishingSpotType === 'spot_3') {
             // Tropical reef fishing spot
-            console.log(`[Hoopla RPG] DEBUG: Using tropical reef fish generation`);
             fishResult = usedBait ? this.getRandomFishType_3(fishingLevel, true) : this.getRandomFishType_3(fishingLevel);
           } else if (finalFishingSpotType === 'spot_4') {
             // Arctic fishing spot
-            console.log(`[Hoopla RPG] DEBUG: Using arctic fish generation`);
             fishResult = usedBait ? this.getRandomFishType_4(fishingLevel, true) : this.getRandomFishType_4(fishingLevel);
           } else {
             // Fallback to original fishing spot
-            console.log(`[Hoopla RPG] DEBUG: Using fallback fish generation (unknown spot type: ${finalFishingSpotType})`);
             fishResult = usedBait ? this.getRandomFishType(fishingLevel, true) : this.getRandomFishType(fishingLevel);
           }
           
-          console.log(`[Hoopla RPG] DEBUG: Fish result:`, fishResult);
           
           // Reset fishing progress for this player
           trigger.fishingProgress[playerId] = 0;
@@ -4009,6 +4075,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             questId = 'frank_bricktavious_1';
           } else if (questId === 'emmet_brickingway') {
             questId = 'emmet_brickingway_1';
+          } else if (questId === 'ice_king') {
+            questId = 'ice_king_1';
           }
           
           // Determine which quest the player should be interacting with
@@ -4022,6 +4090,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
               questChain = ['frank_bricktavious_1', 'frank_bricktavious_2', 'frank_bricktavious_3', 'frank_bricktavious_4', 'frank_bricktavious_5'];
             } else if (trigger.message === 'emmet_brickingway' || questId.startsWith('emmet_brickingway_')) {
               questChain = ['emmet_brickingway_1'];
+            } else if (trigger.message === 'ice_king' || questId.startsWith('ice_king_')) {
+              questChain = ['ice_king_1', 'ice_king_2'];
             }
             
             // Find the first quest that is not completed
@@ -4058,9 +4128,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             };
             await this.setPlayerData({ id: playerId }, questPlayer);
             
-            const greetingMessage = `<color="ff0">${quest.questgiver.name}</color>: "${quest.questgiver.greeting}"`;
+            const greetingMessage = `<color="ff0">${quest.questgiver.name}</color>: ${quest.questgiver.greeting}`;
             this.sendLongMessage(playerId, greetingMessage);
-            return { success: true, message: greetingMessage };
+            return { success: true, message: "" };
           }
           
           // Handle existing quest based on interaction step
@@ -4070,9 +4140,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
               currentQuest.interactionStep = 2;
               await this.setPlayerData({ id: playerId }, questPlayer);
               
-              const questExplanationMessage = `<color="ff0">${quest.questgiver.name}</color>: "${quest.questgiver.questExplanation}"`;
+              const questExplanationMessage = `<color="ff0">${quest.questgiver.name}</color>: ${quest.questgiver.questExplanation}`;
               this.sendLongMessage(playerId, questExplanationMessage);
-              return { success: true, message: questExplanationMessage };
+              return { success: true, message: "" };
               
             case 2:
               // Step 3: Check requirements and attempt completion
@@ -4085,7 +4155,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
                 currentQuest.interactionStep = 3;
                 await this.setPlayerData({ id: playerId }, questPlayer);
                 
-                const completionMessage = `<color="ff0">${quest.questgiver.name}</color>: "${quest.questgiver.completionMessage}"`;
+                const completionMessage = `<color="ff0">${quest.questgiver.name}</color>: ${quest.questgiver.completionMessage}`;
                 this.sendLongMessage(playerId, completionMessage);
                 
                 // Format and send rewards message separately
@@ -4094,12 +4164,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
                 const rewardMessage = `Quest completed! Rewards: <color="ff0">${quest.rewards.xp} XP</color>, <color="0f0">${formattedCurrency}</color>${formattedItems ? `, ${formattedItems}` : ''}`;
                 this.omegga.whisper(playerId, rewardMessage);
                 
-                return { success: true, message: completionMessage };
+                return { success: true, message: "" };
               } else {
                 // Show reminder
-                const reminderMessage = `<color="ff0">${quest.questgiver.name}</color>: "${quest.questgiver.reminderMessage}"`;
+                const reminderMessage = `<color="ff0">${quest.questgiver.name}</color>: ${quest.questgiver.reminderMessage}`;
                 this.sendLongMessage(playerId, reminderMessage);
-                return { success: true, message: reminderMessage };
+                return { success: true, message: "" };
               }
               
             case 3:
@@ -4114,36 +4184,40 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
                   
                   const nextQuestHint = `<color="ff0">New quest available!</color> Talk to ${quest.questgiver.name} again to start the next quest in the chain.`;
                   this.omegga.whisper(playerId, nextQuestHint);
-                  return { success: true, message: nextQuestHint };
+                  return { success: true, message: "" };
                 } else if (nextQuest && questPlayer.quests?.[nextQuestId]) {
                   // Next quest already exists, show completion message
                   let allCompletedMessage = '';
                   if (quest.questgiver.name === 'John Brickington') {
-                    allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Yo you've literally completed my entire fish business empire! You're the GOAT of fishing, no cap. Thanks for everything, you're so real for that!"`;
+                    allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: Yo you've literally completed my entire fish business empire! You're the GOAT of fishing, no cap. Thanks for everything, you're so real for that!`;
                   } else if (quest.questgiver.name === 'Frank Bricktavious') {
-                    allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Well I'll be hornswoggled! You've helped me build the most magnificent monument this side of the Mississippi! You're a true mining legend, partner. Thanks for makin' an old miner's dreams come true!"`;
+                    allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: Well I'll be hornswoggled! You've helped me build the most magnificent monument this side of the Mississippi! You're a true mining legend, partner. Thanks for makin' an old miner's dreams come true!`;
                   } else if (quest.questgiver.name === 'Emmet Brickingway') {
-                    allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "You have done what I could not. You have brought my stories home. These boxes contain more than words - they contain truth, beauty, and the raw essence of what it means to be human. Thank you, friend. The stories will live again."`;
+                    allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: You have done what I could not. You have brought my stories home. These boxes contain more than words - they contain truth, beauty, and the raw essence of what it means to be human. Thank you, friend. The stories will live again.`;
+                  } else if (quest.questgiver.name === 'Ice King') {
+                    allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: INCREDIBLE! You've done it! *dramatically raises arms* The Ice Chest! With this, I can finally reverse the dimensional spell that created this mountain! *begins casting* Behold, as the Ice King restores balance to the world! *mountain begins to shrink* I remember everything now... I was Simon Petrikov, a scholar who became corrupted by the crown's power. But now, with your help, I can be free! Thank you, my friend. The ice mountain will return to normal, and I can finally rest in peace.`;
                   } else {
-                    allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Thank you for completing all my quests! You're truly amazing!"`;
+                    allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: Thank you for completing all my quests! You're truly amazing!`;
                   }
                   this.sendLongMessage(playerId, allCompletedMessage);
-                  return { success: true, message: allCompletedMessage };
+                  return { success: true, message: "" };
                 }
               } else {
                 // No next quest - all quests completed
                 let allCompletedMessage = '';
                 if (quest.questgiver.name === 'John Brickington') {
-                  allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Yo you've literally completed my entire fish business empire! You're the GOAT of fishing, no cap. Thanks for everything, you're so real for that!"`;
+                  allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: Yo you've literally completed my entire fish business empire! You're the GOAT of fishing, no cap. Thanks for everything, you're so real for that!`;
                 } else if (quest.questgiver.name === 'Frank Bricktavious') {
-                  allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Well I'll be hornswoggled! You've helped me build the most magnificent monument this side of the Mississippi! You're a true mining legend, partner. Thanks for makin' an old miner's dreams come true!"`;
+                  allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: Well I'll be hornswoggled! You've helped me build the most magnificent monument this side of the Mississippi! You're a true mining legend, partner. Thanks for makin' an old miner's dreams come true!`;
                 } else if (quest.questgiver.name === 'Emmet Brickingway') {
-                  allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "You have done what I could not. You have brought my stories home. These boxes contain more than words - they contain truth, beauty, and the raw essence of what it means to be human. Thank you, friend. The stories will live again."`;
+                  allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: You have done what I could not. You have brought my stories home. These boxes contain more than words - they contain truth, beauty, and the raw essence of what it means to be human. Thank you, friend. The stories will live again.`;
+                } else if (quest.questgiver.name === 'Ice King') {
+                  allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: INCREDIBLE! You've done it! *dramatically raises arms* The Ice Chest! With this, I can finally reverse the dimensional spell that created this mountain! *begins casting* Behold, as the Ice King restores balance to the world! *mountain begins to shrink* I remember everything now... I was Simon Petrikov, a scholar who became corrupted by the crown's power. But now, with your help, I can be free! Thank you, my friend. The ice mountain will return to normal, and I can finally rest in peace.`;
                 } else {
-                  allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Thank you for completing all my quests! You're truly amazing!"`;
+                  allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: Thank you for completing all my quests! You're truly amazing!`;
                 }
                 this.sendLongMessage(playerId, allCompletedMessage);
-                return { success: true, message: allCompletedMessage };
+                return { success: true, message: "" };
               }
               break;
               
@@ -4163,9 +4237,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
                   };
                   await this.setPlayerData({ id: playerId }, questPlayer);
                   
-                  const nextQuestGreeting = `<color="ff0">${nextQuest.questgiver.name}</color>: "${nextQuest.questgiver.greeting}"`;
+                  const nextQuestGreeting = `<color="ff0">${nextQuest.questgiver.name}</color>: ${nextQuest.questgiver.greeting}`;
                   this.sendLongMessage(playerId, nextQuestGreeting);
-                  return { success: true, message: nextQuestGreeting };
+                  return { success: true, message: "" };
                 }
               }
               break;
@@ -4174,9 +4248,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
               // Reset to step 1 if something goes wrong
               currentQuest.interactionStep = 1;
               await this.setPlayerData({ id: playerId }, questPlayer);
-              const resetMessage = `<color="ff0">${quest.questgiver.name}</color>: "${quest.questgiver.greeting}"`;
+              const resetMessage = `<color="ff0">${quest.questgiver.name}</color>: ${quest.questgiver.greeting}`;
               this.sendLongMessage(playerId, resetMessage);
-              return { success: true, message: resetMessage };
+              return { success: true, message: "" };
           }
 
         case 'questitem':
@@ -4228,6 +4302,32 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
                 this.omegga.whisper(playerId, questCompleteHint);
               } else {
                 const questProgressHint = `<color="0f0">Quest Progress:</color> You have collected ${questItemCount}/10 Brickingway Boxes for Emmet Brickingway's quest.`;
+                this.omegga.whisper(playerId, questProgressHint);
+              }
+            }
+          } else if (questItemType === 'ice_box') {
+            // Check Ice King's first quest
+            const iceKingQuest = this.getQuestById('ice_king_1');
+            if (iceKingQuest && questItemPlayer.quests?.['ice_king_1']) {
+              const questCheck = this.checkQuestRequirements(questItemUpdatedPlayer, iceKingQuest);
+              if (questCheck.completed) {
+                const questCompleteHint = `<color="0f0">Quest Update:</color> You have collected enough Ice Boxes! Return to the Ice King to complete your quest.`;
+                this.omegga.whisper(playerId, questCompleteHint);
+              } else {
+                const questProgressHint = `<color="0f0">Quest Progress:</color> You have collected ${questItemCount}/4 Ice Boxes for the Ice King's quest.`;
+                this.omegga.whisper(playerId, questProgressHint);
+              }
+            }
+          } else if (questItemType === 'ice_chest') {
+            // Check Ice King's second quest
+            const iceKingQuest = this.getQuestById('ice_king_2');
+            if (iceKingQuest && questItemPlayer.quests?.['ice_king_2']) {
+              const questCheck = this.checkQuestRequirements(questItemUpdatedPlayer, iceKingQuest);
+              if (questCheck.completed) {
+                const questCompleteHint = `<color="0f0">Quest Update:</color> You have collected the Ice Chest! Return to the Ice King to complete your quest.`;
+                this.omegga.whisper(playerId, questCompleteHint);
+              } else {
+                const questProgressHint = `<color="0f0">Quest Progress:</color> You have collected ${questItemCount}/1 Ice Chest for the Ice King's quest.`;
                 this.omegga.whisper(playerId, questProgressHint);
               }
             }
