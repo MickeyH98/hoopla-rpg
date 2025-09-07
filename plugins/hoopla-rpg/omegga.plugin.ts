@@ -1450,6 +1450,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     };
     
     await this.setPlayerData({ id: playerId }, player);
+    
+    // Announce quest completion to the server
+    const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
+    this.omegga.broadcast(`<color="0f0">${playerName} has completed ${quest.questgiver.name}'s quest!</color>`);
   }
 
   // Standardize item casing to title case (first letter capitalized)
