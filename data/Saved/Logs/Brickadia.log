@@ -15917,3 +15917,123 @@ So far we have mining, fishing, and selling!
 [2025.09.07-12.35.56:959][118]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
 [2025.09.07-12.36.02:173][429]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
 [2025.09.07-12.36.02:173][429]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.36.22:774][658]LogNet: NotifyAcceptingConnection accepted from: 172.25.64.1:64045
+[2025.09.07-12.36.23:058][675]LogNet: NotifyAcceptingConnection accepted from: 172.25.64.1:64045
+[2025.09.07-12.36.23:059][675]LogNet: Server accepting post-challenge connection from: 172.25.64.1:64045
+[2025.09.07-12.36.23:059][675]LogNet: IpConnection_2147447762 setting maximum channels to: 8
+[2025.09.07-12.36.23:059][675]PacketHandlerLog: Loaded PacketHandler component: Engine.EngineHandlerComponentFactory (StatelessConnectHandlerComponent)
+[2025.09.07-12.36.23:059][675]LogNet: NotifyAcceptedConnection: Name: Plate, TimeStamp: 09/07/25 08:36:23, [UNetConnection] RemoteAddr: 172.25.64.1:64045, Name: IpConnection_2147447762, Driver: Name:GameNetDriver Def:GameNetDriver IpNetDriver_2147482370, IsServer: YES, PC: NULL, Owner: NULL, UniqueId: INVALID
+[2025.09.07-12.36.23:059][675]LogNet: AddClientConnection: Added client connection: [UNetConnection] RemoteAddr: 172.25.64.1:64045, Name: IpConnection_2147447762, Driver: Name:GameNetDriver Def:GameNetDriver IpNetDriver_2147482370, IsServer: YES, PC: NULL, Owner: NULL, UniqueId: INVALID
+[2025.09.07-12.36.23:059][675]LogBulkTransfer: Ready for transfers from client, channel index 4
+[2025.09.07-12.36.23:360][693]LogNet: NotifyAcceptingChannel Control 0 server World /Game/Maps/Plate/Plate.Plate: Accepted
+[2025.09.07-12.36.23:360][693]LogNet: Remote platform little endian=1
+[2025.09.07-12.36.23:360][693]LogNet: This platform little endian=1
+[2025.09.07-12.36.24:316][750]LogNet: Login request: /Game/Maps/ServerEntry/ServerEntry userId: UNKNOWN platform: None
+[2025.09.07-12.36.24:316][750]LogServerList: Auth digest valid.
+[2025.09.07-12.36.24:601][767]LogNet: Client netspeed is 100000000
+[2025.09.07-12.36.25:003][791]LogNet: Join request: /Game/Maps/ServerEntry/ServerEntry?SplitscreenCount=1
+[2025.09.07-12.36.25:003][791]LogServerList: Auth payload valid. Result:
+[2025.09.07-12.36.25:003][791]LogServerList: UserName: Gyk92
+[2025.09.07-12.36.25:003][791]LogServerList: DisplayName: Gyk92
+[2025.09.07-12.36.25:003][791]LogServerList: UserId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-12.36.25:003][791]LogServerList: HandleId: 0e44fca6-9ba2-4e18-8b8a-42cc7890045e
+[2025.09.07-12.36.25:032][791]LogBackgroundMusic: Playing next background song in playlist after 12.654778s...
+[2025.09.07-12.36.25:032][791]LogBrickadia: Ruleset hoopla RPG no saved checkpoint for player Gyk92 (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6)
+[2025.09.07-12.36.25:033][791]LogChat: Gyk92 joined the game. 
+[2025.09.07-12.36.25:040][791]LogNet: Join succeeded: Gyk92
+[2025.09.07-12.36.25:042][791]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BrickGridPreviewActor
+[2025.09.07-12.36.25:042][791]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BrickGridPreviewActor
+[2025.09.07-12.36.25:042][791]LogIris: Disallowed to write first packet in batch, with Iris this is not good!
+[2025.09.07-12.36.25:042][791]LogConsoleCmd: GetAll BRPlayerState UserName
+[2025.09.07-12.36.25:044][791]0) BP_PlayerState_C /Game/Maps/Plate/Plate.Plate:PersistentLevel.BP_PlayerState_C_2147480695.UserName = hoopla
+[2025.09.07-12.36.25:044][791]1) BP_PlayerState_C /Game/Maps/Plate/Plate.Plate:PersistentLevel.BP_PlayerState_C_2147471566.UserName = honzsk
+[2025.09.07-12.36.25:044][791]2) BP_PlayerState_C /Game/Maps/Plate/Plate.Plate:PersistentLevel.BP_PlayerState_C_2147447753.UserName = Gyk92
+[2025.09.07-12.36.25:046][792]LogConsoleCmd: GetAll BRPlayerState Owner Name=BP_PlayerState_C_2147447753
+[2025.09.07-12.36.25:048][793]0) BP_PlayerState_C /Game/Maps/Plate/Plate.Plate:PersistentLevel.BP_PlayerState_C_2147447753.Owner = /Game/Blueprints/BP_PlayerController.BP_PlayerController_C'/Game/Maps/Plate/Plate.Plate:PersistentLevel.BP_PlayerController_C_2147447754'
+[2025.09.07-12.36.29:452][ 55]LogChat: [SenderId: 90e79561-2281-41d3-8968-995d33d7c2c5] honzsk: yo
+[2025.09.07-12.36.35:469][414]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: hiii again
+[2025.09.07-12.36.36:307][464]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: hey welcome back :D
+[2025.09.07-12.36.36:544][478]LogConsoleCmd: Server.Status
+[2025.09.07-12.36.36:544][478]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.07-12.36.36:544][479]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.07-12.36.36:544][479]LogConsoleCommands: Bricks: 31710
+[2025.09.07-12.36.36:544][479]LogConsoleCommands: Components: 561
+[2025.09.07-12.36.36:544][479]LogConsoleCommands: Time: 233m 56s
+[2025.09.07-12.36.36:544][479]LogConsoleCommands: Players (3/12):
+[2025.09.07-12.36.36:544][479]LogConsoleCommands: * Name   |  Ping |     Time | Roles                  | Address             | ID                                  
+[2025.09.07-12.36.36:544][479]LogConsoleCommands: * hoopla |  14ms | 233m 51s |                        | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.07-12.36.36:544][479]LogConsoleCommands: * honzsk | 148ms |  161m 8s | Flyer, MINIGAME LEAVER | 172.25.64.1         | 90e79561-2281-41d3-8968-995d33d7c2c5
+[2025.09.07-12.36.36:544][479]LogConsoleCommands: * Gyk92  | 275ms |   0m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-12.36.37:666][545]LogBackgroundMusic: Playing the next background song (S_Music_Perpetual_Thought)
+[2025.09.07-12.36.40:364][706]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: im almost done w the new quest
+[2025.09.07-12.36.40:399][708]LogServerList: Posting server.
+[2025.09.07-12.36.48:610][198]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: hmmmmmmm???
+[2025.09.07-12.37.11:869][586]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "2x Cube" at -1954 -2794 810, message: "rpg_mining_copper".
+[2025.09.07-12.37.11:921][589]LogConsoleCmd: Chat.StatusMessage "Gyk92" Mined 1 <color="fff">Copper Ore</color> (<color="ff0">x1</color> in bag), Gained 30XP and 30 Mining XP
+[2025.09.07-12.37.13:713][696]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "2x Cube" at -1864 -3054 810, message: "rpg_mining_gold".
+[2025.09.07-12.37.13:765][699]LogConsoleCmd: Chat.StatusMessage "Gyk92" Mined 1 <color="08f">Gold Ore</color> (<color="ff0">x1</color> in bag), Gained 55XP and 55 Mining XP
+[2025.09.07-12.37.14:400][737]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "2x2x2" at -1904 -2964 812, message: "rpg_mining_iron".
+[2025.09.07-12.37.14:435][739]LogConsoleCmd: Chat.StatusMessage "Gyk92" Mined 1 <color="0f0">Iron Ore</color> (<color="ff0">x1</color> in bag), Gained 40XP and 40 Mining XP
+[2025.09.07-12.37.23:416][275]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: wow
+[2025.09.07-12.37.25:076][374]LogConsoleCmd: Chat.Broadcast <color="0f0">Hoopla RPG plugin has been reloaded successfully!</color>
+[2025.09.07-12.37.25:076][374]LogChat: Hoopla RPG plugin has been reloaded successfully!
+[2025.09.07-12.37.28:611][585]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: i like this npc place
+[2025.09.07-12.37.30:337][688]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147480626, BP_PlayerController_C_2147480696) interacted with brick "4x1x3" at -185 -3180 1214, message: "rpg_quest_emmet_brickingway".
+[2025.09.07-12.37.30:355][689]LogConsoleCmd: Chat.Whisper "hoopla" <color="ff0">Emmet Brickingway</color>: "Sit down. I have a story to tell you. Not about war or bullfighting, but about loss. The kind that cuts deeper than any blade. My manuscripts, my life's work,
+[2025.09.07-12.37.30:372][690]LogConsoleCmd: Chat.Whisper "hoopla" scattered like leaves in a storm."
+[2025.09.07-12.37.36:438][ 52]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: can u help test the quest pls
+[2025.09.07-12.37.36:540][ 58]LogConsoleCmd: Server.Status
+[2025.09.07-12.37.36:540][ 58]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.07-12.37.36:540][ 59]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.07-12.37.36:540][ 59]LogConsoleCommands: Bricks: 31710
+[2025.09.07-12.37.36:540][ 59]LogConsoleCommands: Components: 561
+[2025.09.07-12.37.36:540][ 59]LogConsoleCommands: Time: 234m 56s
+[2025.09.07-12.37.36:540][ 59]LogConsoleCommands: Players (3/12):
+[2025.09.07-12.37.36:540][ 59]LogConsoleCommands: * Name   |  Ping |     Time | Roles                  | Address             | ID                                  
+[2025.09.07-12.37.36:540][ 59]LogConsoleCommands: * hoopla |  14ms | 234m 51s |                        | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.07-12.37.36:540][ 59]LogConsoleCommands: * honzsk | 149ms |  162m 8s | Flyer, MINIGAME LEAVER | 172.25.64.1         | 90e79561-2281-41d3-8968-995d33d7c2c5
+[2025.09.07-12.37.36:540][ 59]LogConsoleCommands: * Gyk92  | 278ms |   1m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-12.37.36:891][ 79]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.37.36:942][ 82]LogConsoleCmd: Chat.StatusMessage "Gyk92" Error processing trigger!
+[2025.09.07-12.37.39:405][229]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147480626, BP_PlayerController_C_2147480696) interacted with brick "4x1x3" at -185 -3180 1214, message: "rpg_quest_emmet_brickingway".
+[2025.09.07-12.37.39:423][230]LogConsoleCmd: Chat.Whisper "hoopla" <color="ff0">Emmet Brickingway</color>: "I need you to find my Brickingway Boxes. Ten of them, hidden across this world. Each contains fragments of stories I never finished. Stories of courage, of
+[2025.09.07-12.37.39:440][231]LogConsoleCmd: Chat.Whisper "hoopla" loss, of the human condition. They are not just boxes. They are pieces of my soul."
+[2025.09.07-12.37.40:395][288]LogServerList: Posting server.
+[2025.09.07-12.37.42:942][440]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: sure
+[2025.09.07-12.37.44:618][540]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147480626, BP_PlayerController_C_2147480696) interacted with brick "4x1x3" at -185 -3180 1214, message: "rpg_quest_emmet_brickingway".
+[2025.09.07-12.37.44:636][541]LogConsoleCmd: Chat.Whisper "hoopla" <color="ff0">Emmet Brickingway</color>: "The boxes are still out there. Each one you find brings me closer to completing what I started. The stories must be told. They demand to be heard. How many
+[2025.09.07-12.37.44:653][542]LogConsoleCmd: Chat.Whisper "hoopla" have you found?"
+[2025.09.07-12.37.44:769][549]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x1x3" at -185 -3180 1214, message: "rpg_quest_emmet_brickingway".
+[2025.09.07-12.37.44:804][552]LogConsoleCmd: Chat.Whisper "Gyk92" <color="ff0">Emmet Brickingway</color>: "Sit down. I have a story to tell you. Not about war or bullfighting, but about loss. The kind that cuts deeper than any blade. My manuscripts, my life's work,
+[2025.09.07-12.37.44:820][553]LogConsoleCmd: Chat.Whisper "Gyk92" scattered like leaves in a storm."
+[2025.09.07-12.37.48:825][791]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147480626, BP_PlayerController_C_2147480696) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.37.48:843][792]LogConsoleCmd: Chat.StatusMessage "hoopla" Error processing trigger!
+[2025.09.07-12.37.51:054][924]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147480626, BP_PlayerController_C_2147480696) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.37.51:072][925]LogConsoleCmd: Chat.StatusMessage "hoopla" Error processing trigger!
+[2025.09.07-12.37.55:093][165]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x1x3" at -185 -3180 1214, message: "rpg_quest_emmet_brickingway".
+[2025.09.07-12.37.55:112][166]LogConsoleCmd: Chat.Whisper "Gyk92" <color="ff0">Emmet Brickingway</color>: "I need you to find my Brickingway Boxes. Ten of them, hidden across this world. Each contains fragments of stories I never finished. Stories of courage, of
+[2025.09.07-12.37.55:128][167]LogConsoleCmd: Chat.Whisper "Gyk92" loss, of the human condition. They are not just boxes. They are pieces of my soul."
+[2025.09.07-12.37.55:965][217]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: dang
+[2025.09.07-12.38.00:792][505]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: 1 sec fixing the boxes
+[2025.09.07-12.38.26:148][ 18]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x1x3" at -185 -3180 1214, message: "rpg_quest_emmet_brickingway".
+[2025.09.07-12.38.26:166][ 19]LogConsoleCmd: Chat.Whisper "Gyk92" <color="ff0">Emmet Brickingway</color>: "The boxes are still out there. Each one you find brings me closer to completing what I started. The stories must be told. They demand to be heard. How many
+[2025.09.07-12.38.26:166][ 19]LogConsoleCmd: Chat.Whisper "Gyk92" have you found?"
+[2025.09.07-12.38.36:388][629]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x1x3" at -185 -3180 1214, message: "rpg_quest_emmet_brickingway".
+[2025.09.07-12.38.36:406][630]LogConsoleCmd: Chat.Whisper "Gyk92" <color="ff0">Emmet Brickingway</color>: "The boxes are still out there. Each one you find brings me closer to completing what I started. The stories must be told. They demand to be heard. How many
+[2025.09.07-12.38.36:406][630]LogConsoleCmd: Chat.Whisper "Gyk92" have you found?"
+[2025.09.07-12.38.36:541][638]LogConsoleCmd: Server.Status
+[2025.09.07-12.38.36:541][638]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.07-12.38.36:541][639]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.07-12.38.36:541][639]LogConsoleCommands: Bricks: 31710
+[2025.09.07-12.38.36:541][639]LogConsoleCommands: Components: 561
+[2025.09.07-12.38.36:541][639]LogConsoleCommands: Time: 235m 56s
+[2025.09.07-12.38.36:541][639]LogConsoleCommands: Players (3/12):
+[2025.09.07-12.38.36:541][639]LogConsoleCommands: * Name   |  Ping |     Time | Roles                  | Address             | ID                                  
+[2025.09.07-12.38.36:541][639]LogConsoleCommands: * hoopla |  15ms | 235m 51s |                        | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.07-12.38.36:541][639]LogConsoleCommands: * honzsk | 147ms |  163m 8s | Flyer, MINIGAME LEAVER | 172.25.64.1         | 90e79561-2281-41d3-8968-995d33d7c2c5
+[2025.09.07-12.38.36:541][639]LogConsoleCommands: * Gyk92  | 273ms |   2m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-12.38.40:396][868]LogServerList: Posting server.
+[2025.09.07-12.38.58:466][946]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: is it ok that every message ends with " ?

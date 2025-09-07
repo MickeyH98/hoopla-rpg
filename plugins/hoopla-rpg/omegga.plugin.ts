@@ -99,8 +99,8 @@ type BrickTrigger = {
   fishingAttemptsRemaining?: { [playerId: string]: number };
   // Node cooldown tracking (30 seconds after depletion)
   nodeCooldown?: { [playerId: string]: number };
-  // Quest item collection tracking
-  collectedBy?: Set<string>;
+  // Quest item collection tracking (stored as array for JSON serialization)
+  collectedBy?: string[];
 };
 
 type Config = { 
@@ -339,7 +339,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             color: '#9B59B6', // Purple color for quest items
             brickPositions: [{ x: position[0], y: position[1], z: position[2] }],
             triggerType: 'click',
-            collectedBy: new Set() // Track which players have collected this item
+            collectedBy: [] // Track which players have collected this item
           };
           break;
           
@@ -3825,7 +3825,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           const questItemType = trigger.message; // e.g., "brickingway_box"
           
           // Check if this player has already collected this specific quest item
-          if (trigger.collectedBy && trigger.collectedBy.has(playerId)) {
+          if (trigger.collectedBy && trigger.collectedBy.includes(playerId)) {
             const alreadyCollectedMessage = `You have already collected this ${questItemType.replace('_', ' ')}.`;
             this.omegga.middlePrint(playerId, alreadyCollectedMessage);
             return { success: false, message: alreadyCollectedMessage };
@@ -3837,9 +3837,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           
           // Mark this item as collected by this player
           if (!trigger.collectedBy) {
-            trigger.collectedBy = new Set();
+            trigger.collectedBy = [];
           }
-          trigger.collectedBy.add(playerId);
+          trigger.collectedBy.push(playerId);
           
           // Save the updated trigger
           await this.createBrickTrigger(triggerId, trigger);
