@@ -101,6 +101,8 @@ type BrickTrigger = {
   nodeCooldown?: { [playerId: string]: number };
   // Quest item collection tracking (stored as array for JSON serialization)
   collectedBy?: string[];
+  // Fishing spot type for different fish generation
+  fishingSpotType?: string;
 };
 
 type Config = { 
@@ -270,18 +272,31 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           break;
           
         case 'fishing':
+          // Determine fishing spot type and set appropriate message
+          let fishingMessage = `Fishing for ${subtype}...`;
+          if (subtype === 'spot') {
+            fishingMessage = `Fishing in freshwater...`;
+          } else if (subtype === 'spot_2') {
+            fishingMessage = `Fishing in deep ocean...`;
+          } else if (subtype === 'spot_3') {
+            fishingMessage = `Fishing in tropical reef...`;
+          } else if (subtype === 'spot_4') {
+            fishingMessage = `Fishing in arctic waters...`;
+          }
+          
           trigger = {
             id: triggerId,
             type: 'fish',
             value: 1,
             cooldown: 3000,
             lastUsed: {},
-            message: `Fishing for ${subtype}...`,
+            message: fishingMessage,
             color: '#00BFFF',
             brickPositions: [{ x: position[0], y: position[1], z: position[2] }],
             triggerType: 'click',
             fishingProgress: {},
-            fishingAttemptsRemaining: {}
+            fishingAttemptsRemaining: {},
+            fishingSpotType: subtype // Store the fishing spot type for later use
           };
           break;
           
@@ -437,7 +452,17 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
               // If we just created a new trigger, show a message and continue to process it
               let initMessage = "";
               if (nodeData.type === 'fishing') {
-                initMessage = `Fishing spot initialized! Click again to start fishing.`;
+                if (nodeData.subtype === 'spot') {
+                  initMessage = `Freshwater fishing spot initialized! Click again to start fishing.`;
+                } else if (nodeData.subtype === 'spot_2') {
+                  initMessage = `Deep ocean fishing spot initialized! Click again to start fishing.`;
+                } else if (nodeData.subtype === 'spot_3') {
+                  initMessage = `Tropical reef fishing spot initialized! Click again to start fishing.`;
+                } else if (nodeData.subtype === 'spot_4') {
+                  initMessage = `Arctic fishing spot initialized! Click again to start fishing.`;
+                } else {
+                  initMessage = `Fishing spot initialized! Click again to start fishing.`;
+                }
               } else if (nodeData.type === 'mining') {
                 initMessage = `Mining spot initialized! Click again to start mining.`;
               } else if (nodeData.type === 'sell') {
@@ -1727,23 +1752,36 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     
     // Define base click requirements for each fish tier (when first unlocked)
     let baseClicks = 10; // Default base clicks
+    let unlockLevel = 0;
     
-    if (fish === 'gup') baseClicks = 8;      // Common - 8 clicks when first unlocked
-    else if (fish === 'cod') baseClicks = 9;   // Uncommon - 9 clicks when first unlocked  
-    else if (fish === 'shark') baseClicks = 10;  // Rare - 10 clicks when first unlocked
-    else if (fish === 'whale') baseClicks = 12; // Epic - 12 clicks when first unlocked
-    else if (fish === 'kraken') baseClicks = 15;  // Legendary - 15 clicks when first unlocked
+    // Common fish (available at any level)
+    if (fish === 'gup' || fish === 'sardine' || fish === 'clownfish' || fish === 'icefish') {
+      baseClicks = 8;
+      unlockLevel = 0;
+    }
+    // Uncommon fish (requires fishing level 5)
+    else if (fish === 'cod' || fish === 'tuna' || fish === 'angelfish' || fish === 'arctic char') {
+      baseClicks = 9;
+      unlockLevel = 5;
+    }
+    // Rare fish (requires fishing level 10)
+    else if (fish === 'shark' || fish === 'marlin' || fish === 'lionfish' || fish === 'beluga') {
+      baseClicks = 10;
+      unlockLevel = 10;
+    }
+    // Epic fish (requires fishing level 15)
+    else if (fish === 'whale' || fish === 'megalodon' || fish === 'manta ray' || fish === 'narwhal') {
+      baseClicks = 12;
+      unlockLevel = 15;
+    }
+    // Legendary fish (requires fishing level 20)
+    else if (fish === 'kraken' || fish === 'leviathan' || fish === 'sea dragon' || fish === 'frost kraken') {
+      baseClicks = 15;
+      unlockLevel = 20;
+    }
     
     // Calculate scaling: from baseClicks at unlock level to 1 at level 30
     // Linear scaling from unlock level to level 30
-    let unlockLevel = 0;
-    if (fish === 'gup') unlockLevel = 0;
-    else if (fish === 'cod') unlockLevel = 5;
-    else if (fish === 'shark') unlockLevel = 10;
-    else if (fish === 'whale') unlockLevel = 15;
-    else if (fish === 'kraken') unlockLevel = 20;
-    
-    // Calculate clicks based on level progression
     const levelRange = 30 - unlockLevel; // Levels from unlock to max
     const clickReduction = baseClicks - 1; // Total clicks to reduce (baseClicks → 1)
     const clicksPerLevel = clickReduction / levelRange; // Clicks reduced per level
@@ -1872,24 +1910,222 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     }
   }
 
+  // Fish generation for fishing spot 2 (Ocean/Deep Sea)
+  getRandomFishType_2(fishingLevel: number, guaranteedCatch: boolean = false): { fishType: string; rarity: string } | null {
+    // Calculate failure chance (skip if using bait for guaranteed catch)
+    if (!guaranteedCatch) {
+      const failureChance = this.getFishingFailureChance(fishingLevel);
+      if (Math.random() < failureChance) {
+        return null; // Failed to catch anything
+      }
+    }
+    
+    // Fish rarity distribution based on fishing level (same rates as original)
+    let sardineChance = 0.70;    // Base chance for Sardine (70%)
+    let tunaChance = 0.25;       // Base chance for Tuna (25%)
+    let marlinChance = 0.05;     // Base chance for Marlin (5%)
+    let megalodonChance = 0.0;   // Base chance for Megalodon (0%)
+    let leviathanChance = 0.0;   // Base chance for Leviathan (0%)
+    
+    // Adjust chances based on fishing level (same progression as original)
+    if (fishingLevel >= 25) {
+      sardineChance = 0.30;      // 30% Sardine
+      tunaChance = 0.30;         // 30% Tuna
+      marlinChance = 0.25;       // 25% Marlin
+      megalodonChance = 0.10;    // 10% Megalodon
+      leviathanChance = 0.05;    // 5% Leviathan
+    } else if (fishingLevel >= 20) {
+      sardineChance = 0.35;      // 35% Sardine
+      tunaChance = 0.30;         // 30% Tuna
+      marlinChance = 0.25;       // 25% Marlin
+      megalodonChance = 0.08;    // 8% Megalodon
+      leviathanChance = 0.02;    // 2% Leviathan
+    } else if (fishingLevel >= 15) {
+      sardineChance = 0.45;      // 45% Sardine
+      tunaChance = 0.35;         // 35% Tuna
+      marlinChance = 0.18;       // 18% Marlin
+      megalodonChance = 0.02;    // 2% Megalodon
+      leviathanChance = 0.0;     // 0% Leviathan
+    } else if (fishingLevel >= 10) {
+      sardineChance = 0.55;      // 55% Sardine
+      tunaChance = 0.30;         // 30% Tuna
+      marlinChance = 0.15;       // 15% Marlin
+      megalodonChance = 0.0;     // 0% Megalodon
+      leviathanChance = 0.0;     // 0% Leviathan
+    } else if (fishingLevel >= 5) {
+      sardineChance = 0.65;      // 65% Sardine
+      tunaChance = 0.30;         // 30% Tuna
+      marlinChance = 0.05;       // 5% Marlin
+      megalodonChance = 0.0;     // 0% Megalodon
+      leviathanChance = 0.0;     // 0% Leviathan
+    }
+    
+    // Generate random number and determine fish type
+    const roll = Math.random();
+    
+    if (roll < sardineChance) {
+      return { fishType: 'Sardine', rarity: 'Common' };
+    } else if (roll < sardineChance + tunaChance) {
+      return { fishType: 'Tuna', rarity: 'Uncommon' };
+    } else if (roll < sardineChance + tunaChance + marlinChance) {
+      return { fishType: 'Marlin', rarity: 'Rare' };
+    } else if (roll < sardineChance + tunaChance + marlinChance + megalodonChance) {
+      return { fishType: 'Megalodon', rarity: 'Epic' };
+    } else {
+      return { fishType: 'Leviathan', rarity: 'Legendary' };
+    }
+  }
+
+  // Fish generation for fishing spot 3 (Tropical/Reef)
+  getRandomFishType_3(fishingLevel: number, guaranteedCatch: boolean = false): { fishType: string; rarity: string } | null {
+    // Calculate failure chance (skip if using bait for guaranteed catch)
+    if (!guaranteedCatch) {
+      const failureChance = this.getFishingFailureChance(fishingLevel);
+      if (Math.random() < failureChance) {
+        return null; // Failed to catch anything
+      }
+    }
+    
+    // Fish rarity distribution based on fishing level (same rates as original)
+    let clownfishChance = 0.70;    // Base chance for Clownfish (70%)
+    let angelfishChance = 0.25;    // Base chance for Angelfish (25%)
+    let lionfishChance = 0.05;     // Base chance for Lionfish (5%)
+    let mantaRayChance = 0.0;      // Base chance for Manta Ray (0%)
+    let seaDragonChance = 0.0;     // Base chance for Sea Dragon (0%)
+    
+    // Adjust chances based on fishing level (same progression as original)
+    if (fishingLevel >= 25) {
+      clownfishChance = 0.30;      // 30% Clownfish
+      angelfishChance = 0.30;      // 30% Angelfish
+      lionfishChance = 0.25;       // 25% Lionfish
+      mantaRayChance = 0.10;       // 10% Manta Ray
+      seaDragonChance = 0.05;      // 5% Sea Dragon
+    } else if (fishingLevel >= 20) {
+      clownfishChance = 0.35;      // 35% Clownfish
+      angelfishChance = 0.30;      // 30% Angelfish
+      lionfishChance = 0.25;       // 25% Lionfish
+      mantaRayChance = 0.08;       // 8% Manta Ray
+      seaDragonChance = 0.02;      // 2% Sea Dragon
+    } else if (fishingLevel >= 15) {
+      clownfishChance = 0.45;      // 45% Clownfish
+      angelfishChance = 0.35;      // 35% Angelfish
+      lionfishChance = 0.18;       // 18% Lionfish
+      mantaRayChance = 0.02;       // 2% Manta Ray
+      seaDragonChance = 0.0;       // 0% Sea Dragon
+    } else if (fishingLevel >= 10) {
+      clownfishChance = 0.55;      // 55% Clownfish
+      angelfishChance = 0.30;      // 30% Angelfish
+      lionfishChance = 0.15;       // 15% Lionfish
+      mantaRayChance = 0.0;        // 0% Manta Ray
+      seaDragonChance = 0.0;       // 0% Sea Dragon
+    } else if (fishingLevel >= 5) {
+      clownfishChance = 0.65;      // 65% Clownfish
+      angelfishChance = 0.30;      // 30% Angelfish
+      lionfishChance = 0.05;       // 5% Lionfish
+      mantaRayChance = 0.0;        // 0% Manta Ray
+      seaDragonChance = 0.0;       // 0% Sea Dragon
+    }
+    
+    // Generate random number and determine fish type
+    const roll = Math.random();
+    
+    if (roll < clownfishChance) {
+      return { fishType: 'Clownfish', rarity: 'Common' };
+    } else if (roll < clownfishChance + angelfishChance) {
+      return { fishType: 'Angelfish', rarity: 'Uncommon' };
+    } else if (roll < clownfishChance + angelfishChance + lionfishChance) {
+      return { fishType: 'Lionfish', rarity: 'Rare' };
+    } else if (roll < clownfishChance + angelfishChance + lionfishChance + mantaRayChance) {
+      return { fishType: 'Manta Ray', rarity: 'Epic' };
+    } else {
+      return { fishType: 'Sea Dragon', rarity: 'Legendary' };
+    }
+  }
+
+  // Fish generation for fishing spot 4 (Arctic/Ice)
+  getRandomFishType_4(fishingLevel: number, guaranteedCatch: boolean = false): { fishType: string; rarity: string } | null {
+    // Calculate failure chance (skip if using bait for guaranteed catch)
+    if (!guaranteedCatch) {
+      const failureChance = this.getFishingFailureChance(fishingLevel);
+      if (Math.random() < failureChance) {
+        return null; // Failed to catch anything
+      }
+    }
+    
+    // Fish rarity distribution based on fishing level (same rates as original)
+    let icefishChance = 0.70;      // Base chance for Icefish (70%)
+    let arcticCharChance = 0.25;   // Base chance for Arctic Char (25%)
+    let belugaChance = 0.05;       // Base chance for Beluga (5%)
+    let narwhalChance = 0.0;       // Base chance for Narwhal (0%)
+    let frostKrakenChance = 0.0;   // Base chance for Frost Kraken (0%)
+    
+    // Adjust chances based on fishing level (same progression as original)
+    if (fishingLevel >= 25) {
+      icefishChance = 0.30;        // 30% Icefish
+      arcticCharChance = 0.30;     // 30% Arctic Char
+      belugaChance = 0.25;         // 25% Beluga
+      narwhalChance = 0.10;        // 10% Narwhal
+      frostKrakenChance = 0.05;    // 5% Frost Kraken
+    } else if (fishingLevel >= 20) {
+      icefishChance = 0.35;        // 35% Icefish
+      arcticCharChance = 0.30;     // 30% Arctic Char
+      belugaChance = 0.25;         // 25% Beluga
+      narwhalChance = 0.08;        // 8% Narwhal
+      frostKrakenChance = 0.02;    // 2% Frost Kraken
+    } else if (fishingLevel >= 15) {
+      icefishChance = 0.45;        // 45% Icefish
+      arcticCharChance = 0.35;     // 35% Arctic Char
+      belugaChance = 0.18;         // 18% Beluga
+      narwhalChance = 0.02;        // 2% Narwhal
+      frostKrakenChance = 0.0;     // 0% Frost Kraken
+    } else if (fishingLevel >= 10) {
+      icefishChance = 0.55;        // 55% Icefish
+      arcticCharChance = 0.30;     // 30% Arctic Char
+      belugaChance = 0.15;         // 15% Beluga
+      narwhalChance = 0.0;         // 0% Narwhal
+      frostKrakenChance = 0.0;     // 0% Frost Kraken
+    } else if (fishingLevel >= 5) {
+      icefishChance = 0.65;        // 65% Icefish
+      arcticCharChance = 0.30;     // 30% Arctic Char
+      belugaChance = 0.05;         // 5% Beluga
+      narwhalChance = 0.0;         // 0% Narwhal
+      frostKrakenChance = 0.0;     // 0% Frost Kraken
+    }
+    
+    // Generate random number and determine fish type
+    const roll = Math.random();
+    
+    if (roll < icefishChance) {
+      return { fishType: 'Icefish', rarity: 'Common' };
+    } else if (roll < icefishChance + arcticCharChance) {
+      return { fishType: 'Arctic Char', rarity: 'Uncommon' };
+    } else if (roll < icefishChance + arcticCharChance + belugaChance) {
+      return { fishType: 'Beluga', rarity: 'Rare' };
+    } else if (roll < icefishChance + arcticCharChance + belugaChance + narwhalChance) {
+      return { fishType: 'Narwhal', rarity: 'Epic' };
+    } else {
+      return { fishType: 'Frost Kraken', rarity: 'Legendary' };
+    }
+  }
+
   // Check if player can catch a specific fish type based on fishing level
   canCatchFishType(fishingLevel: number, fishType: string): boolean {
     const fish = fishType.toLowerCase();
     
-    // Gup: Available at any level
-    if (fish === 'gup') return true;
+    // Common fish (available at any level)
+    if (fish === 'gup' || fish === 'sardine' || fish === 'clownfish' || fish === 'icefish') return true;
     
-    // Cod: Requires fishing level 5
-    if (fish === 'cod' && fishingLevel < 5) return false;
+    // Uncommon fish (requires fishing level 5)
+    if ((fish === 'cod' || fish === 'tuna' || fish === 'angelfish' || fish === 'arctic char') && fishingLevel < 5) return false;
     
-    // Shark: Requires fishing level 10
-    if (fish === 'shark' && fishingLevel < 10) return false;
+    // Rare fish (requires fishing level 10)
+    if ((fish === 'shark' || fish === 'marlin' || fish === 'lionfish' || fish === 'beluga') && fishingLevel < 10) return false;
     
-    // Whale: Requires fishing level 15
-    if (fish === 'whale' && fishingLevel < 15) return false;
+    // Epic fish (requires fishing level 15)
+    if ((fish === 'whale' || fish === 'megalodon' || fish === 'manta ray' || fish === 'narwhal') && fishingLevel < 15) return false;
     
-    // Kraken: Requires fishing level 20
-    if (fish === 'kraken' && fishingLevel < 20) return false;
+    // Legendary fish (requires fishing level 20)
+    if ((fish === 'kraken' || fish === 'leviathan' || fish === 'sea dragon' || fish === 'frost kraken') && fishingLevel < 20) return false;
     
     // Any other fish types are allowed
     return true;
@@ -3051,8 +3287,19 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           trigger.fishingProgress[playerId] = currentFishingProgress;
           
           
-          // Determine clicks required based on fishing level (using Gup as base since it's always available)
-          const fishingClicksRequired = this.getFishingClicksRequired(fishingLevel, 'gup');
+          // Determine clicks required based on fishing level and spot type
+          const currentFishingSpotType = trigger.fishingSpotType || 'spot'; // Default to original spot if not set
+          let representativeFish = 'gup'; // Default to gup for original spot
+          
+          if (currentFishingSpotType === 'spot_2') {
+            representativeFish = 'sardine'; // Use sardine for deep ocean spot
+          } else if (currentFishingSpotType === 'spot_3') {
+            representativeFish = 'clownfish'; // Use clownfish for tropical reef spot
+          } else if (currentFishingSpotType === 'spot_4') {
+            representativeFish = 'icefish'; // Use icefish for arctic spot
+          }
+          
+          const fishingClicksRequired = this.getFishingClicksRequired(fishingLevel, representativeFish);
           
           // Check if fishing is complete
           if (currentFishingProgress < fishingClicksRequired) {
@@ -3100,8 +3347,26 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             }
           }
           
-          // Fishing complete - determine what was caught
-          const fishResult = usedBait ? this.getRandomFishType(fishingLevel, true) : this.getRandomFishType(fishingLevel);
+          // Fishing complete - determine what was caught based on fishing spot type
+          let fishResult;
+          const finalFishingSpotType = trigger.fishingSpotType || 'spot'; // Default to original spot if not set
+          
+          if (finalFishingSpotType === 'spot') {
+            // Original freshwater fishing spot
+            fishResult = usedBait ? this.getRandomFishType(fishingLevel, true) : this.getRandomFishType(fishingLevel);
+          } else if (finalFishingSpotType === 'spot_2') {
+            // Deep ocean fishing spot
+            fishResult = usedBait ? this.getRandomFishType_2(fishingLevel, true) : this.getRandomFishType_2(fishingLevel);
+          } else if (finalFishingSpotType === 'spot_3') {
+            // Tropical reef fishing spot
+            fishResult = usedBait ? this.getRandomFishType_3(fishingLevel, true) : this.getRandomFishType_3(fishingLevel);
+          } else if (finalFishingSpotType === 'spot_4') {
+            // Arctic fishing spot
+            fishResult = usedBait ? this.getRandomFishType_4(fishingLevel, true) : this.getRandomFishType_4(fishingLevel);
+          } else {
+            // Fallback to original fishing spot
+            fishResult = usedBait ? this.getRandomFishType(fishingLevel, true) : this.getRandomFishType(fishingLevel);
+          }
           
           // Reset fishing progress for this player
           trigger.fishingProgress[playerId] = 0;
