@@ -272,16 +272,25 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           break;
           
         case 'fishing':
+          // Debug logging to see what subtype is being captured
+          console.log(`[Hoopla RPG] DEBUG: Initializing fishing node with subtype: "${subtype}"`);
+          
           // Determine fishing spot type and set appropriate message
           let fishingMessage = `Fishing for ${subtype}...`;
           if (subtype === 'spot') {
             fishingMessage = `Fishing in freshwater...`;
+            console.log(`[Hoopla RPG] DEBUG: Setting up freshwater fishing spot`);
           } else if (subtype === 'spot_2') {
             fishingMessage = `Fishing in deep ocean...`;
+            console.log(`[Hoopla RPG] DEBUG: Setting up deep ocean fishing spot`);
           } else if (subtype === 'spot_3') {
             fishingMessage = `Fishing in tropical reef...`;
+            console.log(`[Hoopla RPG] DEBUG: Setting up tropical reef fishing spot`);
           } else if (subtype === 'spot_4') {
             fishingMessage = `Fishing in arctic waters...`;
+            console.log(`[Hoopla RPG] DEBUG: Setting up arctic fishing spot`);
+          } else {
+            console.log(`[Hoopla RPG] DEBUG: Unknown fishing subtype: "${subtype}", using default message`);
           }
           
           trigger = {
@@ -433,6 +442,11 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           if (rpgMatch) {
             const nodeType = rpgMatch[1]; // mining, fishing, sell, buy, quest, lava, damage
             const nodeSubtype = rpgMatch[2]; // iron, gold, spot, john_brickington, damage_lava, etc.
+            
+            // Debug logging for fishing nodes
+            if (nodeType === 'fishing') {
+              console.log(`[Hoopla RPG] DEBUG: Fishing node detected - Full message: "${message}", NodeType: "${nodeType}", NodeSubtype: "${nodeSubtype}"`);
+            }
             
             // Store RPG node data by position
             const nodeKey = `${data.position[0]},${data.position[1]},${data.position[2]}`;
