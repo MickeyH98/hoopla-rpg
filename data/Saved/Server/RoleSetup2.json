@@ -1,6 +1,44 @@
 {
 	"roles": [
 		{
+			"name": "MINIGAME LEAVER",
+			"permissions": [
+				{
+					"name": "BR.Permission.AlwaysLeaveMinigame",
+					"state": "Allowed"
+				}
+			],
+			"color":
+			{
+				"b": 255,
+				"g": 255,
+				"r": 255,
+				"a": 255
+			},
+			"bHasColor": false
+		},
+		{
+			"name": "Flyer",
+			"permissions": [
+				{
+					"name": "BR.Permission.Fly",
+					"state": "Allowed"
+				},
+				{
+					"name": "BR.Permission.Fly.Ghost",
+					"state": "Allowed"
+				}
+			],
+			"color":
+			{
+				"b": 255,
+				"g": 255,
+				"r": 255,
+				"a": 255
+			},
+			"bHasColor": false
+		},
+		{
 			"name": "Moderator",
 			"permissions": [],
 			"color":
@@ -97,6 +135,14 @@
 				},
 				{
 					"name": "BR.Permission.TP.Others",
+					"state": "Allowed"
+				},
+				{
+					"name": "BR.Permission.Fly",
+					"state": "Allowed"
+				},
+				{
+					"name": "BR.Permission.Fly.Ghost",
 					"state": "Allowed"
 				}
 			],
@@ -260,7 +306,7 @@
 			},
 			{
 				"name": "BR.Permission.EditMinigame",
-				"state": "Allowed"
+				"state": "Forbidden"
 			},
 			{
 				"name": "BR.Permission.Flashlight",

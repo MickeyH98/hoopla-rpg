@@ -192,6 +192,26 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
     const player = (await this.store.get("rpg_" + id)) ?? this.defaultPlayer();
     
+    // Validate and clean inventory if needed
+    if (player.inventory && player.inventory.length > 0) {
+      const normalizedInventory = this.normalizeInventory(player.inventory);
+      let inventoryChanged = false;
+      
+      // Check if any items were normalized
+      for (let i = 0; i < player.inventory.length; i++) {
+        if (player.inventory[i] !== normalizedInventory[i]) {
+          inventoryChanged = true;
+          break;
+        }
+      }
+      
+      // If inventory was cleaned, save it back
+      if (inventoryChanged) {
+        player.inventory = normalizedInventory;
+        await this.setPlayerData({ id }, player);
+      }
+    }
+    
     // If this player is level 30, cache them to prevent data corruption
     if (player.level === 30) {
       this.level30PlayerCache.set(id, { ...player });
@@ -812,6 +832,78 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         // For other items, return as-is
         return item;
     }
+  }
+
+  // INVENTORY NORMALIZATION SYSTEM
+  
+  // Comprehensive item name normalization - fixes all malformed names
+  normalizeItemName(itemName: string): string {
+    if (!itemName) return itemName;
+    
+    const normalized = itemName.trim();
+    
+    // Handle malformed mining messages
+    if (normalized.startsWith('Mining ') && normalized.endsWith('...')) {
+      const oreType = normalized.replace('Mining ', '').replace('...', '').toLowerCase();
+      return this.getItemName(oreType);
+    }
+    
+    // Handle direct malformed names
+    switch (normalized.toLowerCase()) {
+      case 'mining gold...':
+        return 'Gold Ore';
+      case 'mining diamond...':
+        return 'Diamond Ore';
+      case 'mining iron...':
+        return 'Iron Ore';
+      case 'mining copper...':
+        return 'Copper Ore';
+      case 'mining obsidian...':
+        return 'Obsidian Ore';
+      case 'obsidian':
+        return 'Obsidian Ore';
+      case 'fish bait':
+        return 'Fish bait'; // Keep consistent with existing system
+      default:
+        // For properly named items, return as-is
+        return normalized;
+    }
+  }
+
+  // Clean and normalize an entire inventory array
+  normalizeInventory(inventory: string[]): string[] {
+    if (!inventory || !Array.isArray(inventory)) {
+      return [];
+    }
+    
+    return inventory.map(item => this.normalizeItemName(item));
+  }
+
+  // Clean a single player's inventory and save it
+  async cleanPlayerInventory({ id }: PlayerId): Promise<{ cleaned: number; originalCount: number }> {
+    const player = await this.getPlayerData({ id });
+    const originalCount = player.inventory ? player.inventory.length : 0;
+    
+    if (!player.inventory || player.inventory.length === 0) {
+      return { cleaned: 0, originalCount: 0 };
+    }
+    
+    // Normalize the inventory
+    const normalizedInventory = this.normalizeInventory(player.inventory);
+    
+    // Count how many items were actually changed
+    let cleaned = 0;
+    for (let i = 0; i < player.inventory.length; i++) {
+      if (player.inventory[i] !== normalizedInventory[i]) {
+        cleaned++;
+      }
+    }
+    
+    // Update the player's inventory
+    player.inventory = normalizedInventory;
+    await this.setPlayerData({ id }, player);
+    
+    return { cleaned, originalCount };
   }
 
   // QUEST SYSTEM METHODS
@@ -2306,7 +2398,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     if (!player.inventory) {
       player.inventory = [];
     }
-    player.inventory.push(item);
+    
+    // Normalize the item name before adding to inventory
+    const normalizedItem = this.normalizeItemName(item);
+    player.inventory.push(normalizedItem);
     await this.setPlayerData({ id }, player);
     return player.inventory;
   }
@@ -4017,26 +4112,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         }
       };
       
-      // Count items by type for better display and convert malformed names
+      // Count items by type for better display
       const itemCounts: { [key: string]: number } = {};
       for (const item of safeRpgData.inventory) {
-        // Convert malformed item names to proper names
-        let properItemName = item;
-        if (item === 'Mining gold...') {
-          properItemName = 'Gold Ore';
-        } else if (item === 'Mining diamond...') {
-          properItemName = 'Diamond Ore';
-        } else if (item === 'Mining iron...') {
-          properItemName = 'Iron Ore';
-        } else if (item === 'Mining copper...') {
-          properItemName = 'Copper Ore';
-        } else if (item === 'Mining obsidian...') {
-          properItemName = 'Obsidian Ore';
-        } else if (item === 'Obsidian') {
-          properItemName = 'Obsidian Ore';
-        }
-        
-        itemCounts[properItemName] = (itemCounts[properItemName] || 0) + 1;
+        itemCounts[item] = (itemCounts[item] || 0) + 1;
       }
       
       // Log full inventory to console with grouped items
@@ -4462,6 +4541,45 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
        }
     });
 
+    // Command to clean all player inventories (fix malformed item names)
+    this.omegga.on("cmd:rpgcleaninventories", async (speaker: string) => {
+      const player = this.omegga.getPlayer(speaker);
+      if (!player) return;
+
+      this.omegga.whisper(speaker, `<color="0ff">Cleaning all player inventories...</color>`);
+
+      try {
+        const allPlayers = this.omegga.getPlayers();
+        let totalCleaned = 0;
+        let totalPlayers = 0;
+        let errorCount = 0;
+
+        for (const onlinePlayer of allPlayers) {
+          try {
+            const result = await this.cleanPlayerInventory({ id: onlinePlayer.id });
+            if (result.cleaned > 0) {
+              totalCleaned += result.cleaned;
+              console.log(`[Hoopla RPG] Cleaned ${result.cleaned} items from ${onlinePlayer.name}'s inventory`);
+            }
+            totalPlayers++;
+          } catch (error) {
+            console.error(`[Hoopla RPG] Error cleaning ${onlinePlayer.name}'s inventory:`, error);
+            errorCount++;
+          }
+        }
+
+        this.omegga.whisper(speaker, `<color="0f0">Inventory cleanup complete! Cleaned ${totalCleaned} malformed items from ${totalPlayers} players.</color>`);
+        if (errorCount > 0) {
+          this.omegga.whisper(speaker, `<color="f80">${errorCount} players had errors during inventory cleanup.</color>`);
+        }
+        console.log(`[Hoopla RPG] Inventory cleanup complete: ${totalCleaned} items cleaned from ${totalPlayers} players`);
+         
+       } catch (error) {
+         console.error(`[Hoopla RPG] Error during inventory cleanup:`, error);
+         this.omegga.whisper(speaker, `<color="f00">Failed to clean inventories: ${error.message}</color>`);
+       }
+    });
+
 
 
 
@@ -4480,7 +4598,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
                       return { 
           registeredCommands: [
-            "rpg", "rpginit", "rpghelp", "rpgclearall", "rpgcleartriggers", "rpgclearquests", "rpgresetquests", "rpgassignlevel30roles", "rpgteams", "mininginfo", "fishinginfo", "rpgleaderboard"
+            "rpg", "rpginit", "rpghelp", "rpgclearall", "rpgcleartriggers", "rpgclearquests", "rpgresetquests", "rpgassignlevel30roles", "rpgteams", "rpgcleaninventories", "mininginfo", "fishinginfo", "rpgleaderboard"
           ] 
         };
   }

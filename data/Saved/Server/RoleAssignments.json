@@ -4,7 +4,42 @@
 		"4744dfb6-e441-43c9-9a49-ec32c4d878e8":
 		{
 			"roles": [
-				"Admin"
+				"Admin",
+				"Flyer"
+			]
+		},
+		"ccd87c2f-7aa8-4c88-9409-ce23c5058bd6":
+		{
+			"roles": [
+				"Flyer",
+				"MINIGAME LEAVER"
+			]
+		},
+		"90e79561-2281-41d3-8968-995d33d7c2c5":
+		{
+			"roles": [
+				"Flyer",
+				"MINIGAME LEAVER"
+			]
+		},
+		"26c2843f-f5fb-43da-bde9-20af489427ff":
+		{
+			"roles": [
+				"Flyer",
+				"MINIGAME LEAVER"
+			]
+		},
+		"40592365-1cd6-46df-bdc5-eb460e063a22":
+		{
+			"roles": [
+				"Flyer",
+				"MINIGAME LEAVER"
+			]
+		},
+		"8655a9dd-3444-420e-b516-dde60dad6658":
+		{
+			"roles": [
+				"Flyer"
 			]
 		}
 	}
