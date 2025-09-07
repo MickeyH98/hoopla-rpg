@@ -2195,6 +2195,41 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
    * - Epic: Purple (#8000ff)
    * - Legendary: Orange (#ff8000)
    */
+  // Get comprehensive fish data including rarity and color
+  getFishData(fishName: string): { name: string; rarity: string; color: string; spot: string } | null {
+    const fish = fishName.toLowerCase();
+    
+    // Original freshwater fish
+    if (fish === 'gup') return { name: 'Gup', rarity: 'Common', color: 'fff', spot: 'Freshwater' };
+    if (fish === 'cod') return { name: 'Cod', rarity: 'Uncommon', color: '0f0', spot: 'Freshwater' };
+    if (fish === 'shark') return { name: 'Shark', rarity: 'Rare', color: '08f', spot: 'Freshwater' };
+    if (fish === 'whale') return { name: 'Whale', rarity: 'Epic', color: '80f', spot: 'Freshwater' };
+    if (fish === 'kraken') return { name: 'Kraken', rarity: 'Legendary', color: 'f80', spot: 'Freshwater' };
+    
+    // Deep ocean fish
+    if (fish === 'sardine') return { name: 'Sardine', rarity: 'Common', color: 'fff', spot: 'Deep Ocean' };
+    if (fish === 'tuna') return { name: 'Tuna', rarity: 'Uncommon', color: '0f0', spot: 'Deep Ocean' };
+    if (fish === 'marlin') return { name: 'Marlin', rarity: 'Rare', color: '08f', spot: 'Deep Ocean' };
+    if (fish === 'megalodon') return { name: 'Megalodon', rarity: 'Epic', color: '80f', spot: 'Deep Ocean' };
+    if (fish === 'leviathan') return { name: 'Leviathan', rarity: 'Legendary', color: 'f80', spot: 'Deep Ocean' };
+    
+    // Tropical reef fish
+    if (fish === 'clownfish') return { name: 'Clownfish', rarity: 'Common', color: 'fff', spot: 'Tropical Reef' };
+    if (fish === 'angelfish') return { name: 'Angelfish', rarity: 'Uncommon', color: '0f0', spot: 'Tropical Reef' };
+    if (fish === 'lionfish') return { name: 'Lionfish', rarity: 'Rare', color: '08f', spot: 'Tropical Reef' };
+    if (fish === 'manta ray') return { name: 'Manta Ray', rarity: 'Epic', color: '80f', spot: 'Tropical Reef' };
+    if (fish === 'sea dragon') return { name: 'Sea Dragon', rarity: 'Legendary', color: 'f80', spot: 'Tropical Reef' };
+    
+    // Arctic fish
+    if (fish === 'icefish') return { name: 'Icefish', rarity: 'Common', color: 'fff', spot: 'Arctic' };
+    if (fish === 'arctic char') return { name: 'Arctic Char', rarity: 'Uncommon', color: '0f0', spot: 'Arctic' };
+    if (fish === 'beluga') return { name: 'Beluga', rarity: 'Rare', color: '08f', spot: 'Arctic' };
+    if (fish === 'narwhal') return { name: 'Narwhal', rarity: 'Epic', color: '80f', spot: 'Arctic' };
+    if (fish === 'frost kraken') return { name: 'Frost Kraken', rarity: 'Legendary', color: 'f80', spot: 'Arctic' };
+    
+    return null;
+  }
+
   getResourceColor(resourceName: string): string {
     const resource = resourceName.toLowerCase();
     
@@ -2205,12 +2240,33 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     if (resource === 'obsidian' || resource === 'obsidian ore') return '80f'; // Purple (Epic)
     if (resource === 'diamond' || resource === 'diamond ore') return 'f80';   // Orange (Legendary)
     
-    // Fishing resources
+    // Fishing resources - Original freshwater fish
     if (resource === 'gup') return 'fff';    // White (Common)
     if (resource === 'cod') return '0f0';    // Green (Uncommon)
     if (resource === 'shark') return '08f';  // Blue (Rare)
     if (resource === 'whale') return '80f';  // Purple (Epic)
     if (resource === 'kraken') return 'f80'; // Orange (Legendary)
+    
+    // Fishing resources - Deep ocean fish
+    if (resource === 'sardine') return 'fff';    // White (Common)
+    if (resource === 'tuna') return '0f0';       // Green (Uncommon)
+    if (resource === 'marlin') return '08f';     // Blue (Rare)
+    if (resource === 'megalodon') return '80f';  // Purple (Epic)
+    if (resource === 'leviathan') return 'f80';  // Orange (Legendary)
+    
+    // Fishing resources - Tropical reef fish
+    if (resource === 'clownfish') return 'fff';  // White (Common)
+    if (resource === 'angelfish') return '0f0';  // Green (Uncommon)
+    if (resource === 'lionfish') return '08f';   // Blue (Rare)
+    if (resource === 'manta ray') return '80f';  // Purple (Epic)
+    if (resource === 'sea dragon') return 'f80'; // Orange (Legendary)
+    
+    // Fishing resources - Arctic fish
+    if (resource === 'icefish') return 'fff';      // White (Common)
+    if (resource === 'arctic char') return '0f0';  // Green (Uncommon)
+    if (resource === 'beluga') return '08f';       // Blue (Rare)
+    if (resource === 'narwhal') return '80f';      // Purple (Epic)
+    if (resource === 'frost kraken') return 'f80'; // Orange (Legendary)
     
     // Consumable items (all common rarity - white)
     if (resource === 'fish bait') return 'fff'; // White (Common)
@@ -4769,11 +4825,38 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     // Fishing info command - shows fish rarity and level requirements
     this.omegga.on("cmd:fishinginfo", async (speaker: string) => {
       this.omegga.whisper(speaker, `<color="0ff">=== Fish Rarity & Level Requirements ===</color>`);
+      
+      // Freshwater fish (rpg_fishing_spot)
+      this.omegga.whisper(speaker, `<color="0ff">--- Freshwater Fishing (rpg_fishing_spot) ---</color>`);
       this.omegga.whisper(speaker, `<color="fff">Gup: Common (any level)</color>`);
       this.omegga.whisper(speaker, `<color="0f0">Cod: Uncommon (level 5+)</color>`);
-      this.omegga.whisper(speaker, `<color="00f">Shark: Rare (level 10+)</color>`);
-      this.omegga.whisper(speaker, `<color="f0f">Whale: Epic (level 15+)</color>`);
+      this.omegga.whisper(speaker, `<color="08f">Shark: Rare (level 10+)</color>`);
+      this.omegga.whisper(speaker, `<color="80f">Whale: Epic (level 15+)</color>`);
       this.omegga.whisper(speaker, `<color="f80">Kraken: Legendary (level 20+)</color>`);
+      
+      // Deep ocean fish (rpg_fishing_spot_2)
+      this.omegga.whisper(speaker, `<color="0ff">--- Deep Ocean Fishing (rpg_fishing_spot_2) ---</color>`);
+      this.omegga.whisper(speaker, `<color="fff">Sardine: Common (any level)</color>`);
+      this.omegga.whisper(speaker, `<color="0f0">Tuna: Uncommon (level 5+)</color>`);
+      this.omegga.whisper(speaker, `<color="08f">Marlin: Rare (level 10+)</color>`);
+      this.omegga.whisper(speaker, `<color="80f">Megalodon: Epic (level 15+)</color>`);
+      this.omegga.whisper(speaker, `<color="f80">Leviathan: Legendary (level 20+)</color>`);
+      
+      // Tropical reef fish (rpg_fishing_spot_3)
+      this.omegga.whisper(speaker, `<color="0ff">--- Tropical Reef Fishing (rpg_fishing_spot_3) ---</color>`);
+      this.omegga.whisper(speaker, `<color="fff">Clownfish: Common (any level)</color>`);
+      this.omegga.whisper(speaker, `<color="0f0">Angelfish: Uncommon (level 5+)</color>`);
+      this.omegga.whisper(speaker, `<color="08f">Lionfish: Rare (level 10+)</color>`);
+      this.omegga.whisper(speaker, `<color="80f">Manta Ray: Epic (level 15+)</color>`);
+      this.omegga.whisper(speaker, `<color="f80">Sea Dragon: Legendary (level 20+)</color>`);
+      
+      // Arctic fish (rpg_fishing_spot_4)
+      this.omegga.whisper(speaker, `<color="0ff">--- Arctic Fishing (rpg_fishing_spot_4) ---</color>`);
+      this.omegga.whisper(speaker, `<color="fff">Icefish: Common (any level)</color>`);
+      this.omegga.whisper(speaker, `<color="0f0">Arctic Char: Uncommon (level 5+)</color>`);
+      this.omegga.whisper(speaker, `<color="08f">Beluga: Rare (level 10+)</color>`);
+      this.omegga.whisper(speaker, `<color="80f">Narwhal: Epic (level 15+)</color>`);
+      this.omegga.whisper(speaker, `<color="f80">Frost Kraken: Legendary (level 20+)</color>`);
     });
 
     // Command to clear all RPG systems (for testing/resetting)
