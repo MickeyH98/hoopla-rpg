@@ -80,7 +80,7 @@ type Quest = {
 
 type BrickTrigger = {
   id: string;
-  type: 'xp' | 'currency' | 'item' | 'heal' | 'sell' | 'fish' | 'bulk_sell' | 'buy' | 'quest' | 'lava';
+  type: 'xp' | 'currency' | 'item' | 'heal' | 'sell' | 'fish' | 'bulk_sell' | 'buy' | 'quest' | 'questitem' | 'lava';
   value: number;
   cooldown: number;
   lastUsed: { [playerId: string]: number };
@@ -99,6 +99,8 @@ type BrickTrigger = {
   fishingAttemptsRemaining?: { [playerId: string]: number };
   // Node cooldown tracking (30 seconds after depletion)
   nodeCooldown?: { [playerId: string]: number };
+  // Quest item collection tracking
+  collectedBy?: Set<string>;
 };
 
 type Config = { 
@@ -326,6 +328,21 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           };
           break;
           
+        case 'questitem':
+          trigger = {
+            id: triggerId,
+            type: 'questitem',
+            value: 1,
+            cooldown: 0, // No cooldown for quest item collection
+            lastUsed: {},
+            message: subtype, // Store the quest item type in the message (e.g., "brickingway_box")
+            color: '#9B59B6', // Purple color for quest items
+            brickPositions: [{ x: position[0], y: position[1], z: position[2] }],
+            triggerType: 'click',
+            collectedBy: new Set() // Track which players have collected this item
+          };
+          break;
+          
         case 'lava':
           trigger = {
             id: triggerId,
@@ -397,7 +414,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         // Check if this is an RPG console tag interaction
         if (data.message || data.tag) {
           const message = data.message || data.tag;
-          const rpgMatch = message.match(/^rpg_(mining|fishing|sell|buy|quest|lava|damage)_(.+)$/i);
+          const rpgMatch = message.match(/^rpg_(mining|fishing|sell|buy|quest|questitem|lava|damage)_(.+)$/i);
           if (rpgMatch) {
             const nodeType = rpgMatch[1]; // mining, fishing, sell, buy, quest, lava, damage
             const nodeSubtype = rpgMatch[2]; // iron, gold, spot, john_brickington, damage_lava, etc.
@@ -1180,6 +1197,33 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           reminderMessage: 'Howdy again! Still workin\' on findin\' that 1 Diamond Ore for the crown jewel? I know it\'s a tall order, but this diamond\'s gonna be the perfect finishing touch to my legacy monument. No pressure, but it\'s the most important piece of all!',
           completionMessage: 'WELL I\'LL BE DARNED! This Diamond Ore is absolutely perfect! My monument is finally complete, and it\'s more beautiful than I ever dreamed possible. You\'ve helped me create something that\'ll stand as a testament to the mining life for generations to come. Thank you, partner, from the bottom of my heart!'
         }
+      },
+      {
+        id: 'emmet_brickingway_1',
+        name: 'Emmet Brickingway\'s Lost Manuscripts',
+        description: 'Help Emmet Brickingway recover his lost Brickingway Boxes containing his unpublished works',
+        requirements: [
+          {
+            id: 'brickingway_box_requirement',
+            type: 'item',
+            target: 'Brickingway Box',
+            amount: 10,
+            description: 'Collect 10 Brickingway Boxes scattered throughout the world'
+          }
+        ],
+        rewards: {
+          xp: 3000,
+          currency: 2000,
+          items: ['Fish bait', 'Fish bait']
+        },
+        questgiver: {
+          name: 'Emmet Brickingway',
+          personality: 'A weathered writer with a Hemingway-esque stoicism, speaks in short, powerful sentences with deep meaning. He carries the weight of lost stories and unfinished works.',
+          greeting: 'Sit down. I have a story to tell you. Not about war or bullfighting, but about loss. The kind that cuts deeper than any blade. My manuscripts, my life\'s work, scattered like leaves in a storm.',
+          questExplanation: 'I need you to find my Brickingway Boxes. Ten of them, hidden across this world. Each contains fragments of stories I never finished. Stories of courage, of loss, of the human condition. They are not just boxes. They are pieces of my soul.',
+          reminderMessage: 'The boxes are still out there. Each one you find brings me closer to completing what I started. The stories must be told. They demand to be heard. How many have you found?',
+          completionMessage: 'You have done what I could not. You have brought my stories home. These boxes contain more than words - they contain truth, beauty, and the raw essence of what it means to be human. Thank you, friend. The stories will live again.'
+        }
       }
     ];
   }
@@ -1251,6 +1295,11 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       'frank_bricktavious_5'
     ];
     
+    // Emmet Brickingway quest chain (single quest for now)
+    const emmetQuestChain = [
+      'emmet_brickingway_1'
+    ];
+    
     // Check John's quest chain
     const johnIndex = johnQuestChain.indexOf(currentQuestId);
     if (johnIndex >= 0 && johnIndex < johnQuestChain.length - 1) {
@@ -1261,6 +1310,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     const frankIndex = frankQuestChain.indexOf(currentQuestId);
     if (frankIndex >= 0 && frankIndex < frankQuestChain.length - 1) {
       return frankQuestChain[frankIndex + 1];
+    }
+    
+    // Check Emmet's quest chain
+    const emmetIndex = emmetQuestChain.indexOf(currentQuestId);
+    if (emmetIndex >= 0 && emmetIndex < emmetQuestChain.length - 1) {
+      return emmetQuestChain[emmetIndex + 1];
     }
     
     return null; // No next quest in chain
@@ -3592,6 +3647,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             questId = 'john_brickington_1';
           } else if (questId === 'frank_bricktavious') {
             questId = 'frank_bricktavious_1';
+          } else if (questId === 'emmet_brickingway') {
+            questId = 'emmet_brickingway_1';
           }
           
           // Determine which quest the player should be interacting with
@@ -3603,6 +3660,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
               questChain = ['john_brickington_1', 'john_brickington_2', 'john_brickington_3', 'john_brickington_4', 'john_brickington_5'];
             } else if (trigger.message === 'frank_bricktavious' || questId.startsWith('frank_bricktavious_')) {
               questChain = ['frank_bricktavious_1', 'frank_bricktavious_2', 'frank_bricktavious_3', 'frank_bricktavious_4', 'frank_bricktavious_5'];
+            } else if (trigger.message === 'emmet_brickingway' || questId.startsWith('emmet_brickingway_')) {
+              questChain = ['emmet_brickingway_1'];
             }
             
             // Find the first quest that is not completed
@@ -3703,6 +3762,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
                     allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Yo you've literally completed my entire fish business empire! You're the GOAT of fishing, no cap. Thanks for everything, you're so real for that!"`;
                   } else if (quest.questgiver.name === 'Frank Bricktavious') {
                     allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Well I'll be hornswoggled! You've helped me build the most magnificent monument this side of the Mississippi! You're a true mining legend, partner. Thanks for makin' an old miner's dreams come true!"`;
+                  } else if (quest.questgiver.name === 'Emmet Brickingway') {
+                    allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "You have done what I could not. You have brought my stories home. These boxes contain more than words - they contain truth, beauty, and the raw essence of what it means to be human. Thank you, friend. The stories will live again."`;
                   } else {
                     allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Thank you for completing all my quests! You're truly amazing!"`;
                   }
@@ -3716,6 +3777,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
                   allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Yo you've literally completed my entire fish business empire! You're the GOAT of fishing, no cap. Thanks for everything, you're so real for that!"`;
                 } else if (quest.questgiver.name === 'Frank Bricktavious') {
                   allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Well I'll be hornswoggled! You've helped me build the most magnificent monument this side of the Mississippi! You're a true mining legend, partner. Thanks for makin' an old miner's dreams come true!"`;
+                } else if (quest.questgiver.name === 'Emmet Brickingway') {
+                  allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "You have done what I could not. You have brought my stories home. These boxes contain more than words - they contain truth, beauty, and the raw essence of what it means to be human. Thank you, friend. The stories will live again."`;
                 } else {
                   allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: "Thank you for completing all my quests! You're truly amazing!"`;
                 }
@@ -3755,6 +3818,57 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
               this.sendLongMessage(playerId, resetMessage);
               return { success: true, message: resetMessage };
           }
+
+        case 'questitem':
+          // Handle quest item collection
+          const questItemPlayer = await this.getPlayerData({ id: playerId });
+          const questItemType = trigger.message; // e.g., "brickingway_box"
+          
+          // Check if this player has already collected this specific quest item
+          if (trigger.collectedBy && trigger.collectedBy.has(playerId)) {
+            const alreadyCollectedMessage = `You have already collected this ${questItemType.replace('_', ' ')}.`;
+            this.omegga.middlePrint(playerId, alreadyCollectedMessage);
+            return { success: false, message: alreadyCollectedMessage };
+          }
+          
+          // Add the quest item to player's inventory
+          const questItemName = this.normalizeItemName(questItemType.replace('_', ' '));
+          await this.addToInventory({ id: playerId }, questItemName);
+          
+          // Mark this item as collected by this player
+          if (!trigger.collectedBy) {
+            trigger.collectedBy = new Set();
+          }
+          trigger.collectedBy.add(playerId);
+          
+          // Save the updated trigger
+          await this.createBrickTrigger(triggerId, trigger);
+          
+          // Get updated player data to show current count
+          const questItemUpdatedPlayer = await this.getPlayerData({ id: playerId });
+          const questItemCount = questItemUpdatedPlayer.inventory.filter(item => item === questItemName).length;
+          
+          // Show collection message
+          const collectionMessage = `Collected <color="9B59B6">[${questItemName}]</color>! You now have <color="ff0">x${questItemCount}</color> in your inventory.`;
+          this.omegga.middlePrint(playerId, collectionMessage);
+          
+          // Check if this completes any quest requirements
+          if (questItemType === 'brickingway_box') {
+            // Check Emmet Brickingway's quest
+            const emmetQuest = this.getQuestById('emmet_brickingway_1');
+            if (emmetQuest && questItemPlayer.quests?.['emmet_brickingway_1']) {
+              const questCheck = this.checkQuestRequirements(questItemUpdatedPlayer, emmetQuest);
+              if (questCheck.completed) {
+                const questCompleteHint = `<color="0f0">Quest Update:</color> You have collected enough Brickingway Boxes! Return to Emmet Brickingway to complete your quest.`;
+                this.omegga.whisper(playerId, questCompleteHint);
+              } else {
+                const questProgressHint = `<color="0f0">Quest Progress:</color> You have collected ${questItemCount}/10 Brickingway Boxes for Emmet Brickingway's quest.`;
+                this.omegga.whisper(playerId, questProgressHint);
+              }
+            }
+          }
+          
+          return { success: true, message: collectionMessage };
 
         case 'lava':
           // Handle lava damage

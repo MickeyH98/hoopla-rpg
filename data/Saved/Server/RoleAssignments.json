@@ -41,6 +41,13 @@
 			"roles": [
 				"Flyer"
 			]
+		},
+		"a460c788-4505-4883-9170-14b52b3e908c":
+		{
+			"roles": [
+				"Flyer",
+				"MINIGAME LEAVER"
+			]
 		}
 	}
 }
