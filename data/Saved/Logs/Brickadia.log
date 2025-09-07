@@ -16068,3 +16068,651 @@ So far we have mining, fishing, and selling!
 [2025.09.07-12.39.58:872][550]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147466814, BP_PlayerController_C_2147471567) interacted with brick "4x1x3" at -185 -3180 1214, message: "rpg_quest_emmet_brickingway".
 [2025.09.07-12.39.58:890][551]LogConsoleCmd: Chat.Whisper "honzsk" <color="ff0">Emmet Brickingway</color>: "The boxes are still out there. Each one you find brings me closer to completing what I started. The stories must be told. They demand to be heard. How many
 [2025.09.07-12.39.58:907][552]LogConsoleCmd: Chat.Whisper "honzsk" have you found?"
+[2025.09.07-12.40.02:022][738]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147466814, BP_PlayerController_C_2147471567) interacted with brick "4x1x3" at -185 -3180 1214, message: "rpg_quest_emmet_brickingway".
+[2025.09.07-12.40.02:041][739]LogConsoleCmd: Chat.Whisper "honzsk" <color="ff0">Emmet Brickingway</color>: "The boxes are still out there. Each one you find brings me closer to completing what I started. The stories must be told. They demand to be heard. How many
+[2025.09.07-12.40.02:057][740]LogConsoleCmd: Chat.Whisper "honzsk" have you found?"
+[2025.09.07-12.40.11:122][281]LogChat: [SenderId: 90e79561-2281-41d3-8968-995d33d7c2c5] honzsk: GIMME BOXES
+[2025.09.07-12.40.11:927][329]LogConsoleCmd: Chat.Broadcast <color="0f0">Hoopla RPG plugin has been reloaded successfully!</color>
+[2025.09.07-12.40.11:927][330]LogChat: Hoopla RPG plugin has been reloaded successfully!
+[2025.09.07-12.40.13:083][398]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147466814, BP_PlayerController_C_2147471567) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.13:117][400]LogConsoleCmd: Chat.StatusMessage "honzsk" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x1</color> in your inventory.
+[2025.09.07-12.40.13:134][401]LogConsoleCmd: Chat.Whisper "honzsk" <color="0f0">Quest Progress:</color> You have collected 1/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.40.13:233][407]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147480626, BP_PlayerController_C_2147480696) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.13:268][409]LogConsoleCmd: Chat.StatusMessage "hoopla" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x1</color> in your inventory.
+[2025.09.07-12.40.13:285][410]LogConsoleCmd: Chat.Whisper "hoopla" <color="0f0">Quest Progress:</color> You have collected 1/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.40.16:602][608]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147480626, BP_PlayerController_C_2147480696) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.16:621][609]LogConsoleCmd: Chat.StatusMessage "hoopla" You have already collected this brickingway box.
+[2025.09.07-12.40.17:373][654]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147480626, BP_PlayerController_C_2147480696) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.17:392][655]LogConsoleCmd: Chat.StatusMessage "hoopla" You have already collected this brickingway box.
+[2025.09.07-12.40.19:117][758]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147466814, BP_PlayerController_C_2147471567) interacted with brick "4x1x3" at -185 -3180 1214, message: "rpg_quest_emmet_brickingway".
+[2025.09.07-12.40.19:135][759]LogConsoleCmd: Chat.Whisper "honzsk" <color="ff0">Emmet Brickingway</color>: "The boxes are still out there. Each one you find brings me closer to completing what I started. The stories must be told. They demand to be heard. How many
+[2025.09.07-12.40.19:152][760]LogConsoleCmd: Chat.Whisper "honzsk" have you found?"
+[2025.09.07-12.40.21:178][881]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: ok there we go
+[2025.09.07-12.40.24:028][ 51]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: go search for them guys
+[2025.09.07-12.40.24:196][ 61]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147466814, BP_PlayerController_C_2147471567) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.24:214][ 62]LogConsoleCmd: Chat.StatusMessage "honzsk" You have already collected this brickingway box.
+[2025.09.07-12.40.25:185][120]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147466814, BP_PlayerController_C_2147471567) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.25:203][121]LogConsoleCmd: Chat.StatusMessage "honzsk" You have already collected this brickingway box.
+[2025.09.07-12.40.25:352][130]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147466814, BP_PlayerController_C_2147471567) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.25:370][131]LogConsoleCmd: Chat.StatusMessage "honzsk" You have already collected this brickingway box.
+[2025.09.07-12.40.25:486][138]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147466814, BP_PlayerController_C_2147471567) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.25:504][139]LogConsoleCmd: Chat.StatusMessage "honzsk" You have already collected this brickingway box.
+[2025.09.07-12.40.25:637][147]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147466814, BP_PlayerController_C_2147471567) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.25:656][148]LogConsoleCmd: Chat.StatusMessage "honzsk" You have already collected this brickingway box.
+[2025.09.07-12.40.25:771][155]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147466814, BP_PlayerController_C_2147471567) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.25:789][156]LogConsoleCmd: Chat.StatusMessage "honzsk" You have already collected this brickingway box.
+[2025.09.07-12.40.25:939][165]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147466814, BP_PlayerController_C_2147471567) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.25:957][166]LogConsoleCmd: Chat.StatusMessage "honzsk" You have already collected this brickingway box.
+[2025.09.07-12.40.26:073][173]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147466814, BP_PlayerController_C_2147471567) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.26:091][174]LogConsoleCmd: Chat.StatusMessage "honzsk" You have already collected this brickingway box.
+[2025.09.07-12.40.26:240][183]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147466814, BP_PlayerController_C_2147471567) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.26:259][184]LogConsoleCmd: Chat.StatusMessage "honzsk" You have already collected this brickingway box.
+[2025.09.07-12.40.27:028][230]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.27:063][232]LogConsoleCmd: Chat.StatusMessage "Gyk92" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x1</color> in your inventory.
+[2025.09.07-12.40.27:080][233]LogConsoleCmd: Chat.Whisper "Gyk92" <color="0f0">Quest Progress:</color> You have collected 1/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.40.28:989][347]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: waterfall area
+[2025.09.07-12.40.29:207][360]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.29:225][361]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.40.29:945][404]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.29:963][405]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.40.30:229][421]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.30:248][422]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.40.31:084][472]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.31:102][473]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.40.31:252][482]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.31:270][483]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.40.31:419][492]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.31:438][493]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.40.31:570][501]LogChat: [SenderId: 90e79561-2281-41d3-8968-995d33d7c2c5] honzsk: nice
+[2025.09.07-12.40.31:587][502]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.31:605][503]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.40.31:771][513]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.31:790][514]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.40.31:956][524]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.31:974][525]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.40.32:123][534]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.32:142][535]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.40.32:341][547]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.32:359][548]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.40.32:526][558]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.32:544][559]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.40.32:710][569]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.32:729][570]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.40.32:911][581]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.32:930][582]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.40.36:551][798]LogConsoleCmd: Server.Status
+[2025.09.07-12.40.36:551][798]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.07-12.40.36:551][799]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.07-12.40.36:551][799]LogConsoleCommands: Bricks: 31710
+[2025.09.07-12.40.36:551][799]LogConsoleCommands: Components: 561
+[2025.09.07-12.40.36:551][799]LogConsoleCommands: Time: 237m 56s
+[2025.09.07-12.40.36:551][799]LogConsoleCommands: Players (3/12):
+[2025.09.07-12.40.36:551][799]LogConsoleCommands: * Name   |  Ping |     Time | Roles                  | Address             | ID                                  
+[2025.09.07-12.40.36:551][799]LogConsoleCommands: * hoopla |  14ms | 237m 51s |                        | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.07-12.40.36:551][799]LogConsoleCommands: * honzsk | 147ms |  165m 8s | Flyer, MINIGAME LEAVER | 172.25.64.1         | 90e79561-2281-41d3-8968-995d33d7c2c5
+[2025.09.07-12.40.36:551][799]LogConsoleCommands: * Gyk92  | 279ms |   4m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-12.40.40:406][ 28]LogServerList: Posting server.
+[2025.09.07-12.40.40:455][ 31]LogBrickadia: honzsk (90e79561-2281-41d3-8968-995d33d7c2c5) joining Ruleset hoopla RPG
+[2025.09.07-12.40.40:455][ 31]LogBackgroundMusic: Playing next background song in playlist after 8.808236s...
+[2025.09.07-12.40.40:455][ 31]LogBrickadia: Ruleset hoopla RPG no saved checkpoint for player honzsk (90e79561-2281-41d3-8968-995d33d7c2c5)
+[2025.09.07-12.40.40:457][ 31]LogNet: Warning: UNetDriver::ProcessRemoteFunction: Remote function MulticastOnInteractRelease called from actor BP_FigureV2_C_2147466814 while actor is being destroyed. Function will not be processed.
+[2025.09.07-12.40.40:457][ 31]LogIrisRpc: Error: Rejected RPC ServerMovePacked due to missing object or function for object: None (NetRefHandle (Id=4120):(RepSystemId=?)).
+[2025.09.07-12.40.40:489][ 33]LogIrisRpc: Error: DeserializeWithObject::Skipping RPC due missing object or function.
+[2025.09.07-12.40.40:489][ 33]LogIrisRpc: Error: Rejected RPC ProtocolNotFound due to missing object or function for object: None (NetRefHandle (Id=4120):(RepSystemId=?)).
+[2025.09.07-12.40.40:523][ 35]LogIrisRpc: Error: DeserializeWithObject::Skipping RPC due missing object or function.
+[2025.09.07-12.40.40:523][ 35]LogIrisRpc: Error: Rejected RPC ProtocolNotFound due to missing object or function for object: None (NetRefHandle (Id=4120):(RepSystemId=?)).
+[2025.09.07-12.40.40:539][ 36]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147480626, BP_PlayerController_C_2147480696) interacted with brick "1x1f" at 140 -6120 986, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.40:556][ 37]LogIrisRpc: Error: DeserializeWithObject::Skipping RPC due missing object or function.
+[2025.09.07-12.40.40:556][ 37]LogIrisRpc: Error: Rejected RPC ProtocolNotFound due to missing object or function for object: None (NetRefHandle (Id=4120):(RepSystemId=?)).
+[2025.09.07-12.40.40:573][ 38]LogIrisRpc: Error: DeserializeWithObject::Skipping RPC due missing object or function.
+[2025.09.07-12.40.40:573][ 38]LogIrisRpc: Error: Rejected RPC ProtocolNotFound due to missing object or function for object: None (NetRefHandle (Id=4120):(RepSystemId=?)).
+[2025.09.07-12.40.40:591][ 39]LogConsoleCmd: Chat.StatusMessage "hoopla" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x2</color> in your inventory.
+[2025.09.07-12.40.40:608][ 40]LogConsoleCmd: Chat.Whisper "hoopla" <color="0f0">Quest Progress:</color> You have collected 2/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.40.40:623][ 41]LogIrisRpc: Error: DeserializeWithObject::Skipping RPC due missing object or function.
+[2025.09.07-12.40.40:623][ 41]LogIrisRpc: Error: Rejected RPC ProtocolNotFound due to missing object or function for object: None (NetRefHandle (Id=4120):(RepSystemId=?)).
+[2025.09.07-12.40.42:483][152]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147480626, BP_PlayerController_C_2147480696) interacted with brick "1x1f" at 140 -6120 986, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.42:502][153]LogConsoleCmd: Chat.StatusMessage "hoopla" You have already collected this brickingway box.
+[2025.09.07-12.40.45:886][355]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147480626, BP_PlayerController_C_2147480696) interacted with brick "1x1f" at 640 -6180 1010, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.45:938][358]LogConsoleCmd: Chat.StatusMessage "hoopla" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x3</color> in your inventory.
+[2025.09.07-12.40.45:954][359]LogConsoleCmd: Chat.Whisper "hoopla" <color="0f0">Quest Progress:</color> You have collected 3/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.40.46:590][397]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147480626, BP_PlayerController_C_2147480696) interacted with brick "1x1f" at 640 -6180 1010, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.46:609][398]LogConsoleCmd: Chat.StatusMessage "hoopla" You have already collected this brickingway box.
+[2025.09.07-12.40.49:273][557]LogBackgroundMusic: Playing the next background song (S_Music_Salutations)
+[2025.09.07-12.40.54:652][878]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147480626, BP_PlayerController_C_2147480696) interacted with brick "1x1f" at 550 -6330 1158, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.54:703][881]LogConsoleCmd: Chat.StatusMessage "hoopla" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x4</color> in your inventory.
+[2025.09.07-12.40.54:721][882]LogConsoleCmd: Chat.Whisper "hoopla" <color="0f0">Quest Progress:</color> You have collected 4/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.40.56:378][981]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 550 -6330 1158, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.56:413][983]LogConsoleCmd: Chat.StatusMessage "Gyk92" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x2</color> in your inventory.
+[2025.09.07-12.40.56:430][984]LogConsoleCmd: Chat.Whisper "Gyk92" <color="0f0">Quest Progress:</color> You have collected 2/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.40.56:546][991]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 550 -6330 1158, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.56:564][992]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.40.56:696][  0]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 550 -6330 1158, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.56:715][  1]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.40.56:881][ 11]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 550 -6330 1158, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.56:899][ 12]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.40.58:171][ 88]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147480626, BP_PlayerController_C_2147480696) interacted with brick "1x1f" at 770 -6290 1306, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.40.58:223][ 91]LogConsoleCmd: Chat.StatusMessage "hoopla" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x5</color> in your inventory.
+[2025.09.07-12.40.58:240][ 92]LogConsoleCmd: Chat.Whisper "hoopla" <color="0f0">Quest Progress:</color> You have collected 5/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.41.04:809][484]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 670 -6100 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.04:861][487]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="f80">[Kraken]</color> (<color="ff0">x1</color> in bag), Gained 100XP and 100 Fishing XP (with Fish bait) - 4 attempts remaining
+[2025.09.07-12.41.04:878][488]LogConsoleCmd: Chat.Broadcast <color="fff">LEGENDARY CATCH! Gyk92 has caught a <color="f80">[Kraken]</color>!</color>
+[2025.09.07-12.41.04:878][489]LogChat: LEGENDARY CATCH! Gyk92 has caught a [Kraken]!
+[2025.09.07-12.41.04:993][495]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 670 -6100 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.05:029][497]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="fff">[Gup]</color> (<color="ff0">x1</color> in bag), Gained 30XP and 30 Fishing XP (with Fish bait) - 3 attempts remaining
+[2025.09.07-12.41.05:144][504]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 670 -6100 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.05:196][507]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="08f">[Shark]</color> (<color="ff0">x1</color> in bag), Gained 55XP and 55 Fishing XP (with Fish bait) - 2 attempts remaining
+[2025.09.07-12.41.05:278][512]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 670 -6100 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.05:330][515]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="08f">[Shark]</color> (<color="ff0">x2</color> in bag), Gained 55XP and 55 Fishing XP (with Fish bait) - 1 attempts remaining
+[2025.09.07-12.41.05:446][522]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 670 -6100 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.05:481][524]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="0f0">[Cod]</color> (<color="ff0">x1</color> in bag), Gained 40XP and 40 Fishing XP (with Fish bait) - Fishing spot depleted! Come back in 30 seconds.
+[2025.09.07-12.41.05:613][532]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 670 -6100 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.05:632][533]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.41.05:731][539]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 670 -6100 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.05:749][540]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.41.05:898][549]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 670 -6100 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.05:917][550]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.41.06:066][559]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 670 -6100 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.06:084][560]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.41.06:552][588]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 670 -6100 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.06:570][589]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 29 seconds.
+[2025.09.07-12.41.06:736][599]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147480626, BP_PlayerController_C_2147480696) interacted with brick "1x1f" at 980 -6780 706, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.41.06:753][600]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.06:805][603]LogConsoleCmd: Chat.StatusMessage "hoopla" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x6</color> in your inventory.
+[2025.09.07-12.41.06:822][604]LogConsoleCmd: Chat.Whisper "hoopla" <color="0f0">Quest Progress:</color> You have collected 6/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.41.06:822][604]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="0f0">[Cod]</color> (<color="ff0">x2</color> in bag), Gained 40XP and 40 Fishing XP (with Fish bait) - 4 attempts remaining
+[2025.09.07-12.41.06:921][610]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.06:956][612]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="08f">[Shark]</color> (<color="ff0">x3</color> in bag), Gained 55XP and 55 Fishing XP (with Fish bait) - 3 attempts remaining
+[2025.09.07-12.41.07:071][619]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.07:107][621]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="fff">[Gup]</color> (<color="ff0">x2</color> in bag), Gained 30XP and 30 Fishing XP (with Fish bait) - 2 attempts remaining
+[2025.09.07-12.41.07:239][629]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.07:291][632]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="08f">[Shark]</color> (<color="ff0">x4</color> in bag), Gained 55XP and 55 Fishing XP (with Fish bait) - 1 attempts remaining
+[2025.09.07-12.41.07:390][638]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.07:442][641]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="0f0">[Cod]</color> (<color="ff0">x3</color> in bag), Gained 40XP and 40 Fishing XP (with Fish bait) - Fishing spot depleted! Come back in 30 seconds.
+[2025.09.07-12.41.07:574][649]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.07:592][650]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.41.07:742][659]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.07:760][660]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.41.07:893][668]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.07:911][669]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.41.08:429][700]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 670 -6100 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.08:447][701]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 28 seconds.
+[2025.09.07-12.41.08:630][712]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.08:665][714]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="fff">[Gup]</color> (<color="ff0">x3</color> in bag), Gained 30XP and 30 Fishing XP (with Fish bait) - 4 attempts remaining
+[2025.09.07-12.41.08:764][720]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.08:816][723]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="0f0">[Cod]</color> (<color="ff0">x4</color> in bag), Gained 40XP and 40 Fishing XP (with Fish bait) - 3 attempts remaining
+[2025.09.07-12.41.08:932][730]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.08:967][732]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="0f0">[Cod]</color> (<color="ff0">x5</color> in bag), Gained 40XP and 40 Fishing XP (with Fish bait) - 2 attempts remaining
+[2025.09.07-12.41.09:099][740]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.09:151][743]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="fff">[Gup]</color> (<color="ff0">x4</color> in bag), Gained 30XP and 30 Fishing XP (with Fish bait) - 1 attempts remaining
+[2025.09.07-12.41.09:267][750]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.09:319][753]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="0f0">[Cod]</color> (<color="ff0">x6</color> in bag), Gained 40XP and 40 Fishing XP (with Fish bait) - Fishing spot depleted! Come back in 30 seconds.
+[2025.09.07-12.41.09:435][760]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.09:453][761]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.41.09:602][770]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.09:621][771]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.41.10:507][824]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 540 -6180 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.10:559][827]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="80f">[Whale]</color> (<color="ff0">x1</color> in bag), Gained 75XP and 75 Fishing XP (with Fish bait) - 4 attempts remaining
+[2025.09.07-12.41.10:708][836]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 540 -6180 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.10:760][839]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="0f0">[Cod]</color> (<color="ff0">x7</color> in bag), Gained 40XP and 40 Fishing XP (with Fish bait) - 3 attempts remaining
+[2025.09.07-12.41.10:876][846]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 540 -6180 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.10:928][849]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="0f0">[Cod]</color> (<color="ff0">x8</color> in bag), Gained 40XP and 40 Fishing XP (with Fish bait) - 2 attempts remaining
+[2025.09.07-12.41.11:010][854]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 540 -6180 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.11:046][856]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="fff">[Gup]</color> (<color="ff0">x5</color> in bag), Gained 30XP and 30 Fishing XP (with Fish bait) - 1 attempts remaining
+[2025.09.07-12.41.11:194][865]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 540 -6180 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.11:230][867]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="0f0">[Cod]</color> (<color="ff0">x9</color> in bag), Gained 40XP and 40 Fishing XP (with Fish bait) - Fishing spot depleted! Come back in 30 seconds.
+[2025.09.07-12.41.11:379][876]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 540 -6180 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.11:397][877]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.41.11:513][884]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 540 -6180 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.11:531][885]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.41.11:915][908]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 540 -6180 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.11:933][909]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.41.12:099][919]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.12:116][920]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147480626, BP_PlayerController_C_2147480696) interacted with brick "1x1f" at 1020 -7310 626, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.41.12:168][923]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="80f">[Whale]</color> (<color="ff0">x2</color> in bag), Gained 75XP and 75 Fishing XP (with Fish bait) - 4 attempts remaining
+[2025.09.07-12.41.12:201][925]LogConsoleCmd: Chat.StatusMessage "hoopla" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x7</color> in your inventory.
+[2025.09.07-12.41.12:218][926]LogConsoleCmd: Chat.Whisper "hoopla" <color="0f0">Quest Progress:</color> You have collected 7/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.41.12:267][929]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.12:319][932]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="f80">[Kraken]</color> (<color="ff0">x2</color> in bag), Gained 100XP and 100 Fishing XP (with Fish bait) - 3 attempts remaining
+[2025.09.07-12.41.12:335][933]LogConsoleCmd: Chat.Broadcast <color="fff">LEGENDARY CATCH! Gyk92 has caught a <color="f80">[Kraken]</color>!</color>
+[2025.09.07-12.41.12:335][934]LogChat: LEGENDARY CATCH! Gyk92 has caught a [Kraken]!
+[2025.09.07-12.41.12:435][939]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.12:470][941]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="80f">[Whale]</color> (<color="ff0">x3</color> in bag), Gained 75XP and 75 Fishing XP (with Fish bait) - 2 attempts remaining
+[2025.09.07-12.41.12:585][948]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.12:637][951]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="08f">[Shark]</color> (<color="ff0">x5</color> in bag), Gained 55XP and 55 Fishing XP (with Fish bait) - 1 attempts remaining
+[2025.09.07-12.41.12:803][961]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.12:855][964]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="08f">[Shark]</color> (<color="ff0">x6</color> in bag), Gained 55XP and 55 Fishing XP (with Fish bait) - Fishing spot depleted! Come back in 30 seconds.
+[2025.09.07-12.41.12:937][969]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.12:955][970]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.41.13:122][980]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.13:140][981]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.41.13:339][993]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 490 -6040 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.13:374][995]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="08f">[Shark]</color> (<color="ff0">x7</color> in bag), Gained 55XP and 55 Fishing XP (with Fish bait) - 4 attempts remaining
+[2025.09.07-12.41.13:540][  5]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 490 -6040 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.13:592][  8]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="0f0">[Cod]</color> (<color="ff0">x10</color> in bag), Gained 40XP and 40 Fishing XP (with Fish bait) - 3 attempts remaining
+[2025.09.07-12.41.13:725][ 16]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 490 -6040 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.13:760][ 18]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="08f">[Shark]</color> (<color="ff0">x8</color> in bag), Gained 55XP and 55 Fishing XP (with Fish bait) - 2 attempts remaining
+[2025.09.07-12.41.13:926][ 28]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 490 -6040 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.13:961][ 30]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="08f">[Shark]</color> (<color="ff0">x9</color> in bag), Gained 55XP and 55 Fishing XP (with Fish bait) - 1 attempts remaining
+[2025.09.07-12.41.14:077][ 37]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 490 -6040 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.14:112][ 39]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="08f">[Shark]</color> (<color="ff0">x10</color> in bag), Gained 55XP and 55 Fishing XP (with Fish bait) - Fishing spot depleted! Come back in 30 seconds.
+[2025.09.07-12.41.14:261][ 48]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 490 -6040 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.14:279][ 49]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.41.14:429][ 58]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 490 -6040 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.14:447][ 59]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.41.14:630][ 70]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 490 -6040 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.41.14:648][ 71]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.41.16:876][204]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147480626, BP_PlayerController_C_2147480696) interacted with brick "1x1f" at -420 -7030 866, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.41.16:928][207]LogConsoleCmd: Chat.StatusMessage "hoopla" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x8</color> in your inventory.
+[2025.09.07-12.41.16:945][208]LogConsoleCmd: Chat.Whisper "hoopla" <color="0f0">Quest Progress:</color> You have collected 8/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.41.22:642][548]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147480626, BP_PlayerController_C_2147480696) interacted with brick "1x1f" at 840 -7010 1346, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.41.22:694][551]LogConsoleCmd: Chat.StatusMessage "hoopla" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x9</color> in your inventory.
+[2025.09.07-12.41.22:711][552]LogConsoleCmd: Chat.Whisper "hoopla" <color="0f0">Quest Progress:</color> You have collected 9/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.41.25:508][719]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: can you tp me to this box?
+[2025.09.07-12.41.26:648][787]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147480626, BP_PlayerController_C_2147480696) interacted with brick "1x1f" at 890 -6470 1430, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.41.26:700][790]LogConsoleCmd: Chat.StatusMessage "hoopla" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x10</color> in your inventory.
+[2025.09.07-12.41.26:717][791]LogConsoleCmd: Chat.Whisper "hoopla" <color="0f0">Quest Update:</color> You have collected enough Brickingway Boxes! Return to Emmet Brickingway to complete your quest.
+[2025.09.07-12.41.34:794][273]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: theres a way up
+[2025.09.07-12.41.36:540][377]LogConsoleCmd: Server.Status
+[2025.09.07-12.41.36:540][377]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.07-12.41.36:540][377]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.07-12.41.36:540][378]LogConsoleCommands: Bricks: 31710
+[2025.09.07-12.41.36:540][378]LogConsoleCommands: Components: 561
+[2025.09.07-12.41.36:540][378]LogConsoleCommands: Time: 238m 56s
+[2025.09.07-12.41.36:540][378]LogConsoleCommands: Players (3/12):
+[2025.09.07-12.41.36:540][378]LogConsoleCommands: * Name   |  Ping |     Time | Roles                  | Address             | ID                                  
+[2025.09.07-12.41.36:540][378]LogConsoleCommands: * hoopla |  15ms | 238m 51s |                        | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.07-12.41.36:540][378]LogConsoleCommands: * honzsk | 145ms |  166m 8s | Flyer, MINIGAME LEAVER | 172.25.64.1         | 90e79561-2281-41d3-8968-995d33d7c2c5
+[2025.09.07-12.41.36:540][378]LogConsoleCommands: * Gyk92  | 274ms |   5m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-12.41.40:393][607]LogServerList: Posting server.
+[2025.09.07-12.41.40:878][636]LogChat: [SenderId: 90e79561-2281-41d3-8968-995d33d7c2c5] honzsk: thats cheating!!!
+[2025.09.07-12.41.47:919][ 56]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: go this way
+[2025.09.07-12.41.53:164][369]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: wow
+[2025.09.07-12.41.59:752][762]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 980 -6780 706, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.41.59:788][764]LogConsoleCmd: Chat.StatusMessage "Gyk92" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x3</color> in your inventory.
+[2025.09.07-12.41.59:804][765]LogConsoleCmd: Chat.Whisper "Gyk92" <color="0f0">Quest Progress:</color> You have collected 3/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.41.59:920][772]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 980 -6780 706, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.41.59:939][773]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.42.00:104][783]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 980 -6780 706, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.42.00:123][784]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.42.15:559][705]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: look carefully around the corners lol
+[2025.09.07-12.42.19:264][926]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: some are kinda hidden
+[2025.09.07-12.42.24:359][230]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147447657, BP_PlayerController_C_2147471567) interacted with brick "1x1f" at 980 -6780 706, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.42.24:394][232]LogConsoleCmd: Chat.StatusMessage "honzsk" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x2</color> in your inventory.
+[2025.09.07-12.42.24:411][233]LogConsoleCmd: Chat.Whisper "honzsk" <color="0f0">Quest Progress:</color> You have collected 2/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.42.26:689][369]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 840 -7010 1346, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.42.26:724][371]LogConsoleCmd: Chat.StatusMessage "Gyk92" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x4</color> in your inventory.
+[2025.09.07-12.42.26:741][372]LogConsoleCmd: Chat.Whisper "Gyk92" <color="0f0">Quest Progress:</color> You have collected 4/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.42.26:890][381]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 840 -7010 1346, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.42.26:909][382]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.42.27:763][433]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.42.27:763][433]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.42.31:937][682]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.42.31:937][682]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.42.33:629][783]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 890 -6470 1430, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.42.33:664][785]LogConsoleCmd: Chat.StatusMessage "Gyk92" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x5</color> in your inventory.
+[2025.09.07-12.42.33:681][786]LogConsoleCmd: Chat.Whisper "Gyk92" <color="0f0">Quest Progress:</color> You have collected 5/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.42.36:547][957]LogConsoleCmd: Server.Status
+[2025.09.07-12.42.36:547][958]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.07-12.42.36:547][958]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.07-12.42.36:547][958]LogConsoleCommands: Bricks: 31710
+[2025.09.07-12.42.36:547][958]LogConsoleCommands: Components: 561
+[2025.09.07-12.42.36:547][958]LogConsoleCommands: Time: 239m 56s
+[2025.09.07-12.42.36:547][958]LogConsoleCommands: Players (3/12):
+[2025.09.07-12.42.36:547][958]LogConsoleCommands: * Name   |  Ping |     Time | Roles                  | Address             | ID                                  
+[2025.09.07-12.42.36:547][958]LogConsoleCommands: * hoopla |  14ms | 239m 51s |                        | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.07-12.42.36:547][958]LogConsoleCommands: * honzsk | 151ms |  167m 8s | Flyer, MINIGAME LEAVER | 172.25.64.1         | 90e79561-2281-41d3-8968-995d33d7c2c5
+[2025.09.07-12.42.36:547][958]LogConsoleCommands: * Gyk92  | 276ms |   6m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-12.42.40:401][187]LogServerList: Posting server.
+[2025.09.07-12.42.40:401][187]LogAutoSave: Auto saving the world.
+[2025.09.07-12.42.40:401][187]LogBRWorldManager: Requested world save.
+[2025.09.07-12.42.40:401][187]LogBRWorldManager: Good time for save between wire ticks.
+[2025.09.07-12.42.40:401][187]LogBRWorldManager: Saving world to bundle.
+[2025.09.07-12.42.40:401][187]LogBRWorldManager: Exporting global environment settings.
+[2025.09.07-12.42.40:402][187]LogBRWorldManager: Exporting global minigame settings.
+[2025.09.07-12.42.40:403][187]LogBRWorldManager: World data collected. Launching async serialization tasks.
+[2025.09.07-12.42.40:403][187]LogBRWorldManager: Main thread unblocked after 0.001188.
+[2025.09.07-12.42.40:403][187]LogBRWorldManager: World serialization tasks completed. Writing world files to bundle.
+[2025.09.07-12.42.40:450][190]LogBRWorldManager: World files saved after 0.048975.
+[2025.09.07-12.42.40:450][190]LogAutoSave: Auto save successful, 21 entities, 33,282 bricks, 635 components, 466 wires.
+[2025.09.07-12.42.40:451][190]LogChat: World saved: 21 entities, 33282 bricks, 635 components, 466 wires.
+[2025.09.07-12.42.40:452][190]LogIris: Warning: Splitting multicast net object attachment MulticastPushChatMessageText.
+[2025.09.07-12.42.42:596][318]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 770 -6290 1306, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.42.42:632][320]LogConsoleCmd: Chat.StatusMessage "Gyk92" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x6</color> in your inventory.
+[2025.09.07-12.42.42:648][321]LogConsoleCmd: Chat.Whisper "Gyk92" <color="0f0">Quest Progress:</color> You have collected 6/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.42.56:292][135]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147447657, BP_PlayerController_C_2147471567) interacted with brick "1x1f" at 890 -6470 1430, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.42.56:327][137]LogConsoleCmd: Chat.StatusMessage "honzsk" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x3</color> in your inventory.
+[2025.09.07-12.42.56:344][138]LogConsoleCmd: Chat.Whisper "honzsk" <color="0f0">Quest Progress:</color> You have collected 3/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.43.06:165][724]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 890 -6470 1430, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.43.06:183][726]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.43.06:333][734]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 890 -6470 1430, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.43.06:351][736]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.43.06:484][743]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 890 -6470 1430, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.43.06:502][744]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.43.06:651][753]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 890 -6470 1430, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.43.06:670][754]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.43.08:380][856]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.43.08:380][856]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.43.13:174][142]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.43.13:174][142]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.43.25:744][892]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 890 -6470 1430, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.43.25:762][893]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.43.26:347][928]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 890 -6470 1430, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.43.26:365][929]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.43.26:532][939]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 890 -6470 1430, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.43.26:550][940]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.43.36:556][537]LogConsoleCmd: Server.Status
+[2025.09.07-12.43.36:556][537]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.07-12.43.36:556][538]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.07-12.43.36:556][538]LogConsoleCommands: Bricks: 31715
+[2025.09.07-12.43.36:556][538]LogConsoleCommands: Components: 561
+[2025.09.07-12.43.36:556][538]LogConsoleCommands: Time: 240m 56s
+[2025.09.07-12.43.36:556][538]LogConsoleCommands: Players (3/12):
+[2025.09.07-12.43.36:556][538]LogConsoleCommands: * Name   |  Ping |     Time | Roles                  | Address             | ID                                  
+[2025.09.07-12.43.36:556][538]LogConsoleCommands: * hoopla |  14ms | 240m 51s |                        | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.07-12.43.36:556][538]LogConsoleCommands: * honzsk | 149ms |  168m 8s | Flyer, MINIGAME LEAVER | 172.25.64.1         | 90e79561-2281-41d3-8968-995d33d7c2c5
+[2025.09.07-12.43.36:556][538]LogConsoleCommands: * Gyk92  | 276ms |   7m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-12.43.40:394][766]LogServerList: Posting server.
+[2025.09.07-12.43.43:880][974]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 840 -7010 1346, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.43.43:899][975]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.43.50:702][381]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: how many more u guys need
+[2025.09.07-12.43.59:115][883]LogChatCommands: Player "honzsk" is trying to call command "/rpg" with arg string "".
+[2025.09.07-12.43.59:115][883]LogChatCommands: Error: Command rpg does not exist.
+[2025.09.07-12.43.59:134][884]LogConsoleCmd: Chat.Whisper "honzsk" <color="ff0">Level 30 (MAX)</> | <color="f00">390/390 HP</> | <color="0f0">$19680</>
+[2025.09.07-12.43.59:134][884]LogConsoleCmd: Chat.Whisper "honzsk" <color="0ff">Mining 30 (MAX)</> | <color="f0f">Bartering 30 (MAX)</>
+[2025.09.07-12.43.59:134][884]LogConsoleCmd: Chat.Whisper "honzsk" <color="0aa">Fishing 30 (MAX)</>
+[2025.09.07-12.43.59:150][885]LogConsoleCmd: Chat.Whisper "honzsk" <color="fff">Inventory: <color="fff">[Gup]</color><color="ff0">x5</color>,<color="0f0">[Cod]</color><color="ff0">x11</color>,<color="08f">[Shark]</color><color="ff0">x3</color>,<color="80f">[Whale]</color><color="ff0">x4</color></>
+[2025.09.07-12.43.59:167][886]LogConsoleCmd: Chat.Whisper "honzsk" <color="fff">  <color="f80">[Kraken]</color><color="ff0">x1</color>,<color="fff">[Fish bait]</color><color="ff0">x4</color>,<color="fff">[brickingway box]</color><color="ff0">x3</color></>
+[2025.09.07-12.43.59:184][887]LogConsoleCmd: Chat.Whisper "honzsk" <color="fff">Consumables: None</>
+[2025.09.07-12.43.59:184][887]LogConsoleCmd: Chat.Whisper "honzsk" <color="888">Try /rpghelp for more commands</color>
+[2025.09.07-12.44.01:127][  3]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: I have 6 niw
+[2025.09.07-12.44.02:871][107]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: now
+[2025.09.07-12.44.03:742][159]LogChat: [SenderId: 90e79561-2281-41d3-8968-995d33d7c2c5] honzsk: ive three
+[2025.09.07-12.44.07:513][384]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: lol nice
+[2025.09.07-12.44.19:766][115]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147447657, BP_PlayerController_C_2147471567) interacted with brick "1x1f" at 840 -7010 1346, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.44.19:801][117]LogConsoleCmd: Chat.StatusMessage "honzsk" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x4</color> in your inventory.
+[2025.09.07-12.44.19:818][118]LogConsoleCmd: Chat.Whisper "honzsk" <color="0f0">Quest Progress:</color> You have collected 4/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.44.26:823][536]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147447657, BP_PlayerController_C_2147471567) interacted with brick "1x1f" at 890 -6470 1430, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.44.26:841][537]LogConsoleCmd: Chat.StatusMessage "honzsk" You have already collected this brickingway box.
+[2025.09.07-12.44.31:365][807]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 890 -6470 1430, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.44.31:384][808]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.44.31:384][808]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.44.31:384][808]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.44.36:563][117]LogConsoleCmd: Server.Status
+[2025.09.07-12.44.36:563][117]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.07-12.44.36:564][117]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.07-12.44.36:564][118]LogConsoleCommands: Bricks: 31715
+[2025.09.07-12.44.36:564][118]LogConsoleCommands: Components: 561
+[2025.09.07-12.44.36:564][118]LogConsoleCommands: Time: 241m 56s
+[2025.09.07-12.44.36:564][118]LogConsoleCommands: Players (3/12):
+[2025.09.07-12.44.36:564][118]LogConsoleCommands: * Name   |  Ping |     Time | Roles                  | Address             | ID                                  
+[2025.09.07-12.44.36:564][118]LogConsoleCommands: * hoopla |  14ms | 241m 51s |                        | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.07-12.44.36:564][118]LogConsoleCommands: * honzsk | 147ms |  169m 8s | Flyer, MINIGAME LEAVER | 172.25.64.1         | 90e79561-2281-41d3-8968-995d33d7c2c5
+[2025.09.07-12.44.36:564][118]LogConsoleCommands: * Gyk92  | 278ms |   8m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-12.44.40:333][342]LogChatCommands: Player "honzsk" is trying to call command "/rpg" with arg string "".
+[2025.09.07-12.44.40:333][342]LogChatCommands: Error: Command rpg does not exist.
+[2025.09.07-12.44.40:352][343]LogConsoleCmd: Chat.Whisper "honzsk" <color="ff0">Level 30 (MAX)</> | <color="f00">390/390 HP</> | <color="0f0">$19680</>
+[2025.09.07-12.44.40:352][343]LogConsoleCmd: Chat.Whisper "honzsk" <color="0ff">Mining 30 (MAX)</> | <color="f0f">Bartering 30 (MAX)</>
+[2025.09.07-12.44.40:352][343]LogConsoleCmd: Chat.Whisper "honzsk" <color="0aa">Fishing 30 (MAX)</>
+[2025.09.07-12.44.40:368][344]LogConsoleCmd: Chat.Whisper "honzsk" <color="fff">Inventory: <color="fff">[Gup]</color><color="ff0">x5</color>,<color="0f0">[Cod]</color><color="ff0">x11</color>,<color="08f">[Shark]</color><color="ff0">x3</color>,<color="80f">[Whale]</color><color="ff0">x4</color></>
+[2025.09.07-12.44.40:385][345]LogConsoleCmd: Chat.Whisper "honzsk" <color="fff">  <color="f80">[Kraken]</color><color="ff0">x1</color>,<color="fff">[Fish bait]</color><color="ff0">x4</color>,<color="fff">[brickingway box]</color><color="ff0">x4</color></>
+[2025.09.07-12.44.40:401][346]LogServerList: Posting server.
+[2025.09.07-12.44.40:402][346]LogConsoleCmd: Chat.Whisper "honzsk" <color="fff">Consumables: None</>
+[2025.09.07-12.44.40:402][346]LogConsoleCmd: Chat.Whisper "honzsk" <color="888">Try /rpghelp for more commands</color>
+[2025.09.07-12.44.44:574][595]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: lol
+[2025.09.07-12.44.51:447][  5]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 770 -6290 1306, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.44.51:466][  6]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.44.51:682][ 19]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147447657, BP_PlayerController_C_2147471567) interacted with brick "1x1f" at 770 -6290 1306, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.44.51:717][ 21]LogConsoleCmd: Chat.StatusMessage "honzsk" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x5</color> in your inventory.
+[2025.09.07-12.44.51:734][ 22]LogConsoleCmd: Chat.Whisper "honzsk" <color="0f0">Quest Progress:</color> You have collected 5/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.44.55:655][256]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 140 -6120 986, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.44.55:690][258]LogConsoleCmd: Chat.StatusMessage "Gyk92" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x7</color> in your inventory.
+[2025.09.07-12.44.55:706][259]LogConsoleCmd: Chat.Whisper "Gyk92" <color="0f0">Quest Progress:</color> You have collected 7/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.44.56:744][321]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 140 -6120 986, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.44.56:762][322]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.45.00:382][538]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147447657, BP_PlayerController_C_2147471567) interacted with brick "1x1f" at 550 -6330 1158, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.45.00:418][540]LogConsoleCmd: Chat.StatusMessage "honzsk" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x6</color> in your inventory.
+[2025.09.07-12.45.00:434][541]LogConsoleCmd: Chat.Whisper "honzsk" <color="0f0">Quest Progress:</color> You have collected 6/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.45.05:126][821]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 640 -6180 1010, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.45.05:162][823]LogConsoleCmd: Chat.StatusMessage "Gyk92" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x8</color> in your inventory.
+[2025.09.07-12.45.05:178][824]LogConsoleCmd: Chat.Whisper "Gyk92" <color="0f0">Quest Progress:</color> You have collected 8/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.45.06:585][908]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147447657, BP_PlayerController_C_2147471567) interacted with brick "1x1f" at 140 -6120 986, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.45.06:620][910]LogConsoleCmd: Chat.StatusMessage "honzsk" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x7</color> in your inventory.
+[2025.09.07-12.45.06:637][911]LogConsoleCmd: Chat.Whisper "honzsk" <color="0f0">Quest Progress:</color> You have collected 7/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.45.13:809][339]LogChat: [SenderId: 90e79561-2281-41d3-8968-995d33d7c2c5] honzsk: 7 now
+[2025.09.07-12.45.17:347][550]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: 8
+[2025.09.07-12.45.20:397][732]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 640 -6180 1010, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.45.20:415][733]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.45.23:332][907]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.45.23:332][907]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.45.31:730][408]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 140 -6120 986, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.45.31:748][409]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.45.36:576][697]LogConsoleCmd: Server.Status
+[2025.09.07-12.45.36:576][697]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.07-12.45.36:576][698]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.07-12.45.36:576][698]LogConsoleCommands: Bricks: 31719
+[2025.09.07-12.45.36:576][698]LogConsoleCommands: Components: 561
+[2025.09.07-12.45.36:576][698]LogConsoleCommands: Time: 242m 56s
+[2025.09.07-12.45.36:576][698]LogConsoleCommands: Players (3/12):
+[2025.09.07-12.45.36:576][698]LogConsoleCommands: * Name   |  Ping |     Time | Roles                  | Address             | ID                                  
+[2025.09.07-12.45.36:576][698]LogConsoleCommands: * hoopla |  14ms | 242m 51s |                        | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.07-12.45.36:576][698]LogConsoleCommands: * honzsk | 148ms |  170m 8s | Flyer, MINIGAME LEAVER | 172.25.64.1         | 90e79561-2281-41d3-8968-995d33d7c2c5
+[2025.09.07-12.45.36:576][698]LogConsoleCommands: * Gyk92  | 278ms |   9m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-12.45.37:765][768]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 550 -6330 1158, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.45.37:783][769]LogConsoleCmd: Chat.StatusMessage "Gyk92" You have already collected this brickingway box.
+[2025.09.07-12.45.39:977][900]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 540 -6180 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.40:030][903]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="80f">[Whale]</color> (<color="ff0">x4</color> in bag), Gained 75XP and 75 Fishing XP (with Fish bait) - 4 attempts remaining
+[2025.09.07-12.45.40:145][910]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 540 -6180 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.40:181][913]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="f80">[Kraken]</color> (<color="ff0">x3</color> in bag), Gained 100XP and 100 Fishing XP (with Fish bait) - 3 attempts remaining
+[2025.09.07-12.45.40:197][913]LogConsoleCmd: Chat.Broadcast <color="fff">LEGENDARY CATCH! Gyk92 has caught a <color="f80">[Kraken]</color>!</color>
+[2025.09.07-12.45.40:197][914]LogChat: LEGENDARY CATCH! Gyk92 has caught a [Kraken]!
+[2025.09.07-12.45.40:264][917]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.45.40:264][917]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.45.40:329][921]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 540 -6180 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.40:364][923]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="fff">[Gup]</color> (<color="ff0">x6</color> in bag), Gained 30XP and 30 Fishing XP (with Fish bait) - 2 attempts remaining
+[2025.09.07-12.45.40:398][925]LogServerList: Posting server.
+[2025.09.07-12.45.40:514][932]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 540 -6180 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.40:565][935]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="08f">[Shark]</color> (<color="ff0">x11</color> in bag), Gained 55XP and 55 Fishing XP (with Fish bait) - 1 attempts remaining
+[2025.09.07-12.45.40:664][941]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 540 -6180 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.40:700][943]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="08f">[Shark]</color> (<color="ff0">x12</color> in bag), Gained 55XP and 55 Fishing XP (with Fish bait) - Fishing spot depleted! Come back in 30 seconds.
+[2025.09.07-12.45.40:832][951]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 540 -6180 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.40:850][952]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.45.40:983][960]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 540 -6180 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.41:001][961]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.45.41:150][970]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 540 -6180 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.41:169][971]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.45.41:318][980]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 540 -6180 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.41:336][981]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.45.41:787][  8]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.41:822][ 10]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="08f">[Shark]</color> (<color="ff0">x13</color> in bag), Gained 55XP and 55 Fishing XP (with Fish bait) - 4 attempts remaining
+[2025.09.07-12.45.41:988][ 20]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.42:040][ 23]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="0f0">[Cod]</color> (<color="ff0">x11</color> in bag), Gained 40XP and 40 Fishing XP (with Fish bait) - 3 attempts remaining
+[2025.09.07-12.45.42:139][ 29]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.42:191][ 32]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="80f">[Whale]</color> (<color="ff0">x5</color> in bag), Gained 75XP and 75 Fishing XP (with Fish bait) - 2 attempts remaining
+[2025.09.07-12.45.42:307][ 39]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.42:342][ 41]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="fff">[Gup]</color> (<color="ff0">x7</color> in bag), Gained 30XP and 30 Fishing XP (with Fish bait) - 1 attempts remaining
+[2025.09.07-12.45.42:475][ 49]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.42:526][ 52]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="fff">[Gup]</color> (<color="ff0">x8</color> in bag), Gained 30XP and 30 Fishing XP (with Fish bait) - Fishing spot depleted! Come back in 30 seconds.
+[2025.09.07-12.45.42:642][ 59]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.42:660][ 60]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.45.42:810][ 69]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.42:828][ 70]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.45.43:011][ 81]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147447657, BP_PlayerController_C_2147471567) interacted with brick "1x1f" at 1120 -5800 1146, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.45.43:063][ 84]LogConsoleCmd: Chat.StatusMessage "honzsk" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x8</color> in your inventory.
+[2025.09.07-12.45.43:079][ 85]LogConsoleCmd: Chat.Whisper "honzsk" <color="0f0">Quest Progress:</color> You have collected 8/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.45.43:279][ 97]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 490 -6040 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.43:314][ 99]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="08f">[Shark]</color> (<color="ff0">x14</color> in bag), Gained 55XP and 55 Fishing XP (with Fish bait) - 4 attempts remaining
+[2025.09.07-12.45.43:446][107]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 490 -6040 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.43:498][110]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="08f">[Shark]</color> (<color="ff0">x15</color> in bag), Gained 55XP and 55 Fishing XP (with Fish bait) - 3 attempts remaining
+[2025.09.07-12.45.43:614][117]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 490 -6040 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.43:649][119]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="0f0">[Cod]</color> (<color="ff0">x12</color> in bag), Gained 40XP and 40 Fishing XP (with Fish bait) - 2 attempts remaining
+[2025.09.07-12.45.43:765][126]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 490 -6040 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.43:817][129]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="08f">[Shark]</color> (<color="ff0">x16</color> in bag), Gained 55XP and 55 Fishing XP (with Fish bait) - 1 attempts remaining
+[2025.09.07-12.45.43:932][136]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 490 -6040 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.43:968][138]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="08f">[Shark]</color> (<color="ff0">x17</color> in bag), Gained 55XP and 55 Fishing XP (with Fish bait) - Fishing spot depleted! Come back in 30 seconds.
+[2025.09.07-12.45.44:100][146]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 490 -6040 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.44:118][147]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.45.44:268][156]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 490 -6040 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.44:286][157]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.45.44:402][164]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 490 -6040 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.44:424][165]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.45.45:055][203]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.45:107][206]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="80f">[Whale]</color> (<color="ff0">x6</color> in bag), Gained 75XP and 75 Fishing XP (with Fish bait) - 4 attempts remaining
+[2025.09.07-12.45.45:223][213]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.45:275][216]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="08f">[Shark]</color> (<color="ff0">x18</color> in bag), Gained 55XP and 55 Fishing XP (with Fish bait) - 3 attempts remaining
+[2025.09.07-12.45.45:374][222]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.45:409][224]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="f80">[Kraken]</color> (<color="ff0">x4</color> in bag), Gained 100XP and 100 Fishing XP (with Fish bait) - 2 attempts remaining
+[2025.09.07-12.45.45:426][225]LogConsoleCmd: Chat.Broadcast <color="fff">LEGENDARY CATCH! Gyk92 has caught a <color="f80">[Kraken]</color>!</color>
+[2025.09.07-12.45.45:426][225]LogChat: LEGENDARY CATCH! Gyk92 has caught a [Kraken]!
+[2025.09.07-12.45.45:558][233]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.45:610][237]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="0f0">[Cod]</color> (<color="ff0">x13</color> in bag), Gained 40XP and 40 Fishing XP (with Fish bait) - 1 attempts remaining
+[2025.09.07-12.45.45:742][244]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.45:794][247]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="fff">[Gup]</color> (<color="ff0">x9</color> in bag), Gained 30XP and 30 Fishing XP (with Fish bait) - Fishing spot depleted! Come back in 30 seconds.
+[2025.09.07-12.45.45:910][254]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.45:928][255]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.45.46:078][264]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.46:096][265]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.45.46:228][273]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.46:247][274]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.45.46:614][296]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.46:649][298]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="fff">[Gup]</color> (<color="ff0">x10</color> in bag), Gained 30XP and 30 Fishing XP (with Fish bait) - 4 attempts remaining
+[2025.09.07-12.45.46:781][306]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.46:816][308]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="fff">[Gup]</color> (<color="ff0">x11</color> in bag), Gained 30XP and 30 Fishing XP (with Fish bait) - 3 attempts remaining
+[2025.09.07-12.45.46:982][318]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.47:034][321]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="0f0">[Cod]</color> (<color="ff0">x14</color> in bag), Gained 40XP and 40 Fishing XP (with Fish bait) - 2 attempts remaining
+[2025.09.07-12.45.47:133][327]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.47:185][330]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="fff">[Gup]</color> (<color="ff0">x12</color> in bag), Gained 30XP and 30 Fishing XP (with Fish bait) - 1 attempts remaining
+[2025.09.07-12.45.47:284][336]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.47:336][339]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="0f0">[Cod]</color> (<color="ff0">x15</color> in bag), Gained 40XP and 40 Fishing XP (with Fish bait) - Fishing spot depleted! Come back in 30 seconds.
+[2025.09.07-12.45.47:452][346]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.47:470][347]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.45.47:636][357]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.47:654][358]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.45.48:156][388]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 670 -6100 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.48:207][391]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="0f0">[Cod]</color> (<color="ff0">x16</color> in bag), Gained 40XP and 40 Fishing XP (with Fish bait) - 4 attempts remaining
+[2025.09.07-12.45.48:340][399]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 670 -6100 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.48:392][402]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="fff">[Gup]</color> (<color="ff0">x13</color> in bag), Gained 30XP and 30 Fishing XP (with Fish bait) - 3 attempts remaining
+[2025.09.07-12.45.48:524][410]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 670 -6100 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.48:576][413]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="80f">[Whale]</color> (<color="ff0">x7</color> in bag), Gained 75XP and 75 Fishing XP (with Fish bait) - 2 attempts remaining
+[2025.09.07-12.45.48:709][421]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 670 -6100 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.48:744][423]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="0f0">[Cod]</color> (<color="ff0">x17</color> in bag), Gained 40XP and 40 Fishing XP (with Fish bait) - 1 attempts remaining
+[2025.09.07-12.45.48:876][431]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 670 -6100 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.48:928][434]LogConsoleCmd: Chat.StatusMessage "Gyk92" Caught 1 <color="0f0">[Cod]</color> (<color="ff0">x18</color> in bag), Gained 40XP and 40 Fishing XP (with Fish bait) - Fishing spot depleted! Come back in 30 seconds.
+[2025.09.07-12.45.49:061][442]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 670 -6100 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.49:079][443]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.45.49:245][453]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 670 -6100 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.49:263][454]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.45.49:413][463]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 670 -6100 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.49:431][464]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.45.49:597][474]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 670 -6100 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.49:615][475]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.07-12.45.50:704][540]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x4f" at 540 -6180 1130, message: "rpg_fishing_spot".
+[2025.09.07-12.45.50:722][541]LogConsoleCmd: Chat.StatusMessage "Gyk92" Fishing spot depleted! Try again in 20 seconds.
+[2025.09.07-12.46.04:415][358]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: did u already go back to this one
+[2025.09.07-12.46.18:111][175]LogChat: [SenderId: 90e79561-2281-41d3-8968-995d33d7c2c5] honzsk: oo
+[2025.09.07-12.46.20:457][315]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147447657, BP_PlayerController_C_2147471567) interacted with brick "1x1f" at 1020 -7310 626, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.46.20:492][317]LogConsoleCmd: Chat.StatusMessage "honzsk" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x9</color> in your inventory.
+[2025.09.07-12.46.20:509][318]LogConsoleCmd: Chat.Whisper "honzsk" <color="0f0">Quest Progress:</color> You have collected 9/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.46.21:949][404]LogChat: [SenderId: 90e79561-2281-41d3-8968-995d33d7c2c5] honzsk: 9
+[2025.09.07-12.46.26:876][698]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: and this 1?
+[2025.09.07-12.46.34:318][142]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at -420 -7030 866, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.46.34:353][144]LogConsoleCmd: Chat.StatusMessage "Gyk92" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x9</color> in your inventory.
+[2025.09.07-12.46.34:370][145]LogConsoleCmd: Chat.Whisper "Gyk92" <color="0f0">Quest Progress:</color> You have collected 9/10 Brickingway Boxes for Emmet Brickingway's quest.
+[2025.09.07-12.46.36:566][276]LogConsoleCmd: Server.Status
+[2025.09.07-12.46.36:566][277]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.07-12.46.36:566][277]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.07-12.46.36:566][277]LogConsoleCommands: Bricks: 31720
+[2025.09.07-12.46.36:566][277]LogConsoleCommands: Components: 561
+[2025.09.07-12.46.36:566][277]LogConsoleCommands: Time: 243m 56s
+[2025.09.07-12.46.36:566][277]LogConsoleCommands: Players (3/12):
+[2025.09.07-12.46.36:566][277]LogConsoleCommands: * Name   |  Ping |     Time | Roles                  | Address             | ID                                  
+[2025.09.07-12.46.36:566][277]LogConsoleCommands: * hoopla |  14ms | 243m 51s |                        | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.07-12.46.36:566][277]LogConsoleCommands: * honzsk | 148ms |  171m 8s | Flyer, MINIGAME LEAVER | 172.25.64.1         | 90e79561-2281-41d3-8968-995d33d7c2c5
+[2025.09.07-12.46.36:566][277]LogConsoleCommands: * Gyk92  | 278ms |  10m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-12.46.37:704][344]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: 9 now
+[2025.09.07-12.46.40:403][505]LogServerList: Posting server.
+[2025.09.07-12.46.40:939][537]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147447657, BP_PlayerController_C_2147471567) interacted with brick "1x1f" at -420 -7030 866, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.46.40:974][539]LogConsoleCmd: Chat.StatusMessage "honzsk" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x10</color> in your inventory.
+[2025.09.07-12.46.40:991][540]LogConsoleCmd: Chat.Whisper "honzsk" <color="0f0">Quest Update:</color> You have collected enough Brickingway Boxes! Return to Emmet Brickingway to complete your quest.
+[2025.09.07-12.46.42:682][641]LogChat: [SenderId: 90e79561-2281-41d3-8968-995d33d7c2c5] honzsk: yaayy
+[2025.09.07-12.46.46:353][860]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at 1020 -7310 626, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.46.46:405][863]LogConsoleCmd: Chat.StatusMessage "Gyk92" Collected <color="9B59B6">[brickingway box]</color>! You now have <color="ff0">x10</color> in your inventory.
+[2025.09.07-12.46.46:422][864]LogConsoleCmd: Chat.Whisper "Gyk92" <color="0f0">Quest Update:</color> You have collected enough Brickingway Boxes! Return to Emmet Brickingway to complete your quest.
+[2025.09.07-12.46.49:889][ 71]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: 10!
+[2025.09.07-12.46.55:605][412]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: was that too hard lol
+[2025.09.07-12.47.08:478][180]LogChat: [SenderId: 90e79561-2281-41d3-8968-995d33d7c2c5] honzsk: i mean its alright
+[2025.09.07-12.47.12:786][437]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: i think thats hard enough
+[2025.09.07-12.47.14:211][522]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: yeah
+[2025.09.07-12.47.14:295][527]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147480626, BP_PlayerController_C_2147480696) interacted with brick "4x1x3" at -185 -3180 1214, message: "rpg_quest_emmet_brickingway".
+[2025.09.07-12.47.14:346][530]LogConsoleCmd: Chat.Whisper "hoopla" <color="ff0">Emmet Brickingway</color>: "You have done what I could not. You have brought my stories home. These boxes contain more than words - they contain truth, beauty, and the raw essence of what
+[2025.09.07-12.47.14:364][531]LogConsoleCmd: Chat.Whisper "hoopla" it means to be human. Thank you, friend. The stories will live again."
+[2025.09.07-12.47.14:364][532]LogConsoleCmd: Chat.Whisper "hoopla" Quest completed! Rewards: <color="ff0">3000 XP</color>, <color="0f0">$2000</color>, <color="fff">[Fish bait]</color>, <color="fff">[Fish bait]</color>
+[2025.09.07-12.47.15:904][623]LogChat: [SenderId: 90e79561-2281-41d3-8968-995d33d7c2c5] honzsk: those two are well hidden
+[2025.09.07-12.47.19:457][835]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147480626, BP_PlayerController_C_2147480696) interacted with brick "4x1x3" at -185 -3180 1214, message: "rpg_quest_emmet_brickingway".
+[2025.09.07-12.47.19:476][836]LogConsoleCmd: Chat.Whisper "hoopla" <color="ff0">Emmet Brickingway</color>: "You have done what I could not. You have brought my stories home. These boxes contain more than words - they contain truth, beauty, and the raw essence of what
+[2025.09.07-12.47.19:492][837]LogConsoleCmd: Chat.Whisper "hoopla" it means to be human. Thank you, friend. The stories will live again."
+[2025.09.07-12.47.34:778][749]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: cuz you know - if player just skip this quest too fast - its a bad quest
+[2025.09.07-12.47.36:573][856]LogConsoleCmd: Server.Status
+[2025.09.07-12.47.36:573][856]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.07-12.47.36:573][857]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.07-12.47.36:573][857]LogConsoleCommands: Bricks: 31720
+[2025.09.07-12.47.36:573][857]LogConsoleCommands: Components: 561
+[2025.09.07-12.47.36:573][857]LogConsoleCommands: Time: 244m 56s
+[2025.09.07-12.47.36:573][857]LogConsoleCommands: Players (3/12):
+[2025.09.07-12.47.36:573][857]LogConsoleCommands: * Name   |  Ping |     Time | Roles                  | Address             | ID                                  
+[2025.09.07-12.47.36:573][857]LogConsoleCommands: * hoopla |  14ms | 244m 51s |                        | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.07-12.47.36:573][857]LogConsoleCommands: * honzsk | 145ms |  172m 8s | Flyer, MINIGAME LEAVER | 172.25.64.1         | 90e79561-2281-41d3-8968-995d33d7c2c5
+[2025.09.07-12.47.36:573][857]LogConsoleCommands: * Gyk92  | 276ms |  11m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-12.47.39:120][  8]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: ya
+[2025.09.07-12.47.40:395][ 84]LogServerList: Posting server.
+[2025.09.07-12.47.42:707][222]LogChat: [SenderId: 90e79561-2281-41d3-8968-995d33d7c2c5] honzsk: yah
+[2025.09.07-12.47.45:021][360]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: and this ones not a chain either just a single quest and reward
+[2025.09.07-12.47.52:112][783]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: so i figured id make it decent length
+[2025.09.07-12.48.04:919][547]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x1x3" at -185 -3180 1214, message: "rpg_quest_emmet_brickingway".
+[2025.09.07-12.48.04:971][550]LogConsoleCmd: Chat.Whisper "Gyk92" <color="ff0">Emmet Brickingway</color>: "You have done what I could not. You have brought my stories home. These boxes contain more than words - they contain truth, beauty, and the raw essence of what
+[2025.09.07-12.48.04:988][551]LogConsoleCmd: Chat.Whisper "Gyk92" it means to be human. Thank you, friend. The stories will live again."
+[2025.09.07-12.48.04:988][552]LogConsoleCmd: Chat.Whisper "Gyk92" Quest completed! Rewards: <color="ff0">3000 XP</color>, <color="0f0">$2000</color>, <color="fff">[Fish bait]</color>, <color="fff">[Fish bait]</color>
+[2025.09.07-12.48.09:830][840]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147447657, BP_PlayerController_C_2147471567) interacted with brick "4x1x3" at -185 -3180 1214, message: "rpg_quest_emmet_brickingway".
+[2025.09.07-12.48.09:882][843]LogConsoleCmd: Chat.Whisper "honzsk" <color="ff0">Emmet Brickingway</color>: "You have done what I could not. You have brought my stories home. These boxes contain more than words - they contain truth, beauty, and the raw essence of what
+[2025.09.07-12.48.09:898][844]LogConsoleCmd: Chat.Whisper "honzsk" it means to be human. Thank you, friend. The stories will live again."
+[2025.09.07-12.48.09:898][844]LogConsoleCmd: Chat.Whisper "honzsk" Quest completed! Rewards: <color="ff0">3000 XP</color>, <color="0f0">$2000</color>, <color="fff">[Fish bait]</color>, <color="fff">[Fish bait]</color>
+[2025.09.07-12.48.15:142][157]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147447657, BP_PlayerController_C_2147471567) interacted with brick "4x1x3" at -185 -3180 1214, message: "rpg_quest_emmet_brickingway".
+[2025.09.07-12.48.15:161][158]LogConsoleCmd: Chat.Whisper "honzsk" <color="ff0">Emmet Brickingway</color>: "You have done what I could not. You have brought my stories home. These boxes contain more than words - they contain truth, beauty, and the raw essence of what
+[2025.09.07-12.48.15:177][159]LogConsoleCmd: Chat.Whisper "honzsk" it means to be human. Thank you, friend. The stories will live again."
+[2025.09.07-12.48.18:846][378]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x1x3" at -185 -3180 1214, message: "rpg_quest_emmet_brickingway".
+[2025.09.07-12.48.18:864][379]LogConsoleCmd: Chat.Whisper "Gyk92" <color="ff0">Emmet Brickingway</color>: "You have done what I could not. You have brought my stories home. These boxes contain more than words - they contain truth, beauty, and the raw essence of what
+[2025.09.07-12.48.18:882][380]LogConsoleCmd: Chat.Whisper "Gyk92" it means to be human. Thank you, friend. The stories will live again."
+[2025.09.07-12.48.33:961][280]LogSpawn: Warning: SpawnActor failed because no class was specified
+[2025.09.07-12.48.36:575][436]LogConsoleCmd: Server.Status
+[2025.09.07-12.48.36:575][436]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.07-12.48.36:575][437]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.07-12.48.36:575][437]LogConsoleCommands: Bricks: 31720
+[2025.09.07-12.48.36:575][437]LogConsoleCommands: Components: 561
+[2025.09.07-12.48.36:575][437]LogConsoleCommands: Time: 245m 56s
+[2025.09.07-12.48.36:575][437]LogConsoleCommands: Players (3/12):
+[2025.09.07-12.48.36:575][437]LogConsoleCommands: * Name   |  Ping |     Time | Roles                  | Address             | ID                                  
+[2025.09.07-12.48.36:575][437]LogConsoleCommands: * hoopla |  14ms | 245m 51s |                        | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.07-12.48.36:575][437]LogConsoleCommands: * honzsk | 151ms |  173m 8s | Flyer, MINIGAME LEAVER | 172.25.64.1         | 90e79561-2281-41d3-8968-995d33d7c2c5
+[2025.09.07-12.48.36:575][437]LogConsoleCommands: * Gyk92  | 278ms |  12m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-12.48.40:395][664]LogServerList: Posting server.
+[2025.09.07-12.48.56:784][642]LogChat: [SenderId: 90e79561-2281-41d3-8968-995d33d7c2c5] honzsk: i thought he was gonna tell me the stories :D
+[2025.09.07-12.49.04:562][106]LogBrickadia: honzsk (90e79561-2281-41d3-8968-995d33d7c2c5) joining Ruleset GLOBAL
+[2025.09.07-12.49.04:562][106]LogBackgroundMusic: Playing next background song in playlist after 11.930483s...
+[2025.09.07-12.49.04:562][106]LogBrickadia: Ruleset GLOBAL no saved checkpoint for player honzsk (90e79561-2281-41d3-8968-995d33d7c2c5)
+[2025.09.07-12.49.04:563][106]LogNet: Warning: UNetDriver::ProcessRemoteFunction: Remote function MulticastOnInteractRelease called from actor BP_FigureV2_C_2147447657 while actor is being destroyed. Function will not be processed.
+[2025.09.07-12.49.04:596][108]LogIrisRpc: Error: DeserializeWithObject::Skipping RPC due missing object or function.
+[2025.09.07-12.49.04:596][108]LogIrisRpc: Error: Rejected RPC ProtocolNotFound due to missing object or function for object: None (NetRefHandle (Id=11386):(RepSystemId=?)).
+[2025.09.07-12.49.04:696][114]LogIrisRpc: Error: DeserializeWithObject::Skipping RPC due missing object or function.
+[2025.09.07-12.49.04:696][114]LogIrisRpc: Error: Rejected RPC ProtocolNotFound due to missing object or function for object: None (NetRefHandle (Id=11386):(RepSystemId=?)).
+[2025.09.07-12.49.13:615][646]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: lol im rewriting his quest text rn
+[2025.09.07-12.49.16:499][818]LogBackgroundMusic: Playing the next background song (S_Music_Reflections)
+[2025.09.07-12.49.18:342][928]LogChat: [SenderId: 90e79561-2281-41d3-8968-995d33d7c2c5] honzsk: nice
+[2025.09.07-12.49.20:907][ 81]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: hmmm, what if we give player some part of this "really really deep story" ? I think some lore-seekers would like it

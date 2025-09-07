@@ -1201,14 +1201,14 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       {
         id: 'emmet_brickingway_1',
         name: 'Emmet Brickingway\'s Lost Manuscripts',
-        description: 'Help Emmet Brickingway recover his lost Brickingway Boxes containing his unpublished works',
+        description: 'Help Emmet Brickingway recover his lost Brickingway Boxes scattered near the waterfall and surrounding area',
         requirements: [
           {
             id: 'brickingway_box_requirement',
             type: 'item',
             target: 'Brickingway Box',
             amount: 10,
-            description: 'Collect 10 Brickingway Boxes scattered throughout the world'
+            description: 'Collect 10 Brickingway Boxes near the waterfall and surrounding area'
           }
         ],
         rewards: {
@@ -1219,10 +1219,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         questgiver: {
           name: 'Emmet Brickingway',
           personality: 'A weathered writer with a Hemingway-esque stoicism, speaks in short, powerful sentences with deep meaning. He carries the weight of lost stories and unfinished works.',
-          greeting: 'Sit down. I have a story to tell you. Not about war or bullfighting, but about loss. The kind that cuts deeper than any blade. My manuscripts, my life\'s work, scattered like leaves in a storm.',
-          questExplanation: 'I need you to find my Brickingway Boxes. Ten of them, hidden across this world. Each contains fragments of stories I never finished. Stories of courage, of loss, of the human condition. They are not just boxes. They are pieces of my soul.',
-          reminderMessage: 'The boxes are still out there. Each one you find brings me closer to completing what I started. The stories must be told. They demand to be heard. How many have you found?',
-          completionMessage: 'You have done what I could not. You have brought my stories home. These boxes contain more than words - they contain truth, beauty, and the raw essence of what it means to be human. Thank you, friend. The stories will live again.'
+          greeting: 'Sit down. I have a story to tell you. Not about war or bullfighting, but about loss. The kind that cuts deeper than any blade. I was exploring the local waterfall yesterday, seeking inspiration in the roar of falling water. But the current was strong, and my manuscripts were scattered. My life\'s work, lost in the mist.',
+          questExplanation: 'I need you to find my Brickingway Boxes. Ten of them, hidden near the waterfall and in the surrounding area. Each contains fragments of stories I never finished. Stories of courage, of loss, of the human condition. Start your search at the waterfall. The water may have carried them downstream, or they may be hidden among the rocks and trees nearby. They are not just boxes. They are pieces of my soul.',
+          reminderMessage: 'The boxes are still out there, near the waterfall and beyond. Each one you find brings me closer to completing what I started. The stories must be told. They demand to be heard. Have you searched the waterfall area thoroughly? How many have you found?',
+          completionMessage: 'You have done what I could not. You have brought my stories home from the waterfall\'s embrace. These boxes contain more than words - they contain truth, beauty, and the raw essence of what it means to be human. Thank you, friend. The stories will live again.'
         }
       }
     ];
