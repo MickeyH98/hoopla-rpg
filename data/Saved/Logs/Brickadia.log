@@ -16716,3 +16716,155 @@ So far we have mining, fishing, and selling!
 [2025.09.07-12.49.16:499][818]LogBackgroundMusic: Playing the next background song (S_Music_Reflections)
 [2025.09.07-12.49.18:342][928]LogChat: [SenderId: 90e79561-2281-41d3-8968-995d33d7c2c5] honzsk: nice
 [2025.09.07-12.49.20:907][ 81]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: hmmm, what if we give player some part of this "really really deep story" ? I think some lore-seekers would like it
+[2025.09.07-12.49.23:539][238]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: cause he also doesnt mention the waterfall xd
+[2025.09.07-12.49.33:345][823]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: yea what kind of lore u think?
+[2025.09.07-12.49.36:582][ 16]LogConsoleCmd: Server.Status
+[2025.09.07-12.49.36:582][ 16]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.07-12.49.36:582][ 17]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.07-12.49.36:582][ 17]LogConsoleCommands: Bricks: 31720
+[2025.09.07-12.49.36:582][ 17]LogConsoleCommands: Components: 561
+[2025.09.07-12.49.36:582][ 17]LogConsoleCommands: Time: 246m 56s
+[2025.09.07-12.49.36:582][ 17]LogConsoleCommands: Players (3/12):
+[2025.09.07-12.49.36:582][ 17]LogConsoleCommands: * Name   |  Ping |     Time | Roles                  | Address             | ID                                  
+[2025.09.07-12.49.36:582][ 17]LogConsoleCommands: * hoopla |  14ms | 246m 51s |                        | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.07-12.49.36:582][ 17]LogConsoleCommands: * honzsk | 148ms |  174m 8s | Flyer, MINIGAME LEAVER | 172.25.64.1         | 90e79561-2281-41d3-8968-995d33d7c2c5
+[2025.09.07-12.49.36:582][ 17]LogConsoleCommands: * Gyk92  | 278ms |  13m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-12.49.40:403][244]LogServerList: Posting server.
+[2025.09.07-12.49.46:806][626]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: like about this 'land'?
+[2025.09.07-12.49.51:516][907]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: maybe smth of how this island was created
+[2025.09.07-12.49.53:410][ 20]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: yeash
+[2025.09.07-12.49.56:795][222]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: oo ya
+[2025.09.07-12.50.11:980][128]LogConsoleCmd: Chat.Broadcast <color="ff0">Top Players: 1st.Orodan(L30):186,763 | 2nd.Gyk92(L30):156,400 | 3rd.hoopla(L30):139,333 | 4th.MirBlet(L30):117,840 | 5th.func(2)(L30):107,711 | 6th.honzsk(L30):92,054 | 7th.pak(L30):60,716 | 8th.SereneWoWo(L30):27,955 | 9th.keygen(L30):25,493 | 10th.Cybermanic(L30):22,864</color>
+[2025.09.07-12.50.11:980][128]LogChat: Top Players: 1st.Orodan(L30):186,763 | 2nd.Gyk92(L30):156,400 | 3rd.hoopla(L30):139,333 | 4th.MirBlet(L30):117,840 | 5th.func(2)(L30):107,711 | 6th.honzsk(L30):92,054 | 7th.pak(L30):60,716 | 8th.SereneWoWo(L30):27,955 | 9th.keygen(L30):25,493 | 10th.Cybermanic(L30):22,864
+[2025.09.07-12.50.11:997][129]LogIris: Warning: Splitting multicast net object attachment MulticastPushChatMessage.
+[2025.09.07-12.50.17:292][445]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.50.17:292][445]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.50.24:549][878]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: or a little more info about Brickingtone and others. Just a bit
+[2025.09.07-12.50.29:377][166]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.50.29:378][166]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.50.34:590][477]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.50.34:590][477]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.50.36:585][596]LogConsoleCmd: Server.Status
+[2025.09.07-12.50.36:585][596]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.07-12.50.36:585][597]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.07-12.50.36:585][597]LogConsoleCommands: Bricks: 31720
+[2025.09.07-12.50.36:585][597]LogConsoleCommands: Components: 561
+[2025.09.07-12.50.36:585][597]LogConsoleCommands: Time: 247m 56s
+[2025.09.07-12.50.36:585][597]LogConsoleCommands: Players (3/12):
+[2025.09.07-12.50.36:585][597]LogConsoleCommands: * Name   |  Ping |     Time | Roles                  | Address             | ID                                  
+[2025.09.07-12.50.36:585][597]LogConsoleCommands: * hoopla |  14ms | 247m 51s |                        | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.07-12.50.36:585][597]LogConsoleCommands: * honzsk | 152ms |  175m 8s | Flyer, MINIGAME LEAVER | 172.25.64.1         | 90e79561-2281-41d3-8968-995d33d7c2c5
+[2025.09.07-12.50.36:585][597]LogConsoleCommands: * Gyk92  | 275ms |  14m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-12.50.40:407][824]LogServerList: Posting server.
+[2025.09.07-12.50.46:541][190]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.50.46:541][190]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.50.48:099][283]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: yeah im trying to think of a way to fit something in
+[2025.09.07-12.50.54:384][658]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.50.54:384][658]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.51.17:676][ 48]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.51.17:676][ 48]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.51.21:528][278]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: so, do you guys have a project page on project forum in Brickadia discord?
+[2025.09.07-12.51.28:216][677]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.51.28:216][677]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.51.36:596][177]LogConsoleCmd: Server.Status
+[2025.09.07-12.51.36:596][177]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.07-12.51.36:597][177]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.07-12.51.36:597][177]LogConsoleCommands: Bricks: 31720
+[2025.09.07-12.51.36:597][177]LogConsoleCommands: Components: 561
+[2025.09.07-12.51.36:597][177]LogConsoleCommands: Time: 248m 56s
+[2025.09.07-12.51.36:597][177]LogConsoleCommands: Players (3/12):
+[2025.09.07-12.51.36:597][177]LogConsoleCommands: * Name   |  Ping |     Time | Roles                  | Address             | ID                                  
+[2025.09.07-12.51.36:597][177]LogConsoleCommands: * hoopla |  14ms | 248m 51s |                        | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.07-12.51.36:597][177]LogConsoleCommands: * honzsk | 146ms |  176m 8s | Flyer, MINIGAME LEAVER | 172.25.64.1         | 90e79561-2281-41d3-8968-995d33d7c2c5
+[2025.09.07-12.51.36:597][177]LogConsoleCommands: * Gyk92  | 276ms |  15m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-12.51.37:717][244]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: no not yet
+[2025.09.07-12.51.39:712][363]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: im open to it tho
+[2025.09.07-12.51.40:400][404]LogServerList: Posting server.
+[2025.09.07-12.51.47:993][857]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.51.47:993][857]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.52.14:668][449]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.52.14:668][449]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.52.29:061][308]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: i think it would be better if this project will have discord server, or at least more ways to find it (and follow for it)
+[2025.09.07-12.52.36:590][758]LogConsoleCmd: Server.Status
+[2025.09.07-12.52.36:590][758]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.07-12.52.36:590][758]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.07-12.52.36:590][758]LogConsoleCommands: Bricks: 31720
+[2025.09.07-12.52.36:590][758]LogConsoleCommands: Components: 561
+[2025.09.07-12.52.36:590][758]LogConsoleCommands: Time: 249m 56s
+[2025.09.07-12.52.36:590][758]LogConsoleCommands: Players (3/12):
+[2025.09.07-12.52.36:590][758]LogConsoleCommands: * Name   |  Ping |     Time | Roles                  | Address             | ID                                  
+[2025.09.07-12.52.36:590][758]LogConsoleCommands: * hoopla |  14ms | 249m 51s |                        | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.07-12.52.36:590][758]LogConsoleCommands: * honzsk | 151ms |  177m 8s | Flyer, MINIGAME LEAVER | 172.25.64.1         | 90e79561-2281-41d3-8968-995d33d7c2c5
+[2025.09.07-12.52.36:590][758]LogConsoleCommands: * Gyk92  | 278ms |  16m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-12.52.40:395][984]LogServerList: Posting server.
+[2025.09.07-12.52.40:395][984]LogAutoSave: Auto saving the world.
+[2025.09.07-12.52.40:395][984]LogBRWorldManager: Requested world save.
+[2025.09.07-12.52.40:395][984]LogBRWorldManager: Good time for save between wire ticks.
+[2025.09.07-12.52.40:395][984]LogBRWorldManager: Saving world to bundle.
+[2025.09.07-12.52.40:395][984]LogBRWorldManager: Exporting global environment settings.
+[2025.09.07-12.52.40:395][984]LogBRWorldManager: Exporting global minigame settings.
+[2025.09.07-12.52.40:396][984]LogBRWorldManager: World data collected. Launching async serialization tasks.
+[2025.09.07-12.52.40:396][984]LogBRWorldManager: Main thread unblocked after 0.001188.
+[2025.09.07-12.52.40:397][984]LogBRWorldManager: World serialization tasks completed. Writing world files to bundle.
+[2025.09.07-12.52.40:427][986]LogBRWorldManager: World files saved after 0.031948.
+[2025.09.07-12.52.40:427][986]LogAutoSave: Auto save successful, 21 entities, 33,290 bricks, 634 components, 465 wires.
+[2025.09.07-12.52.40:427][986]LogChat: World saved: 21 entities, 33290 bricks, 634 components, 465 wires.
+[2025.09.07-12.52.40:429][986]LogIris: Warning: Splitting multicast net object attachment MulticastPushChatMessageText.
+[2025.09.07-12.52.56:972][973]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: u think it will help me find more collaborators?
+[2025.09.07-12.52.59:404][118]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.52.59:404][118]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.53.06:008][512]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.53.06:008][512]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.53.08:102][637]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: like for example youre way better with detailed builds than i am
+[2025.09.07-12.53.14:321][  8]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: yep
+[2025.09.07-12.53.15:446][ 75]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.53.15:446][ 75]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.53.18:581][262]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.53.18:581][262]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.53.21:094][412]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: im good at scaffolding out new areas quickly
+[2025.09.07-12.53.28:187][835]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.53.28:187][835]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.53.29:962][941]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: More collaborators + personal community
+[2025.09.07-12.53.36:602][337]LogConsoleCmd: Server.Status
+[2025.09.07-12.53.36:602][337]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.07-12.53.36:602][337]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.07-12.53.36:602][337]LogConsoleCommands: Bricks: 31720
+[2025.09.07-12.53.36:602][338]LogConsoleCommands: Components: 561
+[2025.09.07-12.53.36:602][338]LogConsoleCommands: Time: 250m 56s
+[2025.09.07-12.53.36:602][338]LogConsoleCommands: Players (3/12):
+[2025.09.07-12.53.36:602][338]LogConsoleCommands: * Name   |  Ping |     Time | Roles                  | Address             | ID                                  
+[2025.09.07-12.53.36:602][338]LogConsoleCommands: * hoopla |  18ms | 250m 51s |                        | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.07-12.53.36:602][338]LogConsoleCommands: * honzsk | 149ms |  178m 8s | Flyer, MINIGAME LEAVER | 172.25.64.1         | 90e79561-2281-41d3-8968-995d33d7c2c5
+[2025.09.07-12.53.36:602][338]LogConsoleCommands: * Gyk92  | 272ms |  17m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-12.53.40:407][564]LogServerList: Posting server.
+[2025.09.07-12.54.07:076][155]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: yo
+[2025.09.07-12.54.08:333][230]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: what if
+[2025.09.07-12.54.10:412][354]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: I got a little worried when I didn't find the project on the forum, and I thought about how not to lose it if something happened
+[2025.09.07-12.54.13:480][537]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: emmets big secret
+[2025.09.07-12.54.29:556][496]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "4x1x3" at -185 -3180 1214, message: "rpg_quest_emmet_brickingway".
+[2025.09.07-12.54.29:574][497]LogConsoleCmd: Chat.Whisper "Gyk92" <color="ff0">Emmet Brickingway</color>: "You have done what I could not. You have brought my stories home. These boxes contain more than words - they contain truth, beauty, and the raw essence of what
+[2025.09.07-12.54.29:591][498]LogConsoleCmd: Chat.Whisper "Gyk92" it means to be human. Thank you, friend. The stories will live again."
+[2025.09.07-12.54.30:562][556]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: is that this is all a dream or a matrix type thing lol
+[2025.09.07-12.54.36:397][904]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.54.36:397][904]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.54.36:598][916]LogConsoleCmd: Server.Status
+[2025.09.07-12.54.36:598][916]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.07-12.54.36:598][917]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.07-12.54.36:598][917]LogConsoleCommands: Bricks: 31720
+[2025.09.07-12.54.36:598][917]LogConsoleCommands: Components: 561
+[2025.09.07-12.54.36:598][917]LogConsoleCommands: Time: 251m 56s
+[2025.09.07-12.54.36:598][917]LogConsoleCommands: Players (3/12):
+[2025.09.07-12.54.36:598][917]LogConsoleCommands: * Name   |  Ping |     Time | Roles                  | Address             | ID                                  
+[2025.09.07-12.54.36:598][917]LogConsoleCommands: * hoopla |  14ms | 251m 51s |                        | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.07-12.54.36:598][917]LogConsoleCommands: * honzsk | 149ms |  179m 8s | Flyer, MINIGAME LEAVER | 172.25.64.1         | 90e79561-2281-41d3-8968-995d33d7c2c5
+[2025.09.07-12.54.36:598][917]LogConsoleCommands: * Gyk92  | 275ms |  18m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-12.54.38:474][ 28]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: lol
+[2025.09.07-12.54.40:403][143]LogServerList: Posting server.
+[2025.09.07-12.54.40:754][164]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: it can be
+[2025.09.07-12.54.55:440][ 40]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: i like tying in the creation of the island for sure
