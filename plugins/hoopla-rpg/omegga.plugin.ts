@@ -1201,14 +1201,14 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       {
         id: 'emmet_brickingway_1',
         name: 'Emmet Brickingway\'s Lost Manuscripts',
-        description: 'Help Emmet Brickingway recover his lost Brickingway Boxes containing ancient secrets about the island\'s creation',
+        description: 'Help Emmet Brickingway recover his lost Brickingway Boxes containing the truth about the island\'s sudden appearance',
         requirements: [
           {
             id: 'brickingway_box_requirement',
             type: 'item',
             target: 'Brickingway Box',
             amount: 10,
-            description: 'Collect 10 Brickingway Boxes containing the chronicles of the island\'s ancient builders'
+            description: 'Collect 10 Brickingway Boxes containing the only record of the island\'s mysterious appearance'
           }
         ],
         rewards: {
@@ -1219,10 +1219,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         questgiver: {
           name: 'Emmet Brickingway',
           personality: 'A weathered writer with a Hemingway-esque stoicism, speaks in short, powerful sentences with deep meaning. He carries the weight of lost stories and unfinished works.',
-          greeting: 'Sit down. I have a story to tell you. Not about war or bullfighting, but about creation. About how this very island came to be. I was exploring the local waterfall yesterday, seeking inspiration in the roar of falling water. But the current was strong, and my manuscripts were scattered. My life\'s work, lost in the mist. There\'s something about that waterfall... something ancient. But I cannot speak of it until my stories are whole again.',
-          questExplanation: 'I need you to find my Brickingway Boxes. Ten of them, hidden near the waterfall and in the surrounding area. Each contains fragments of stories I never finished. Stories of courage, of loss, of the human condition. But more than that... they contain the truth about this place. Start your search at the waterfall. The water may have carried them downstream, or they may be hidden among the rocks and trees nearby. They are not just boxes. They are pieces of my soul, and pieces of a secret that has been buried for too long.',
-          reminderMessage: 'The boxes are still out there, near the waterfall and beyond. Each one you find brings me closer to completing what I started. The stories must be told. They demand to be heard. Have you searched the waterfall area thoroughly? How many have you found? The truth about this island waits in those boxes.',
-          completionMessage: 'You have done what I could not. You have brought my stories home from the waterfall\'s embrace. Now I can tell you the truth. This island was not always here. It was born from the dreams of ancient builders, shaped by their will and their vision. The waterfall you searched? It flows from the tears of the first architect, who wept with joy at the beauty of creation. My boxes contained the chronicles of those who came before us, the ones who built this world brick by brick, story by story. Thank you, friend. The stories will live again, and now you know the secret of our island\'s birth.'
+          greeting: 'Sit down. I have a story to tell you. Not about war or bullfighting, but about mystery. About how this very island came to be. I was exploring the local waterfall yesterday, seeking inspiration in the roar of falling water. But the current was strong, and my manuscripts were scattered. My life\'s work, lost in the mist. There\'s something about that waterfall... something that shouldn\'t exist. But I cannot speak of it until my stories are whole again.',
+          questExplanation: 'I need you to find my Brickingway Boxes. Ten of them, hidden near the waterfall and in the surrounding area. Each contains fragments of stories I never finished. Stories of courage, of loss, of the human condition. But more than that... they contain the truth about this place. Start your search at the waterfall. The water may have carried them downstream, or they may be hidden among the rocks and trees nearby. They are not just boxes. They are pieces of my soul, and pieces of a secret that will shake you to your core.',
+          reminderMessage: 'The boxes are still out there, near the waterfall and beyond. Each one you find brings me closer to completing what I started. The stories must be told. They demand to be heard. Have you searched the waterfall area thoroughly? How many have you found? The truth about this island waits in those boxes, and it will change everything you think you know.',
+          completionMessage: 'You have done what I could not. You have brought my stories home from the waterfall\'s embrace. Now I can tell you the truth. This island did not exist a week ago. It simply appeared, fully formed, as if it had always been here. But it hadn\'t. I was there when it materialized from nothing. The waterfall you searched? It was the first thing I saw when this impossible place came into being. My boxes contained the only record of what happened that day - the day the world changed forever. Thank you, friend. The stories will live again, and now you know the impossible truth.'
         }
       }
     ];
