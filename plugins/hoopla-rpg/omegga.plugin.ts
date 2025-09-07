@@ -3824,8 +3824,13 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           const questItemPlayer = await this.getPlayerData({ id: playerId });
           const questItemType = trigger.message; // e.g., "brickingway_box"
           
+          // Ensure collectedBy is an array (fix for existing triggers)
+          if (!trigger.collectedBy || !Array.isArray(trigger.collectedBy)) {
+            trigger.collectedBy = [];
+          }
+          
           // Check if this player has already collected this specific quest item
-          if (trigger.collectedBy && trigger.collectedBy.includes(playerId)) {
+          if (trigger.collectedBy.includes(playerId)) {
             const alreadyCollectedMessage = `You have already collected this ${questItemType.replace('_', ' ')}.`;
             this.omegga.middlePrint(playerId, alreadyCollectedMessage);
             return { success: false, message: alreadyCollectedMessage };

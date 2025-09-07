@@ -16037,3 +16037,34 @@ So far we have mining, fishing, and selling!
 [2025.09.07-12.38.36:541][639]LogConsoleCommands: * Gyk92  | 273ms |   2m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
 [2025.09.07-12.38.40:396][868]LogServerList: Posting server.
 [2025.09.07-12.38.58:466][946]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: is it ok that every message ends with " ?
+[2025.09.07-12.39.14:810][921]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: yea the end quote is a bug. i will fix that
+[2025.09.07-12.39.22:537][382]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: i think all the quests do that lol
+[2025.09.07-12.39.32:009][947]LogConsoleCmd: Chat.Broadcast <color="0f0">Hoopla RPG plugin has been reloaded successfully!</color>
+[2025.09.07-12.39.32:009][947]LogChat: Hoopla RPG plugin has been reloaded successfully!
+[2025.09.07-12.39.34:019][ 67]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147480626, BP_PlayerController_C_2147480696) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.39.34:071][ 70]LogConsoleCmd: Chat.StatusMessage "hoopla" Error processing trigger!
+[2025.09.07-12.39.36:535][217]LogConsoleCmd: Server.Status
+[2025.09.07-12.39.36:535][217]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.07-12.39.36:535][218]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.07-12.39.36:535][218]LogConsoleCommands: Bricks: 31710
+[2025.09.07-12.39.36:535][218]LogConsoleCommands: Components: 561
+[2025.09.07-12.39.36:535][218]LogConsoleCommands: Time: 236m 56s
+[2025.09.07-12.39.36:535][218]LogConsoleCommands: Players (3/12):
+[2025.09.07-12.39.36:535][218]LogConsoleCommands: * Name   |  Ping |     Time | Roles                  | Address             | ID                                  
+[2025.09.07-12.39.36:535][218]LogConsoleCommands: * hoopla |  14ms | 236m 51s |                        | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.07-12.39.36:535][218]LogConsoleCommands: * honzsk | 147ms |  164m 8s | Flyer, MINIGAME LEAVER | 172.25.64.1         | 90e79561-2281-41d3-8968-995d33d7c2c5
+[2025.09.07-12.39.36:535][218]LogConsoleCommands: * Gyk92  | 273ms |   3m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-12.39.38:962][362]LogChat: [SenderId: 90e79561-2281-41d3-8968-995d33d7c2c5] honzsk: oo
+[2025.09.07-12.39.39:247][379]LogBrickadia: Player "Gyk92" (ccd87c2f-7aa8-4c88-9409-ce23c5058bd6, BP_FigureV2_C_2147447722, BP_PlayerController_C_2147447754) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.07-12.39.39:265][380]LogConsoleCmd: Chat.StatusMessage "Gyk92" Error processing trigger!
+[2025.09.07-12.39.40:404][448]LogServerList: Posting server.
+[2025.09.07-12.39.42:833][593]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147466814, BP_PlayerController_C_2147471567) interacted with brick "4x1x3" at -185 -3180 1214, message: "rpg_quest_emmet_brickingway".
+[2025.09.07-12.39.42:868][595]LogConsoleCmd: Chat.Whisper "honzsk" <color="ff0">Emmet Brickingway</color>: "Sit down. I have a story to tell you. Not about war or bullfighting, but about loss. The kind that cuts deeper than any blade. My manuscripts, my life's work,
+[2025.09.07-12.39.42:885][596]LogConsoleCmd: Chat.Whisper "honzsk" scattered like leaves in a storm."
+[2025.09.07-12.39.50:240][ 35]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147466814, BP_PlayerController_C_2147471567) interacted with brick "4x1x3" at -185 -3180 1214, message: "rpg_quest_emmet_brickingway".
+[2025.09.07-12.39.50:259][ 36]LogConsoleCmd: Chat.Whisper "honzsk" <color="ff0">Emmet Brickingway</color>: "I need you to find my Brickingway Boxes. Ten of them, hidden across this world. Each contains fragments of stories I never finished. Stories of courage, of
+[2025.09.07-12.39.50:275][ 37]LogConsoleCmd: Chat.Whisper "honzsk" loss, of the human condition. They are not just boxes. They are pieces of my soul."
+[2025.09.07-12.39.58:872][550]LogBrickadia: Player "honzsk" (90e79561-2281-41d3-8968-995d33d7c2c5, BP_FigureV2_C_2147466814, BP_PlayerController_C_2147471567) interacted with brick "4x1x3" at -185 -3180 1214, message: "rpg_quest_emmet_brickingway".
+[2025.09.07-12.39.58:890][551]LogConsoleCmd: Chat.Whisper "honzsk" <color="ff0">Emmet Brickingway</color>: "The boxes are still out there. Each one you find brings me closer to completing what I started. The stories must be told. They demand to be heard. How many
+[2025.09.07-12.39.58:907][552]LogConsoleCmd: Chat.Whisper "honzsk" have you found?"
