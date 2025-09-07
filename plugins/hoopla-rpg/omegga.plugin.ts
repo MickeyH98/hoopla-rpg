@@ -3365,22 +3365,33 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           let fishResult;
           const finalFishingSpotType = trigger.fishingSpotType || 'spot'; // Default to original spot if not set
           
+          console.log(`[Hoopla RPG] DEBUG: Fishing complete - Spot type: "${finalFishingSpotType}", Used bait: ${usedBait}, Fishing level: ${fishingLevel}`);
+          console.log(`[Hoopla RPG] DEBUG: Trigger fishingSpotType property:`, trigger.fishingSpotType);
+          console.log(`[Hoopla RPG] DEBUG: Trigger message:`, trigger.message);
+          
           if (finalFishingSpotType === 'spot') {
             // Original freshwater fishing spot
+            console.log(`[Hoopla RPG] DEBUG: Using original fish generation (freshwater)`);
             fishResult = usedBait ? this.getRandomFishType(fishingLevel, true) : this.getRandomFishType(fishingLevel);
           } else if (finalFishingSpotType === 'spot_2') {
             // Deep ocean fishing spot
+            console.log(`[Hoopla RPG] DEBUG: Using deep ocean fish generation`);
             fishResult = usedBait ? this.getRandomFishType_2(fishingLevel, true) : this.getRandomFishType_2(fishingLevel);
           } else if (finalFishingSpotType === 'spot_3') {
             // Tropical reef fishing spot
+            console.log(`[Hoopla RPG] DEBUG: Using tropical reef fish generation`);
             fishResult = usedBait ? this.getRandomFishType_3(fishingLevel, true) : this.getRandomFishType_3(fishingLevel);
           } else if (finalFishingSpotType === 'spot_4') {
             // Arctic fishing spot
+            console.log(`[Hoopla RPG] DEBUG: Using arctic fish generation`);
             fishResult = usedBait ? this.getRandomFishType_4(fishingLevel, true) : this.getRandomFishType_4(fishingLevel);
           } else {
             // Fallback to original fishing spot
+            console.log(`[Hoopla RPG] DEBUG: Using fallback fish generation (unknown spot type: ${finalFishingSpotType})`);
             fishResult = usedBait ? this.getRandomFishType(fishingLevel, true) : this.getRandomFishType(fishingLevel);
           }
+          
+          console.log(`[Hoopla RPG] DEBUG: Fish result:`, fishResult);
           
           // Reset fishing progress for this player
           trigger.fishingProgress[playerId] = 0;
