@@ -16991,3 +16991,130 @@ So far we have mining, fishing, and selling!
 [2025.09.07-12.58.47:128][863]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
 [2025.09.07-12.58.52:306][172]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
 [2025.09.07-12.58.52:306][172]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.59.25:562][156]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.59.25:562][156]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.59.36:641][817]LogConsoleCmd: Server.Status
+[2025.09.07-12.59.36:641][817]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.07-12.59.36:641][818]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.07-12.59.36:641][818]LogConsoleCommands: Bricks: 31720
+[2025.09.07-12.59.36:641][818]LogConsoleCommands: Components: 561
+[2025.09.07-12.59.36:641][818]LogConsoleCommands: Time: 256m 56s
+[2025.09.07-12.59.36:641][818]LogConsoleCommands: Players (4/12):
+[2025.09.07-12.59.36:641][818]LogConsoleCommands: * Name     |  Ping |     Time | Roles                  | Address             | ID                                  
+[2025.09.07-12.59.36:641][818]LogConsoleCommands: * hoopla   |  14ms | 256m 51s |                        | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.07-12.59.36:641][818]LogConsoleCommands: * honzsk   | 146ms |  184m 8s | Flyer, MINIGAME LEAVER | 172.25.64.1         | 90e79561-2281-41d3-8968-995d33d7c2c5
+[2025.09.07-12.59.36:641][818]LogConsoleCommands: * Gyk92    | 273ms |  23m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-12.59.36:641][818]LogConsoleCommands: * Dominans |  57ms |   2m 21s |                        | 172.25.64.1         | a4ed3403-8958-4560-a455-2a4f95257567
+[2025.09.07-12.59.40:395][ 41]LogServerList: Posting server.
+[2025.09.07-12.59.54:880][905]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-12.59.54:881][905]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-13.00.02:422][355]LogNet: NotifyAcceptingConnection accepted from: 172.25.64.1:50544
+[2025.09.07-13.00.02:456][357]LogNet: NotifyAcceptingConnection accepted from: 172.25.64.1:50544
+[2025.09.07-13.00.02:523][361]LogNet: NotifyAcceptingConnection accepted from: 172.25.64.1:50544
+[2025.09.07-13.00.02:624][367]LogNet: NotifyAcceptingConnection accepted from: 172.25.64.1:50544
+[2025.09.07-13.00.02:624][367]LogNet: Server accepting post-challenge connection from: 172.25.64.1:50544
+[2025.09.07-13.00.02:624][367]LogNet: IpConnection_2147446899 setting maximum channels to: 8
+[2025.09.07-13.00.02:624][367]PacketHandlerLog: Loaded PacketHandler component: Engine.EngineHandlerComponentFactory (StatelessConnectHandlerComponent)
+[2025.09.07-13.00.02:624][367]LogNet: NotifyAcceptedConnection: Name: Plate, TimeStamp: 09/07/25 09:00:02, [UNetConnection] RemoteAddr: 172.25.64.1:50544, Name: IpConnection_2147446899, Driver: Name:GameNetDriver Def:GameNetDriver IpNetDriver_2147482370, IsServer: YES, PC: NULL, Owner: NULL, UniqueId: INVALID
+[2025.09.07-13.00.02:624][367]LogNet: AddClientConnection: Added client connection: [UNetConnection] RemoteAddr: 172.25.64.1:50544, Name: IpConnection_2147446899, Driver: Name:GameNetDriver Def:GameNetDriver IpNetDriver_2147482370, IsServer: YES, PC: NULL, Owner: NULL, UniqueId: INVALID
+[2025.09.07-13.00.02:625][367]LogBulkTransfer: Ready for transfers from client, channel index 4
+[2025.09.07-13.00.02:774][376]LogNet: NotifyAcceptingChannel Control 0 server World /Game/Maps/Plate/Plate.Plate: Accepted
+[2025.09.07-13.00.02:775][376]LogNet: Remote platform little endian=1
+[2025.09.07-13.00.02:775][376]LogNet: This platform little endian=1
+[2025.09.07-13.00.03:093][395]LogNet: Login request: /Game/Maps/ServerEntry/ServerEntry userId: UNKNOWN platform: None
+[2025.09.07-13.00.03:093][395]LogServerList: Auth digest valid.
+[2025.09.07-13.00.03:260][405]LogNet: Client netspeed is 100000000
+[2025.09.07-13.00.03:361][411]LogNet: Join request: /Game/Maps/ServerEntry/ServerEntry?SplitscreenCount=1
+[2025.09.07-13.00.03:361][411]LogServerList: Auth payload valid. Result:
+[2025.09.07-13.00.03:361][411]LogServerList: UserName: celesware
+[2025.09.07-13.00.03:361][411]LogServerList: DisplayName: celesware
+[2025.09.07-13.00.03:361][411]LogServerList: UserId: 701ccb8b-78bf-4ea3-8a60-2593d3553bf6
+[2025.09.07-13.00.03:361][411]LogServerList: HandleId: af92b324-25db-4e9b-a40f-8ff322da23af
+[2025.09.07-13.00.03:382][411]LogBackgroundMusic: Playing next background song in playlist after 12.286287s...
+[2025.09.07-13.00.03:382][411]LogBrickadia: Ruleset hoopla RPG no saved checkpoint for player celesware (701ccb8b-78bf-4ea3-8a60-2593d3553bf6)
+[2025.09.07-13.00.03:383][411]LogChat: celesware joined the game. 
+[2025.09.07-13.00.03:390][411]LogNet: Join succeeded: celesware
+[2025.09.07-13.00.03:391][411]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BrickGridPreviewActor
+[2025.09.07-13.00.03:391][411]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BrickGridPreviewActor
+[2025.09.07-13.00.03:392][411]LogIris: Disallowed to write first packet in batch, with Iris this is not good!
+[2025.09.07-13.00.03:392][411]LogConsoleCmd: GetAll BRPlayerState UserName
+[2025.09.07-13.00.03:393][411]0) BP_PlayerState_C /Game/Maps/Plate/Plate.Plate:PersistentLevel.BP_PlayerState_C_2147480695.UserName = hoopla
+[2025.09.07-13.00.03:393][411]1) BP_PlayerState_C /Game/Maps/Plate/Plate.Plate:PersistentLevel.BP_PlayerState_C_2147447108.UserName = Dominans
+[2025.09.07-13.00.03:393][411]2) BP_PlayerState_C /Game/Maps/Plate/Plate.Plate:PersistentLevel.BP_PlayerState_C_2147471566.UserName = honzsk
+[2025.09.07-13.00.03:393][411]3) BP_PlayerState_C /Game/Maps/Plate/Plate.Plate:PersistentLevel.BP_PlayerState_C_2147447753.UserName = Gyk92
+[2025.09.07-13.00.03:393][412]4) BP_PlayerState_C /Game/Maps/Plate/Plate.Plate:PersistentLevel.BP_PlayerState_C_2147446890.UserName = celesware
+[2025.09.07-13.00.03:396][412]LogConsoleCmd: GetAll BRPlayerState Owner Name=BP_PlayerState_C_2147446890
+[2025.09.07-13.00.03:397][412]0) BP_PlayerState_C /Game/Maps/Plate/Plate.Plate:PersistentLevel.BP_PlayerState_C_2147446890.Owner = /Game/Blueprints/BP_PlayerController.BP_PlayerController_C'/Game/Maps/Plate/Plate.Plate:PersistentLevel.BP_PlayerController_C_2147446891'
+[2025.09.07-13.00.08:941][743]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: hi there
+[2025.09.07-13.00.09:696][788]LogChat: [SenderId: 90e79561-2281-41d3-8968-995d33d7c2c5] honzsk: heya
+[2025.09.07-13.00.10:485][835]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-13.00.10:485][835]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-13.00.11:976][924]LogConsoleCmd: Chat.Broadcast <color="ff0">Top Players: 1st.Orodan(L30):186,763 | 2nd.Gyk92(L30):156,400 | 3rd.hoopla(L30):139,333 | 4th.MirBlet(L30):117,840 | 5th.func(2)(L30):107,711 | 6th.honzsk(L30):92,054 | 7th.pak(L30):60,716 | 8th.SereneWoWo(L30):27,955 | 9th.keygen(L30):25,493 | 10th.Cybermanic(L30):22,864</color>
+[2025.09.07-13.00.11:977][924]LogChat: Top Players: 1st.Orodan(L30):186,763 | 2nd.Gyk92(L30):156,400 | 3rd.hoopla(L30):139,333 | 4th.MirBlet(L30):117,840 | 5th.func(2)(L30):107,711 | 6th.honzsk(L30):92,054 | 7th.pak(L30):60,716 | 8th.SereneWoWo(L30):27,955 | 9th.keygen(L30):25,493 | 10th.Cybermanic(L30):22,864
+[2025.09.07-13.00.11:993][925]LogIris: Warning: Splitting multicast net object attachment MulticastPushChatMessage.
+[2025.09.07-13.00.14:692][ 86]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-13.00.14:692][ 86]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-13.00.15:160][114]LogChat: [SenderId: 701ccb8b-78bf-4ea3-8a60-2593d3553bf6] celesware: hello everyone
+[2025.09.07-13.00.15:444][131]LogNet: UChannel::ReceivedSequencedBunch: Bunch.bClose == true. ChIndex == 0. Calling ConditionalCleanUp.
+[2025.09.07-13.00.15:444][131]LogNet: UChannel::CleanUp: ChIndex == 0. Closing connection. [UChannel] ChIndex: 0, Closing: 0 [UNetConnection] RemoteAddr: 172.25.64.1:53137, Name: IpConnection_2147447117, Driver: Name:GameNetDriver Def:GameNetDriver IpNetDriver_2147482370, IsServer: YES, PC: BP_PlayerController_C_2147447109, Owner: BP_PlayerController_C_2147447109, UniqueId: INVALID
+[2025.09.07-13.00.15:444][131]LogNet: UNetConnection::Close: [UNetConnection] RemoteAddr: 172.25.64.1:53137, Name: IpConnection_2147447117, Driver: Name:GameNetDriver Def:GameNetDriver IpNetDriver_2147482370, IsServer: YES, PC: BP_PlayerController_C_2147447109, Owner: BP_PlayerController_C_2147447109, UniqueId: INVALID, Channels: 5, Time: 2025.09.07-13.00.15
+[2025.09.07-13.00.15:444][131]LogNet: UNetConnection::SendCloseReason:
+[2025.09.07-13.00.15:444][131]LogNet:  - Result=ControlChannelClose, ErrorContext="ControlChannelClose"
+[2025.09.07-13.00.15:444][131]LogNet: UChannel::Close: Sending CloseBunch. ChIndex == 0. Name: [UChannel] ChIndex: 0, Closing: 0 [UNetConnection] RemoteAddr: 172.25.64.1:53137, Name: IpConnection_2147447117, Driver: Name:GameNetDriver Def:GameNetDriver IpNetDriver_2147482370, IsServer: YES, PC: BP_PlayerController_C_2147447109, Owner: BP_PlayerController_C_2147447109, UniqueId: INVALID
+[2025.09.07-13.00.15:461][132]LogNet: UNetDriver::RemoveClientConnection - Removed address 172.25.64.1:53137 from MappedClientConnections for: [UNetConnection] RemoteAddr: 172.25.64.1:53137, Name: IpConnection_2147447117, Driver: Name:GameNetDriver Def:GameNetDriver IpNetDriver_2147482370, IsServer: YES, PC: BP_PlayerController_C_2147447109, Owner: BP_PlayerController_C_2147447109, UniqueId: INVALID
+[2025.09.07-13.00.15:461][132]LogNet: Warning: UNetDriver::ProcessRemoteFunction: Remote function MulticastOnInteractRelease called from actor BP_FigureV2_C_2147447077 while actor is being destroyed. Function will not be processed.
+[2025.09.07-13.00.15:462][132]LogChat: Dominans left the game. 
+[2025.09.07-13.00.15:462][132]LogServerList: Disconnected: Dominans (a4ed3403-8958-4560-a455-2a4f95257567)
+[2025.09.07-13.00.15:663][144]LogBackgroundMusic: Playing the next background song (S_Music_Phosphorescence)
+[2025.09.07-13.00.34:521][269]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-13.00.34:521][269]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-13.00.34:721][281]LogChat: [SenderId: 701ccb8b-78bf-4ea3-8a60-2593d3553bf6] celesware: might crash cuz I'm playing on amd, just a heads up
+[2025.09.07-13.00.36:633][395]LogConsoleCmd: Server.Status
+[2025.09.07-13.00.36:633][395]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.07-13.00.36:633][396]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.07-13.00.36:633][396]LogConsoleCommands: Bricks: 31720
+[2025.09.07-13.00.36:633][396]LogConsoleCommands: Components: 561
+[2025.09.07-13.00.36:633][396]LogConsoleCommands: Time: 257m 56s
+[2025.09.07-13.00.36:633][396]LogConsoleCommands: Players (4/12):
+[2025.09.07-13.00.36:633][396]LogConsoleCommands: * Name      |  Ping |     Time | Roles                  | Address             | ID                                  
+[2025.09.07-13.00.36:633][396]LogConsoleCommands: * hoopla    |  14ms | 257m 51s |                        | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.07-13.00.36:633][396]LogConsoleCommands: * honzsk    | 150ms |  185m 8s | Flyer, MINIGAME LEAVER | 172.25.64.1         | 90e79561-2281-41d3-8968-995d33d7c2c5
+[2025.09.07-13.00.36:633][396]LogConsoleCommands: * Gyk92     | 274ms |  24m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-13.00.36:633][396]LogConsoleCommands: * celesware | 149ms |   0m 34s |                        | 172.25.64.1         | 701ccb8b-78bf-4ea3-8a60-2593d3553bf6
+[2025.09.07-13.00.40:404][620]LogServerList: Posting server.
+[2025.09.07-13.00.40:555][629]LogServerList: Removing player bf4c5b01-07e5-4a81-9683-30ad52697711 for reason: (code: invalid_handle) (message: Invalid handle)
+[2025.09.07-13.00.41:477][684]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-13.00.41:477][684]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-13.00.43:705][817]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: huh lol
+[2025.09.07-13.00.47:526][ 45]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: this game doesnt work good on amd?
+[2025.09.07-13.00.55:053][494]LogChat: [SenderId: 701ccb8b-78bf-4ea3-8a60-2593d3553bf6] celesware: dx12 doesn't, from what I've heard and tested
+[2025.09.07-13.00.59:479][758]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-13.00.59:479][758]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-13.01.05:881][140]LogChat: [SenderId: 701ccb8b-78bf-4ea3-8a60-2593d3553bf6] celesware: it's really inconsistent though
+[2025.09.07-13.01.11:830][495]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: ok our brick count isnt super crazy so hopefully ur good
+[2025.09.07-13.01.15:367][706]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: ill pray for u XD
+[2025.09.07-13.01.19:426][948]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-13.01.19:426][948]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-13.01.24:065][225]LogChat: [SenderId: 701ccb8b-78bf-4ea3-8a60-2593d3553bf6] celesware: for example, I can run ridiculous maps like brickadia city and rockwell city just fine
+[2025.09.07-13.01.36:651][976]LogConsoleCmd: Server.Status
+[2025.09.07-13.01.36:652][976]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.07-13.01.36:652][977]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.07-13.01.36:652][977]LogConsoleCommands: Bricks: 31720
+[2025.09.07-13.01.36:652][977]LogConsoleCommands: Components: 561
+[2025.09.07-13.01.36:652][977]LogConsoleCommands: Time: 258m 56s
+[2025.09.07-13.01.36:652][977]LogConsoleCommands: Players (4/12):
+[2025.09.07-13.01.36:652][977]LogConsoleCommands: * Name      |  Ping |     Time | Roles                  | Address             | ID                                  
+[2025.09.07-13.01.36:652][977]LogConsoleCommands: * hoopla    |  18ms | 258m 51s |                        | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.07-13.01.36:652][977]LogConsoleCommands: * honzsk    | 153ms |  186m 8s | Flyer, MINIGAME LEAVER | 172.25.64.1         | 90e79561-2281-41d3-8968-995d33d7c2c5
+[2025.09.07-13.01.36:652][977]LogConsoleCommands: * Gyk92     | 279ms |  25m 12s | Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.07-13.01.36:652][977]LogConsoleCommands: * celesware | 151ms |   1m 34s |                        | 172.25.64.1         | 701ccb8b-78bf-4ea3-8a60-2593d3553bf6
+[2025.09.07-13.01.38:895][110]LogChat: [SenderId: 701ccb8b-78bf-4ea3-8a60-2593d3553bf6] celesware: but then fox box and stardust district crashes my gpu after like a couple minutes, or a couple seconds
+[2025.09.07-13.01.40:404][200]LogServerList: Posting server.
+[2025.09.07-13.01.52:185][903]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.07-13.01.52:185][903]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.07-13.02.08:589][882]LogChat: [SenderId: 701ccb8b-78bf-4ea3-8a60-2593d3553bf6] celesware: just doesn't make sense to me how only some maps crash my gpu, but others are fine
+[2025.09.07-13.02.12:729][129]LogChat: [SenderId: 701ccb8b-78bf-4ea3-8a60-2593d3553bf6] celesware: ESPECIALLY the more demanding ones
+[2025.09.07-13.02.23:071][746]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: ya that sounds annoying
