@@ -3498,7 +3498,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             this.omegga.middlePrint(playerId, fishingMessage);
             
             // Announce legendary fish catches to the server
-            if (fishType.toLowerCase() === 'kraken') {
+            if (fishType.toLowerCase() === 'kraken' || fishType.toLowerCase() === 'leviathan' || 
+                fishType.toLowerCase() === 'sea dragon' || fishType.toLowerCase() === 'frost kraken') {
               const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
               const fishColor = this.getResourceColor(fishType);
               this.omegga.broadcast(`<color="fff">LEGENDARY CATCH! ${playerName} has caught a <color="${fishColor}">[${fishType}]</color>!</color>`);
@@ -3539,7 +3540,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           this.omegga.middlePrint(playerId, fishingMessage);
           
           // Announce legendary fish catches to the server
-          if (fishType.toLowerCase() === 'kraken') {
+          if (fishType.toLowerCase() === 'kraken' || fishType.toLowerCase() === 'leviathan' || 
+              fishType.toLowerCase() === 'sea dragon' || fishType.toLowerCase() === 'frost kraken') {
             const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
             const fishColor = this.getResourceColor(fishType);
             this.omegga.broadcast(`<color="fff">LEGENDARY CATCH! ${playerName} has caught a <color="${fishColor}">[${fishType}]</color>!</color>`);
