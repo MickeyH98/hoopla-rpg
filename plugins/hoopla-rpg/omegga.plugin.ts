@@ -697,6 +697,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         
         // Announce the level up
         this.omegga.broadcast(`<color="ff0">Congratulations! ${playerName} has reached level 30!</color>`);
+        this.omegga.broadcast(`<color="0ff">${playerName} can now fly and leave minigames at will!</color>`);
         console.log(`[Hoopla RPG] ${playerName} leveled up from 29 to 30! (Data corruption fix)`);
         
         // Assign Flyer and MINIGAME LEAVER roles
@@ -745,7 +746,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         console.log(`[Hoopla RPG] DEBUG: keygen normal level-up path - oldLevel: ${oldLevel}, newLevel: ${newLevel}, XP: ${player.experience}`);
       }
       
-      this.omegga.broadcast(`<color="ff0">Congratulations! ${playerName} has reached level ${newLevel}!</color>`);
+      if (newLevel === 30) {
+        this.omegga.broadcast(`<color="ff0">Congratulations! ${playerName} has reached level ${newLevel}!</color>`);
+        this.omegga.broadcast(`<color="0ff">${playerName} can now fly and leave minigames at will!</color>`);
+      } else {
+        this.omegga.broadcast(`<color="ff0">Congratulations! ${playerName} has reached level ${newLevel}!</color>`);
+      }
       console.log(`[Hoopla RPG] ${playerName} leveled up from ${oldLevel} to ${newLevel}!`);
       
       // Assign Flyer and MINIGAME LEAVER roles for level 30 players
