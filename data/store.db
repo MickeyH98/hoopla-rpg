@@ -25,6 +25,7 @@
 {"type":"app:start","date":1757074755887,"_id":"fl7ClYmKZCxriUwI"}
 {"type":"app:start","date":1757067616035,"_id":"gype2vksng3KWMdx"}
 {"type":"autoRestartConfig","maxUptime":48,"maxUptimeEnabled":false,"emptyUptime":24,"emptyUptimeEnabled":false,"dailyHour":2,"dailyHourEnabled":false,"autoUpdateEnabled":true,"autoUpdateIntervalMins":60,"announcementEnabled":true,"playersEnabled":true,"saveWorld":true,"_id":"h8dWLUBVIKIJD4I8"}
+{"type":"app:start","date":1757298361516,"_id":"hDkcvosDyxHsPNSb"}
 {"type":"app:start","date":1756813978933,"_id":"hFaYrdDwni7eiv47"}
 {"type":"app:start","date":1757067004059,"_id":"hUHOYyFT5vKx0brS"}
 {"type":"app:start","date":1757064552881,"_id":"melEdbkPCwlxKpIY"}
@@ -36,4 +37,4 @@
 {"type":"app:start","date":1757069831475,"_id":"xcQciwuWlipsaWmD"}
 {"type":"app:start","date":1756972009644,"_id":"xiV5EHYNK99H3VBt"}
 {"type":"app:start","date":1756813405498,"_id":"zuFiQp0KsoTBjaIU"}
-{"type":"app:start","date":1757298361516,"_id":"hDkcvosDyxHsPNSb"}
+{"type":"app:start","date":1757322925512,"_id":"40aixoHzoIY5njlo"}

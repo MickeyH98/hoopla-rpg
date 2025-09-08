@@ -24,5 +24,118 @@
       "default": 1
     }
   },
-  "commands": []
+  "commands": [
+    {
+      "name": "/rpg",
+      "description": "Show player stats and RPG information",
+      "example": "/rpg"
+    },
+    {
+      "name": "/rpghelp",
+      "description": "Show help information for RPG commands",
+      "example": "/rpghelp"
+    },
+    {
+      "name": "/rpgleaderboard",
+      "description": "Show the leaderboard of top players",
+      "example": "/rpgleaderboard"
+    },
+    {
+      "name": "/rpginventory",
+      "description": "Show your inventory with categorized items",
+      "example": "/rpginventory"
+    },
+    {
+      "name": "/mininginfo",
+      "description": "Show mining information and tips",
+      "example": "/mininginfo"
+    },
+    {
+      "name": "/fishinginfo",
+      "description": "Show fishing information and tips",
+      "example": "/fishinginfo"
+    },
+    {
+      "name": "/rpginit",
+      "description": "Initialize RPG data for a player",
+      "example": "/rpginit"
+    },
+    {
+      "name": "/rpgfixlevel",
+      "description": "Fix player level calculation issues",
+      "example": "/rpgfixlevel"
+    },
+    {
+      "name": "/rpgclearall",
+      "description": "Clear all RPG data (admin command)",
+      "example": "/rpgclearall"
+    },
+    {
+      "name": "/rpgcleartriggers",
+      "description": "Clear all brick triggers (admin command)",
+      "example": "/rpgcleartriggers"
+    },
+    {
+      "name": "/rpgclearquests",
+      "description": "Clear all quest data (admin command)",
+      "example": "/rpgclearquests"
+    },
+    {
+      "name": "/rpgresetquests",
+      "description": "Reset quest states for a player",
+      "example": "/rpgresetquests"
+    },
+    {
+      "name": "/rpgresetquestitems",
+      "description": "Reset quest item collection states",
+      "example": "/rpgresetquestitems"
+    },
+    {
+      "name": "/rpgcleaninventory",
+      "description": "Clean up and normalize inventory item names",
+      "example": "/rpgcleaninventory"
+    },
+    {
+      "name": "/rpgfixshopkeepers",
+      "description": "Fix shopkeeper trigger types and prices",
+      "example": "/rpgfixshopkeepers"
+    },
+    {
+      "name": "/rpgconvertbait",
+      "description": "Convert old bait items to new consumable system",
+      "example": "/rpgconvertbait"
+    },
+    {
+      "name": "/rpgteams",
+      "description": "Show team information",
+      "example": "/rpgteams"
+    },
+    {
+      "name": "/rpgassignlevel30roles",
+      "description": "Assign roles to level 30 players (admin command)",
+      "example": "/rpgassignlevel30roles"
+    },
+    {
+      "name": "/rpgcleaninventories",
+      "description": "Clean inventories for all players (admin command)",
+      "example": "/rpgcleaninventories"
+    },
+    {
+      "name": "/rpgnormalizeitems",
+      "description": "Normalize item names for all players (admin command)",
+      "example": "/rpgnormalizeitems"
+    },
+    {
+      "name": "/rpgadmin",
+      "description": "Admin commands for RPG management",
+      "example": "/rpgadmin <command>",
+      "args": [
+        {
+          "name": "command",
+          "description": "Admin command to execute",
+          "required": true
+        }
+      ]
+    }
+  ]
 }

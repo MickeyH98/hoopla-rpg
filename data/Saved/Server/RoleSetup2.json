@@ -40,7 +40,12 @@
 		},
 		{
 			"name": "Moderator",
-			"permissions": [],
+			"permissions": [
+				{
+					"name": "BR.Permission.Building.Prefabs",
+					"state": "Allowed"
+				}
+			],
 			"color":
 			{
 				"b": 255,
