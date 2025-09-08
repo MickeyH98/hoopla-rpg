@@ -911,9 +911,24 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         return 'Obsidian Ore';
       case 'obsidian':
         return 'Obsidian Ore';
+      case 'copper':
+        return 'Copper Ore'; // Fix: normalize "Copper" to "Copper Ore"
+      case 'iron':
+        return 'Iron Ore'; // Fix: normalize "Iron" to "Iron Ore"
+      case 'gold':
+        return 'Gold Ore'; // Fix: normalize "Gold" to "Gold Ore"
+      case 'diamond':
+        return 'Diamond Ore'; // Fix: normalize "Diamond" to "Diamond Ore"
       case 'fish bait':
         return 'Fish bait'; // Keep consistent with existing system
       default:
+        // Handle malformed mining messages that weren't caught above
+        if (normalized.toLowerCase().startsWith('mining ') && normalized.toLowerCase().endsWith('...')) {
+          const oreType = normalized.toLowerCase().replace('mining ', '').replace('...', '');
+          console.log(`[Hoopla RPG] NORMALIZE DEBUG: Found malformed mining message "${normalized}", extracting ore type: "${oreType}"`);
+          return this.getItemName(oreType);
+        }
+        
         // For properly named items, return as-is
         return normalized;
     }
@@ -975,8 +990,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         ],
         rewards: {
           xp: 167,
-          currency: 250,
-          items: ['Fish bait']
+          currency: 250
         },
         questgiver: {
           name: 'John Brickington',
@@ -1002,8 +1016,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         ],
         rewards: {
           xp: 250,
-          currency: 400,
-          items: ['Fish bait']
+          currency: 400
         },
         questgiver: {
           name: 'John Brickington',
@@ -1029,8 +1042,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         ],
         rewards: {
           xp: 333,
-          currency: 600,
-          items: ['Fish bait']
+          currency: 600
         },
         questgiver: {
           name: 'John Brickington',
@@ -1056,8 +1068,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         ],
         rewards: {
           xp: 417,
-          currency: 800,
-          items: ['Fish bait']
+          currency: 800
         },
         questgiver: {
           name: 'John Brickington',
@@ -1083,8 +1094,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         ],
         rewards: {
           xp: 667,
-          currency: 1500,
-          items: ['Fish bait']
+          currency: 1500
         },
         questgiver: {
           name: 'John Brickington',
@@ -1110,8 +1120,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         ],
         rewards: {
           xp: 200,
-          currency: 300,
-          items: ['Fish bait']
+          currency: 300
         },
         questgiver: {
           name: 'Frank Bricktavious',
@@ -1137,8 +1146,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         ],
         rewards: {
           xp: 300,
-          currency: 500,
-          items: ['Fish bait']
+          currency: 500
         },
         questgiver: {
           name: 'Frank Bricktavious',
@@ -1164,8 +1172,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         ],
         rewards: {
           xp: 400,
-          currency: 700,
-          items: ['Fish bait']
+          currency: 700
         },
         questgiver: {
           name: 'Frank Bricktavious',
@@ -1191,8 +1198,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         ],
         rewards: {
           xp: 500,
-          currency: 900,
-          items: ['Fish bait']
+          currency: 900
         },
         questgiver: {
           name: 'Frank Bricktavious',
@@ -1218,8 +1224,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         ],
         rewards: {
           xp: 833,
-          currency: 2000,
-          items: ['Fish bait']
+          currency: 2000
         },
         questgiver: {
           name: 'Frank Bricktavious',
@@ -1245,8 +1250,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         ],
         rewards: {
           xp: 1000,
-          currency: 2000,
-          items: ['Fish bait', 'Fish bait']
+          currency: 2000
         },
         questgiver: {
           name: 'Emmet Brickingway',
@@ -1274,16 +1278,15 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         ],
         rewards: {
           xp: 800,
-          currency: 2000,
-          items: ['Ice Crystal']
+          currency: 2000
         },
         questgiver: {
           name: 'Ice King',
-          personality: 'A dramatic and eccentric ice wizard who speaks in grandiose terms but is actually quite lonely and misunderstood, based on Adventure Time\'s Ice King',
-          greeting: 'Ah, another mortal dares to approach the mighty Ice King! *dramatic pose* I am the ruler of this frozen domain, master of ice and snow! But... *sighs dramatically* Even the most powerful ice wizard needs help sometimes. You see, I\'ve been having these... memory problems lately.',
-          questExplanation: 'My precious Ice Boxes! They contain fragments of my memories, scattered across this mountain like frozen tears! I need exactly 4 of them to piece together what I\'ve forgotten. You see, I used to be someone else... someone important. But the ice magic has been eating away at my mind, and I can\'t remember who I was before I became the Ice King. These boxes hold the key to my past!',
-          reminderMessage: 'My Ice Boxes are still out there, frozen in the mountain\'s embrace! I need all 4 of them to unlock my memories. Without them, I\'ll never remember who I truly am. The ice is calling to them, but they need a brave soul like you to bring them home to their king!',
-          completionMessage: 'YES! My precious Ice Boxes! *dramatically clutches chest* I can feel the memories flooding back! I remember now... I was once a scholar, a seeker of knowledge! But something went wrong with my experiments, and the ice magic consumed me. But wait... there\'s more. I need something from the Nether to complete the ritual that will restore my true self!'
+          personality: 'A massive icy dragon with crystalline scales and piercing blue eyes, driven by an insatiable hunger for power. Speaks with the authority of an ancient predator, using dragon-like speech patterns with growls and hisses.',
+          greeting: '*The massive icy dragon raises its crystalline head, frost billowing from its nostrils* Hssss... Another mortal dares to approach the Ice King\'s domain? *claws scrape against frozen stone* I sense... potential in you, little one. My hunger for power has led me to seek artifacts of great magical potency. Perhaps you could be... useful.',
+          questExplanation: '*Dragon eyes gleam with cold hunger* My Ice Boxes... they contain fragments of my former power, scattered across this mountain when I was defeated long ago. I need exactly 4 of them to begin reclaiming what was stolen from me. Each box holds a piece of my draconic essence, frozen in time. With them, I can begin the ritual to restore my true form and power. The ice mountain itself was created by my defeat - a monument to my weakness. But no longer!',
+          reminderMessage: '*Frost breath swirls around the dragon\'s maw* My Ice Boxes still lie scattered across this frozen wasteland! I need all 4 of them to begin my ascension. The mountain trembles with my growing power, but without those artifacts, I remain trapped in this weakened state. Bring them to me, and I shall reward you beyond your wildest dreams!',
+          completionMessage: '*The dragon\'s eyes blaze with cold fire* EXCELLENT! My Ice Boxes! *massive claws clutch the artifacts* I can feel my power returning! But this is only the beginning... I need something more powerful still. The Nether holds artifacts of fire magic that, when combined with my ice essence, will make me unstoppable! The ritual requires an Ice Chest from that realm of flame and shadow.'
         }
       },
       {
@@ -1301,16 +1304,15 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         ],
         rewards: {
           xp: 1200,
-          currency: 3000,
-          items: ['Ice Crown', 'Frozen Heart']
+          currency: 3000
         },
         questgiver: {
           name: 'Ice King',
-          personality: 'A dramatic and eccentric ice wizard who speaks in grandiose terms but is actually quite lonely and misunderstood, based on Adventure Time\'s Ice King',
-          greeting: 'Ah, my brave adventurer returns! *strikes dramatic pose* The Ice Boxes have awakened something within me... I remember now! I was once a great wizard, but my experiments with dimensional magic went horribly wrong!',
-          questExplanation: 'You see, I was trying to create a portal to the Nether to study the properties of fire and ice magic together. But the ritual backfired, and instead of opening a portal, it created this entire ice mountain! The Nether\'s heat was trapped in a single Ice Chest, and I need it to reverse the spell and restore balance to the world! The chest is hidden deep in the Nether, protected by the very fire demons I was trying to study!',
-          reminderMessage: 'The Ice Chest is still in the Nether, waiting for a hero brave enough to face the fire demons! I know it\'s dangerous, but without it, this ice mountain will continue to grow and consume everything! The portal in the volcano is the only way to reach the Nether. Please, help me fix what I\'ve broken!',
-          completionMessage: 'INCREDIBLE! You\'ve done it! *dramatically raises arms* The Ice Chest! With this, I can finally reverse the dimensional spell that created this mountain! *begins casting* Behold, as the Ice King restores balance to the world! *mountain begins to shrink* I remember everything now... I was Simon Petrikov, a scholar who became corrupted by the crown\'s power. But now, with your help, I can be free! Thank you, my friend. The ice mountain will return to normal, and I can finally rest in peace.'
+          personality: 'A massive icy dragon with crystalline scales and piercing blue eyes, driven by an insatiable hunger for power. Speaks with the authority of an ancient predator, using dragon-like speech patterns with growls and hisses.',
+          greeting: '*The dragon\'s massive form shifts, ice crystals tinkling like chimes* Hssss... You return, little one. The Ice Boxes have awakened something within me... *frost breath swirls* I remember now! I was once the greatest of the Ancient Dragons, ruler of the frozen realms! But I was betrayed and defeated, my power scattered across dimensions!',
+          questExplanation: '*Claws dig into frozen stone* The Nether holds the key to my ultimate power! An Ice Chest forged in the fires of that realm contains the essence of fire magic that, when combined with my ice essence, will make me the most powerful being in existence! I will rule not just this frozen mountain, but all realms - ice and fire, light and shadow! The chest is guarded by fire demons, but their flames cannot harm one who seeks true power!',
+          reminderMessage: '*The dragon\'s roar echoes across the mountain* The Ice Chest still lies in the Nether, waiting for one brave enough to claim it! I know the dangers, but true power requires sacrifice! The portal in the volcano leads to that realm of flame. Bring me that chest, and I shall grant you a fraction of the power I will soon possess!',
+          completionMessage: '*The dragon\'s eyes blaze with cold fire as it rises to its full height* MAGNIFICENT! The Ice Chest! *massive claws grasp the artifact* Now I can complete the ritual! *frost and flame swirl around the dragon* Behold, as the Ice King ascends to his true form! *the mountain trembles with growing power* I remember everything now... I was the Ancient Ice Dragon, betrayed by my own kind! But with fire and ice combined, I shall become the Eternal Dragon - ruler of all realms! Thank you, mortal. You have served the future ruler of all existence well!'
         }
       }
     ];
@@ -1525,13 +1527,146 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       case 'gold': return 10;
       case 'obsidian': return 25;
       case 'diamond': return 50;
+      // Freshwater fish (spot)
       case 'gup': return 2;
       case 'cod': return 5;
       case 'shark': return 15;
       case 'whale': return 40;
       case 'kraken': return 75;
+      // Deep ocean fish (spot_2)
+      case 'sardine': return 2;
+      case 'tuna': return 5;
+      case 'marlin': return 15;
+      case 'megalodon': return 40;
+      case 'leviathan': return 75;
+      // Tropical reef fish (spot_3)
+      case 'clownfish': return 2;
+      case 'angelfish': return 5;
+      case 'lionfish': return 15;
+      case 'manta ray': return 40;
+      case 'sea dragon': return 75;
+      // Arctic fish (spot_4)
+      case 'icefish': return 2;
+      case 'arctic char': return 5;
+      case 'beluga': return 15;
+      case 'narwhal': return 40;
+      case 'frost kraken': return 75;
       default: return 1; // Default price for unknown resources
     }
+  }
+
+  // Helper function to categorize items for display
+  categorizeItems(itemCounts: { [key: string]: number }): { [category: string]: { [item: string]: number } } {
+    const categories: { [category: string]: { [item: string]: number } } = {
+      fish: {},
+      ores: {},
+      quest: {},
+      other: {}
+    };
+
+    for (const [item, count] of Object.entries(itemCounts)) {
+      const lowerItem = item.toLowerCase();
+      
+      // Fish categories
+      if (['gup', 'cod', 'shark', 'whale', 'kraken', 'sardine', 'tuna', 'marlin', 'megalodon', 'leviathan',
+          'clownfish', 'angelfish', 'lionfish', 'manta ray', 'sea dragon', 'icefish', 'arctic char', 
+          'beluga', 'narwhal', 'frost kraken'].includes(lowerItem)) {
+        categories.fish[item] = count;
+      }
+      // Ore categories
+      else if (['copper ore', 'iron ore', 'gold ore', 'obsidian ore', 'diamond ore'].includes(lowerItem)) {
+        categories.ores[item] = count;
+      }
+      // Quest item categories
+      else if (lowerItem.includes('box') || lowerItem.includes('brickingway') || lowerItem.includes('bait')) {
+        categories.quest[item] = count;
+      }
+      // Everything else
+      else {
+        categories.other[item] = count;
+      }
+    }
+
+    return categories;
+  }
+
+  // Helper function to get short item names for display
+  getShortItemName(item: string): string {
+    const shortNames: { [key: string]: string } = {
+      'Gold Ore': 'Gold',
+      'Iron Ore': 'Iron', 
+      'Copper Ore': 'Copper',
+      'Diamond Ore': 'Diamond',
+      'Obsidian Ore': 'Obsidian',
+      'Fish bait': 'Bait',
+      'brickingway box': 'Box'
+    };
+    
+    return shortNames[item] || item;
+  }
+
+  // Helper function to format item display with truncation
+  formatItemDisplay(itemCounts: { [key: string]: number }, maxItems: number = 8): string {
+    const categories = this.categorizeItems(itemCounts);
+    const displayParts: string[] = [];
+    
+    // Process each category
+    for (const [categoryName, categoryItems] of Object.entries(categories)) {
+      if (Object.keys(categoryItems).length === 0) continue;
+      
+      const categoryItemsArray = Object.entries(categoryItems);
+      const shouldTruncate = categoryItemsArray.length > maxItems;
+      const itemsToShow = shouldTruncate ? categoryItemsArray.slice(0, maxItems - 1) : categoryItemsArray;
+      
+      const categoryDisplay = itemsToShow.map(([item, count]) => {
+        const itemColor = this.getResourceColor(item);
+        const shortName = this.getShortItemName(item);
+        return `<color="${itemColor}">[${shortName}]</color><color="ff0">x${count}</color>`;
+      }).join(',');
+      
+      if (shouldTruncate) {
+        const remainingCount = categoryItemsArray.length - (maxItems - 1);
+        const totalRemaining = categoryItemsArray.slice(maxItems - 1).reduce((sum, [, count]) => sum + count, 0);
+        categoryDisplay += `,<color="f80">+${remainingCount} more (${totalRemaining} items)</color>`;
+      }
+      
+      displayParts.push(categoryDisplay);
+    }
+    
+    return displayParts.join(',');
+  }
+
+  // Helper function to format sell message with truncation
+  formatSellMessage(itemCounts: { [key: string]: number }, typeName: string, totalValue: string, currency: string, xp: number, maxItems: number = 6): string {
+    const categories = this.categorizeItems(itemCounts);
+    let message = `Sold all ${typeName} for ${totalValue}! `;
+    
+    // Show summary by category
+    const categorySummaries: string[] = [];
+    
+    for (const [categoryName, categoryItems] of Object.entries(categories)) {
+      if (Object.keys(categoryItems).length === 0) continue;
+      
+      const totalItems = Object.values(categoryItems).reduce((sum, count) => sum + count, 0);
+      const itemTypes = Object.keys(categoryItems).length;
+      
+      if (itemTypes === 1) {
+        const [item, count] = Object.entries(categoryItems)[0];
+        const itemColor = this.getResourceColor(item);
+        const shortName = this.getShortItemName(item);
+        categorySummaries.push(`<color="ff0">x${count}</color> <color="${itemColor}">[${shortName}]</color>`);
+      } else {
+        categorySummaries.push(`<color="ff0">${totalItems} ${categoryName}</color> (${itemTypes} types)`);
+      }
+    }
+    
+    if (categorySummaries.length > 0) {
+      message += `Items sold: ${categorySummaries.join(', ')}. `;
+    }
+    
+    message += `You now have ${currency}. Gained ${xp} Bartering XP`;
+    
+    return message;
   }
 
   // Calculate XP reward based on resource rarity and skill level
@@ -1552,11 +1687,30 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     
     // Fishing resources
     if (skillType === 'fishing') {
+      // Freshwater fish (spot)
       if (resource === 'gup') baseXP = 15;        // Common
       else if (resource === 'cod') baseXP = 25;   // Uncommon
       else if (resource === 'shark') baseXP = 40; // Rare
       else if (resource === 'whale') baseXP = 60; // Epic
       else if (resource === 'kraken') baseXP = 85; // Legendary
+      // Deep ocean fish (spot_2)
+      else if (resource === 'sardine') baseXP = 15;        // Common
+      else if (resource === 'tuna') baseXP = 25;           // Uncommon
+      else if (resource === 'marlin') baseXP = 40;         // Rare
+      else if (resource === 'megalodon') baseXP = 60;      // Epic
+      else if (resource === 'leviathan') baseXP = 85;      // Legendary
+      // Tropical reef fish (spot_3)
+      else if (resource === 'clownfish') baseXP = 15;      // Common
+      else if (resource === 'angelfish') baseXP = 25;      // Uncommon
+      else if (resource === 'lionfish') baseXP = 40;       // Rare
+      else if (resource === 'manta ray') baseXP = 60;      // Epic
+      else if (resource === 'sea dragon') baseXP = 85;     // Legendary
+      // Arctic fish (spot_4)
+      else if (resource === 'icefish') baseXP = 15;        // Common
+      else if (resource === 'arctic char') baseXP = 25;    // Uncommon
+      else if (resource === 'beluga') baseXP = 40;         // Rare
+      else if (resource === 'narwhal') baseXP = 60;        // Epic
+      else if (resource === 'frost kraken') baseXP = 85;   // Legendary
     }
     
     // Skill level bonus: higher skill levels get more XP
@@ -1796,22 +1950,44 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   canMineOreType(miningLevel: number, oreType: string): boolean {
     const ore = oreType.toLowerCase();
     
+    console.log(`[Hoopla RPG] canMineOreType DEBUG: oreType="${oreType}", ore="${ore}", miningLevel=${miningLevel}`);
+    
     // Copper: Available at any level
-    if (ore === 'copper') return true;
+    if (ore === 'copper' || ore === 'copper ore') {
+      console.log(`[Hoopla RPG] canMineOreType DEBUG: Copper - allowed at any level`);
+      return true;
+    }
     
     // Iron: Requires mining level 5
-    if (ore === 'iron' && miningLevel < 5) return false;
+    if (ore === 'iron' || ore === 'iron ore') {
+      const canMine = miningLevel >= 5;
+      console.log(`[Hoopla RPG] canMineOreType DEBUG: Iron - requires level 5, player has ${miningLevel}, can mine: ${canMine}`);
+      return canMine;
+    }
     
     // Gold: Requires mining level 10
-    if (ore === 'gold' && miningLevel < 10) return false;
+    if (ore === 'gold' || ore === 'gold ore') {
+      const canMine = miningLevel >= 10;
+      console.log(`[Hoopla RPG] canMineOreType DEBUG: Gold - requires level 10, player has ${miningLevel}, can mine: ${canMine}`);
+      return canMine;
+    }
     
     // Obsidian: Requires mining level 15
-    if (ore === 'obsidian' && miningLevel < 15) return false;
+    if (ore === 'obsidian' || ore === 'obsidian ore') {
+      const canMine = miningLevel >= 15;
+      console.log(`[Hoopla RPG] canMineOreType DEBUG: Obsidian - requires level 15, player has ${miningLevel}, can mine: ${canMine}`);
+      return canMine;
+    }
     
     // Diamond: Requires mining level 20
-    if (ore === 'diamond' && miningLevel < 20) return false;
+    if (ore === 'diamond' || ore === 'diamond ore') {
+      const canMine = miningLevel >= 20;
+      console.log(`[Hoopla RPG] canMineOreType DEBUG: Diamond - requires level 20, player has ${miningLevel}, can mine: ${canMine}`);
+      return canMine;
+    }
     
     // Any other ore types are allowed
+    console.log(`[Hoopla RPG] canMineOreType DEBUG: Unknown ore type "${ore}" - allowing by default`);
     return true;
   }
 
@@ -2374,7 +2550,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
           // Check if this brick has an RPG mining console tag
           if (consoleTag.startsWith("rpg_mining_")) {
-            const oreType = consoleTag.replace("rpg_mining_", "");
+            let oreType = consoleTag.replace("rpg_mining_", "");
+            // Normalize malformed ore types (e.g., "Mining gold..." -> "gold")
+            oreType = this.normalizeItemName(oreType);
             miningBricks.push({ brick, oreType, consoleTag });
             console.log(`[Hoopla RPG] Found mining brick: ${oreType} at [${brick.position.join(', ')}] with console tag: "${consoleTag}"`);
           }
@@ -3120,9 +3298,11 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       return { success: false, message: "Trigger not found!" };
     }
     
-    // Get player name for logging
+    // Get player name for logging (use display name like leaderboard)
     const player = this.omegga.getPlayer(playerId);
-    const playerName = player?.name || `Player_${playerId.substring(0, 8)}`;
+    const playerData = await this.getPlayerData({ id: playerId });
+    const storedPlayerName = playerData.username;
+    const playerName = storedPlayerName || player?.name || `Player_${playerId.substring(0, 8)}`;
     
     // Extract node type and name from trigger
     let interactionType: string = trigger.type;
@@ -3182,6 +3362,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       
       const quest = this.getQuestById(questId);
       nodeName = quest ? quest.questgiver.name.toLowerCase() : 'questgiver';
+    } else if (trigger.type === 'questitem') {
+      interactionType = 'questitem';
+      // Extract quest item name from trigger message (e.g., 'brickingway_box' -> 'brickingway box')
+      nodeName = trigger.message ? trigger.message.replace('_', ' ') : 'unknown';
     }
     
     console.log(`[Hoopla RPG] ${playerName} is ${interactionType}${nodeName ? ` ${nodeName}` : ''}`);
@@ -3248,7 +3432,15 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           // Get player's mining skill level
           const miningPlayer = await this.getPlayerData({ id: playerId });
           const miningLevel = miningPlayer.skills?.mining?.level || 0;
-          const oreType = trigger.message; // The ore type is stored in trigger.message
+          let oreType = trigger.message; // The ore type is stored in trigger.message
+          
+          // Normalize malformed ore types (e.g., "Mining gold..." -> "gold")
+          oreType = this.normalizeItemName(oreType);
+          
+          // Debug logging for mining level requirements
+          console.log(`[Hoopla RPG] MINING DEBUG: Player ${playerId} attempting to mine ${trigger.message} -> normalized to ${oreType}`);
+          console.log(`[Hoopla RPG] MINING DEBUG: Player mining level: ${miningLevel}`);
+          console.log(`[Hoopla RPG] MINING DEBUG: Can mine ${oreType}? ${this.canMineOreType(miningLevel, oreType)}`);
           
           // Check if player can mine this ore type
           if (!this.canMineOreType(miningLevel, oreType)) {
@@ -3329,13 +3521,13 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           }
           
           // Mining complete - add to inventory and grant XP with proper item name
-          const extractedOreType = trigger.message.replace('Mining ', '').replace('...', ''); // Extract ore type from "Mining gold..."
-          const properItemName = this.getItemName(extractedOreType);
+          // Use the already normalized oreType instead of extracting from trigger.message
+          const properItemName = this.getItemName(oreType);
           await this.addToInventory({ id: playerId }, properItemName);
           
           // Calculate XP rewards based on ore rarity and mining skill level
-          const generalXP = this.getXPReward(trigger.message, miningLevel, 'mining');
-          const miningXP = this.getXPReward(trigger.message, miningLevel, 'mining');
+          const generalXP = this.getXPReward(oreType, miningLevel, 'mining');
+          const miningXP = this.getXPReward(oreType, miningLevel, 'mining');
           
           // Grant XP for mining
           const miningXpResult = await this.addExperience({ id: playerId }, generalXP);
@@ -3358,7 +3550,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           const itemCount = updatedPlayer.inventory.filter(item => item === properItemName).length;
           
           // New simplified message format with middlePrint - items in brackets with rarity colors
-          const displayName = this.getItemDisplayName(extractedOreType);
+          const displayName = this.getItemDisplayName(oreType);
           const message = `Mined 1 ${displayName} (<color="ff0">x${itemCount}</color> in bag), Gained ${generalXP}XP and ${miningXP} Mining XP`;
           
           // Use middlePrint for the result
@@ -3731,7 +3923,17 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             // Define which items to sell based on type
             let itemsToSell: string[] = [];
             if (bulkType === 'rpg_sell_all_fish' || bulkType.toLowerCase().includes('all_fish')) {
-              itemsToSell = ['gup', 'cod', 'shark', 'whale', 'kraken'];
+              // All 20 fish types from the 4 fishing spots
+              itemsToSell = [
+                // Freshwater fish (spot)
+                'Gup', 'Cod', 'Shark', 'Whale', 'Kraken',
+                // Deep ocean fish (spot_2)
+                'Sardine', 'Tuna', 'Marlin', 'Megalodon', 'Leviathan',
+                // Tropical reef fish (spot_3)
+                'Clownfish', 'Angelfish', 'Lionfish', 'Manta Ray', 'Sea Dragon',
+                // Arctic fish (spot_4)
+                'Icefish', 'Arctic Char', 'Beluga', 'Narwhal', 'Frost Kraken'
+              ];
             } else if (bulkType === 'rpg_sell_all_ores' || bulkType.toLowerCase().includes('all_ores')) {
               itemsToSell = ['Copper Ore', 'Iron Ore', 'Gold Ore', 'Obsidian Ore', 'Diamond Ore'];
             }
@@ -3791,18 +3993,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             const bulkNewCurrency = await this.currency.getCurrency(playerId);
             const bulkFormattedCurrency = await this.currency.format(bulkNewCurrency);
             
-            // Create detailed sell message
+            // Create smart sell message with truncation
             const typeName = (bulkType === 'rpg_sell_all_fish' || bulkType.toLowerCase().includes('all_fish')) ? 'fish' : 'ores';
-            let bulkSellMessage = `Sold all ${typeName} for ${await this.currency.format(totalValue)}! `;
-            bulkSellMessage += `Items sold: `;
-            
-            const itemDetails = Object.entries(itemCounts).map(([item, count]) => {
-              const itemColor = this.getResourceColor(item);
-              return `<color="ff0">x${count}</color> <color="${itemColor}">[${item}]</color>`;
-            }).join(', ');
-            
-            bulkSellMessage += itemDetails;
-            bulkSellMessage += `. You now have ${bulkFormattedCurrency}. Gained ${averageXP} Bartering XP`;
+            const bulkSellMessage = this.formatSellMessage(itemCounts, typeName, await this.currency.format(totalValue), bulkFormattedCurrency, averageXP, 5);
             
             // Use middlePrint for the bulk selling result
             this.omegga.middlePrint(playerId, bulkSellMessage);
@@ -3904,9 +4097,19 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           // Define which items to sell based on type
           let itemsToSell: string[] = [];
           if (bulkType === 'rpg_sell_all_fish') {
-            itemsToSell = ['gup', 'cod', 'shark', 'whale', 'kraken'];
+            // All 20 fish types from the 4 fishing spots
+            itemsToSell = [
+              // Freshwater fish (spot)
+              'Gup', 'Cod', 'Shark', 'Whale', 'Kraken',
+              // Deep ocean fish (spot_2)
+              'Sardine', 'Tuna', 'Marlin', 'Megalodon', 'Leviathan',
+              // Tropical reef fish (spot_3)
+              'Clownfish', 'Angelfish', 'Lionfish', 'Manta Ray', 'Sea Dragon',
+              // Arctic fish (spot_4)
+              'Icefish', 'Arctic Char', 'Beluga', 'Narwhal', 'Frost Kraken'
+            ];
           } else if (bulkType === 'rpg_sell_all_ores') {
-            itemsToSell = ['copper', 'iron', 'gold', 'obsidian', 'diamond'];
+            itemsToSell = ['Copper Ore', 'Iron Ore', 'Gold Ore', 'Obsidian Ore', 'Diamond Ore'];
           }
           
           // Count items in inventory
@@ -3959,18 +4162,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           const bulkNewCurrency = await this.currency.getCurrency(playerId);
           const bulkFormattedCurrency = await this.currency.format(bulkNewCurrency);
           
-          // Create detailed sell message
+          // Create smart sell message with truncation
           const typeName = bulkType === 'rpg_sell_all_fish' ? 'fish' : 'ores';
-          let bulkSellMessage = `Sold all ${typeName} for ${await this.currency.format(totalValue)}! `;
-          bulkSellMessage += `Items sold: `;
-          
-          const itemDetails = Object.entries(itemCounts).map(([item, count]) => {
-            const itemColor = this.getResourceColor(item);
-            return `<color="ff0">x${count}</color> <color="${itemColor}">[${item}]</color>`;
-          }).join(', ');
-          
-          bulkSellMessage += itemDetails;
-          bulkSellMessage += `. You now have ${bulkFormattedCurrency}. Gained ${averageXP} Bartering XP`;
+          const bulkSellMessage = this.formatSellMessage(itemCounts, typeName, await this.currency.format(totalValue), bulkFormattedCurrency, averageXP, 5);
           
           // Use middlePrint for the bulk selling result
           this.omegga.middlePrint(playerId, bulkSellMessage);
@@ -4195,7 +4389,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
                   } else if (quest.questgiver.name === 'Emmet Brickingway') {
                     allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: You have done what I could not. You have brought my stories home. These boxes contain more than words - they contain truth, beauty, and the raw essence of what it means to be human. Thank you, friend. The stories will live again.`;
                   } else if (quest.questgiver.name === 'Ice King') {
-                    allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: INCREDIBLE! You've done it! *dramatically raises arms* The Ice Chest! With this, I can finally reverse the dimensional spell that created this mountain! *begins casting* Behold, as the Ice King restores balance to the world! *mountain begins to shrink* I remember everything now... I was Simon Petrikov, a scholar who became corrupted by the crown's power. But now, with your help, I can be free! Thank you, my friend. The ice mountain will return to normal, and I can finally rest in peace.`;
+                    allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: *The massive dragon rises to its full height, frost and flame swirling around its crystalline form* MAGNIFICENT! You have served the future ruler of all existence well! *claws grasp the artifacts* With fire and ice combined, I shall become the Eternal Dragon - master of all realms! The mountain trembles with my growing power, and soon all shall bow before the Ice King\\'s might! You have earned a place in my eternal kingdom, mortal!`;
                   } else {
                     allCompletedMessage = `<color="ff0">${quest.questgiver.name}</color>: Thank you for completing all my quests! You're truly amazing!`;
                   }
@@ -4697,34 +4891,20 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         itemCounts[item] = (itemCounts[item] || 0) + 1;
       }
       
-      // Log full inventory to console with grouped items
-      console.log(`[Hoopla RPG] Player ${player.name} full inventory:`);
+      // Log grouped inventory items
+      console.log(`[Hoopla RPG] ${player.name} inventory:`);
       if (Object.keys(itemCounts).length === 0) {
-        console.log(`[Hoopla RPG] Inventory is empty`);
+        console.log(`[Hoopla RPG]   Empty`);
       } else {
         Object.entries(itemCounts).forEach(([item, count]) => {
-          console.log(`[Hoopla RPG] ${item} x${count}`);
+          console.log(`[Hoopla RPG]   ${item} x${count}`);
         });
       }
       
-      // Format inventory display with items in brackets, rarity colors, and count - ultra compact
+      // Format inventory display with smart grouping and truncation
       let inventoryDisplay = "Empty";
       if (Object.keys(itemCounts).length > 0) {
-        inventoryDisplay = Object.entries(itemCounts)
-          .map(([item, count]) => {
-            const itemColor = this.getResourceColor(item);
-            
-            // Use shorter names for common items to save space
-            let shortName = item;
-            if (item === 'Gold Ore') shortName = 'Gold';
-            else if (item === 'Iron Ore') shortName = 'Iron';
-            else if (item === 'Copper Ore') shortName = 'Copper';
-            else if (item === 'Diamond Ore') shortName = 'Diamond';
-            else if (item === 'Obsidian Ore') shortName = 'Obsidian';
-            
-            return `<color="${itemColor}">[${shortName}]</color><color="ff0">x${count}</color>`;
-          })
-          .join(",");
+        inventoryDisplay = this.formatItemDisplay(itemCounts, 10); // Show up to 10 items
       }
       
       
@@ -4874,6 +5054,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     this.omegga.on("cmd:rpghelp", async (speaker: string) => {
       this.omegga.whisper(speaker, `<color="0ff">=== RPG Commands ===</color>`);
       this.omegga.whisper(speaker, `<color="0ff">/rpg</> - Show your RPG stats and inventory`);
+      this.omegga.whisper(speaker, `<color="0ff">/rpginventory</> - Show complete inventory in chat and console`);
       this.omegga.whisper(speaker, `<color="0ff">/rpghelp</> - Show this help message`);
       this.omegga.whisper(speaker, `<color="0ff">/mininginfo</> - Show mining requirements`);
       this.omegga.whisper(speaker, `<color="0ff">/fishinginfo</> - Show fishing requirements`);
@@ -5070,6 +5251,31 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
        }
     });
 
+    // Command to clean player inventory (fixes malformed item names)
+    this.omegga.on("cmd:rpgcleaninventory", async (speaker: string) => {
+      const player = this.omegga.getPlayer(speaker);
+      if (!player) return;
+
+      this.omegga.whisper(speaker, `<color="f0f">Cleaning your inventory...</color>`);
+
+      try {
+        const result = await this.cleanPlayerInventory({ id: player.id });
+        
+        if (result.cleaned > 0) {
+          this.omegga.whisper(speaker, `<color="0f0">Cleaned ${result.cleaned} malformed items from your inventory!</color>`);
+          this.omegga.whisper(speaker, `<color="888">Your inventory now has properly formatted item names.</color>`);
+        } else {
+          this.omegga.whisper(speaker, `<color="888">Your inventory was already clean - no changes needed!</color>`);
+        }
+        
+        this.omegga.whisper(speaker, `<color="888">Use /rpg to see your updated inventory.</color>`);
+        
+      } catch (error) {
+        console.error(`[Hoopla RPG] Error cleaning inventory for ${speaker}:`, error);
+        this.omegga.whisper(speaker, `<color="f00">Error cleaning inventory: ${error.message}</color>`);
+      }
+    });
+
     // Command to show all team names and indexes
     this.omegga.on("cmd:rpgteams", async (speaker: string) => {
       const player = this.omegga.getPlayer(speaker);
@@ -5196,13 +5402,124 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     
     // Console event listener removed - using only the main interact listener
 
+    // Command to display complete inventory in chat and console
+    this.omegga.on("cmd:rpginventory", async (speaker: string) => {
+      const player = this.omegga.getPlayer(speaker);
+      if (!player) return;
+
+      try {
+        const rpgData = await this.getPlayerData(player);
+        const currency = await this.currency.getCurrency(player.id);
+        const formattedCurrency = await this.currency.format(currency);
+
+        // Ensure all required properties exist with fallbacks
+        const safeRpgData = {
+          level: rpgData.level ?? 1,
+          experience: rpgData.experience ?? 0,
+          health: rpgData.health ?? 100,
+          maxHealth: rpgData.maxHealth ?? 100,
+          inventory: rpgData.inventory ?? [],
+          nodesCollected: rpgData.nodesCollected ?? [],
+          skills: rpgData.skills ?? {
+            mining: { level: 0, experience: 0 },
+            bartering: { level: 0, experience: 0 },
+            fishing: { level: 0, experience: 0 }
+          }
+        };
+
+        // Count items by type for detailed display
+        const itemCounts: { [key: string]: number } = {};
+        for (const item of safeRpgData.inventory) {
+          itemCounts[item] = (itemCounts[item] || 0) + 1;
+        }
+
+        // Console logging - detailed inventory breakdown
+        console.log(`[Hoopla RPG] === COMPLETE INVENTORY for ${player.name} (${player.id}) ===`);
+        console.log(`[Hoopla RPG] Currency: ${formattedCurrency}`);
+        console.log(`[Hoopla RPG] Total items: ${safeRpgData.inventory.length}`);
+        console.log(`[Hoopla RPG] Unique item types: ${Object.keys(itemCounts).length}`);
+        
+        if (Object.keys(itemCounts).length === 0) {
+          console.log(`[Hoopla RPG] Inventory: Empty`);
+        } else {
+          // Group items by category for console display
+          const categories = this.categorizeItems(itemCounts);
+          
+          for (const [categoryName, categoryItems] of Object.entries(categories)) {
+            if (Object.keys(categoryItems).length === 0) continue;
+            
+            console.log(`[Hoopla RPG] ${categoryName.toUpperCase()}:`);
+            for (const [item, count] of Object.entries(categoryItems)) {
+              console.log(`[Hoopla RPG]   ${item} x${count}`);
+            }
+          }
+        }
+
+        // In-game chat display - show complete inventory
+        this.omegga.whisper(speaker, `<color="0ff">=== Complete Inventory ===</color>`);
+        this.omegga.whisper(speaker, `<color="ff0">Currency: ${formattedCurrency}</color>`);
+        this.omegga.whisper(speaker, `<color="ff0">Total Items: ${safeRpgData.inventory.length} (${Object.keys(itemCounts).length} types)</color>`);
+        
+        if (Object.keys(itemCounts).length === 0) {
+          this.omegga.whisper(speaker, `<color="888">Inventory: Empty</color>`);
+        } else {
+          // Group items by category for in-game display
+          const categories = this.categorizeItems(itemCounts);
+          
+          for (const [categoryName, categoryItems] of Object.entries(categories)) {
+            if (Object.keys(categoryItems).length === 0) continue;
+            
+            this.omegga.whisper(speaker, `<color="f80">${categoryName.toUpperCase()}:</color>`);
+            
+            // Display items in this category - multiple items per line
+            const categoryItemsArray = Object.entries(categoryItems);
+            const itemsPerLine = 3; // Show 3 items per line
+            
+            for (let i = 0; i < categoryItemsArray.length; i += itemsPerLine) {
+              const lineItems = categoryItemsArray.slice(i, i + itemsPerLine);
+              const lineText = lineItems.map(([item, count]) => {
+                const itemColor = this.getResourceColor(item);
+                return `<color="${itemColor}">${item}</color> <color="ff0">x${count}</color>`;
+              }).join(' | ');
+              
+              this.omegga.whisper(speaker, `  ${lineText}`);
+            }
+          }
+        }
+
+        // Show consumables if any - multiple items per line
+        if (rpgData.consumables && rpgData.consumables.length > 0) {
+          this.omegga.whisper(speaker, `<color="f80">CONSUMABLES:</color>`);
+          
+          const itemsPerLine = 2; // Show 2 consumables per line (they have longer text)
+          for (let i = 0; i < rpgData.consumables.length; i += itemsPerLine) {
+            const lineConsumables = rpgData.consumables.slice(i, i + itemsPerLine);
+            const lineText = lineConsumables.map(consumable => {
+              const itemColor = this.getResourceColor(consumable.name);
+              return `<color="${itemColor}">${consumable.name}</color> <color="ff0">x${consumable.charges}</color> (${consumable.maxCharges} max)`;
+            }).join(' | ');
+            
+            this.omegga.whisper(speaker, `  ${lineText}`);
+          }
+        } else {
+          this.omegga.whisper(speaker, `<color="888">Consumables: None</color>`);
+        }
+
+        console.log(`[Hoopla RPG] === END COMPLETE INVENTORY for ${player.name} ===`);
+
+      } catch (error) {
+        console.error(`[Hoopla RPG] Error displaying complete inventory:`, error);
+        this.omegga.whisper(speaker, `<color="f00">Error displaying inventory: ${error.message}</color>`);
+      }
+    });
+
     // Announce plugin reload to all players
     this.omegga.broadcast(`<color="0f0">Hoopla RPG plugin has been reloaded successfully!</color>`);
     console.log("Hoopla RPG: Plugin reload announcement sent to all players");
 
                       return { 
           registeredCommands: [
-            "rpg", "rpginit", "rpghelp", "rpgclearall", "rpgcleartriggers", "rpgclearquests", "rpgresetquests", "rpgassignlevel30roles", "rpgteams", "rpgcleaninventories", "mininginfo", "fishinginfo", "rpgleaderboard"
+            "rpg", "rpginit", "rpghelp", "rpgclearall", "rpgcleartriggers", "rpgclearquests", "rpgresetquests", "rpgassignlevel30roles", "rpgteams", "rpgcleaninventories", "rpgcleaninventory", "rpginventory", "mininginfo", "fishinginfo", "rpgleaderboard"
           ] 
         };
   }
