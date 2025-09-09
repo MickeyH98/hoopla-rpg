@@ -23,17 +23,17 @@ export class InventoryService {
     // Map ore types to proper display names with rarity colors
     switch (item) {
       case 'copper':
-        return '<color="fff">Copper Ore</color>'; // White - Common
+        return '<color="fff">[Copper Ore]</color>'; // White - Common
       case 'iron':
-        return '<color="0f0">Iron Ore</color>'; // Green - Uncommon
+        return '<color="0f0">[Iron Ore]</color>'; // Green - Uncommon
       case 'gold':
-        return '<color="08f">Gold Ore</color>'; // Blue - Rare
+        return '<color="08f">[Gold Ore]</color>'; // Blue - Rare
       case 'obsidian':
-        return '<color="80f">Obsidian Ore</color>'; // Purple - Epic
+        return '<color="80f">[Obsidian Ore]</color>'; // Purple - Epic
       case 'diamond':
-        return '<color="f80">Diamond Ore</color>'; // Orange - Legendary
+        return '<color="f80">[Diamond Ore]</color>'; // Orange - Legendary
       default:
-        return `<color="fff">${itemType}</color>`;
+        return `<color="fff">[${itemType}]</color>`;
     }
   }
 

@@ -162,9 +162,6 @@ export class MiningService {
       // Get player name for logging
       const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
       
-      // Single clean log per brick interaction
-      console.log(`[Hoopla RPG] ${playerName} mining ${oreType} (level ${miningLevel})`);
-      
       // Check if player can mine this ore type
       if (!this.canMineOreType(miningLevel, oreType)) {
         if (oreType.toLowerCase() === 'iron') {
@@ -218,6 +215,10 @@ export class MiningService {
       // Get clicks required for this ore type
       const clicksRequired = this.getMiningClicksRequired(miningLevel, oreType);
       
+      // Log mining calculation details
+      const miningSpeed = this.getMiningSpeed(miningLevel, oreType);
+      console.log(`[Hoopla RPG] Mining calculation for ${playerName}: Level ${miningLevel}, Ore: ${oreType}, Clicks required: ${clicksRequired}, Mining speed: ${miningSpeed}%`);
+      
       // Initialize mining progress if not exists
       if (!trigger.miningProgress) {
         trigger.miningProgress = {};
@@ -226,30 +227,21 @@ export class MiningService {
       const currentProgress = trigger.miningProgress[playerId] || 0;
       const newProgress = currentProgress + 1;
       
-      console.log(`[DEBUG] Mining progress: ${currentProgress} -> ${newProgress} (required: ${clicksRequired})`);
-      
       // Check if mining is complete
       if (newProgress >= clicksRequired) {
-        console.log(`[DEBUG] Mining completed for ${playerName}!`);
         // Mining complete - give rewards
         const properItemName = this.inventoryService.getItemName(oreType);
-        console.log(`[DEBUG] Adding ${properItemName} to inventory`);
         this.inventoryService.addToInventory(player, properItemName);
         
         // Calculate XP rewards based on ore rarity and mining skill level
         const generalXP = this.getMiningXPReward(oreType, miningLevel);
         const miningXP = this.getMiningXPReward(oreType, miningLevel);
-        console.log(`[DEBUG] XP rewards: ${generalXP} general XP, ${miningXP} mining XP`);
         
         // Grant XP for mining
-        console.log(`[DEBUG] Granting general XP...`);
         const miningXpResult = await this.experienceService.addExperience({ id: playerId }, generalXP);
-        console.log(`[DEBUG] General XP result:`, miningXpResult);
         
         // Grant Mining XP
-        console.log(`[DEBUG] Granting mining skill XP...`);
         const miningSkillResult = await this.skillService.addSkillExperience({ id: playerId }, 'mining', miningXP);
-        console.log(`[DEBUG] Mining skill XP result:`, miningSkillResult);
         
         // Reset mining progress for this player
         trigger.miningProgress[playerId] = 0;
@@ -259,16 +251,13 @@ export class MiningService {
         
         // Get updated inventory to show total count
         const itemCount = this.inventoryService.countItem(player, properItemName);
-        console.log(`[DEBUG] Item count in inventory: ${itemCount}`);
         
         // New simplified message format with middlePrint - items in brackets with rarity colors
         const displayName = this.getItemDisplayName(oreType);
         const message = `Mined 1 ${displayName} (<color="ff0">x${itemCount}</color> in bag), Gained ${generalXP}XP and ${miningXP} Mining XP`;
-        console.log(`[DEBUG] Final mining message: ${message}`);
         
         // Use middlePrint for the mining result
         this.omegga.middlePrint(playerId, message);
-        console.log(`[DEBUG] Mining completion successful!`);
         
         return { 
           success: true, 
@@ -288,8 +277,6 @@ export class MiningService {
         
         const remainingClicks = clicksRequired - newProgress;
         const progressBar = this.progressBarService.createProgressBar(newProgress, clicksRequired);
-        
-        console.log(`[DEBUG] Mining progress update: ${newProgress}/${clicksRequired} (${remainingClicks} remaining)`);
         
         // Use middlePrint for progress updates
         this.omegga.middlePrint(playerId, `Mining ${oreType}... ${progressBar}`);
@@ -369,20 +356,46 @@ export class MiningService {
     const item = itemType.toLowerCase();
     
     // Map ore types to proper display names with rarity colors
-    switch (item) {
-      case 'copper':
-        return '<color="fff">Copper Ore</color>'; // White - Common
-      case 'iron':
-        return '<color="0f0">Iron Ore</color>'; // Green - Uncommon
-      case 'gold':
-        return '<color="08f">Gold Ore</color>'; // Blue - Rare
-      case 'obsidian':
-        return '<color="80f">Obsidian Ore</color>'; // Purple - Epic
-      case 'diamond':
-        return '<color="f80">Diamond Ore</color>'; // Orange - Legendary
-      default:
-        return `<color="fff">${itemType}</color>`; // Default white
+    // Handle both short names (gold) and full names (gold ore)
+    if (item === 'copper' || item === 'copper ore') {
+      return '<color="fff">[Copper Ore]</color>'; // White - Common
+    } else if (item === 'iron' || item === 'iron ore') {
+      return '<color="0f0">[Iron Ore]</color>'; // Green - Uncommon
+    } else if (item === 'gold' || item === 'gold ore') {
+      return '<color="08f">[Gold Ore]</color>'; // Blue - Rare
+    } else if (item === 'obsidian' || item === 'obsidian ore') {
+      return '<color="80f">[Obsidian Ore]</color>'; // Purple - Epic
+    } else if (item === 'diamond' || item === 'diamond ore') {
+      return '<color="f80">[Diamond Ore]</color>'; // Orange - Legendary
+    } else {
+      return `<color="fff">[${itemType}]</color>`; // Default white
     }
+  }
+
+  /**
+   * Calculate mining speed based on mining level and ore type
+   * 
+   * @param miningLevel - The player's mining skill level
+   * @param oreType - The type of ore being mined
+   * @returns Mining speed as a percentage
+   */
+  private getMiningSpeed(miningLevel: number, oreType: string): number {
+    const ore = oreType.toLowerCase();
+    
+    // Base mining speeds by ore rarity (higher = faster mining)
+    let baseSpeed = 50; // Default 50%
+    
+    if (ore === 'copper') baseSpeed = 60;      // Common - 60% base speed
+    else if (ore === 'iron') baseSpeed = 50;   // Uncommon - 50% base speed  
+    else if (ore === 'gold') baseSpeed = 40;   // Rare - 40% base speed
+    else if (ore === 'obsidian') baseSpeed = 30; // Epic - 30% base speed
+    else if (ore === 'diamond') baseSpeed = 20;  // Legendary - 20% base speed
+    
+    // Increase mining speed based on mining level (up to +50% at max level)
+    const levelBonus = Math.min(50, miningLevel * 1.7);
+    const finalSpeed = Math.min(100, baseSpeed + levelBonus);
+    
+    return Math.round(finalSpeed);
   }
 
   /**

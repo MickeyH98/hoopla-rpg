@@ -105,7 +105,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     this.skillService = new SkillService(omegga, store, config, new Map());
     this.resourceService = new ResourceService(this.inventoryService);
     this.barteringService = new BarteringService(this.resourceService);
-    this.questService = new QuestService(omegga, store, this.messagingService, this.playerService, this.experienceService, this.inventoryService);
+    this.questService = new QuestService(omegga, store, this.messagingService, this.playerService, this.experienceService, this.inventoryService, this.resourceService, this.currency);
     this.nodeService = new NodeService(omegga, store, this.inventoryService, this.experienceService, this.skillService, this.resourceService, this.barteringService, this.progressBarService);
     this.detectionService = new DetectionService(omegga);
     this.triggerService = new TriggerService(omegga, store);
@@ -385,6 +385,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         if (!trigger) {
           console.log(`[DEBUG] Creating new trigger for ID: "${triggerId}"`);
           const triggerType = this.determineTriggerType(data);
+          
+          // Log general brick interaction with node type and player name
+          console.log(`[Hoopla RPG] ${playerName} interacted with ${triggerType} node: "${data.message || data.tag}"`);
+          
           trigger = {
             id: triggerId,
             type: triggerType as any,
@@ -413,6 +417,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       } else {
           // Check if existing trigger has the correct type
           const correctType = this.determineTriggerType(data);
+          
+          // Log general brick interaction with node type and player name
+          console.log(`[Hoopla RPG] ${playerName} interacted with ${trigger.type} node: "${data.message || data.tag}"`);
+          
           if (trigger.type !== correctType) {
             console.log(`[DEBUG] Correcting trigger type from "${trigger.type}" to "${correctType}"`);
             trigger.type = correctType as any;
@@ -431,23 +439,18 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         // Delegate to appropriate service based on trigger type
         switch (trigger.type) {
           case 'mining':
-            console.log(`[DEBUG] Calling mining service for trigger: "${trigger.id}"`);
             await this.miningService.handleMiningNode(player.id, trigger.id, trigger, playerData);
             // Save updated trigger data
             await this.saveTriggerData(trigger.id, trigger);
-            console.log(`[DEBUG] Mining service completed for trigger: "${trigger.id}"`);
             break;
           case 'fishing':
-            console.log(`[DEBUG] Calling fishing service for trigger: "${trigger.id}"`);
             const fishingResult = await this.fishingService.handleFishingNode(player.id, trigger.id, trigger, playerData);
-            console.log(`[DEBUG] Fishing result:`, fishingResult);
             // Save updated trigger data
             await this.saveTriggerData(trigger.id, trigger);
-            console.log(`[DEBUG] Fishing service completed for trigger: "${trigger.id}"`);
             break;
           case 'quest':
             console.log(`[DEBUG] Calling quest handler for trigger: "${trigger.id}"`);
-            await this.handleQuestInteraction(player.id, trigger);
+            await this.questService.handleQuestInteraction(player.id, trigger);
             console.log(`[DEBUG] Quest handler completed for trigger: "${trigger.id}"`);
             break;
           case 'questitem':
@@ -486,7 +489,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     const message = data.message || data.tag || '';
     const lowerMessage = message.toLowerCase();
     
-    console.log(`[DEBUG] Determining trigger type for message: "${message}" (lowercase: "${lowerMessage}")`);
     
     // Check for specific shopkeeper types first (most specific)
     if (lowerMessage.includes('rpg_sell_all_fish') || lowerMessage.includes('rpg_sell_all_ores')) {
@@ -502,10 +504,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       console.log(`[DEBUG] Trigger type determined as: "quest"`);
       return 'quest';
     } else if (lowerMessage.includes('mining') || lowerMessage.includes('ore')) {
-      console.log(`[DEBUG] Trigger type determined as: "mining"`);
       return 'mining';
     } else if (lowerMessage.includes('fishing') || lowerMessage.includes('fish')) {
-      console.log(`[DEBUG] Trigger type determined as: "fishing"`);
       return 'fishing';
     } else if (lowerMessage.includes('shop')) {
       console.log(`[DEBUG] Trigger type determined as: "shop"`);
@@ -584,136 +584,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     }
   }
 
-  /**
-   * Handle quest interactions
-   */
-  private async handleQuestInteraction(playerId: string, trigger: any): Promise<void> {
-    try {
-      console.log(`[DEBUG] Quest interaction for player ${playerId}, trigger message: ${trigger.message}`);
-      const questPlayer = await this.playerService.getPlayerData({ id: playerId });
-      console.log(`[DEBUG] Player data loaded:`, {
-        level: questPlayer.level,
-        hasQuests: !!questPlayer.quests,
-        questCount: questPlayer.quests ? Object.keys(questPlayer.quests).length : 0,
-        questKeys: questPlayer.quests ? Object.keys(questPlayer.quests) : []
-      });
-      let questId = trigger.message; // Quest ID is stored in the message
-    
-    // Handle legacy quest ID - redirect to first quest in chain
-    if (questId === 'john_brickington') {
-        questId = 'john_brickington_1';
-      } else if (questId === 'frank_bricktavious') {
-        questId = 'frank_bricktavious_1';
-      } else if (questId === 'emmet_brickingway') {
-        questId = 'emmet_brickingway_1';
-      } else if (questId === 'ice_king') {
-        questId = 'ice_king_1';
-      }
-      
-      // Get quest data
-      console.log(`[DEBUG] Looking for quest with ID: ${questId}`);
-      const quest = this.questService.getQuestById(questId);
-      if (!quest) {
-        console.log(`[DEBUG] Quest not found: ${questId}`);
-        this.omegga.whisper(playerId, `<color="f00">Quest not found: ${questId}</color>`);
-        return;
-      }
-      console.log(`[DEBUG] Quest found: ${quest.name} (${quest.id})`);
-      
-      // Handle step-by-step quest interactions
-      const currentQuest = questPlayer.quests?.[questId];
-      console.log(`[DEBUG] Current quest state:`, currentQuest ? {
-        questId: currentQuest.questId,
-        status: currentQuest.status,
-        interactionStep: currentQuest.interactionStep,
-        completedRequirements: currentQuest.completedRequirements
-      } : 'No existing quest found');
-      
-      if (!currentQuest) {
-        // First time starting this quest - Step 1: Show greeting
-        console.log(`[DEBUG] Starting new quest: ${questId}`);
-        if (!questPlayer.quests) {
-          questPlayer.quests = {};
-        }
-        questPlayer.quests[questId] = {
-      questId: quest.id,
-          status: 'in_progress',
-      requirements: quest.requirements,
-          completedRequirements: [],
-          interactionStep: 1
-        };
-        console.log(`[DEBUG] Saving new quest progress:`, questPlayer.quests[questId]);
-        await this.playerService.setPlayerData({ id: playerId }, questPlayer);
-        
-        const greetingMessage = `<color="ff0">${quest.questgiver.name}</color>: ${quest.questgiver.greeting}`;
-        this.messagingService.sendLongMessage(playerId, greetingMessage);
-        return;
-      }
-      
-      // Handle existing quest based on interaction step
-      console.log(`[DEBUG] Handling existing quest, interaction step: ${currentQuest.interactionStep}`);
-      
-      // If quest is completed, don't allow restarting
-      if (currentQuest.status === 'completed') {
-        const completedMessage = `<color="ff0">${quest.questgiver.name}</color>: Thank you for completing my quest! I have no more tasks for you at this time.`;
-        this.messagingService.sendLongMessage(playerId, completedMessage);
-        return;
-      }
-      
-      switch (currentQuest.interactionStep) {
-        case 1:
-          // Step 2: Show quest explanation
-          console.log(`[DEBUG] Advancing quest from step 1 to step 2`);
-          currentQuest.interactionStep = 2;
-          console.log(`[DEBUG] Saving quest progress update:`, currentQuest);
-          await this.playerService.setPlayerData({ id: playerId }, questPlayer);
-          
-          const questExplanationMessage = `<color="ff0">${quest.questgiver.name}</color>: ${quest.questgiver.questExplanation}`;
-          this.messagingService.sendLongMessage(playerId, questExplanationMessage);
-          break;
-          
-        case 2:
-          // Step 3: Check if quest can be completed
-          const canComplete = await this.checkQuestCompletion(playerId, quest);
-          if (canComplete) {
-            // Complete the quest
-            await this.questService.completeQuest(playerId, quest);
-            
-            const completionMessage = `<color="ff0">${quest.questgiver.name}</color>: ${quest.questgiver.completionMessage}`;
-            this.messagingService.sendLongMessage(playerId, completionMessage);
-            
-            // Check if there's a next quest in the chain
-            const nextQuestId = this.questService.getNextQuestInChain(quest.id);
-            if (nextQuestId) {
-              const nextQuest = this.questService.getQuestById(nextQuestId);
-              if (nextQuest) {
-                const nextQuestGreeting = `<color="ff0">${nextQuest.questgiver.name}</color>: ${nextQuest.questgiver.greeting}`;
-                this.messagingService.sendLongMessage(playerId, nextQuestGreeting);
-              }
-            }
-      } else {
-            // Show progress reminder with current progress
-            const progressMessage = await this.getQuestProgressMessage(playerId, quest);
-            this.messagingService.sendLongMessage(playerId, progressMessage);
-          }
-          break;
-          
-        default:
-          // Reset to step 1 if something goes wrong (but only if not completed)
-          if (currentQuest.status !== 'completed') {
-            currentQuest.interactionStep = 1;
-            await this.playerService.setPlayerData({ id: playerId }, questPlayer);
-            
-            const resetMessage = `<color="ff0">${quest.questgiver.name}</color>: ${quest.questgiver.greeting}`;
-            this.messagingService.sendLongMessage(playerId, resetMessage);
-          }
-      }
-      
-    } catch (error) {
-      console.error(`[Hoopla RPG] Error handling quest interaction:`, error);
-      this.omegga.whisper(playerId, "An error occurred processing the quest interaction.");
-    }
-  }
 
   /**
    * Handle shop interactions
@@ -1820,91 +1690,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     }
   }
 
-  /**
-   * Get quest progress message showing current progress
-   */
-  private async getQuestProgressMessage(playerId: string, quest: any): Promise<string> {
-    try {
-      const player = await this.playerService.getPlayerData({ id: playerId });
-      
-      // Check each requirement and build progress message
-      let progressMessages: string[] = [];
-      
-      for (const requirement of quest.requirements) {
-        switch (requirement.type) {
-          case 'item':
-            const itemCount = player.inventory?.filter(item => item.toLowerCase() === requirement.target.toLowerCase()).length || 0;
-            const remaining = Math.max(0, requirement.amount - itemCount);
-            if (remaining > 0) {
-              progressMessages.push(`You have collected <color="0f0">${itemCount}</color> out of <color="ff0">${requirement.amount}</color> <color="0ff">${requirement.target}</color>. You still need <color="f00">${remaining}</color> more.`);
-            } else {
-              progressMessages.push(`You have collected all <color="0f0">${requirement.amount}</color> <color="0ff">${requirement.target}</color>!`);
-            }
-            break;
-          case 'level':
-            const currentLevel = player.level || 1;
-            if (currentLevel < requirement.amount) {
-              progressMessages.push(`You need to reach level <color="ff0">${requirement.amount}</color>. Your current level: <color="0f0">${currentLevel}</color>.`);
-            } else {
-              progressMessages.push(`You have reached the required level <color="0f0">${requirement.amount}</color>!`);
-            }
-            break;
-          case 'skill':
-            const skillLevel = player.skills?.[requirement.target]?.level || 0;
-            if (skillLevel < requirement.amount) {
-              progressMessages.push(`You need <color="ff0">${requirement.target}</color> level <color="ff0">${requirement.amount}</color>. Your current level: <color="0f0">${skillLevel}</color>.`);
-            } else {
-              progressMessages.push(`You have reached the required <color="0f0">${requirement.target}</color> level <color="0f0">${requirement.amount}</color>!`);
-            }
-            break;
-        }
-      }
-      
-      const progressText = progressMessages.join('\n');
-      return `<color="ff0">${quest.questgiver.name}</color>: ${quest.questgiver.reminderMessage}\n\n<color="0ff">Current Progress:</color>\n${progressText}`;
-      
-    } catch (error) {
-      console.error(`[Hoopla RPG] Error getting quest progress message:`, error);
-      return `<color="ff0">${quest.questgiver.name}</color>: ${quest.questgiver.reminderMessage}`;
-    }
-  }
-
-  /**
-   * Check if a quest can be completed
-   */
-  private async checkQuestCompletion(playerId: string, quest: any): Promise<boolean> {
-    try {
-      const player = await this.playerService.getPlayerData({ id: playerId });
-      
-      // Check each requirement
-      for (const requirement of quest.requirements) {
-        switch (requirement.type) {
-        case 'item':
-            const itemCount = player.inventory?.filter(item => item.toLowerCase() === requirement.target.toLowerCase()).length || 0;
-            if (itemCount < requirement.amount) {
-              return false;
-            }
-                break;
-          case 'level':
-            if ((player.level || 1) < requirement.amount) {
-              return false;
-              }
-              break;
-          case 'skill':
-            const skillLevel = player.skills?.[requirement.target]?.level || 0;
-            if (skillLevel < requirement.amount) {
-              return false;
-              }
-              break;
-        }
-      }
-      
-      return true;
-            } catch (error) {
-      console.error(`[Hoopla RPG] Error checking quest completion:`, error);
-      return false;
-    }
-  }
 
   // ============================================================================
   // ADDITIONAL COMMAND HANDLERS

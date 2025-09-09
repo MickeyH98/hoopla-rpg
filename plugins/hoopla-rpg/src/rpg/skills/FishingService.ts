@@ -242,7 +242,6 @@ export class FishingService {
       
       // Get player name for logging
       const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
-      console.log(`[DEBUG] FishingService.handleFishingNode called for player ${playerName} (${playerId}), fishing level: ${fishingLevel}`);
       
       
       // Initialize fishing progress if not exists
@@ -262,11 +261,9 @@ export class FishingService {
       
       // Check if node is on cooldown for this player (30 seconds after depletion)
       const isOnCooldown = this.isNodeOnCooldown(trigger, playerId);
-      console.log(`[DEBUG] Is on cooldown: ${isOnCooldown}`);
       if (isOnCooldown) {
         const remainingSeconds = this.getNodeCooldownRemaining(trigger, playerId);
         const cooldownMessage = `Fishing spot depleted! Try again in ${remainingSeconds} seconds.`;
-        console.log(`[DEBUG] Cooldown message: ${cooldownMessage}`);
         this.omegga.middlePrint(playerId, cooldownMessage);
         return { 
           success: false, 
@@ -286,7 +283,6 @@ export class FishingService {
         if (trigger.fishingProgress) {
           delete trigger.fishingProgress[playerId];
         }
-        console.log(`[DEBUG] Cooldown expired, reset attempts to 5 for ${playerId}`);
       }
       
       // If not on cooldown and attempts are undefined, reset to 5
@@ -294,10 +290,8 @@ export class FishingService {
       if (attemptsRemaining === undefined && !isOnCooldown) {
         attemptsRemaining = 5;
         trigger.fishingAttemptsRemaining[playerId] = attemptsRemaining;
-        console.log(`[DEBUG] Reset attempts to 5 for ${playerId} (not on cooldown)`);
       }
       
-      console.log(`[DEBUG] Fishing attempts remaining: ${attemptsRemaining}, current progress: ${trigger.fishingProgress[playerId] || 0}`);
       
       // Get current fishing progress
       const currentProgress = trigger.fishingProgress[playerId] || 0;
@@ -311,27 +305,31 @@ export class FishingService {
       // Get or determine fish type for this player
       let fishType = trigger.fishingTarget[playerId];
       if (!fishType) {
-        // First time fishing at this spot - determine fish type
-        if (trigger.message.includes('freshwater')) {
-          fishType = this.getRandomFishType('spot', fishingLevel);
-        } else if (trigger.message.includes('deep ocean')) {
-          fishType = this.getRandomFishType('spot_2', fishingLevel);
-        } else if (trigger.message.includes('tropical')) {
-          fishType = this.getRandomFishType('spot_3', fishingLevel);
-        } else if (trigger.message.includes('arctic')) {
+        // First time fishing at this spot - determine fish type based on trigger ID
+        // Use the trigger ID to determine the fishing spot type since it contains the original message
+        const triggerId = trigger.id;
+        if (triggerId.includes('rpg_fishing_spot_4')) {
           fishType = this.getRandomFishType('spot_4', fishingLevel);
+        } else if (triggerId.includes('rpg_fishing_spot_3')) {
+          fishType = this.getRandomFishType('spot_3', fishingLevel);
+        } else if (triggerId.includes('rpg_fishing_spot_2')) {
+          fishType = this.getRandomFishType('spot_2', fishingLevel);
+        } else if (triggerId.includes('rpg_fishing_spot')) {
+          fishType = this.getRandomFishType('spot', fishingLevel);
         } else {
-          fishType = 'gup'; // Default
+          // Fallback to freshwater fishing
+          fishType = this.getRandomFishType('spot', fishingLevel);
         }
         trigger.fishingTarget[playerId] = fishType;
-        console.log(`[DEBUG] New fishing session started - target fish: ${fishType}`);
-      } else {
-        console.log(`[DEBUG] Continuing fishing session - target fish: ${fishType}`);
       }
       
       // Get clicks required for this fish type
       const clicksRequired = this.getFishingClicksRequired(fishingLevel, fishType);
-      console.log(`[DEBUG] Fish type: ${fishType}, clicks required: ${clicksRequired}, current progress: ${currentProgress}, new progress: ${newProgress}`);
+      
+      // Log fishing calculation details
+      const encounterRate = this.getEncounterRate(fishType, fishingLevel);
+      const captureRate = this.getCaptureRate(fishType, fishingLevel);
+      console.log(`[Hoopla RPG] Fishing calculation for ${playerName}: Level ${fishingLevel}, Target: ${fishType}, Clicks required: ${clicksRequired}, Encounter rate: ${encounterRate}%, Capture rate: ${captureRate}%`);
       
       if (clicksRequired === -1) {
         const requirementMessage = `You need higher fishing level to catch ${fishType}! Your current level: ${fishingLevel}`;
@@ -526,6 +524,88 @@ export class FishingService {
       cannotCatch,
       nextUnlock
     };
+  }
+
+  /**
+   * Calculate encounter rate for a fish type based on fishing level
+   * 
+   * @param fishType - The type of fish
+   * @param fishingLevel - The player's fishing skill level
+   * @returns Encounter rate as a percentage
+   */
+  private getEncounterRate(fishType: string, fishingLevel: number): number {
+    const fish = fishType.toLowerCase();
+    
+    // Base encounter rates by fish rarity
+    let baseRate = 50; // Default 50%
+    
+    // Common fish (available at any level)
+    if (fish === 'gup' || fish === 'sardine' || fish === 'clownfish' || fish === 'icefish') {
+      baseRate = 60;
+    }
+    // Uncommon fish (requires fishing level 5)
+    else if (fish === 'cod' || fish === 'tuna' || fish === 'angelfish' || fish === 'arctic char') {
+      baseRate = 40;
+    }
+    // Rare fish (requires fishing level 10)
+    else if (fish === 'shark' || fish === 'marlin' || fish === 'lionfish' || fish === 'beluga') {
+      baseRate = 25;
+    }
+    // Epic fish (requires fishing level 15)
+    else if (fish === 'whale' || fish === 'megalodon' || fish === 'manta ray' || fish === 'narwhal') {
+      baseRate = 15;
+    }
+    // Legendary fish (requires fishing level 20)
+    else if (fish === 'kraken' || fish === 'leviathan' || fish === 'sea dragon' || fish === 'frost kraken') {
+      baseRate = 5;
+    }
+    
+    // Increase encounter rate based on fishing level (up to +20% at max level)
+    const levelBonus = Math.min(20, fishingLevel * 0.7);
+    const finalRate = Math.min(100, baseRate + levelBonus);
+    
+    return Math.round(finalRate);
+  }
+
+  /**
+   * Calculate capture rate for a fish type based on fishing level
+   * 
+   * @param fishType - The type of fish
+   * @param fishingLevel - The player's fishing skill level
+   * @returns Capture rate as a percentage
+   */
+  private getCaptureRate(fishType: string, fishingLevel: number): number {
+    const fish = fishType.toLowerCase();
+    
+    // Base capture rates by fish rarity
+    let baseRate = 80; // Default 80%
+    
+    // Common fish (available at any level)
+    if (fish === 'gup' || fish === 'sardine' || fish === 'clownfish' || fish === 'icefish') {
+      baseRate = 90;
+    }
+    // Uncommon fish (requires fishing level 5)
+    else if (fish === 'cod' || fish === 'tuna' || fish === 'angelfish' || fish === 'arctic char') {
+      baseRate = 85;
+    }
+    // Rare fish (requires fishing level 10)
+    else if (fish === 'shark' || fish === 'marlin' || fish === 'lionfish' || fish === 'beluga') {
+      baseRate = 75;
+    }
+    // Epic fish (requires fishing level 15)
+    else if (fish === 'whale' || fish === 'megalodon' || fish === 'manta ray' || fish === 'narwhal') {
+      baseRate = 65;
+    }
+    // Legendary fish (requires fishing level 20)
+    else if (fish === 'kraken' || fish === 'leviathan' || fish === 'sea dragon' || fish === 'frost kraken') {
+      baseRate = 50;
+    }
+    
+    // Increase capture rate based on fishing level (up to +25% at max level)
+    const levelBonus = Math.min(25, fishingLevel * 0.8);
+    const finalRate = Math.min(100, baseRate + levelBonus);
+    
+    return Math.round(finalRate);
   }
 
   /**
