@@ -20,6 +20,13 @@ import {
   FishingService
 } from "./src/rpg";
 
+// Import class services
+import {
+  RPGClassesService,
+  ClassInteractionService,
+  ClassSelectionService
+} from "./src/rpg/classes";
+
 /**
  * HOOPLA RPG PLUGIN - MODULAR ARCHITECTURE
  * 
@@ -87,6 +94,11 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   private miningService: MiningService;
   private fishingService: FishingService;
 
+  // Class services
+  private classesService: RPGClassesService;
+  private classInteractionService: ClassInteractionService;
+  private classSelectionService: ClassSelectionService;
+
   // Rate limiting
   private playerClickTimes: Map<string, number[]> = new Map();
 
@@ -112,6 +124,11 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     this.worldSaveService = new WorldSaveService(omegga, store);
     this.miningService = new MiningService(omegga, this.inventoryService, this.experienceService, this.skillService, this.resourceService, this.progressBarService);
     this.fishingService = new FishingService(omegga, this.inventoryService, this.experienceService, this.skillService, this.resourceService, this.progressBarService);
+
+    // Initialize class services
+    this.classesService = new RPGClassesService(omegga, store);
+    this.classInteractionService = new ClassInteractionService(omegga, store, this.classesService);
+    this.classSelectionService = new ClassSelectionService(omegga, store, this.classesService);
   }
 
   async init() {
@@ -156,7 +173,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         "rpg", "rpginit", "rpghelp", "rpgclearall", "rpgcleartriggers", "rpgclearquests",
         "rpgresetquests", "rpgresetquestitems", "rpgassignlevel30roles", "rpgteams", "rpgcleaninventories", 
         "rpgcleaninventory", "rpginventory", "rpgnormalizeitems", "mininginfo", "fishinginfo", "rpgleaderboard",
-        "rpgfixlevel", "rpgadmin"
+        "rpgfixlevel", "rpgadmin", "rpgselect"
       ] 
     };
   }
@@ -223,6 +240,11 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
     this.omegga.on('cmd:fishinginfo', (speaker) => {
       this.showFishingInfo(speaker);
+    });
+
+    // Class selection command
+    this.omegga.on('cmd:rpgselect', (speaker, ...args) => {
+      this.handleClassSelection(speaker, args);
     });
 
     // Additional RPG commands
@@ -459,6 +481,11 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             await this.questService.handleQuestInteraction(player.id, trigger);
             console.log(`[DEBUG] Quest handler completed for trigger: "${trigger.id}"`);
             break;
+          case 'class_interaction':
+            console.log(`[DEBUG] Calling class interaction handler for trigger: "${trigger.id}"`);
+            await this.handleClassInteraction(player.id, trigger);
+            console.log(`[DEBUG] Class interaction handler completed for trigger: "${trigger.id}"`);
+            break;
           case 'questitem':
             console.log(`[DEBUG] Calling quest item handler for trigger: "${trigger.id}"`);
             await this.handleQuestItemInteraction(player.id, trigger);
@@ -506,6 +533,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     } else if (lowerMessage.includes('questitem')) {
       console.log(`[DEBUG] Trigger type determined as: "questitem"`);
       return 'questitem';
+    } else if (lowerMessage.includes('rpg_warrior_boulder') || lowerMessage.includes('rpg_mage_portal') || lowerMessage.includes('rpg_pirate_treasure')) {
+      console.log(`[DEBUG] Trigger type determined as: "class_interaction"`);
+      return 'class_interaction';
     } else if (lowerMessage.includes('quest') || lowerMessage.includes('npc')) {
       console.log(`[DEBUG] Trigger type determined as: "quest"`);
       return 'quest';
@@ -590,6 +620,41 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     }
   }
 
+  /**
+   * Handle class-specific brick interactions
+   */
+  private async handleClassInteraction(playerId: string, trigger: any): Promise<void> {
+    try {
+      console.log(`[DEBUG] Class interaction for player ${playerId}, trigger message: ${trigger.message}`);
+      
+      // Check if this is a class-specific brick
+      if (!this.classInteractionService.isClassInteraction(trigger.message)) {
+        console.log(`[DEBUG] Not a class interaction: ${trigger.message}`);
+        return;
+      }
+      
+      // Handle the class interaction
+      const result = await this.classInteractionService.handleClassInteraction(playerId, trigger.message);
+      
+      if (result.success) {
+        this.omegga.middlePrint(playerId, result.message);
+        
+        // Handle any rewards
+        if (result.reward) {
+          if (result.reward.type === 'pirate_treasure' && result.reward.money) {
+            // TODO: Add money to player's currency
+            console.log(`[DEBUG] Pirate treasure reward: $${result.reward.money}`);
+          }
+        }
+      } else {
+        this.omegga.whisper(playerId, result.message);
+      }
+      
+    } catch (error) {
+      console.error(`[Hoopla RPG] Error handling class interaction:`, error);
+      this.omegga.whisper(playerId, "An error occurred processing the class interaction.");
+    }
+  }
 
   /**
    * Handle shop interactions
@@ -1073,12 +1138,18 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       // Format leaderboard for whisper (multi-line for better readability)
       this.omegga.whisper(speaker, `<color="ff0">Top Players Leaderboard:</color>`);
       
-      leaderboard.forEach((entry, index) => {
-        const position = index + 1;
+      for (let i = 0; i < leaderboard.length; i++) {
+        const entry = leaderboard[i];
+        const position = i + 1;
         const positionText = position === 1 ? "1st" : position === 2 ? "2nd" : position === 3 ? "3rd" : `${position}th`;
-        const message = `${positionText}. <color="0ff">${entry.name}</color> (Level ${entry.level}) - <color="ff0">${entry.score.toLocaleString()}</color> points`;
+        
+        // Get class information for this player
+        const classDisplay = await this.classesService.getPlayerClassDisplay(entry.playerId);
+        const classInfo = classDisplay !== 'No Class' ? ` (${classDisplay})` : '';
+        
+        const message = `${positionText}. <color="0ff">${entry.name}</color>${classInfo} - <color="ff0">${entry.score.toLocaleString()}</color> points`;
         this.omegga.whisper(speaker, message);
-      });
+      }
       
     } catch (error) {
       console.error(`[Hoopla RPG] Error showing leaderboard:`, error);
@@ -1098,11 +1169,18 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       }
 
       // Create compact format for server announcement (single line)
-      const topPlayers = leaderboard.slice(0, 5).map((entry, index) => {
-        const position = index + 1;
+      const topPlayers = [];
+      for (let i = 0; i < Math.min(5, leaderboard.length); i++) {
+        const entry = leaderboard[i];
+        const position = i + 1;
         const positionText = position === 1 ? "1st" : position === 2 ? "2nd" : position === 3 ? "3rd" : `${position}th`;
-        return `${positionText}. <color="0ff">${entry.name}</color>(L${entry.level})`;
-      }).join(' | ');
+        
+        // Get class information for this player
+        const classDisplay = await this.classesService.getPlayerClassDisplay(entry.playerId);
+        const classInfo = classDisplay !== 'No Class' ? `(${classDisplay})` : `(L${entry.level})`;
+        
+        topPlayers.push(`${positionText}. <color="0ff">${entry.name}</color>${classInfo}`);
+      }
 
       // Broadcast compact leaderboard
       this.omegga.broadcast(`<color="ff0">🏆 Top Players:</color> ${topPlayers}`);
@@ -1743,6 +1821,32 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         console.error(`[Hoopla RPG] Error during RPG initialization:`, error);
         this.omegga.whisper(speaker, `<color="f00">Error initializing RPG systems: ${error.message}</color>`);
        }
+  }
+
+  /**
+   * Handle class selection command
+   */
+  private async handleClassSelection(speaker: string, args: string[]): Promise<void> {
+    try {
+      if (args.length === 0) {
+        // Show class selection help
+        const helpMessage = this.classSelectionService.getClassSelectionHelp();
+        this.omegga.whisper(speaker, helpMessage);
+        return;
+      }
+
+      const classId = args[0].toLowerCase();
+      const result = await this.classSelectionService.handleClassSelection(speaker, classId);
+      
+      if (result.success) {
+        this.omegga.whisper(speaker, result.message);
+      } else {
+        this.omegga.whisper(speaker, result.message);
+      }
+    } catch (error) {
+      console.error(`[Hoopla RPG] Error handling class selection:`, error);
+      this.omegga.whisper(speaker, '<color="f00">Error selecting class. Please try again.</color>');
+    }
   }
 
   /**
