@@ -135,6 +135,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   async init() {
     console.log("[Hoopla RPG] Initializing modular RPG system...");
     
+    // CRITICAL: Create data backup before initialization
+    await this.createDataBackup();
+    
     // Load the currency plugin
     try {
       await this.currency.loadPlugin();
@@ -177,6 +180,67 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         "rpgfixlevel", "rpgadmin", "rpgselect"
       ] 
     };
+  }
+
+  /**
+   * Create a backup of all player data before initialization
+   */
+  private async createDataBackup(): Promise<void> {
+    try {
+      console.log("[Hoopla RPG] Creating data backup before initialization...");
+      
+      // Get all player data from store
+      const allData = await this.store.get("rpg_*");
+      const backupData: { [key: string]: any } = {};
+      
+      if (allData && typeof allData === 'object') {
+        for (const [key, value] of Object.entries(allData)) {
+          if (key.startsWith('rpg_')) {
+            backupData[key] = value;
+          }
+        }
+      }
+      
+      // Store backup with timestamp
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const backupKey = `backup_${timestamp}`;
+      await this.store.set(backupKey, backupData);
+      
+      console.log(`[Hoopla RPG] Data backup created: ${backupKey} (${Object.keys(backupData).length} players)`);
+      
+      // Clean up old backups (keep only last 5)
+      await this.cleanupOldBackups();
+      
+    } catch (error) {
+      console.error("[Hoopla RPG] Error creating data backup:", error);
+      // Don't throw - backup failure shouldn't prevent initialization
+    }
+  }
+
+  /**
+   * Clean up old backups, keeping only the last 5
+   */
+  private async cleanupOldBackups(): Promise<void> {
+    try {
+      const allData = await this.store.get("*");
+      if (!allData || typeof allData !== 'object') return;
+      
+      const backupKeys = Object.keys(allData)
+        .filter(key => key.startsWith('backup_'))
+        .sort()
+        .reverse(); // Most recent first
+      
+      // Keep only the 5 most recent backups
+      const keysToDelete = backupKeys.slice(5);
+      
+      for (const key of keysToDelete) {
+        await this.store.delete(key);
+        console.log(`[Hoopla RPG] Cleaned up old backup: ${key}`);
+      }
+      
+    } catch (error) {
+      console.error("[Hoopla RPG] Error cleaning up old backups:", error);
+    }
   }
 
   /**
@@ -319,10 +383,15 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   private async handlePlayerJoin(player: any): Promise<void> {
     try {
       // Ensure player data exists by getting it (will create default if not exists)
-      await this.playerService.getPlayerData({ id: player.id });
+      const playerData = await this.playerService.getPlayerData({ id: player.id });
       
       // Update username if needed
       await this.playerService.ensurePlayerUsername(player.id, player.name);
+      
+      // Check if player is level 30 and grant roles if needed
+      if (playerData.level >= 30) {
+        await this.ensureMaxLevelRoles(player.name);
+      }
       
       console.log(`[Hoopla RPG] Player ${player.name} joined and data initialized`);
     } catch (error) {
@@ -339,6 +408,29 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       console.log(`[Hoopla RPG] Player ${player.name} left`);
     } catch (error) {
       console.error(`[Hoopla RPG] Error handling player leave for ${player.name}:`, error);
+    }
+  }
+
+  /**
+   * Ensures a level 30+ player has the appropriate roles
+   * 
+   * @param playerName - The name of the player to check
+   */
+  private async ensureMaxLevelRoles(playerName: string): Promise<void> {
+    try {
+      console.log(`[Hoopla RPG] Ensuring max level roles for ${playerName}`);
+      
+      // Grant Flyer role
+      await (this.omegga as any).setRole(playerName, "Flyer");
+      console.log(`[Hoopla RPG] Ensured Flyer role for ${playerName}`);
+      
+      // Grant MINIGAME LEAVER role
+      await (this.omegga as any).setRole(playerName, "MINIGAME LEAVER");
+      console.log(`[Hoopla RPG] Ensured MINIGAME LEAVER role for ${playerName}`);
+      
+    } catch (error) {
+      console.error(`[Hoopla RPG] Error ensuring max level roles for ${playerName}:`, error);
+      // Don't throw - role granting failure shouldn't break player join
     }
   }
 

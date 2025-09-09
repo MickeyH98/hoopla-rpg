@@ -106,6 +106,9 @@ export class ExperienceService {
         // Announce the level up
         this.omegga.broadcast(`<color="ff0">Congratulations! ${playerName} has reached level 30!</color>`);
         
+        // CRITICAL: Automatically grant max level roles
+        await this.grantMaxLevelRoles(playerName);
+        
         return { 
           leveledUp: true, 
           newLevel: 30 
@@ -134,6 +137,11 @@ export class ExperienceService {
       
       // Announce level up
       this.omegga.broadcast(`<color="ff0">${playerName} leveled up to level ${newLevel}!</color>`);
+      
+      // CRITICAL: Automatically grant max level roles if they reached level 30
+      if (newLevel === 30) {
+        await this.grantMaxLevelRoles(playerName);
+      }
       
       // CRITICAL: Extra save for level 30 players to prevent data loss
       await this.setPlayerData({ id }, player);
@@ -275,5 +283,31 @@ export class ExperienceService {
         fishing: { level: 0, experience: 0 }
       }
     };
+  }
+
+  /**
+   * Automatically grants max level roles when a player reaches level 30
+   * 
+   * @param playerName - The name of the player to grant roles to
+   */
+  private async grantMaxLevelRoles(playerName: string): Promise<void> {
+    try {
+      console.log(`[Hoopla RPG] Granting max level roles to ${playerName}`);
+      
+      // Grant Flyer role
+      await (this.omegga as any).setRole(playerName, "Flyer");
+      console.log(`[Hoopla RPG] Granted Flyer role to ${playerName}`);
+      
+      // Grant MINIGAME LEAVER role
+      await (this.omegga as any).setRole(playerName, "MINIGAME LEAVER");
+      console.log(`[Hoopla RPG] Granted MINIGAME LEAVER role to ${playerName}`);
+      
+      // Announce the role granting
+      this.omegga.broadcast(`<color="0f0">${playerName} has been granted Flyer and MINIGAME LEAVER roles for reaching max level!</color>`);
+      
+    } catch (error) {
+      console.error(`[Hoopla RPG] Error granting max level roles to ${playerName}:`, error);
+      // Don't throw - role granting failure shouldn't break level-up
+    }
   }
 }

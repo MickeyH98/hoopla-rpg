@@ -143,12 +143,15 @@ export class PlayerService {
       questKeys: player.quests ? Object.keys(player.quests) : []
     });
     
+    // CRITICAL: Validate and fix player data to prevent corruption
+    const validatedPlayer = this.validateAndFixPlayerData(player, id);
+    
     // If this player is level 30, cache them to prevent data corruption
-    if (player.level === 30) {
-      this.level30PlayerCache.set(id, { ...player });
+    if (validatedPlayer.level === 30) {
+      this.level30PlayerCache.set(id, { ...validatedPlayer });
     }
     
-    return player;
+    return validatedPlayer;
   }
 
   /**
@@ -317,6 +320,89 @@ export class PlayerService {
     await this.setPlayerData({ id }, player);
     
     return { newHealth, healed };
+  }
+
+  /**
+   * Validates and fixes player data to prevent corruption during plugin reloads
+   * 
+   * @param player - The player data to validate
+   * @param playerId - The player ID for logging
+   * @returns Validated and fixed player data
+   */
+  private validateAndFixPlayerData(player: RPGPlayer, playerId: string): RPGPlayer {
+    const fixedPlayer = { ...player };
+    let needsFix = false;
+    
+    // Validate and fix main level
+    if (typeof fixedPlayer.level !== 'number' || fixedPlayer.level < 1) {
+      console.log(`[Hoopla RPG] WARNING: Invalid level for player ${playerId}: ${fixedPlayer.level}, resetting to ${this.config.startingLevel}`);
+      fixedPlayer.level = this.config.startingLevel;
+      needsFix = true;
+    }
+    
+    // Validate and fix experience
+    if (typeof fixedPlayer.experience !== 'number' || fixedPlayer.experience < 0) {
+      console.log(`[Hoopla RPG] WARNING: Invalid experience for player ${playerId}: ${fixedPlayer.experience}, resetting to 0`);
+      fixedPlayer.experience = 0;
+      needsFix = true;
+    }
+    
+    // Validate and fix health
+    if (typeof fixedPlayer.health !== 'number' || fixedPlayer.health < 0) {
+      console.log(`[Hoopla RPG] WARNING: Invalid health for player ${playerId}: ${fixedPlayer.health}, resetting to 100`);
+      fixedPlayer.health = 100;
+      needsFix = true;
+    }
+    
+    if (typeof fixedPlayer.maxHealth !== 'number' || fixedPlayer.maxHealth < 1) {
+      console.log(`[Hoopla RPG] WARNING: Invalid maxHealth for player ${playerId}: ${fixedPlayer.maxHealth}, resetting to 100`);
+      fixedPlayer.maxHealth = 100;
+      needsFix = true;
+    }
+    
+    // Validate and fix inventory
+    if (!Array.isArray(fixedPlayer.inventory)) {
+      console.log(`[Hoopla RPG] WARNING: Invalid inventory for player ${playerId}, resetting to empty array`);
+      fixedPlayer.inventory = [];
+      needsFix = true;
+    }
+    
+    // Validate and fix skills
+    if (!fixedPlayer.skills || typeof fixedPlayer.skills !== 'object') {
+      console.log(`[Hoopla RPG] WARNING: Invalid skills for player ${playerId}, resetting to default`);
+      fixedPlayer.skills = {
+        mining: { level: 0, experience: 0 },
+        bartering: { level: 0, experience: 0 },
+        fishing: { level: 0, experience: 0 }
+      };
+      needsFix = true;
+    } else {
+      // Validate individual skills
+      const skillTypes = ['mining', 'bartering', 'fishing'] as const;
+      for (const skillType of skillTypes) {
+        if (!fixedPlayer.skills[skillType] || 
+            typeof fixedPlayer.skills[skillType].level !== 'number' || 
+            typeof fixedPlayer.skills[skillType].experience !== 'number') {
+          console.log(`[Hoopla RPG] WARNING: Invalid ${skillType} skill for player ${playerId}, resetting to default`);
+          fixedPlayer.skills[skillType] = { level: 0, experience: 0 };
+          needsFix = true;
+        }
+      }
+    }
+    
+    // Validate and fix quests
+    if (!fixedPlayer.quests || typeof fixedPlayer.quests !== 'object') {
+      console.log(`[Hoopla RPG] WARNING: Invalid quests for player ${playerId}, resetting to empty object`);
+      fixedPlayer.quests = {};
+      needsFix = true;
+    }
+    
+    // Log if any fixes were applied
+    if (needsFix) {
+      console.log(`[Hoopla RPG] Applied data validation fixes for player ${playerId}`);
+    }
+    
+    return fixedPlayer;
   }
 
   /**
