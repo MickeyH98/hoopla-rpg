@@ -101,6 +101,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
   // Rate limiting
   private playerClickTimes: Map<string, number[]> = new Map();
+  private lastInteractionTimes: Map<string, number> = new Map();
 
   constructor(omegga: OL, config: PC<Config>, store: PS<Storage>) {
     this.omegga = omegga;
@@ -370,6 +371,18 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           console.log(`[Hoopla RPG] Click rate limited for player ${playerName} (${playerId})`);
           return;
         }
+
+        // Additional debouncing: prevent same interaction within 100ms
+        const interactionKey = `${playerId}_${data.message}_${JSON.stringify(data.position)}`;
+        const now = Date.now();
+        const lastInteractionTime = this.lastInteractionTimes.get(interactionKey) || 0;
+        
+        if (now - lastInteractionTime < 100) {
+          console.log(`[Hoopla RPG] Interaction debounced for player ${playerName} (${playerId})`);
+          return;
+        }
+        
+        this.lastInteractionTimes.set(interactionKey, now);
 
         // Store player username for leaderboard display
       await this.playerService.ensurePlayerUsername(player.id, player.name);
