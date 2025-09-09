@@ -782,6 +782,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         }
       }
       
+      // CRITICAL: Save the updated player data after removing items
+      await this.playerService.setPlayerData({ id: playerId }, player);
+      
       // Add currency and XP
       await this.addCurrencySafely(playerId, totalValue);
       await this.skillService.addSkillExperience({ id: playerId }, 'bartering', totalItems);
@@ -1170,7 +1173,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
       // Create compact format for server announcement (single line)
       const topPlayers = [];
-      for (let i = 0; i < Math.min(5, leaderboard.length); i++) {
+      for (let i = 0; i < Math.min(10, leaderboard.length); i++) {
         const entry = leaderboard[i];
         const position = i + 1;
         const positionText = position === 1 ? "1st" : position === 2 ? "2nd" : position === 3 ? "3rd" : `${position}th`;
