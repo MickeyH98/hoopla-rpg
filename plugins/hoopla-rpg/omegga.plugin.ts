@@ -468,11 +468,15 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         switch (trigger.type) {
           case 'mining':
             await this.miningService.handleMiningNode(player.id, trigger.id, trigger, playerData);
+            // CRITICAL: Save updated player data after mining interaction
+            await this.playerService.setPlayerData({ id: player.id }, playerData);
             // Save updated trigger data
             await this.saveTriggerData(trigger.id, trigger);
             break;
           case 'fishing':
             const fishingResult = await this.fishingService.handleFishingNode(player.id, trigger.id, trigger, playerData);
+            // CRITICAL: Save updated player data after fishing interaction
+            await this.playerService.setPlayerData({ id: player.id }, playerData);
             // Save updated trigger data
             await this.saveTriggerData(trigger.id, trigger);
             break;
