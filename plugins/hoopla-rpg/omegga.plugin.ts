@@ -99,9 +99,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   private classInteractionService: ClassInteractionService;
   private classSelectionService: ClassSelectionService;
 
-  // Rate limiting
+  // Rate limiting and autoclicker protection
   private playerClickTimes: Map<string, number[]> = new Map();
   private lastInteractionTimes: Map<string, number> = new Map();
+  private playerViolations: Map<string, { count: number; lastViolation: number; bannedUntil?: number }> = new Map();
 
   constructor(omegga: OL, config: PC<Config>, store: PS<Storage>) {
     this.omegga = omegga;
@@ -161,8 +162,14 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       await this.announceLeaderboard();
     }, 10 * 60 * 1000); // 10 minutes in milliseconds
 
+    // Set up autoclicker protection cleanup timer (every 5 minutes)
+    setInterval(() => {
+      this.cleanupAutoclickerData();
+    }, 5 * 60 * 1000); // 5 minutes in milliseconds
+
     console.log("[Hoopla RPG] Modular RPG system initialized successfully!");
     console.log("[Hoopla RPG] Leaderboard announcements enabled - every 10 minutes");
+    console.log("[Hoopla RPG] Autoclicker protection enabled with progressive penalties");
 
     // Generate a random hash for this reload to verify we're testing the correct version
     const reloadHash = Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -177,7 +184,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         "rpg", "rpginit", "rpghelp", "rpgclearall", "rpgcleartriggers", "rpgclearquests",
         "rpgresetquests", "rpgresetquestitems", "rpgassignlevel30roles", "rpgteams", "rpgcleaninventories", 
         "rpgcleaninventory", "rpginventory", "rpgnormalizeitems", "mininginfo", "fishinginfo", "rpgleaderboard",
-        "rpgfixlevel", "rpgadmin", "rpgselect"
+        "rpgfixlevel", "rpgadmin", "rpgselect", "rpgantiautoclicker"
       ] 
     };
   }
@@ -374,6 +381,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       this.handleAdminCommand(speaker, args);
     });
 
+    this.omegga.on('cmd:rpgantiautoclicker', (speaker, ...args) => {
+      this.handleAntiAutoclickerCommand(speaker, args);
+    });
+
     console.log("[Hoopla RPG] Command handlers set up successfully");
   }
 
@@ -431,6 +442,112 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     } catch (error) {
       console.error(`[Hoopla RPG] Error ensuring max level roles for ${playerName}:`, error);
       // Don't throw - role granting failure shouldn't break player join
+    }
+  }
+
+  /**
+   * Clean up old autoclicker protection data to prevent memory leaks
+   */
+  private cleanupAutoclickerData(): void {
+    const now = Date.now();
+    const fiveMinutesAgo = now - (5 * 60 * 1000);
+    
+    // Clean up old click times (older than 1 minute)
+    const oneMinuteAgo = now - (60 * 1000);
+    for (const [playerId, clickTimes] of this.playerClickTimes.entries()) {
+      const filteredTimes = clickTimes.filter(time => time > oneMinuteAgo);
+      if (filteredTimes.length === 0) {
+        this.playerClickTimes.delete(playerId);
+      } else {
+        this.playerClickTimes.set(playerId, filteredTimes);
+      }
+    }
+    
+    // Clean up old interaction times (older than 1 minute)
+    for (const [interactionKey, lastTime] of this.lastInteractionTimes.entries()) {
+      if (lastTime < oneMinuteAgo) {
+        this.lastInteractionTimes.delete(interactionKey);
+      }
+    }
+    
+    // Clean up expired violations
+    for (const [playerId, violation] of this.playerViolations.entries()) {
+      // Remove violations that are older than 5 minutes and not currently banned
+      if (violation.lastViolation < fiveMinutesAgo && (!violation.bannedUntil || violation.bannedUntil < now)) {
+        this.playerViolations.delete(playerId);
+      }
+    }
+    
+    console.log(`[Hoopla RPG] Autoclicker protection data cleaned up`);
+  }
+
+  /**
+   * Handle anti-autoclicker admin command
+   */
+  private handleAntiAutoclickerCommand(speaker: string, args: string[]): void {
+    try {
+      if (args.length === 0) {
+        // Show status
+        const now = Date.now();
+        let activeBans = 0;
+        let totalViolations = 0;
+        
+        for (const [playerId, violation] of this.playerViolations.entries()) {
+          totalViolations += violation.count;
+          if (violation.bannedUntil && violation.bannedUntil > now) {
+            activeBans++;
+          }
+        }
+        
+        this.omegga.whisper(speaker, `<color="0ff">=== Autoclicker Protection Status ===</color>`);
+        this.omegga.whisper(speaker, `<color="fff">Active bans: ${activeBans}</color>`);
+        this.omegga.whisper(speaker, `<color="fff">Total violations tracked: ${totalViolations}</color>`);
+        this.omegga.whisper(speaker, `<color="fff">Rate limit: 10 clicks/second</color>`);
+        this.omegga.whisper(speaker, `<color="888">Use: /rpgantiautoclicker status|reset|reset [player]</color>`);
+        
+      } else if (args[0] === 'status') {
+        // Detailed status
+        const now = Date.now();
+        this.omegga.whisper(speaker, `<color="0ff">=== Detailed Autoclicker Protection Status ===</color>`);
+        
+        for (const [playerId, violation] of this.playerViolations.entries()) {
+          const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
+          const isBanned = violation.bannedUntil && violation.bannedUntil > now;
+          const banTime = isBanned ? Math.ceil((violation.bannedUntil! - now) / 1000) : 0;
+          
+          this.omegga.whisper(speaker, `<color="fff">${playerName}: ${violation.count} violations${isBanned ? ` (BANNED ${banTime}s)` : ''}</color>`);
+        }
+        
+      } else if (args[0] === 'reset') {
+        if (args.length === 1) {
+          // Reset all violations
+          this.playerViolations.clear();
+          this.playerClickTimes.clear();
+          this.lastInteractionTimes.clear();
+          this.omegga.whisper(speaker, `<color="0f0">All autoclicker protection data has been reset!</color>`);
+        } else {
+          // Reset specific player
+          const targetPlayer = this.omegga.getPlayer(args[1]);
+          if (targetPlayer) {
+            this.playerViolations.delete(targetPlayer.id);
+            this.playerClickTimes.delete(targetPlayer.id);
+            // Clear all interaction times for this player
+            for (const [key, time] of this.lastInteractionTimes.entries()) {
+              if (key.startsWith(targetPlayer.id + '_')) {
+                this.lastInteractionTimes.delete(key);
+              }
+            }
+            this.omegga.whisper(speaker, `<color="0f0">Autoclicker protection data reset for ${targetPlayer.name}!</color>`);
+          } else {
+            this.omegga.whisper(speaker, `<color="f00">Player not found: ${args[1]}</color>`);
+          }
+        }
+      } else {
+        this.omegga.whisper(speaker, `<color="f00">Invalid command. Use: /rpgantiautoclicker [status|reset|reset player]</color>`);
+      }
+    } catch (error) {
+      console.error(`[Hoopla RPG] Error handling anti-autoclicker command:`, error);
+      this.omegga.whisper(speaker, `<color="f00">Error processing command: ${error.message}</color>`);
     }
   }
 
@@ -662,11 +779,20 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   }
 
   /**
-   * Check if player can click (rate limiting)
+   * Check if player can click (enhanced rate limiting with autoclicker protection)
    */
   private canPlayerClick(playerId: string): boolean {
     const now = Date.now();
     const oneSecondAgo = now - 1000;
+    const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
+    
+    // Check if player is temporarily banned for autoclicking
+    const violation = this.playerViolations.get(playerId);
+    if (violation?.bannedUntil && now < violation.bannedUntil) {
+      const remainingSeconds = Math.ceil((violation.bannedUntil - now) / 1000);
+      console.log(`[Hoopla RPG] AUTOCLICKER BAN: ${playerName} (${playerId}) is banned for ${remainingSeconds} more seconds`);
+      return false;
+    }
     
     // Get or create click times array for this player
     let clickTimes = this.playerClickTimes.get(playerId) || [];
@@ -676,6 +802,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     
     // Check if player has exceeded rate limit (10 clicks per second)
     if (clickTimes.length >= 10) {
+      // Record violation
+      this.recordRateLimitViolation(playerId, playerName);
       return false;
     }
     
@@ -684,6 +812,44 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     this.playerClickTimes.set(playerId, clickTimes);
     
     return true;
+  }
+
+  /**
+   * Record rate limit violation and apply progressive penalties
+   */
+  private recordRateLimitViolation(playerId: string, playerName: string): void {
+    const now = Date.now();
+    const violation = this.playerViolations.get(playerId) || { count: 0, lastViolation: 0 };
+    
+    // Reset violation count if it's been more than 5 minutes since last violation
+    if (now - violation.lastViolation > 5 * 60 * 1000) {
+      violation.count = 0;
+    }
+    
+    violation.count++;
+    violation.lastViolation = now;
+    
+    // Apply progressive penalties
+    if (violation.count === 1) {
+      console.log(`[Hoopla RPG] RATE LIMIT VIOLATION #1: ${playerName} (${playerId}) - Warning issued`);
+    } else if (violation.count === 2) {
+      console.log(`[Hoopla RPG] RATE LIMIT VIOLATION #2: ${playerName} (${playerId}) - 30 second cooldown applied`);
+      violation.bannedUntil = now + (30 * 1000); // 30 second ban
+    } else if (violation.count === 3) {
+      console.log(`[Hoopla RPG] RATE LIMIT VIOLATION #3: ${playerName} (${playerId}) - 2 minute cooldown applied`);
+      violation.bannedUntil = now + (2 * 60 * 1000); // 2 minute ban
+    } else if (violation.count >= 4) {
+      console.log(`[Hoopla RPG] RATE LIMIT VIOLATION #${violation.count}: ${playerName} (${playerId}) - 10 minute cooldown applied`);
+      violation.bannedUntil = now + (10 * 60 * 1000); // 10 minute ban
+    }
+    
+    this.playerViolations.set(playerId, violation);
+    
+    // Notify player of their penalty
+    if (violation.bannedUntil) {
+      const banDuration = Math.ceil((violation.bannedUntil - now) / 1000);
+      this.omegga.whisper(playerId, `<color="f00">Rate limit exceeded! You are temporarily banned from interactions for ${banDuration} seconds.</color>`);
+    }
   }
 
   /**
