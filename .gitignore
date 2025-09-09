@@ -1,0 +1,47 @@
+# Temporary build files
+data/Saved/Builds/omegga_hoopla-rpg_temp*.brs
+
+# Crash report files (these are generated automatically)
+data/Saved/Config/CrashReportClient/
+
+# Log backup files (keep current logs but not all backups)
+data/Saved/Logs/*-backup-*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node modules (if any)
+node_modules/
+
+# Keep important data files:
+# data/chat.db
+# data/players.db
+# data/plugins.db
+# data/session.db
+# data/status.db
+# data/store.db
+# data/users.db
+# data/active_world
+# data/web_certs.json
+# data/web_session_token
+# data/Saved/Server/
+# data/Saved/Worlds/
+# data/Saved/Config/LinuxServer/
+# data/Saved/ImGui/
+# data/Saved/Logs/Brickadia.log
