@@ -3467,3 +3467,667 @@ So far we have mining, fishing, and selling!
 [2025.09.09-01.37.20:421][578]LogBRWorldManager: Main thread unblocked after 0.001192.
 [2025.09.09-01.37.20:422][578]LogBRWorldManager: World serialization tasks completed. Writing world files to bundle.
 [2025.09.09-01.37.20:452][580]LogBRWorldManager: World files saved after 0.032250.
+[2025.09.09-01.37.55:684][682]LogConsoleCmd: Server.Status
+[2025.09.09-01.37.55:684][682]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.37.55:684][683]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.37.55:684][683]LogConsoleCommands: Bricks: 62437
+[2025.09.09-01.37.55:684][683]LogConsoleCommands: Components: 725
+[2025.09.09-01.37.55:684][683]LogConsoleCommands: Time: 90m 56s
+[2025.09.09-01.37.55:684][683]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.37.55:684][683]LogConsoleCommands: * Name   | Ping |    Time | Roles | Address             | ID                                  
+[2025.09.09-01.37.55:684][683]LogConsoleCommands: * hoopla | 18ms | 90m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.37.59:691][921]LogServerList: Posting server.
+[2025.09.09-01.38.55:688][262]LogConsoleCmd: Server.Status
+[2025.09.09-01.38.55:688][262]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.38.55:688][262]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.38.55:688][263]LogConsoleCommands: Bricks: 62437
+[2025.09.09-01.38.55:688][263]LogConsoleCommands: Components: 725
+[2025.09.09-01.38.55:688][263]LogConsoleCommands: Time: 91m 56s
+[2025.09.09-01.38.55:688][263]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.38.55:688][263]LogConsoleCommands: * Name   | Ping |    Time | Roles | Address             | ID                                  
+[2025.09.09-01.38.55:688][263]LogConsoleCommands: * hoopla | 14ms | 91m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.38.59:693][501]LogServerList: Posting server.
+[2025.09.09-01.39.55:695][842]LogConsoleCmd: Server.Status
+[2025.09.09-01.39.55:695][842]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.39.55:695][843]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.39.55:695][843]LogConsoleCommands: Bricks: 62437
+[2025.09.09-01.39.55:695][843]LogConsoleCommands: Components: 725
+[2025.09.09-01.39.55:695][843]LogConsoleCommands: Time: 92m 56s
+[2025.09.09-01.39.55:695][843]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.39.55:695][843]LogConsoleCommands: * Name   | Ping |    Time | Roles | Address             | ID                                  
+[2025.09.09-01.39.55:695][843]LogConsoleCommands: * hoopla | 15ms | 92m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.39.59:700][ 81]LogServerList: Posting server.
+[2025.09.09-01.40.55:724][424]LogConsoleCmd: Server.Status
+[2025.09.09-01.40.55:724][424]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.40.55:724][424]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.40.55:724][425]LogConsoleCommands: Bricks: 62437
+[2025.09.09-01.40.55:724][425]LogConsoleCommands: Components: 725
+[2025.09.09-01.40.55:724][425]LogConsoleCommands: Time: 93m 56s
+[2025.09.09-01.40.55:724][425]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.40.55:724][425]LogConsoleCommands: * Name   | Ping |    Time | Roles | Address             | ID                                  
+[2025.09.09-01.40.55:724][425]LogConsoleCommands: * hoopla | 15ms | 93m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.40.59:695][661]LogServerList: Posting server.
+[2025.09.09-01.41.40:404][ 90]LogConsoleCmd: Chat.Broadcast <color="0f0">Hoopla RPG plugin has been reloaded successfully! [vCZ7P5Q]</color>
+[2025.09.09-01.41.40:404][ 90]LogChat: Hoopla RPG plugin has been reloaded successfully! [vCZ7P5Q]
+[2025.09.09-01.41.55:729][  4]LogConsoleCmd: Server.Status
+[2025.09.09-01.41.55:729][  4]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.41.55:729][  5]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.41.55:729][  5]LogConsoleCommands: Bricks: 62437
+[2025.09.09-01.41.55:729][  5]LogConsoleCommands: Components: 725
+[2025.09.09-01.41.55:729][  5]LogConsoleCommands: Time: 94m 56s
+[2025.09.09-01.41.55:729][  5]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.41.55:729][  5]LogConsoleCommands: * Name   | Ping |    Time | Roles | Address             | ID                                  
+[2025.09.09-01.41.55:729][  5]LogConsoleCommands: * hoopla | 14ms | 94m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.41.59:702][241]LogServerList: Posting server.
+[2025.09.09-01.42.55:742][584]LogConsoleCmd: Server.Status
+[2025.09.09-01.42.55:742][584]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.42.55:742][585]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.42.55:742][585]LogConsoleCommands: Bricks: 62437
+[2025.09.09-01.42.55:742][585]LogConsoleCommands: Components: 725
+[2025.09.09-01.42.55:742][585]LogConsoleCommands: Time: 95m 56s
+[2025.09.09-01.42.55:742][585]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.42.55:742][585]LogConsoleCommands: * Name   | Ping |    Time | Roles | Address             | ID                                  
+[2025.09.09-01.42.55:742][585]LogConsoleCommands: * hoopla | 14ms | 95m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.42.59:706][820]LogServerList: Posting server.
+[2025.09.09-01.43.55:737][163]LogConsoleCmd: Server.Status
+[2025.09.09-01.43.55:737][163]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.43.55:737][164]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.43.55:737][164]LogConsoleCommands: Bricks: 62437
+[2025.09.09-01.43.55:737][164]LogConsoleCommands: Components: 725
+[2025.09.09-01.43.55:737][164]LogConsoleCommands: Time: 96m 56s
+[2025.09.09-01.43.55:737][164]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.43.55:737][164]LogConsoleCommands: * Name   | Ping |    Time | Roles | Address             | ID                                  
+[2025.09.09-01.43.55:737][164]LogConsoleCommands: * hoopla | 15ms | 96m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.43.59:693][399]LogServerList: Posting server.
+[2025.09.09-01.44.55:751][743]LogConsoleCmd: Server.Status
+[2025.09.09-01.44.55:751][743]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.44.55:751][744]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.44.55:751][744]LogConsoleCommands: Bricks: 62437
+[2025.09.09-01.44.55:751][744]LogConsoleCommands: Components: 725
+[2025.09.09-01.44.55:751][744]LogConsoleCommands: Time: 97m 56s
+[2025.09.09-01.44.55:751][744]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.44.55:751][744]LogConsoleCommands: * Name   | Ping |    Time | Roles | Address             | ID                                  
+[2025.09.09-01.44.55:751][744]LogConsoleCommands: * hoopla | 15ms | 97m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.44.59:690][978]LogServerList: Posting server.
+[2025.09.09-01.45.55:764][323]LogConsoleCmd: Server.Status
+[2025.09.09-01.45.55:764][323]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.45.55:764][323]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.45.55:764][324]LogConsoleCommands: Bricks: 62437
+[2025.09.09-01.45.55:764][324]LogConsoleCommands: Components: 725
+[2025.09.09-01.45.55:764][324]LogConsoleCommands: Time: 98m 56s
+[2025.09.09-01.45.55:764][324]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.45.55:764][324]LogConsoleCommands: * Name   | Ping |    Time | Roles | Address             | ID                                  
+[2025.09.09-01.45.55:764][324]LogConsoleCommands: * hoopla | 14ms | 98m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.45.59:703][558]LogServerList: Posting server.
+[2025.09.09-01.46.55:778][903]LogConsoleCmd: Server.Status
+[2025.09.09-01.46.55:778][903]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.46.55:778][904]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.46.55:778][904]LogConsoleCommands: Bricks: 62437
+[2025.09.09-01.46.55:778][904]LogConsoleCommands: Components: 725
+[2025.09.09-01.46.55:778][904]LogConsoleCommands: Time: 99m 56s
+[2025.09.09-01.46.55:778][904]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.46.55:778][904]LogConsoleCommands: * Name   | Ping |    Time | Roles | Address             | ID                                  
+[2025.09.09-01.46.55:778][904]LogConsoleCommands: * hoopla | 15ms | 99m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.46.59:700][137]LogServerList: Posting server.
+[2025.09.09-01.46.59:700][137]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.09-01.47.55:778][482]LogConsoleCmd: Server.Status
+[2025.09.09-01.47.55:778][482]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.47.55:778][483]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.47.55:778][483]LogConsoleCommands: Bricks: 62437
+[2025.09.09-01.47.55:778][483]LogConsoleCommands: Components: 725
+[2025.09.09-01.47.55:778][483]LogConsoleCommands: Time: 100m 56s
+[2025.09.09-01.47.55:778][483]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.47.55:778][483]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-01.47.55:778][483]LogConsoleCommands: * hoopla | 15ms | 100m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.47.59:700][716]LogServerList: Posting server.
+[2025.09.09-01.48.55:788][ 62]LogConsoleCmd: Server.Status
+[2025.09.09-01.48.55:788][ 62]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.48.55:788][ 63]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.48.55:788][ 63]LogConsoleCommands: Bricks: 62437
+[2025.09.09-01.48.55:788][ 63]LogConsoleCommands: Components: 725
+[2025.09.09-01.48.55:788][ 63]LogConsoleCommands: Time: 101m 56s
+[2025.09.09-01.48.55:788][ 63]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.48.55:788][ 63]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-01.48.55:788][ 63]LogConsoleCommands: * hoopla | 15ms | 101m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.48.59:693][295]LogServerList: Posting server.
+[2025.09.09-01.49.55:796][642]LogConsoleCmd: Server.Status
+[2025.09.09-01.49.55:796][642]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.49.55:797][643]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.49.55:797][643]LogConsoleCommands: Bricks: 62437
+[2025.09.09-01.49.55:797][643]LogConsoleCommands: Components: 725
+[2025.09.09-01.49.55:797][643]LogConsoleCommands: Time: 102m 56s
+[2025.09.09-01.49.55:797][643]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.49.55:797][643]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-01.49.55:797][643]LogConsoleCommands: * hoopla | 14ms | 102m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.49.59:702][875]LogServerList: Posting server.
+[2025.09.09-01.50.42:629][436]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "1x1" at -419 -1271 866, message: "rpg_buy_bait".
+[2025.09.09-01.50.42:664][438]LogConsoleCmd: Chat.StatusMessage "hoopla" Purchased <color="fff">[Fish bait]x20</color> for $100! You now have $55409.
+[2025.09.09-01.50.50:072][880]LogChatCommands: Player "hoopla" is trying to call command "/rpginventory" with arg string "".
+[2025.09.09-01.50.50:072][880]LogChatCommands: Error: Command rpginventory does not exist.
+[2025.09.09-01.50.50:090][881]LogConsoleCmd: Chat.Whisper "hoopla" <color="ff0">=== hoopla's Inventory ===</color>
+[2025.09.09-01.50.50:090][881]LogConsoleCmd: Chat.Whisper "hoopla" <color="0f0">ORE (3):</color> <color="fff">[Copper]</color><color="ff0">x1</color>,<color="08f">[Gold]</color><color="ff0">x2</color>
+[2025.09.09-01.50.50:107][882]LogConsoleCmd: Chat.Whisper "hoopla" <color="0f0">QUEST
+[2025.09.09-01.50.50:107][882]LogConsoleCmd: Chat.Whisper "hoopla" (4):</color> <color="f80">[Box]</color><color="ff0">x1</color>,<color="fff">[Ice Crystal]</color><color="ff0">x1</color>,<color="fff">[Ice Crown]</color><color="ff0">x1</color>
+[2025.09.09-01.50.50:107][882]LogConsoleCmd: Chat.Whisper "hoopla" <color="0f0"> 
+[2025.09.09-01.50.50:124][883]LogConsoleCmd: Chat.Whisper "hoopla" </color><color="fff">[Frozen Heart]</color><color="ff0">x1</color>
+[2025.09.09-01.50.50:124][883]LogConsoleCmd: Chat.Whisper "hoopla" <color="0f0">CONSUMABLES:</color> <color="ff0">[Fish bait]</color><color="ff0">x62</color>
+[2025.09.09-01.50.50:124][883]LogConsoleCmd: Chat.Whisper "hoopla" <color="888">Total: 7 items (6 unique
+[2025.09.09-01.50.50:140][884]LogConsoleCmd: Chat.Whisper "hoopla" types)</color>
+[2025.09.09-01.50.55:806][222]LogConsoleCmd: Server.Status
+[2025.09.09-01.50.55:806][222]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.50.55:806][223]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.50.55:806][223]LogConsoleCommands: Bricks: 62437
+[2025.09.09-01.50.55:806][223]LogConsoleCommands: Components: 725
+[2025.09.09-01.50.55:806][223]LogConsoleCommands: Time: 103m 56s
+[2025.09.09-01.50.55:806][223]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.50.55:806][223]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-01.50.55:806][223]LogConsoleCommands: * hoopla | 15ms | 103m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.50.59:694][454]LogServerList: Posting server.
+[2025.09.09-01.51.13:236][262]LogChatCommands: Player "hoopla" is trying to call command "/rpgcleanitems" with arg string "".
+[2025.09.09-01.51.13:236][262]LogChatCommands: Error: Command rpgcleanitems does not exist.
+[2025.09.09-01.51.13:238][263]LogConsoleCmd: Chat.Whisper "hoopla" "Command not found. Type <color=\"ffff00\">/help</> for a list of commands or <color=\"ffff00\">/plugins</> for plugin information."
+[2025.09.09-01.51.16:789][474]LogChatCommands: Player "hoopla" is trying to call command "/rpghelp" with arg string "".
+[2025.09.09-01.51.16:789][474]LogChatCommands: Error: Command rpghelp does not exist.
+[2025.09.09-01.51.16:791][474]LogConsoleCmd: Chat.Whisper "hoopla" <color="ff0">=== HOOPLA RPG HELP ===</color>
+[2025.09.09-01.51.16:791][474]LogConsoleCmd: Chat.Whisper "hoopla" 
+[2025.09.09-01.51.16:791][474]LogConsoleCommands: Error: Chat.Whisper: Bad formatting - at least 2 args required.
+[2025.09.09-01.51.16:791][474]LogConsoleCmd: Chat.Whisper "hoopla" <color="0f0">Available Commands:</color>
+[2025.09.09-01.51.16:791][474]LogConsoleCmd: Chat.Whisper "hoopla" /rpg stats - Show your character stats
+[2025.09.09-01.51.16:808][475]LogConsoleCmd: Chat.Whisper "hoopla" /rpg inventory - Show your inventory
+[2025.09.09-01.51.16:808][475]LogConsoleCmd: Chat.Whisper "hoopla" /rpg leaderboard - Show the
+[2025.09.09-01.51.16:808][475]LogConsoleCmd: Chat.Whisper "hoopla" leaderboard
+[2025.09.09-01.51.16:808][475]LogConsoleCmd: Chat.Whisper "hoopla" /rpg help - Show this help message
+[2025.09.09-01.51.16:808][475]LogConsoleCmd: Chat.Whisper "hoopla" 
+[2025.09.09-01.51.16:808][475]LogConsoleCommands: Error: Chat.Whisper: Bad formatting - at least 2 args required.
+[2025.09.09-01.51.16:808][476]LogConsoleCmd: Chat.Whisper "hoopla" <color="0f0">Game Features:</color>
+[2025.09.09-01.51.16:824][476]LogConsoleCmd: Chat.Whisper "hoopla" - Mining nodes for ores and XP
+[2025.09.09-01.51.16:824][476]LogConsoleCmd: Chat.Whisper "hoopla" - Fishing spots for fish and XP
+[2025.09.09-01.51.16:824][476]LogConsoleCmd: Chat.Whisper "hoopla" - Quest system with rewards
+[2025.09.09-01.51.16:824][476]LogConsoleCmd: Chat.Whisper "hoopla" - Skill progression
+[2025.09.09-01.51.16:824][476]LogConsoleCmd: Chat.Whisper "hoopla" (Mining, Fishing, Bartering)
+[2025.09.09-01.51.16:841][477]LogConsoleCmd: Chat.Whisper "hoopla" - Economy and trading system
+[2025.09.09-01.51.16:841][477]LogConsoleCmd: Chat.Whisper "hoopla" 
+[2025.09.09-01.51.16:841][477]LogConsoleCommands: Error: Chat.Whisper: Bad formatting - at least 2 args required.
+[2025.09.09-01.51.16:841][477]LogConsoleCmd: Chat.Whisper "hoopla" <color="0f0">How to Play:</color>
+[2025.09.09-01.51.16:841][477]LogConsoleCmd: Chat.Whisper "hoopla" 1. Find mining nodes (colored bricks) and click them to mine
+[2025.09.09-01.51.16:841][477]LogConsoleCmd: Chat.Whisper "hoopla" 2. Find fishing spots and click them to
+[2025.09.09-01.51.16:858][478]LogConsoleCmd: Chat.Whisper "hoopla" fish
+[2025.09.09-01.51.16:858][478]LogConsoleCmd: Chat.Whisper "hoopla" 3. Complete quests for rewards
+[2025.09.09-01.51.16:858][478]LogConsoleCmd: Chat.Whisper "hoopla" 4. Level up your skills and character
+[2025.09.09-01.51.16:858][478]LogConsoleCmd: Chat.Whisper "hoopla" 5. Trade resources for currency
+[2025.09.09-01.51.16:858][478]LogConsoleCmd: Chat.Whisper "hoopla" 
+[2025.09.09-01.51.16:858][478]LogConsoleCommands: Error: Chat.Whisper: Bad formatting - at least 2 args required.
+[2025.09.09-01.51.16:874][479]LogConsoleCmd: Chat.Whisper "hoopla" <color="ff0">Good luck, adventurer!</color>
+[2025.09.09-01.51.25:875][ 16]LogChatCommands: Player "hoopla" is trying to call command "/rpg" with arg string "stats".
+[2025.09.09-01.51.25:875][ 16]LogChatCommands: Error: Command rpg does not exist.
+[2025.09.09-01.51.25:893][ 17]LogConsoleCmd: Chat.Whisper "hoopla" <color="ff0">Level 30 (MAX)</> | <color="f00">310/310 HP</> | <color="0f0">$55409</>
+[2025.09.09-01.51.25:893][ 17]LogConsoleCmd: Chat.Whisper "hoopla" <color="0ff">Mining 28 - 0/5500XP (100%)</> | <color="f0f">Bartering 30 (MAX)</>
+[2025.09.09-01.51.25:910][ 18]LogConsoleCmd: Chat.Whisper "hoopla" <color="0aa">Fishing 30 (MAX)</>
+[2025.09.09-01.51.25:910][ 18]LogConsoleCmd: Chat.Whisper "hoopla" <color="fff">Consumables: <color="ff0">x62</color> <color="ff0">[Fish bait]</color></>
+[2025.09.09-01.51.25:910][ 18]LogConsoleCmd: Chat.Whisper "hoopla" <color="888">Try /rpghelp for more commands, /rpginventory for items</color>
+[2025.09.09-01.51.28:188][154]LogChatCommands: Player "hoopla" is trying to call command "/rpg" with arg string "".
+[2025.09.09-01.51.28:188][154]LogChatCommands: Error: Command rpg does not exist.
+[2025.09.09-01.51.28:206][155]LogConsoleCmd: Chat.Whisper "hoopla" <color="ff0">Level 30 (MAX)</> | <color="f00">310/310 HP</> | <color="0f0">$55409</>
+[2025.09.09-01.51.28:206][156]LogConsoleCmd: Chat.Whisper "hoopla" <color="0ff">Mining 28 - 0/5500XP (100%)</> | <color="f0f">Bartering 30 (MAX)</>
+[2025.09.09-01.51.28:223][156]LogConsoleCmd: Chat.Whisper "hoopla" <color="0aa">Fishing 30 (MAX)</>
+[2025.09.09-01.51.28:223][156]LogConsoleCmd: Chat.Whisper "hoopla" <color="fff">Consumables: <color="ff0">x62</color> <color="ff0">[Fish bait]</color></>
+[2025.09.09-01.51.28:223][156]LogConsoleCmd: Chat.Whisper "hoopla" <color="888">Try /rpghelp for more commands, /rpginventory for items</color>
+[2025.09.09-01.51.47:687][317]LogServerList: Posting server.
+[2025.09.09-01.51.47:687][317]LogChat: hoopla changed the server settings.
+[2025.09.09-01.51.47:800][324]LogHttp: Warning: 0x747df845a0f0: request failed, libcurl error: 65 (Send failed since rewinding of the data stream failed)
+[2025.09.09-01.51.47:801][324]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 0 (Found bundle for host: 0x74942af92fb0 [serially])
+[2025.09.09-01.51.47:801][324]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 1 (Re-using existing connection with host brickadia.com)
+[2025.09.09-01.51.47:801][324]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 2 (We are completely uploaded and fine)
+[2025.09.09-01.51.47:801][324]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 3 (Recv failure: Connection reset by peer)
+[2025.09.09-01.51.47:801][324]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 4 (OpenSSL SSL_read: Connection reset by peer, errno 104)
+[2025.09.09-01.51.47:801][324]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 5 (Connection died, retrying a fresh connect (retry count: 1))
+[2025.09.09-01.51.47:801][324]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 6 (state.rewindbeforesend = TRUE)
+[2025.09.09-01.51.47:801][324]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 7 (Closing connection)
+[2025.09.09-01.51.47:801][324]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 8 (Send failure: Broken pipe)
+[2025.09.09-01.51.47:801][324]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 9 (Issue another request to this URL: 'https://brickadia.com/api/v1/servers')
+[2025.09.09-01.51.47:801][324]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 10 (  Trying 172.67.73.59:443...)
+[2025.09.09-01.51.47:801][324]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 11 (Connected to brickadia.com (172.67.73.59) port 443)
+[2025.09.09-01.51.47:801][324]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 12 (ALPN: curl offers http/1.1)
+[2025.09.09-01.51.47:801][324]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 13 (SSL reusing session ID)
+[2025.09.09-01.51.47:801][324]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 14 (TLSv1.3 (OUT), TLS handshake, Client hello (1):)
+[2025.09.09-01.51.47:801][325]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 15 (TLSv1.3 (IN), TLS handshake, Server hello (2):)
+[2025.09.09-01.51.47:801][325]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 16 (TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):)
+[2025.09.09-01.51.47:801][325]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 17 (TLSv1.3 (IN), TLS handshake, Certificate (11):)
+[2025.09.09-01.51.47:801][325]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 18 (TLSv1.3 (IN), TLS handshake, CERT verify (15):)
+[2025.09.09-01.51.47:801][325]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 19 (TLSv1.3 (IN), TLS handshake, Finished (20):)
+[2025.09.09-01.51.47:801][325]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 20 (TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):)
+[2025.09.09-01.51.47:801][325]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 21 (TLSv1.3 (OUT), TLS handshake, Finished (20):)
+[2025.09.09-01.51.47:801][325]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 22 (SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384)
+[2025.09.09-01.51.47:801][325]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 23 (ALPN: server accepted http/1.1)
+[2025.09.09-01.51.47:801][325]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 24 (Server certificate:)
+[2025.09.09-01.51.47:801][325]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 25 ( subject: CN=brickadia.com)
+[2025.09.09-01.51.47:801][325]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 26 ( start date: Aug 14 13:53:59 2025 GMT)
+[2025.09.09-01.51.47:801][325]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 27 ( expire date: Nov 12 14:53:57 2025 GMT)
+[2025.09.09-01.51.47:801][325]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 28 ( subjectAltName: host "brickadia.com" matched cert's "brickadia.com")
+[2025.09.09-01.51.47:801][325]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 29 ( issuer: C=US; O=Google Trust Services; CN=WE1)
+[2025.09.09-01.51.47:801][325]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 30 ( SSL certificate verify ok.)
+[2025.09.09-01.51.47:801][325]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 31 (using HTTP/1.1)
+[2025.09.09-01.51.47:801][325]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 32 (necessary data rewind wasn't possible)
+[2025.09.09-01.51.47:801][325]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 33 (Closing connection)
+[2025.09.09-01.51.47:801][325]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 34 (TLSv1.3 (OUT), TLS alert, close notify (256):)
+[2025.09.09-01.51.47:801][325]LogServerList: Error: Failed to post server - internal error or timed out.
+[2025.09.09-01.51.55:797][801]LogConsoleCmd: Server.Status
+[2025.09.09-01.51.55:797][801]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.51.55:797][802]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.51.55:797][802]LogConsoleCommands: Bricks: 62437
+[2025.09.09-01.51.55:797][802]LogConsoleCommands: Components: 725
+[2025.09.09-01.51.55:797][802]LogConsoleCommands: Time: 104m 56s
+[2025.09.09-01.51.55:797][802]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.51.55:797][802]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-01.51.55:797][802]LogConsoleCommands: * hoopla | 14ms | 104m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.51.59:702][ 34]LogServerList: Posting server.
+[2025.09.09-01.52.35:190][151]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-01.52.35:190][151]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-01.52.36:766][245]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-01.52.36:766][245]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-01.52.55:826][382]LogConsoleCmd: Server.Status
+[2025.09.09-01.52.55:826][382]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.52.55:826][383]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.52.55:826][383]LogConsoleCommands: Bricks: 62438
+[2025.09.09-01.52.55:826][383]LogConsoleCommands: Components: 725
+[2025.09.09-01.52.55:826][383]LogConsoleCommands: Time: 105m 56s
+[2025.09.09-01.52.55:826][383]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.52.55:826][383]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-01.52.55:826][383]LogConsoleCommands: * hoopla | 15ms | 105m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.52.59:698][613]LogServerList: Posting server.
+[2025.09.09-01.53.24:337][ 83]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-01.53.24:337][ 83]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-01.53.26:600][218]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-01.53.26:600][218]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-01.53.55:816][961]LogConsoleCmd: Server.Status
+[2025.09.09-01.53.55:816][961]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.53.55:816][961]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.53.55:816][962]LogConsoleCommands: Bricks: 62443
+[2025.09.09-01.53.55:816][962]LogConsoleCommands: Components: 725
+[2025.09.09-01.53.55:816][962]LogConsoleCommands: Time: 106m 56s
+[2025.09.09-01.53.55:816][962]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.53.55:816][962]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-01.53.55:816][962]LogConsoleCommands: * hoopla | 14ms | 106m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.53.59:704][193]LogServerList: Posting server.
+[2025.09.09-01.54.31:016][ 61]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-01.54.31:016][ 61]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-01.54.55:823][541]LogConsoleCmd: Server.Status
+[2025.09.09-01.54.55:824][541]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.54.55:824][542]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.54.55:824][542]LogConsoleCommands: Bricks: 62887
+[2025.09.09-01.54.55:824][542]LogConsoleCommands: Components: 725
+[2025.09.09-01.54.55:824][542]LogConsoleCommands: Time: 107m 56s
+[2025.09.09-01.54.55:824][542]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.54.55:824][542]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-01.54.55:824][542]LogConsoleCommands: * hoopla | 14ms | 107m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.54.59:695][772]LogServerList: Posting server.
+[2025.09.09-01.55.55:849][122]LogConsoleCmd: Server.Status
+[2025.09.09-01.55.55:849][122]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.55.55:850][123]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.55.55:850][123]LogConsoleCommands: Bricks: 64219
+[2025.09.09-01.55.55:850][123]LogConsoleCommands: Components: 725
+[2025.09.09-01.55.55:850][123]LogConsoleCommands: Time: 108m 56s
+[2025.09.09-01.55.55:850][123]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.55.55:850][123]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-01.55.55:850][123]LogConsoleCommands: * hoopla | 14ms | 108m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.55.59:705][352]LogServerList: Posting server.
+[2025.09.09-01.56.55:844][701]LogConsoleCmd: Server.Status
+[2025.09.09-01.56.55:844][701]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.56.55:844][702]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.56.55:844][702]LogConsoleCommands: Bricks: 64219
+[2025.09.09-01.56.55:844][702]LogConsoleCommands: Components: 725
+[2025.09.09-01.56.55:844][702]LogConsoleCommands: Time: 109m 56s
+[2025.09.09-01.56.55:844][702]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.56.55:844][702]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-01.56.55:844][702]LogConsoleCommands: * hoopla | 14ms | 109m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.56.59:699][931]LogAutoSave: Auto saving the world.
+[2025.09.09-01.56.59:699][931]LogBRWorldManager: Requested world save.
+[2025.09.09-01.56.59:699][931]LogServerList: Posting server.
+[2025.09.09-01.56.59:699][931]LogBRWorldManager: Good time for save between wire ticks.
+[2025.09.09-01.56.59:700][931]LogBRWorldManager: Saving world to bundle.
+[2025.09.09-01.56.59:700][931]LogBRWorldManager: Exporting global environment settings.
+[2025.09.09-01.56.59:700][931]LogBRWorldManager: Exporting global minigame settings.
+[2025.09.09-01.56.59:701][931]LogBRWorldManager: World data collected. Launching async serialization tasks.
+[2025.09.09-01.56.59:701][931]LogBRWorldManager: Main thread unblocked after 0.001512.
+[2025.09.09-01.56.59:701][931]LogBRWorldManager: World serialization tasks completed. Writing world files to bundle.
+[2025.09.09-01.56.59:732][933]LogBRWorldManager: World files saved after 0.032086.
+[2025.09.09-01.56.59:732][933]LogAutoSave: Auto save successful, 41 entities, 67,076 bricks, 954 components, 633 wires.
+[2025.09.09-01.56.59:732][933]LogChat: World saved: 41 entities, 67076 bricks, 954 components, 633 wires.
+[2025.09.09-01.56.59:733][933]LogIris: Warning: Splitting multicast net object attachment MulticastPushChatMessageText.
+[2025.09.09-01.57.55:867][282]LogConsoleCmd: Server.Status
+[2025.09.09-01.57.55:867][282]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.57.55:867][282]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.57.55:867][283]LogConsoleCommands: Bricks: 64219
+[2025.09.09-01.57.55:867][283]LogConsoleCommands: Components: 725
+[2025.09.09-01.57.55:868][283]LogConsoleCommands: Time: 110m 56s
+[2025.09.09-01.57.55:868][283]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.57.55:868][283]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-01.57.55:868][283]LogConsoleCommands: * hoopla | 14ms | 110m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.57.59:706][511]LogServerList: Posting server.
+[2025.09.09-01.58.22:772][887]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-01.58.22:772][887]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-01.58.55:861][861]LogConsoleCmd: Server.Status
+[2025.09.09-01.58.55:861][861]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.58.55:861][862]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.58.55:861][862]LogConsoleCommands: Bricks: 65619
+[2025.09.09-01.58.55:861][862]LogConsoleCommands: Components: 725
+[2025.09.09-01.58.55:861][862]LogConsoleCommands: Time: 111m 56s
+[2025.09.09-01.58.55:861][862]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.58.55:861][862]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-01.58.55:861][862]LogConsoleCommands: * hoopla | 14ms | 111m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.58.59:699][ 90]LogServerList: Posting server.
+[2025.09.09-01.59.08:852][636]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-01.59.08:852][636]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-01.59.55:873][441]LogConsoleCmd: Server.Status
+[2025.09.09-01.59.55:873][441]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-01.59.55:873][442]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-01.59.55:873][442]LogConsoleCommands: Bricks: 67495
+[2025.09.09-01.59.55:873][442]LogConsoleCommands: Components: 725
+[2025.09.09-01.59.55:873][442]LogConsoleCommands: Time: 112m 56s
+[2025.09.09-01.59.55:873][442]LogConsoleCommands: Players (1/12):
+[2025.09.09-01.59.55:873][442]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-01.59.55:873][442]LogConsoleCommands: * hoopla | 14ms | 112m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-01.59.59:694][669]LogServerList: Posting server.
+[2025.09.09-02.00.19:442][847]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.00.19:442][847]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.00.55:887][ 21]LogConsoleCmd: Server.Status
+[2025.09.09-02.00.55:887][ 21]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.00.55:887][ 22]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.00.55:887][ 22]LogConsoleCommands: Bricks: 69371
+[2025.09.09-02.00.55:887][ 22]LogConsoleCommands: Components: 725
+[2025.09.09-02.00.55:887][ 22]LogConsoleCommands: Time: 113m 56s
+[2025.09.09-02.00.55:887][ 22]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.00.55:887][ 22]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.00.55:887][ 22]LogConsoleCommands: * hoopla | 14ms | 113m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.00.59:691][248]LogServerList: Posting server.
+[2025.09.09-02.01.24:166][708]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.01.24:167][708]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.01.55:898][601]LogConsoleCmd: Server.Status
+[2025.09.09-02.01.55:899][601]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.01.55:899][602]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.01.55:899][602]LogConsoleCommands: Bricks: 69840
+[2025.09.09-02.01.55:899][602]LogConsoleCommands: Components: 725
+[2025.09.09-02.01.55:899][602]LogConsoleCommands: Time: 114m 56s
+[2025.09.09-02.01.55:899][602]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.01.55:899][602]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.01.55:899][602]LogConsoleCommands: * hoopla | 14ms | 114m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.01.59:704][828]LogServerList: Posting server.
+[2025.09.09-02.02.27:445][483]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.02.27:445][483]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.02.55:908][181]LogConsoleCmd: Server.Status
+[2025.09.09-02.02.55:908][181]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.02.55:908][182]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.02.55:908][182]LogConsoleCommands: Bricks: 69841
+[2025.09.09-02.02.55:908][182]LogConsoleCommands: Components: 726
+[2025.09.09-02.02.55:908][182]LogConsoleCommands: Time: 115m 56s
+[2025.09.09-02.02.55:908][182]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.02.55:908][182]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.02.55:908][182]LogConsoleCommands: * hoopla | 14ms | 115m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.02.59:695][407]LogServerList: Posting server.
+[2025.09.09-02.02.59:813][414]LogHttp: Warning: 0x747defcff8b0: request failed, libcurl error: 65 (Send failed since rewinding of the data stream failed)
+[2025.09.09-02.02.59:813][414]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 0 (Found bundle for host: 0x747df7176d30 [serially])
+[2025.09.09-02.02.59:813][414]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 1 (Re-using existing connection with host brickadia.com)
+[2025.09.09-02.02.59:813][414]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 2 (We are completely uploaded and fine)
+[2025.09.09-02.02.59:813][414]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 3 (Recv failure: Connection reset by peer)
+[2025.09.09-02.02.59:813][414]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 4 (OpenSSL SSL_read: Connection reset by peer, errno 104)
+[2025.09.09-02.02.59:813][414]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 5 (Connection died, retrying a fresh connect (retry count: 1))
+[2025.09.09-02.02.59:813][414]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 6 (state.rewindbeforesend = TRUE)
+[2025.09.09-02.02.59:813][414]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 7 (Closing connection)
+[2025.09.09-02.02.59:813][414]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 8 (Send failure: Broken pipe)
+[2025.09.09-02.02.59:813][414]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 9 (Issue another request to this URL: 'https://brickadia.com/api/v1/servers')
+[2025.09.09-02.02.59:813][414]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 10 (  Trying 104.26.2.39:443...)
+[2025.09.09-02.02.59:813][414]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 11 (Connected to brickadia.com (104.26.2.39) port 443)
+[2025.09.09-02.02.59:813][414]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 12 (ALPN: curl offers http/1.1)
+[2025.09.09-02.02.59:813][414]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 13 (SSL reusing session ID)
+[2025.09.09-02.02.59:813][414]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 14 (TLSv1.3 (OUT), TLS handshake, Client hello (1):)
+[2025.09.09-02.02.59:813][414]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 15 (TLSv1.3 (IN), TLS handshake, Server hello (2):)
+[2025.09.09-02.02.59:813][414]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 16 (TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):)
+[2025.09.09-02.02.59:813][415]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 17 (TLSv1.3 (IN), TLS handshake, Certificate (11):)
+[2025.09.09-02.02.59:813][415]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 18 (TLSv1.3 (IN), TLS handshake, CERT verify (15):)
+[2025.09.09-02.02.59:813][415]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 19 (TLSv1.3 (IN), TLS handshake, Finished (20):)
+[2025.09.09-02.02.59:813][415]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 20 (TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):)
+[2025.09.09-02.02.59:813][415]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 21 (TLSv1.3 (OUT), TLS handshake, Finished (20):)
+[2025.09.09-02.02.59:813][415]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 22 (SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384)
+[2025.09.09-02.02.59:813][415]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 23 (ALPN: server accepted http/1.1)
+[2025.09.09-02.02.59:813][415]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 24 (Server certificate:)
+[2025.09.09-02.02.59:813][415]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 25 ( subject: CN=brickadia.com)
+[2025.09.09-02.02.59:813][415]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 26 ( start date: Aug 14 13:53:59 2025 GMT)
+[2025.09.09-02.02.59:813][415]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 27 ( expire date: Nov 12 14:53:57 2025 GMT)
+[2025.09.09-02.02.59:813][415]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 28 ( subjectAltName: host "brickadia.com" matched cert's "brickadia.com")
+[2025.09.09-02.02.59:813][415]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 29 ( issuer: C=US; O=Google Trust Services; CN=WE1)
+[2025.09.09-02.02.59:813][415]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 30 ( SSL certificate verify ok.)
+[2025.09.09-02.02.59:813][415]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 31 (using HTTP/1.1)
+[2025.09.09-02.02.59:813][415]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 32 (necessary data rewind wasn't possible)
+[2025.09.09-02.02.59:813][415]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 33 (Closing connection)
+[2025.09.09-02.02.59:813][415]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 34 (TLSv1.3 (OUT), TLS alert, close notify (256):)
+[2025.09.09-02.02.59:813][415]LogServerList: Error: Failed to post server - internal error or timed out.
+[2025.09.09-02.03.55:908][761]LogConsoleCmd: Server.Status
+[2025.09.09-02.03.55:908][762]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.03.55:908][762]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.03.55:908][762]LogConsoleCommands: Bricks: 69841
+[2025.09.09-02.03.55:908][762]LogConsoleCommands: Components: 726
+[2025.09.09-02.03.55:908][762]LogConsoleCommands: Time: 116m 56s
+[2025.09.09-02.03.55:908][762]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.03.55:908][762]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.03.55:908][762]LogConsoleCommands: * hoopla | 15ms | 116m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.03.59:695][987]LogServerList: Posting server.
+[2025.09.09-02.04.53:680][208]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.04.53:680][208]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.04.55:272][303]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.04.55:272][303]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.04.55:910][342]LogConsoleCmd: Server.Status
+[2025.09.09-02.04.55:910][342]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.04.55:910][342]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.04.55:910][342]LogConsoleCommands: Bricks: 69841
+[2025.09.09-02.04.55:910][342]LogConsoleCommands: Components: 726
+[2025.09.09-02.04.55:910][342]LogConsoleCommands: Time: 117m 56s
+[2025.09.09-02.04.55:910][342]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.04.55:910][342]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.04.55:910][342]LogConsoleCommands: * hoopla | 14ms | 117m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.04.59:697][567]LogServerList: Posting server.
+[2025.09.09-02.05.55:933][922]LogConsoleCmd: Server.Status
+[2025.09.09-02.05.55:933][922]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.05.55:933][923]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.05.55:933][923]LogConsoleCommands: Bricks: 69843
+[2025.09.09-02.05.55:933][923]LogConsoleCommands: Components: 726
+[2025.09.09-02.05.55:933][923]LogConsoleCommands: Time: 118m 56s
+[2025.09.09-02.05.55:933][923]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.05.55:933][923]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.05.55:933][923]LogConsoleCommands: * hoopla | 14ms | 118m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.05.56:251][941]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.05.56:251][941]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.05.59:704][147]LogServerList: Posting server.
+[2025.09.09-02.06.54:275][403]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x1x3" at -185 -3180 1214, message: "rpg_quest_emmet_brickingway".
+[2025.09.09-02.06.54:293][404]LogConsoleCmd: Chat.Whisper "hoopla" <color="ff0">Emmet Brickingway</color>: The boxes are still out there, near the waterfall and beyond. You need to find all 10 <color="9B59B6">[Brickingway Box]</color>es to complete this quest. Each
+[2025.09.09-02.06.54:310][405]LogConsoleCmd: Chat.Whisper "hoopla" one you find brings me closer to completing what I started. The stories must be told. They demand to be heard. Have you searched the waterfall area thoroughly? Look for small wooden boxes with my name
+[2025.09.09-02.06.54:327][406]LogConsoleCmd: Chat.Whisper "hoopla" carved into them. How many have you found so far? The truth about this island waits in those boxes, and it will change everything you think you know.
+[2025.09.09-02.06.54:327][406]LogConsoleCmd: Chat.Whisper "hoopla" 
+[2025.09.09-02.06.54:327][406]LogConsoleCommands: Error: Chat.Whisper: Bad formatting - at least 2 args required.
+[2025.09.09-02.06.54:327][407]LogConsoleCmd: Chat.Whisper "hoopla" <color="0ff">Current Progress:</color>
+[2025.09.09-02.06.54:327][407]LogConsoleCmd: Chat.Whisper "hoopla" You have
+[2025.09.09-02.06.54:343][407]LogConsoleCmd: Chat.Whisper "hoopla" collected <color="0f0">1</color> out of <color="ff0">10</color> <color="f80">[Brickingway Box]</color>. You still need <color="f00">9</color> more.
+[2025.09.09-02.06.55:936][502]LogConsoleCmd: Server.Status
+[2025.09.09-02.06.55:936][502]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.06.55:936][503]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.06.55:936][503]LogConsoleCommands: Bricks: 69843
+[2025.09.09-02.06.55:936][503]LogConsoleCommands: Components: 726
+[2025.09.09-02.06.55:936][503]LogConsoleCommands: Time: 119m 56s
+[2025.09.09-02.06.55:936][503]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.06.55:936][503]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.06.55:936][503]LogConsoleCommands: * hoopla | 14ms | 119m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.06.59:690][726]LogServerList: Posting server.
+[2025.09.09-02.06.59:690][726]LogAutoSave: Auto saving the world.
+[2025.09.09-02.06.59:690][726]LogBRWorldManager: Requested world save.
+[2025.09.09-02.06.59:690][726]LogBRWorldManager: Good time for save between wire ticks.
+[2025.09.09-02.06.59:690][726]LogBRWorldManager: Saving world to bundle.
+[2025.09.09-02.06.59:690][726]LogBRWorldManager: Exporting global environment settings.
+[2025.09.09-02.06.59:690][726]LogBRWorldManager: Exporting global minigame settings.
+[2025.09.09-02.06.59:692][726]LogBRWorldManager: World data collected. Launching async serialization tasks.
+[2025.09.09-02.06.59:692][726]LogBRWorldManager: Main thread unblocked after 0.001655.
+[2025.09.09-02.06.59:706][727]LogBRWorldManager: World serialization tasks completed. Writing world files to bundle.
+[2025.09.09-02.06.59:756][730]LogBRWorldManager: World files saved after 0.065826.
+[2025.09.09-02.06.59:756][730]LogAutoSave: Auto save successful, 41 entities, 72,700 bricks, 955 components, 633 wires.
+[2025.09.09-02.06.59:756][730]LogChat: World saved: 41 entities, 72700 bricks, 955 components, 633 wires.
+[2025.09.09-02.06.59:757][730]LogIris: Warning: Splitting multicast net object attachment MulticastPushChatMessageText.
+[2025.09.09-02.06.59:841][735]LogHttp: Warning: 0x747defcff8b0: request failed, libcurl error: 65 (Send failed since rewinding of the data stream failed)
+[2025.09.09-02.06.59:841][735]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 0 (Found bundle for host: 0x747df63c68e0 [serially])
+[2025.09.09-02.06.59:841][735]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 1 (Re-using existing connection with host brickadia.com)
+[2025.09.09-02.06.59:841][735]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 2 (We are completely uploaded and fine)
+[2025.09.09-02.06.59:841][735]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 3 (Recv failure: Connection reset by peer)
+[2025.09.09-02.06.59:841][735]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 4 (OpenSSL SSL_read: Connection reset by peer, errno 104)
+[2025.09.09-02.06.59:841][735]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 5 (Connection died, retrying a fresh connect (retry count: 1))
+[2025.09.09-02.06.59:841][735]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 6 (state.rewindbeforesend = TRUE)
+[2025.09.09-02.06.59:841][735]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 7 (Closing connection)
+[2025.09.09-02.06.59:841][735]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 8 (Send failure: Broken pipe)
+[2025.09.09-02.06.59:841][735]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 9 (Issue another request to this URL: 'https://brickadia.com/api/v1/servers')
+[2025.09.09-02.06.59:841][735]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 10 (  Trying 172.67.73.59:443...)
+[2025.09.09-02.06.59:841][735]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 11 (Connected to brickadia.com (172.67.73.59) port 443)
+[2025.09.09-02.06.59:841][735]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 12 (ALPN: curl offers http/1.1)
+[2025.09.09-02.06.59:841][735]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 13 (SSL reusing session ID)
+[2025.09.09-02.06.59:841][736]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 14 (TLSv1.3 (OUT), TLS handshake, Client hello (1):)
+[2025.09.09-02.06.59:841][736]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 15 (TLSv1.3 (IN), TLS handshake, Server hello (2):)
+[2025.09.09-02.06.59:841][736]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 16 (TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):)
+[2025.09.09-02.06.59:841][736]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 17 (TLSv1.3 (IN), TLS handshake, Certificate (11):)
+[2025.09.09-02.06.59:841][736]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 18 (TLSv1.3 (IN), TLS handshake, CERT verify (15):)
+[2025.09.09-02.06.59:841][736]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 19 (TLSv1.3 (IN), TLS handshake, Finished (20):)
+[2025.09.09-02.06.59:841][736]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 20 (TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):)
+[2025.09.09-02.06.59:841][736]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 21 (TLSv1.3 (OUT), TLS handshake, Finished (20):)
+[2025.09.09-02.06.59:841][736]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 22 (SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384)
+[2025.09.09-02.06.59:841][736]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 23 (ALPN: server accepted http/1.1)
+[2025.09.09-02.06.59:841][736]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 24 (Server certificate:)
+[2025.09.09-02.06.59:841][736]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 25 ( subject: CN=brickadia.com)
+[2025.09.09-02.06.59:841][736]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 26 ( start date: Aug 14 13:53:59 2025 GMT)
+[2025.09.09-02.06.59:841][736]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 27 ( expire date: Nov 12 14:53:57 2025 GMT)
+[2025.09.09-02.06.59:841][736]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 28 ( subjectAltName: host "brickadia.com" matched cert's "brickadia.com")
+[2025.09.09-02.06.59:841][736]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 29 ( issuer: C=US; O=Google Trust Services; CN=WE1)
+[2025.09.09-02.06.59:841][736]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 30 ( SSL certificate verify ok.)
+[2025.09.09-02.06.59:841][736]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 31 (using HTTP/1.1)
+[2025.09.09-02.06.59:841][736]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 32 (necessary data rewind wasn't possible)
+[2025.09.09-02.06.59:841][736]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 33 (Closing connection)
+[2025.09.09-02.06.59:841][736]LogHttp: Warning: 0x747defcff8b0: libcurl info message cache 34 (TLSv1.3 (OUT), TLS alert, close notify (256):)
+[2025.09.09-02.06.59:841][736]LogServerList: Error: Failed to post server - internal error or timed out.
+[2025.09.09-02.07.04:666][ 23]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x1x3" at -185 -3180 1214, message: "rpg_quest_emmet_brickingway".
+[2025.09.09-02.07.04:684][ 24]LogConsoleCmd: Chat.Whisper "hoopla" <color="ff0">Emmet Brickingway</color>: The boxes are still out there, near the waterfall and beyond. You need to find all 10 <color="9B59B6">[Brickingway Box]</color>es to complete this quest. Each
+[2025.09.09-02.07.04:701][ 25]LogConsoleCmd: Chat.Whisper "hoopla" one you find brings me closer to completing what I started. The stories must be told. They demand to be heard. Have you searched the waterfall area thoroughly? Look for small wooden boxes with my name
+[2025.09.09-02.07.04:718][ 26]LogConsoleCmd: Chat.Whisper "hoopla" carved into them. How many have you found so far? The truth about this island waits in those boxes, and it will change everything you think you know.
+[2025.09.09-02.07.04:718][ 26]LogConsoleCmd: Chat.Whisper "hoopla" 
+[2025.09.09-02.07.04:718][ 26]LogConsoleCommands: Error: Chat.Whisper: Bad formatting - at least 2 args required.
+[2025.09.09-02.07.04:718][ 27]LogConsoleCmd: Chat.Whisper "hoopla" <color="0ff">Current Progress:</color>
+[2025.09.09-02.07.04:718][ 27]LogConsoleCmd: Chat.Whisper "hoopla" You have
+[2025.09.09-02.07.04:735][ 27]LogConsoleCmd: Chat.Whisper "hoopla" collected <color="0f0">1</color> out of <color="ff0">10</color> <color="f80">[Brickingway Box]</color>. You still need <color="f00">9</color> more.
+[2025.09.09-02.07.14:421][605]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.09-02.07.14:439][606]LogConsoleCmd: Chat.StatusMessage "hoopla" You have already collected this brickingway box.
+[2025.09.09-02.07.20:522][969]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "1x1f" at 840 -7010 1346, message: "rpg_questitem_brickingway_box".
+[2025.09.09-02.07.20:540][970]LogConsoleCmd: Chat.StatusMessage "hoopla" You have already collected this brickingway box.
+[2025.09.09-02.07.24:343][197]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "1x1f" at 890 -6470 1430, message: "rpg_questitem_brickingway_box".
+[2025.09.09-02.07.24:361][198]LogConsoleCmd: Chat.StatusMessage "hoopla" You have already collected this brickingway box.
+[2025.09.09-02.07.25:952][293]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "1x1f" at 770 -6290 1306, message: "rpg_questitem_brickingway_box".
+[2025.09.09-02.07.25:970][294]LogConsoleCmd: Chat.StatusMessage "hoopla" You have already collected this brickingway box.
+[2025.09.09-02.07.29:941][531]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "1x1f" at 840 -7010 1346, message: "rpg_questitem_brickingway_box".
+[2025.09.09-02.07.29:959][532]LogConsoleCmd: Chat.StatusMessage "hoopla" You have already collected this brickingway box.
+[2025.09.09-02.07.33:729][757]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "1x1f" at -420 -7030 866, message: "rpg_questitem_brickingway_box".
+[2025.09.09-02.07.33:764][759]LogConsoleCmd: Chat.StatusMessage "hoopla" You collected <color="f80">[Brickingway Box]</color>!
+[2025.09.09-02.07.38:589][ 47]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "1x1f" at 1020 -7310 626, message: "rpg_questitem_brickingway_box".
+[2025.09.09-02.07.38:607][ 48]LogConsoleCmd: Chat.StatusMessage "hoopla" You have already collected this brickingway box.
+[2025.09.09-02.07.42:394][274]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "1x1f" at 980 -6780 706, message: "rpg_questitem_brickingway_box".
+[2025.09.09-02.07.42:412][275]LogConsoleCmd: Chat.StatusMessage "hoopla" You have already collected this brickingway box.
+[2025.09.09-02.07.49:048][671]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "1x1f" at 1120 -5800 1146, message: "rpg_questitem_brickingway_box".
+[2025.09.09-02.07.49:066][672]LogConsoleCmd: Chat.StatusMessage "hoopla" You have already collected this brickingway box.
+[2025.09.09-02.07.55:938][ 82]LogConsoleCmd: Server.Status
+[2025.09.09-02.07.55:938][ 83]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.07.55:938][ 83]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.07.55:938][ 83]LogConsoleCommands: Bricks: 69843
+[2025.09.09-02.07.55:938][ 83]LogConsoleCommands: Components: 726
+[2025.09.09-02.07.55:938][ 83]LogConsoleCommands: Time: 120m 56s
+[2025.09.09-02.07.55:938][ 83]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.07.55:938][ 83]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.07.55:938][ 83]LogConsoleCommands: * hoopla | 14ms | 120m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.07.59:693][306]LogServerList: Posting server.
+[2025.09.09-02.08.01:839][434]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.08.01:839][434]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.08.55:945][663]LogConsoleCmd: Server.Status
+[2025.09.09-02.08.55:945][663]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.08.55:945][663]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.08.55:945][663]LogConsoleCommands: Bricks: 69843
+[2025.09.09-02.08.55:945][663]LogConsoleCommands: Components: 726
+[2025.09.09-02.08.55:945][663]LogConsoleCommands: Time: 121m 56s
+[2025.09.09-02.08.55:945][663]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.08.55:945][663]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.08.55:945][663]LogConsoleCommands: * hoopla | 15ms | 121m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.08.59:699][886]LogServerList: Posting server.
+[2025.09.09-02.09.55:956][243]LogConsoleCmd: Server.Status
+[2025.09.09-02.09.55:956][243]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.09.55:956][244]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.09.55:956][244]LogConsoleCommands: Bricks: 69843
+[2025.09.09-02.09.55:956][244]LogConsoleCommands: Components: 726
+[2025.09.09-02.09.55:956][244]LogConsoleCommands: Time: 122m 56s
+[2025.09.09-02.09.55:956][244]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.09.55:956][244]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.09.55:956][244]LogConsoleCommands: * hoopla | 22ms | 122m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.09.59:693][466]LogServerList: Posting server.
+[2025.09.09-02.10.55:968][824]LogConsoleCmd: Server.Status
+[2025.09.09-02.10.55:968][824]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.10.55:968][825]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.10.55:968][825]LogConsoleCommands: Bricks: 69843
+[2025.09.09-02.10.55:968][825]LogConsoleCommands: Components: 726
+[2025.09.09-02.10.55:968][825]LogConsoleCommands: Time: 123m 56s
+[2025.09.09-02.10.55:968][825]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.10.55:968][825]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.10.55:968][825]LogConsoleCommands: * hoopla | 23ms | 123m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.10.59:705][ 47]LogServerList: Posting server.
+[2025.09.09-02.11.55:968][404]LogConsoleCmd: Server.Status
+[2025.09.09-02.11.55:968][404]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.11.55:968][405]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.11.55:968][405]LogConsoleCommands: Bricks: 69843
+[2025.09.09-02.11.55:968][405]LogConsoleCommands: Components: 726
+[2025.09.09-02.11.55:968][405]LogConsoleCommands: Time: 124m 56s
+[2025.09.09-02.11.55:968][405]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.11.55:968][405]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.11.55:968][405]LogConsoleCommands: * hoopla | 19ms | 124m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.11.59:705][627]LogServerList: Posting server.
+[2025.09.09-02.12.55:979][985]LogConsoleCmd: Server.Status
+[2025.09.09-02.12.55:979][986]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.12.55:979][986]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.12.55:979][986]LogConsoleCommands: Bricks: 69843
+[2025.09.09-02.12.55:979][986]LogConsoleCommands: Components: 726
+[2025.09.09-02.12.55:979][986]LogConsoleCommands: Time: 125m 56s
+[2025.09.09-02.12.55:979][986]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.12.55:979][986]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.12.55:979][986]LogConsoleCommands: * hoopla | 15ms | 125m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.12.59:700][207]LogServerList: Posting server.

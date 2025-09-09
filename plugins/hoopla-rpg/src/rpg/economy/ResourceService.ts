@@ -116,10 +116,10 @@ export class ResourceService {
     if (resource === 'narwhal') return '80f';       // Purple (Epic)
     if (resource === 'frost kraken') return 'f80';  // Orange (Legendary)
     
-    // Quest items
-    if (resource === 'brickingway box') return 'f80'; // Orange (Legendary)
-    if (resource === 'ice box') return '08f';         // Blue (Rare)
-    if (resource === 'ice chest') return 'f80';       // Orange (Legendary)
+    // Quest items - all standardized to yellow
+    if (resource === 'brickingway box') return 'ff0'; // Yellow (Quest Item)
+    if (resource === 'ice box') return 'ff0';         // Yellow (Quest Item)
+    if (resource === 'ice chest') return 'ff0';       // Yellow (Quest Item)
     
     // Other items
     if (resource === 'fish bait') return 'ff0';       // Yellow (Consumable)

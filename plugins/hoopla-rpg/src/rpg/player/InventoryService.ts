@@ -32,6 +32,13 @@ export class InventoryService {
         return '<color="80f">[Obsidian Ore]</color>'; // Purple - Epic
       case 'diamond':
         return '<color="f80">[Diamond Ore]</color>'; // Orange - Legendary
+      // Quest items - all standardized to yellow
+      case 'brickingway box':
+        return '<color="ff0">[Brickingway Box]</color>'; // Yellow - Quest Item
+      case 'ice box':
+        return '<color="ff0">[Ice Box]</color>'; // Yellow - Quest Item
+      case 'ice chest':
+        return '<color="ff0">[Ice Chest]</color>'; // Yellow - Quest Item
       default:
         return `<color="fff">[${itemType}]</color>`;
     }
