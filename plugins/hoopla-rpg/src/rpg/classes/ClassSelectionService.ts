@@ -29,7 +29,7 @@ export class ClassSelectionService {
         const currentClass = await this.classesService.getPlayerClass(playerId);
         return {
           success: false,
-          message: `<color="f00">You already have a class!</color>\n<color="fff">Your current class: ${currentClass?.emoji} ${currentClass?.name}</color>\n<color="ff0">Class selection is permanent.</color>`
+          message: `<color="f00">You already have a class!</color>\n<color="fff">Your current class: ${currentClass?.name}</color>\n<color="ff0">Class selection is permanent.</color>`
         };
       }
 

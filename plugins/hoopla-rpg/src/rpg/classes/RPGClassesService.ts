@@ -11,17 +11,20 @@ export interface RPGClass {
   id: string;
   name: string;
   description: string;
-  emoji: string;
   startingEquipment: string[];
   specialBrickTypes: string[];
   classSpecificFeatures: string[];
 }
 
-export interface ClassSelection {
-  classId: string;
-  selectedAt: number; // timestamp
+export interface ClassProgress {
   classLevel: number; // class-specific level
   classXP: number; // class-specific experience
+  lastUsed: number; // timestamp when this class was last used
+}
+
+export interface PlayerClassData {
+  currentClass: string; // currently active class
+  classes: { [classId: string]: ClassProgress }; // progress for each class
 }
 
 export class RPGClassesService {
@@ -34,8 +37,7 @@ export class RPGClassesService {
       id: 'warrior',
       name: 'Warrior',
       description: 'Heavy melee combat specialist',
-      emoji: '🗡️',
-      startingEquipment: ['Zweihander'],
+      startingEquipment: ['Weapon_LongSword'],
       specialBrickTypes: ['rpg_warrior_boulder'],
       classSpecificFeatures: ['Teleportation through boulder pushing', 'Strength-themed interactions']
     },
@@ -43,8 +45,7 @@ export class RPGClassesService {
       id: 'mage',
       name: 'Mage',
       description: 'Magic and arcane knowledge specialist',
-      emoji: '🧙‍♂️',
-      startingEquipment: ['Holoblade'],
+      startingEquipment: ['Weapon_HoloBlade'],
       specialBrickTypes: ['rpg_mage_portal'],
       classSpecificFeatures: ['Teleportation through magical portals', 'Arcane-themed interactions']
     },
@@ -52,8 +53,7 @@ export class RPGClassesService {
       id: 'pirate',
       name: 'Pirate',
       description: 'Naval combat and treasure hunting specialist',
-      emoji: '🏴‍☠️',
-      startingEquipment: ['Saber'],
+      startingEquipment: ['Weapon_Sabre'],
       specialBrickTypes: ['rpg_pirate_treasure'],
       classSpecificFeatures: ['RNG money rewards', 'Treasure hunting interactions']
     }
@@ -79,15 +79,15 @@ export class RPGClassesService {
   }
 
   /**
-   * Get player's selected class
+   * Get player's current class
    */
   async getPlayerClass(playerId: string): Promise<RPGClass | null> {
     try {
-      const classSelection = await this.store.get(`player_class_${playerId}`) as ClassSelection;
-      if (!classSelection) {
+      const classData = await this.store.get(`player_class_${playerId}`) as PlayerClassData;
+      if (!classData || !classData.currentClass) {
         return null;
       }
-      return this.getClass(classSelection.classId);
+      return this.getClass(classData.currentClass);
     } catch (error) {
       console.error(`[RPG Classes] Error getting player class for ${playerId}:`, error);
       return null;
@@ -95,7 +95,7 @@ export class RPGClassesService {
   }
 
   /**
-   * Set player's class (permanent selection)
+   * Switch player's class (non-permanent, can switch between classes)
    */
   async setPlayerClass(playerId: string, classId: string): Promise<boolean> {
     try {
@@ -105,15 +105,32 @@ export class RPGClassesService {
         return false;
       }
 
-      const classSelection: ClassSelection = {
-        classId: classId,
-        selectedAt: Date.now(),
-        classLevel: 1,
-        classXP: 0
-      };
+      // Get existing class data or create new
+      let classData = await this.store.get(`player_class_${playerId}`) as PlayerClassData;
+      if (!classData) {
+        classData = {
+          currentClass: classId,
+          classes: {}
+        };
+      }
 
-      await this.store.set(`player_class_${playerId}`, classSelection);
-      console.log(`[RPG Classes] Player ${playerId} selected class: ${rpgClass.name}`);
+      // Initialize class progress if it doesn't exist
+      if (!classData.classes[classId]) {
+        classData.classes[classId] = {
+          classLevel: 0,
+          classXP: 0,
+          lastUsed: Date.now()
+        };
+      } else {
+        // Update last used timestamp
+        classData.classes[classId].lastUsed = Date.now();
+      }
+
+      // Set as current class
+      classData.currentClass = classId;
+
+      await this.store.set(`player_class_${playerId}`, classData);
+      console.log(`[RPG Classes] Player ${playerId} switched to class: ${rpgClass.name}`);
       return true;
     } catch (error) {
       console.error(`[RPG Classes] Error setting player class for ${playerId}:`, error);
@@ -122,25 +139,31 @@ export class RPGClassesService {
   }
 
   /**
-   * Check if player has selected a class
+   * Check if player has any class data
    */
   async hasPlayerSelectedClass(playerId: string): Promise<boolean> {
-    const playerClass = await this.getPlayerClass(playerId);
-    return playerClass !== null;
+    const classData = await this.store.get(`player_class_${playerId}`) as PlayerClassData;
+    return classData !== null && classData.currentClass !== null;
   }
 
   /**
-   * Get player's class level and XP
+   * Get player's current class level and XP
    */
   async getPlayerClassLevel(playerId: string): Promise<{ level: number; xp: number } | null> {
     try {
-      const classSelection = await this.store.get(`player_class_${playerId}`) as ClassSelection;
-      if (!classSelection) {
+      const classData = await this.store.get(`player_class_${playerId}`) as PlayerClassData;
+      if (!classData || !classData.currentClass) {
         return null;
       }
+      
+      const classProgress = classData.classes[classData.currentClass];
+      if (!classProgress) {
+        return null;
+      }
+      
       return {
-        level: classSelection.classLevel || 1,
-        xp: classSelection.classXP || 0
+        level: classProgress.classLevel || 0,
+        xp: classProgress.classXP || 0
       };
     } catch (error) {
       console.error(`[RPG Classes] Error getting player class level for ${playerId}:`, error);
@@ -149,44 +172,51 @@ export class RPGClassesService {
   }
 
   /**
-   * Add class XP to player
+   * Add class XP to player's current class
    */
   async addClassXP(playerId: string, xpAmount: number): Promise<{ leveledUp: boolean; newLevel: number }> {
     try {
-      const classSelection = await this.store.get(`player_class_${playerId}`) as ClassSelection;
-      if (!classSelection) {
+      const classData = await this.store.get(`player_class_${playerId}`) as PlayerClassData;
+      if (!classData || !classData.currentClass) {
         console.error(`[RPG Classes] Player ${playerId} has no class selected`);
-        return { leveledUp: false, newLevel: 1 };
+        return { leveledUp: false, newLevel: 0 };
       }
 
-      const oldLevel = classSelection.classLevel || 1;
-      classSelection.classXP = (classSelection.classXP || 0) + xpAmount;
+      const classProgress = classData.classes[classData.currentClass];
+      if (!classProgress) {
+        console.error(`[RPG Classes] Player ${playerId} has no progress for current class ${classData.currentClass}`);
+        return { leveledUp: false, newLevel: 0 };
+      }
+
+      const oldLevel = classProgress.classLevel || 0;
+      classProgress.classXP = (classProgress.classXP || 0) + xpAmount;
 
       // Calculate new level (same XP scaling as main system)
       let newLevel = oldLevel;
       let xpForNextLevel = this.getXPForNextLevel(oldLevel);
       
-      while (xpForNextLevel > 0 && classSelection.classXP >= xpForNextLevel && newLevel < 30) {
+      while (xpForNextLevel > 0 && classProgress.classXP >= xpForNextLevel && newLevel < 30) {
         newLevel++;
         xpForNextLevel = this.getXPForNextLevel(newLevel);
       }
       
       newLevel = Math.min(newLevel, 30);
-      classSelection.classLevel = newLevel;
+      classProgress.classLevel = newLevel;
 
-      await this.store.set(`player_class_${playerId}`, classSelection);
+      await this.store.set(`player_class_${playerId}`, classData);
       
       const leveledUp = newLevel > oldLevel;
       if (leveledUp) {
-        const rpgClass = this.getClass(classSelection.classId);
+        const rpgClass = this.getClass(classData.currentClass);
         const playerName = this.omegga.getPlayer(playerId)?.name || `Player_${playerId.substring(0, 8)}`;
         this.omegga.broadcast(`<color="ff0">${playerName} reached ${rpgClass?.name} Level ${newLevel}!</color>`);
+        console.log(`[Hoopla RPG] ${playerName} leveled up ${rpgClass?.name} class to level ${newLevel}`);
       }
 
       return { leveledUp, newLevel };
     } catch (error) {
       console.error(`[RPG Classes] Error adding class XP for ${playerId}:`, error);
-      return { leveledUp: false, newLevel: 1 };
+      return { leveledUp: false, newLevel: 0 };
     }
   }
 
@@ -240,13 +270,13 @@ export class RPGClassesService {
     let message = '<color="ff0">Choose your RPG Class:</color>\n\n';
     
     for (const rpgClass of Object.values(this.classes)) {
-      message += `${rpgClass.emoji} <color="0ff">${rpgClass.name}</color>\n`;
+      message += `<color="0ff">${rpgClass.name}</color>\n`;
       message += `<color="fff">${rpgClass.description}</color>\n`;
-      message += `<color="ff0">Starting Equipment:</color> ${rpgClass.startingEquipment.join(', ')}\n\n`;
+      message += `<color="ff0">Starting Equipment:</color> ${rpgClass.startingEquipment.map(eq => eq.replace('Weapon_', '')).join(', ')}\n\n`;
     }
     
-    message += '<color="ff0">Use /rpg select [class] to choose your class!</color>\n';
-    message += '<color="fff">Available classes: warrior, mage, pirate</color>';
+    message += '<color="ff0">Interact with class selection bricks to choose your class!</color>\n';
+    message += '<color="fff">You can switch between classes anytime and each class maintains separate progress.</color>';
     
     return message;
   }
@@ -255,12 +285,13 @@ export class RPGClassesService {
    * Get class confirmation message
    */
   getClassConfirmationMessage(rpgClass: RPGClass): string {
-    let message = `<color="0f0">Class Selected: ${rpgClass.emoji} ${rpgClass.name}</color>\n\n`;
+    let message = `<color="0f0">Class Selected: ${rpgClass.name}</color>\n\n`;
     message += `<color="fff">${rpgClass.description}</color>\n\n`;
     message += '<color="ff0">Starting Equipment:</color>\n';
     
     for (const equipment of rpgClass.startingEquipment) {
-      message += `• <color="0ff">${equipment}</color>\n`;
+      const displayName = equipment.replace('Weapon_', '');
+      message += `• <color="0ff">${displayName}</color>\n`;
     }
     
     message += '\n<color="ff0">Special Features:</color>\n';
@@ -268,7 +299,7 @@ export class RPGClassesService {
       message += `• <color="0ff">${feature}</color>\n`;
     }
     
-    message += '\n<color="0f0">Your class selection is permanent. Welcome to the RPG!</color>';
+    message += '\n<color="0f0">You can switch between classes anytime using the class selection bricks!</color>';
     
     return message;
   }
@@ -278,7 +309,7 @@ export class RPGClassesService {
    */
   getClassInteractionMessage(rpgClass: RPGClass, brickType: string): string {
     const brickName = brickType.replace('rpg_', '').replace(/_/g, ' ');
-    return `<color="0f0">${rpgClass.emoji} ${rpgClass.name} Class Access</color>\n<color="fff">You can interact with ${brickName} nodes!</color>`;
+    return `<color="0f0">${rpgClass.name} Class Access</color>\n<color="fff">You can interact with ${brickName} nodes!</color>`;
   }
 
   /**
@@ -286,7 +317,7 @@ export class RPGClassesService {
    */
   getClassDenialMessage(requiredClass: RPGClass, brickType: string): string {
     const brickName = brickType.replace('rpg_', '').replace(/_/g, ' ');
-    return `<color="f00">Access Denied</color>\n<color="fff">Only ${requiredClass.emoji} ${requiredClass.name}s can interact with ${brickName} nodes.</color>`;
+    return `<color="f00">Access Denied</color>\n<color="fff">Only ${requiredClass.name}s can interact with ${brickName} nodes.</color>`;
   }
 
   /**
@@ -300,9 +331,9 @@ export class RPGClassesService {
     }
     
     const classLevel = await this.getPlayerClassLevel(playerId);
-    const level = classLevel?.level || 1;
+    const level = classLevel?.level || 0;
     
-    let message = `<color="0f0">Your Class: ${playerClass.emoji} ${playerClass.name} Level ${level}</color>\n\n`;
+    let message = `<color="0f0">Your Class: ${playerClass.name} Level ${level}</color>\n\n`;
     message += `<color="fff">${playerClass.description}</color>\n\n`;
     message += '<color="ff0">Special Brick Access:</color>\n';
     
@@ -312,6 +343,22 @@ export class RPGClassesService {
     }
     
     return message;
+  }
+
+  /**
+   * Get all class progress for a player
+   */
+  async getAllPlayerClassProgress(playerId: string): Promise<{ [classId: string]: ClassProgress } | null> {
+    try {
+      const classData = await this.store.get(`player_class_${playerId}`) as PlayerClassData;
+      if (!classData) {
+        return null;
+      }
+      return classData.classes;
+    } catch (error) {
+      console.error(`[RPG Classes] Error getting all class progress for ${playerId}:`, error);
+      return null;
+    }
   }
 
   /**

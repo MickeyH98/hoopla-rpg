@@ -6,6 +6,14 @@
 				{
 					"name": "BR.Permission.AlwaysLeaveMinigame",
 					"state": "Allowed"
+				},
+				{
+					"name": "BR.Permission.Building.Prefabs.BypassLimits",
+					"state": "Allowed"
+				},
+				{
+					"name": "BR.Permission.Building.Placer.PlaceBricks.BypassPlaceLimits",
+					"state": "Allowed"
 				}
 			],
 			"color":
@@ -352,6 +360,10 @@
 			{
 				"name": "BR.Permission.TP",
 				"state": "Allowed"
+			},
+			{
+				"name": "BR.Permission.Building.Placer.PlaceBricks.BypassPlaceLimits",
+				"state": "Forbidden"
 			}
 		],
 		"color":

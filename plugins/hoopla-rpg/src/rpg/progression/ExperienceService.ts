@@ -7,6 +7,7 @@
 
 import { OL, PS } from "omegga";
 import { PlayerId, RPGPlayer } from '../player/PlayerService';
+import { RPGClassesService } from '../classes/RPGClassesService';
 
 export interface Config {
   startingLevel: number;
@@ -22,12 +23,14 @@ export class ExperienceService {
   private store: PS<any>;
   private config: Config;
   private level30PlayerCache: Map<string, RPGPlayer> = new Map();
+  private classesService?: RPGClassesService;
 
-  constructor(omegga: OL, store: PS<any>, config: Config, level30PlayerCache: Map<string, RPGPlayer>) {
+  constructor(omegga: OL, store: PS<any>, config: Config, level30PlayerCache: Map<string, RPGPlayer>, classesService?: RPGClassesService) {
     this.omegga = omegga;
     this.store = store;
     this.config = config;
     this.level30PlayerCache = level30PlayerCache;
+    this.classesService = classesService;
   }
 
   /**
@@ -56,6 +59,15 @@ export class ExperienceService {
     
     // Add experience
     player.experience += amount;
+    
+    // Also add class XP if player has a class
+    if (this.classesService) {
+      try {
+        await this.classesService.addClassXP(id, amount);
+      } catch (error) {
+        console.error(`[Hoopla RPG] Error adding class XP:`, error);
+      }
+    }
     
     // Handle level 30 players (no more leveling)
     if (oldLevel === 30) {
@@ -105,6 +117,8 @@ export class ExperienceService {
         
         // Announce the level up
         this.omegga.broadcast(`<color="ff0">Congratulations! ${playerName} has reached level 30!</color>`);
+        this.omegga.broadcast(`<color="0ff">${playerName} can now fly and leave minigames at will!</color>`);
+        console.log(`[Hoopla RPG] ${playerName} leveled up from 29 to 30! (Data corruption fix)`);
         
         // CRITICAL: Automatically grant max level roles
         await this.grantMaxLevelRoles(playerName);
@@ -135,8 +149,14 @@ export class ExperienceService {
       player.maxHealth += 10;
       player.health = player.maxHealth; // Full heal on level up
       
-      // Announce level up
-      this.omegga.broadcast(`<color="ff0">${playerName} leveled up to level ${newLevel}!</color>`);
+      // Announce level up with special message for level 30
+      if (newLevel === 30) {
+        this.omegga.broadcast(`<color="ff0">Congratulations! ${playerName} has reached level ${newLevel}!</color>`);
+        this.omegga.broadcast(`<color="0ff">${playerName} can now fly and leave minigames at will!</color>`);
+      } else {
+        this.omegga.broadcast(`<color="ff0">Congratulations! ${playerName} has reached level ${newLevel}!</color>`);
+      }
+      console.log(`[Hoopla RPG] ${playerName} leveled up from ${oldLevel} to ${newLevel}!`);
       
       // CRITICAL: Automatically grant max level roles if they reached level 30
       if (newLevel === 30) {
@@ -294,13 +314,11 @@ export class ExperienceService {
     try {
       console.log(`[Hoopla RPG] Granting max level roles to ${playerName}`);
       
-      // Grant Flyer role
-      await (this.omegga as any).setRole(playerName, "Flyer");
-      console.log(`[Hoopla RPG] Granted Flyer role to ${playerName}`);
+      // Grant roles using chat commands (same method as backup plugin)
+      this.omegga.writeln(`Chat.Command /grantRole "Flyer" "${playerName}"`);
+      this.omegga.writeln(`Chat.Command /grantRole "MINIGAME LEAVER" "${playerName}"`);
       
-      // Grant MINIGAME LEAVER role
-      await (this.omegga as any).setRole(playerName, "MINIGAME LEAVER");
-      console.log(`[Hoopla RPG] Granted MINIGAME LEAVER role to ${playerName}`);
+      console.log(`[Hoopla RPG] Assigned ${playerName} Flyer and MINIGAME LEAVER roles for reaching level 30!`);
       
       // Announce the role granting
       this.omegga.broadcast(`<color="0f0">${playerName} has been granted Flyer and MINIGAME LEAVER roles for reaching max level!</color>`);

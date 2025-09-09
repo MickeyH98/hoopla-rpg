@@ -429,27 +429,30 @@ export class QuestService {
   getQuestById(questId: string): Quest | null {
     const quests = this.getAllQuests();
     
+    // Strip rpg_quest_ prefix if present
+    const cleanQuestId = questId.replace(/^rpg_quest_/, '');
+    
     // Handle legacy quest ID - redirect to first quest in chain
-    if (questId === 'john_brickington') {
+    if (cleanQuestId === 'john_brickington') {
       return quests.find(quest => quest.id === 'john_brickington_1') || null;
     }
     
     // Handle Frank Bricktavious quest ID - redirect to first quest in chain
-    if (questId === 'frank_bricktavious') {
+    if (cleanQuestId === 'frank_bricktavious') {
       return quests.find(quest => quest.id === 'frank_bricktavious_1') || null;
     }
     
     // Handle Emmet Brickingway quest ID - redirect to first quest in chain
-    if (questId === 'emmet_brickingway') {
+    if (cleanQuestId === 'emmet_brickingway') {
       return quests.find(quest => quest.id === 'emmet_brickingway_1') || null;
     }
     
     // Handle Ice King quest ID - redirect to first quest in chain
-    if (questId === 'ice_king') {
+    if (cleanQuestId === 'ice_king') {
       return quests.find(quest => quest.id === 'ice_king_1') || null;
     }
     
-    return quests.find(quest => quest.id === questId) || null;
+    return quests.find(quest => quest.id === cleanQuestId) || null;
   }
 
   /**
@@ -460,25 +463,28 @@ export class QuestService {
    * @returns The quest ID the player should interact with
    */
   determineActiveQuest(triggerMessage: string, playerQuests: { [questId: string]: QuestProgress }): string {
+    // Strip rpg_quest_ prefix if present
+    const cleanMessage = triggerMessage.replace(/^rpg_quest_/, '');
+    
     // Determine which quest chain to use based on the trigger message
     let questChain: string[] = [];
-    if (triggerMessage === 'john_brickington' || triggerMessage.startsWith('john_brickington_')) {
+    if (cleanMessage === 'john_brickington' || cleanMessage.startsWith('john_brickington_')) {
       questChain = ['john_brickington_1', 'john_brickington_2', 'john_brickington_3', 'john_brickington_4', 'john_brickington_5'];
-    } else if (triggerMessage === 'frank_bricktavious' || triggerMessage.startsWith('frank_bricktavious_')) {
+    } else if (cleanMessage === 'frank_bricktavious' || cleanMessage.startsWith('frank_bricktavious_')) {
       questChain = ['frank_bricktavious_1', 'frank_bricktavious_2', 'frank_bricktavious_3', 'frank_bricktavious_4', 'frank_bricktavious_5'];
-    } else if (triggerMessage === 'emmet_brickingway' || triggerMessage.startsWith('emmet_brickingway_')) {
+    } else if (cleanMessage === 'emmet_brickingway' || cleanMessage.startsWith('emmet_brickingway_')) {
       questChain = ['emmet_brickingway_1'];
-    } else if (triggerMessage === 'ice_king' || triggerMessage.startsWith('ice_king_')) {
+    } else if (cleanMessage === 'ice_king' || cleanMessage.startsWith('ice_king_')) {
       questChain = ['ice_king_1', 'ice_king_2'];
     }
     
     if (questChain.length === 0) {
       // Fallback to first quest in chain based on trigger message
-      if (triggerMessage === 'john_brickington') return 'john_brickington_1';
-      if (triggerMessage === 'frank_bricktavious') return 'frank_bricktavious_1';
-      if (triggerMessage === 'emmet_brickingway') return 'emmet_brickingway_1';
-      if (triggerMessage === 'ice_king') return 'ice_king_1';
-      return triggerMessage; // Return as-is if no chain found
+      if (cleanMessage === 'john_brickington') return 'john_brickington_1';
+      if (cleanMessage === 'frank_bricktavious') return 'frank_bricktavious_1';
+      if (cleanMessage === 'emmet_brickingway') return 'emmet_brickingway_1';
+      if (cleanMessage === 'ice_king') return 'ice_king_1';
+      return cleanMessage; // Return as-is if no chain found
     }
     
     // Find the appropriate quest to interact with
@@ -645,6 +651,9 @@ export class QuestService {
       }
     }
     
+    // Save player data after removing items
+    await this.playerService.setPlayerData({ id: playerId }, player);
+    
     // Give rewards
     await this.experienceService.addExperience({ id: playerId }, quest.rewards.xp);
     await this.addCurrency(playerId, quest.rewards.currency);
@@ -654,6 +663,9 @@ export class QuestService {
         await this.inventoryService.addToInventory(player, item);
       }
     }
+    
+    // Save player data after adding rewards
+    await this.playerService.setPlayerData({ id: playerId }, player);
     
     // Mark quest as completed
     if (!player.quests) {
@@ -675,7 +687,7 @@ export class QuestService {
     
     // Announce quest completion to the server
     const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
-    this.omegga.broadcast(`<color="0f0">${playerName} has completed ${quest.questgiver.name}'s quest!</color>`);
+    this.omegga.broadcast(`<color="0f0">${playerName} has completed "${quest.name}" from ${quest.questgiver.name}!</color>`);
   }
 
   /**
@@ -755,7 +767,8 @@ export class QuestService {
         mining: { level: 0, experience: 0 },
         bartering: { level: 0, experience: 0 },
         fishing: { level: 0, experience: 0 }
-      }
+      },
+      unlockedItems: []
     };
   }
 
@@ -850,6 +863,41 @@ export class QuestService {
   }
 
   /**
+   * Handle special case where player has items from later quests but needs to complete earlier quests
+   * This fixes the issue where players collect quest items out of order
+   * 
+   * @param playerId - The ID of the player
+   * @param quest - The current quest being attempted
+   * @returns True if the quest can be completed with special handling, false otherwise
+   */
+  async handleOutOfOrderQuestItems(playerId: string, quest: Quest): Promise<boolean> {
+    try {
+      const player = await this.playerService.getPlayerData({ id: playerId });
+      
+      // Special handling for Ice King quest chain
+      if (quest.id === 'ice_king_1') {
+        // Check if player has Ice Chest (quest 2 item) but not enough Ice Boxes (quest 1 item)
+        const iceBoxCount = player.inventory?.filter(item => item.toLowerCase() === 'ice box').length || 0;
+        const iceChestCount = player.inventory?.filter(item => item.toLowerCase() === 'ice chest').length || 0;
+        
+        if (iceBoxCount < 4 && iceChestCount >= 1) {
+          // Player has quest 2 items but not quest 1 items - allow completion of quest 1
+          // This handles the case where they collected items out of order
+          console.log(`[Hoopla RPG] Special case: Player ${playerId} has Ice Chest but not enough Ice Boxes. Allowing quest 1 completion.`);
+          return true;
+        }
+      }
+      
+      // Add more special cases for other quest chains if needed
+      
+      return false; // No special handling needed
+    } catch (error) {
+      console.error(`[Hoopla RPG] Error handling out-of-order quest items:`, error);
+      return false;
+    }
+  }
+
+  /**
    * Get quest progress message showing current progress
    * 
    * @param playerId - The ID of the player
@@ -911,14 +959,8 @@ export class QuestService {
    */
   async handleQuestInteraction(playerId: string, trigger: any): Promise<void> {
     try {
-      console.log(`[DEBUG] Quest interaction for player ${playerId}, trigger message: ${trigger.message}`);
       const questPlayer = await this.playerService.getPlayerData({ id: playerId });
-      console.log(`[DEBUG] Player data loaded:`, {
-        level: questPlayer.level,
-        hasQuests: !!questPlayer.quests,
-        questCount: questPlayer.quests ? Object.keys(questPlayer.quests).length : 0,
-        questKeys: questPlayer.quests ? Object.keys(questPlayer.quests) : []
-      });
+      const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
       
       let questId = trigger.message; // Quest ID is stored in the message
       
@@ -970,33 +1012,32 @@ export class QuestService {
           completedRequirements: [],
           interactionStep: 1
         };
-        console.log(`[DEBUG] Saving new quest progress:`, questPlayer.quests[questId]);
         await this.playerService.setPlayerData({ id: playerId }, questPlayer);
         
         const greetingMessage = `<color="ff0">${quest.questgiver.name}</color>: ${quest.questgiver.greeting}`;
         this.messagingService.sendLongMessage(playerId, greetingMessage);
+        console.log(`[Hoopla RPG] ${playerName} interacted with ${quest.questgiver.name}: ${quest.questgiver.greeting}`);
         return;
       }
       
       // Handle existing quest based on interaction step
-      console.log(`[DEBUG] Handling existing quest, interaction step: ${currentQuest.interactionStep}`);
       
       switch (currentQuest.interactionStep) {
         case 1:
           // Step 2: Show quest explanation
-          console.log(`[DEBUG] Advancing quest from step 1 to step 2`);
           currentQuest.interactionStep = 2;
-          console.log(`[DEBUG] Saving quest progress update:`, currentQuest);
           await this.playerService.setPlayerData({ id: playerId }, questPlayer);
           
           const questExplanationMessage = `<color="ff0">${quest.questgiver.name}</color>: ${quest.questgiver.questExplanation}`;
           this.messagingService.sendLongMessage(playerId, questExplanationMessage);
+          console.log(`[Hoopla RPG] ${playerName} interacted with ${quest.questgiver.name}: ${quest.questgiver.questExplanation}`);
           break;
           
         case 2:
           // Step 2: Check if quest can be completed
           const canComplete = await this.checkQuestCompletion(playerId, quest);
-          if (canComplete) {
+          const canCompleteWithSpecialHandling = await this.handleOutOfOrderQuestItems(playerId, quest);
+          if (canComplete || canCompleteWithSpecialHandling) {
             // Complete the quest
             await this.completeQuest(playerId, quest);
             
@@ -1007,22 +1048,23 @@ export class QuestService {
             
             const completionMessage = `<color="ff0">${quest.questgiver.name}</color>: ${quest.questgiver.completionMessage}`;
             this.messagingService.sendLongMessage(playerId, completionMessage);
+            console.log(`[Hoopla RPG] ${playerName} interacted with ${quest.questgiver.name}: ${quest.questgiver.completionMessage}`);
             
             // Show hint about next quest if available
             const nextQuestId = this.getNextQuestInChain(quest.id);
             if (nextQuestId) {
               const nextQuest = this.getQuestById(nextQuestId);
               if (nextQuest && !questPlayer.quests?.[nextQuestId]) {
+                // Always start the next quest normally - don't skip steps or auto-complete
                 const nextQuestHint = `<color="ff0">New quest available!</color> Talk to ${quest.questgiver.name} again to start the next quest in the chain.`;
                 this.omegga.whisper(playerId, nextQuestHint);
               }
             }
           } else {
             // Show progress reminder with current progress
-            console.log(`[DEBUG] Quest cannot be completed, showing progress message for quest: ${quest.id}`);
             const progressMessage = await this.getQuestProgressMessage(playerId, quest);
-            console.log(`[DEBUG] Progress message: ${progressMessage}`);
             this.messagingService.sendLongMessage(playerId, progressMessage);
+            console.log(`[Hoopla RPG] ${playerName} interacted with ${quest.questgiver.name}: ${progressMessage}`);
           }
           break;
           
@@ -1038,32 +1080,30 @@ export class QuestService {
             console.log(`[DEBUG] Final quest in chain, showing completion message`);
             const completionMessage = `<color="ff0">${quest.questgiver.name}</color>: ${quest.questgiver.completionMessage}`;
             this.messagingService.sendLongMessage(playerId, completionMessage);
+            console.log(`[Hoopla RPG] ${playerName} interacted with ${quest.questgiver.name}: ${quest.questgiver.completionMessage}`);
           } else {
             // There are more quests in the chain
             const nextQuest = this.getQuestById(nextQuestId);
-            console.log(`[DEBUG] Next quest found: ${nextQuest ? nextQuest.name : 'null'}`);
-            console.log(`[DEBUG] Player already has next quest: ${!!questPlayer.quests?.[nextQuestId]}`);
             if (nextQuest && !questPlayer.quests?.[nextQuestId]) {
               // Show hint about next quest and advance to step 4
-              console.log(`[DEBUG] Advancing to step 4 and showing next quest hint`);
               currentQuest.interactionStep = 4;
               await this.playerService.setPlayerData({ id: playerId }, questPlayer);
               
               const nextQuestHint = `<color="ff0">New quest available!</color> Talk to ${quest.questgiver.name} again to start the next quest in the chain.`;
               this.omegga.whisper(playerId, nextQuestHint);
-              return;
             } else if (nextQuest && questPlayer.quests?.[nextQuestId]) {
               // Next quest already exists, show its status
-              console.log(`[DEBUG] Next quest already exists, showing status`);
               const nextQuestStatus = questPlayer.quests[nextQuestId];
               if (nextQuestStatus.status === 'completed') {
                 // Use the final quest's completion message for proper closure
                 const finalQuest = this.getQuestById(nextQuestId);
                 const allCompleteMessage = `<color="ff0">${quest.questgiver.name}</color>: ${finalQuest?.questgiver.completionMessage || 'Thank you for completing all my quests! You\'ve been a great help.'}`;
                 this.messagingService.sendLongMessage(playerId, allCompleteMessage);
+                console.log(`[Hoopla RPG] ${playerName} interacted with ${quest.questgiver.name}: ${finalQuest?.questgiver.completionMessage || 'Thank you for completing all my quests! You\'ve been a great help.'}`);
               } else {
                 const nextQuestMessage = `<color="ff0">${quest.questgiver.name}</color>: You still have my other quest to complete. Check your quest log!`;
                 this.messagingService.sendLongMessage(playerId, nextQuestMessage);
+                console.log(`[Hoopla RPG] ${playerName} interacted with ${quest.questgiver.name}: You still have my other quest to complete. Check your quest log!`);
               }
             }
           }
@@ -1086,8 +1126,8 @@ export class QuestService {
               
               await this.playerService.setPlayerData({ id: playerId }, questPlayer);
               
-              const nextQuestGreeting = `<color="ff0">${nextQuest.questgiver.name}</color>: ${nextQuest.questgiver.greeting}`;
-              this.messagingService.sendLongMessage(playerId, nextQuestGreeting);
+              const questStartedMessage = `<color="ff0">Quest started: ${nextQuest.name}</color> Talk to ${quest.questgiver.name} again to begin the quest.`;
+              this.omegga.whisper(playerId, questStartedMessage);
               return;
             }
           }
@@ -1101,6 +1141,7 @@ export class QuestService {
             
             const resetMessage = `<color="ff0">${quest.questgiver.name}</color>: ${quest.questgiver.greeting}`;
             this.messagingService.sendLongMessage(playerId, resetMessage);
+            console.log(`[Hoopla RPG] ${playerName} interacted with ${quest.questgiver.name}: ${quest.questgiver.greeting}`);
           }
       }
       

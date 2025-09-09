@@ -127,7 +127,7 @@ export class ClassInteractionService {
       
       // TODO: Add money to player's currency
       // For now, just provide feedback
-      const message = `<color="0f0">🏴‍☠️ Pirate Treasure</color>\n<color="fff">You discover a hidden treasure!</color>\n<color="ff0">+$${moneyReward} +50 Pirate XP</color>`;
+      const message = `<color="0f0">Pirate Treasure</color>\n<color="fff">You discover a hidden treasure!</color>\n<color="ff0">+$${moneyReward} +50 Pirate XP</color>`;
       
       return {
         success: true,

@@ -6,13 +6,14 @@
  */
 
 import { OL } from "omegga";
-import { PlayerId, RPGPlayer } from '../player/PlayerService';
+import { PlayerId, RPGPlayer, PlayerService } from '../player/PlayerService';
 import { InventoryService } from '../player/InventoryService';
 import { ExperienceService } from '../progression/ExperienceService';
 import { SkillService } from '../progression/SkillService';
 import { ResourceService } from '../economy/ResourceService';
 import { ProgressBarService } from '../utils/ProgressBar';
 import { BrickTrigger } from '../world/NodeService';
+import { RateLimitService } from '../utils/RateLimitService';
 
 /**
  * Service class for managing mining mechanics
@@ -24,6 +25,8 @@ export class MiningService {
   private skillService: SkillService;
   private resourceService: ResourceService;
   private progressBarService: ProgressBarService;
+  private rateLimitService: RateLimitService;
+  private playerService: PlayerService;
 
   constructor(
     omegga: OL,
@@ -31,7 +34,9 @@ export class MiningService {
     experienceService: ExperienceService,
     skillService: SkillService,
     resourceService: ResourceService,
-    progressBarService: ProgressBarService
+    progressBarService: ProgressBarService,
+    rateLimitService: RateLimitService,
+    playerService: PlayerService
   ) {
     this.omegga = omegga;
     this.inventoryService = inventoryService;
@@ -39,6 +44,8 @@ export class MiningService {
     this.skillService = skillService;
     this.resourceService = resourceService;
     this.progressBarService = progressBarService;
+    this.rateLimitService = rateLimitService;
+    this.playerService = playerService;
   }
 
   /**
@@ -52,31 +59,32 @@ export class MiningService {
     const ore = oreType.toLowerCase();
     
     // Copper: Available at any level
-    if (ore === 'copper' || ore === 'copper ore') {
+    if (ore === 'copper' || ore === 'copper ore' || ore.includes('copper')) {
       return true;
     }
     
     // Iron: Requires mining level 5
-    if (ore === 'iron' || ore === 'iron ore') {
+    if (ore === 'iron' || ore === 'iron ore' || ore.includes('iron')) {
       return miningLevel >= 5;
     }
     
     // Gold: Requires mining level 10
-    if (ore === 'gold' || ore === 'gold ore') {
+    if (ore === 'gold' || ore === 'gold ore' || ore.includes('gold')) {
       return miningLevel >= 10;
     }
     
     // Obsidian: Requires mining level 15
-    if (ore === 'obsidian' || ore === 'obsidian ore') {
+    if (ore === 'obsidian' || ore === 'obsidian ore' || ore.includes('obsidian')) {
       return miningLevel >= 15;
     }
     
     // Diamond: Requires mining level 20
-    if (ore === 'diamond' || ore === 'diamond ore') {
+    if (ore === 'diamond' || ore === 'diamond ore' || ore.includes('diamond')) {
       return miningLevel >= 20;
     }
     
-    // Any other ore types are allowed
+    // Any other ore types are allowed (this should not happen for valid ores)
+    console.log(`[Hoopla RPG] WARNING: Unknown ore type "${oreType}" - allowing mining`);
     return true;
   }
 
@@ -150,7 +158,27 @@ export class MiningService {
    */
   async handleMiningNode(playerId: string, triggerId: string, trigger: BrickTrigger, player: RPGPlayer): Promise<{ success: boolean; message: string; reward?: any }> {
     try {
+      console.log(`[Hoopla RPG] MiningService.handleMiningNode called for player ${playerId}`);
+      console.log(`[Hoopla RPG] MINING SERVICE ENTRY POINT - Player: ${playerId}`);
+      console.log(`[Hoopla RPG] Player data received in mining service:`, {
+        level: player.level,
+        hasSkills: !!player.skills,
+        skills: player.skills
+      });
+      
+      // Check rate limiting for mining interactions
+      const interactionKey = `mining_${playerId}_${triggerId}`;
+      if (!this.rateLimitService.canPlayerInteract(playerId, interactionKey)) {
+        return { success: false, message: "Rate limit exceeded. Please slow down your mining." };
+      }
+
       const miningLevel = player.skills?.mining?.level || 0;
+      
+      // Get player name for logging
+      const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
+      
+      // Debug logging for player data structure
+      console.log(`[Hoopla RPG] Mining Player Data Debug: ${playerName} - Skills: ${JSON.stringify(player.skills)}, Mining Level: ${miningLevel}`);
       
       // Extract ore type from trigger message (e.g., "rpg_mining_copper" -> "copper")
       let oreType = trigger.message;
@@ -159,8 +187,8 @@ export class MiningService {
       }
       oreType = this.inventoryService.normalizeItemName(oreType);
       
-      // Get player name for logging
-      const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
+      // Debug logging for mining level requirements
+      console.log(`[Hoopla RPG] Mining check for ${playerName}: Level ${miningLevel}, Ore type "${oreType}", Can mine: ${this.canMineOreType(miningLevel, oreType)}`);
       
       // Check if player can mine this ore type
       if (!this.canMineOreType(miningLevel, oreType)) {
@@ -215,9 +243,12 @@ export class MiningService {
       // Get clicks required for this ore type
       const clicksRequired = this.getMiningClicksRequired(miningLevel, oreType);
       
+      // Debug logging for mining requirements
+      console.log(`[Hoopla RPG] Mining Requirements Debug: ${playerName} - Level: ${miningLevel}, Ore: ${oreType}, Clicks Required: ${clicksRequired}`);
+      
       // Log mining calculation details
       const miningSpeed = this.getMiningSpeed(miningLevel, oreType);
-      console.log(`[Hoopla RPG] Mining calculation for ${playerName}: Level ${miningLevel}, Ore: ${oreType}, Clicks required: ${clicksRequired}, Mining speed: ${miningSpeed}%`);
+      console.log(`[Hoopla RPG] ${playerName} is mining ${oreType}`);
       
       // Initialize mining progress if not exists
       if (!trigger.miningProgress) {
@@ -226,6 +257,9 @@ export class MiningService {
       
       const currentProgress = trigger.miningProgress[playerId] || 0;
       const newProgress = currentProgress + 1;
+      
+      // Debug logging for mining progress
+      console.log(`[Hoopla RPG] Mining Progress Debug: ${playerName} - Current: ${currentProgress}, New: ${newProgress}, Required: ${clicksRequired}`);
       
       // Check if mining is complete
       if (newProgress >= clicksRequired) {
@@ -237,11 +271,16 @@ export class MiningService {
         const generalXP = this.getMiningXPReward(oreType, miningLevel);
         const miningXP = this.getMiningXPReward(oreType, miningLevel);
         
+        // Debug logging for XP granting
+        console.log(`[Hoopla RPG] Mining XP Debug: ${playerName} - General XP: ${generalXP}, Mining XP: ${miningXP}`);
+        
         // Grant XP for mining
         const miningXpResult = await this.experienceService.addExperience({ id: playerId }, generalXP);
+        console.log(`[Hoopla RPG] Mining General XP Result: ${JSON.stringify(miningXpResult)}`);
         
         // Grant Mining XP
         const miningSkillResult = await this.skillService.addSkillExperience({ id: playerId }, 'mining', miningXP);
+        console.log(`[Hoopla RPG] Mining Skill XP Result: ${JSON.stringify(miningSkillResult)}`);
         
         // Reset mining progress for this player
         trigger.miningProgress[playerId] = 0;
@@ -258,6 +297,9 @@ export class MiningService {
         
         // Use middlePrint for the mining result
         this.omegga.middlePrint(playerId, message);
+        
+        // CRITICAL: Save the updated player data
+        await this.playerService.setPlayerData({ id: playerId }, player);
         
         return { 
           success: true, 

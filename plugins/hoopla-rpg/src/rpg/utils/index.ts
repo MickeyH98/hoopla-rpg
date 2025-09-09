@@ -6,3 +6,4 @@
 
 export { MessagingService } from './Messaging';
 export { ProgressBarService } from './ProgressBar';
+export { RateLimitService } from './RateLimitService';

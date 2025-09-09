@@ -6,13 +6,14 @@
  */
 
 import { OL } from "omegga";
-import { PlayerId, RPGPlayer } from '../player/PlayerService';
+import { PlayerId, RPGPlayer, PlayerService } from '../player/PlayerService';
 import { InventoryService } from '../player/InventoryService';
 import { ExperienceService } from '../progression/ExperienceService';
 import { SkillService } from '../progression/SkillService';
 import { ResourceService } from '../economy/ResourceService';
 import { ProgressBarService } from '../utils/ProgressBar';
 import { BrickTrigger } from '../world/NodeService';
+import { RateLimitService } from '../utils/RateLimitService';
 
 /**
  * Service class for managing fishing mechanics
@@ -24,6 +25,8 @@ export class FishingService {
   private skillService: SkillService;
   private resourceService: ResourceService;
   private progressBarService: ProgressBarService;
+  private rateLimitService: RateLimitService;
+  private playerService: PlayerService;
 
   constructor(
     omegga: OL,
@@ -31,7 +34,9 @@ export class FishingService {
     experienceService: ExperienceService,
     skillService: SkillService,
     resourceService: ResourceService,
-    progressBarService: ProgressBarService
+    progressBarService: ProgressBarService,
+    rateLimitService: RateLimitService,
+    playerService: PlayerService
   ) {
     this.omegga = omegga;
     this.inventoryService = inventoryService;
@@ -39,6 +44,8 @@ export class FishingService {
     this.skillService = skillService;
     this.resourceService = resourceService;
     this.progressBarService = progressBarService;
+    this.rateLimitService = rateLimitService;
+    this.playerService = playerService;
   }
 
   /**
@@ -239,10 +246,26 @@ export class FishingService {
    */
   async handleFishingNode(playerId: string, triggerId: string, trigger: BrickTrigger, player: RPGPlayer): Promise<{ success: boolean; message: string; reward?: any }> {
     try {
+      console.log(`[Hoopla RPG] FishingService.handleFishingNode called for player ${playerId}`);
+      console.log(`[Hoopla RPG] Player data received in fishing service:`, {
+        level: player.level,
+        hasSkills: !!player.skills,
+        skills: player.skills
+      });
+      
+      // Check rate limiting for fishing interactions
+      const interactionKey = `fishing_${playerId}_${triggerId}`;
+      if (!this.rateLimitService.canPlayerInteract(playerId, interactionKey)) {
+        return { success: false, message: "Rate limit exceeded. Please slow down your fishing." };
+      }
+
       const fishingLevel = player.skills?.fishing?.level || 0;
       
       // Get player name for logging
       const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
+      
+      // Debug logging for player data structure
+      console.log(`[Hoopla RPG] Fishing Player Data Debug: ${playerName} - Skills: ${JSON.stringify(player.skills)}, Fishing Level: ${fishingLevel}`);
       
       
       // Initialize fishing progress if not exists
@@ -298,6 +321,9 @@ export class FishingService {
       const currentProgress = trigger.fishingProgress[playerId] || 0;
       const newProgress = currentProgress + 1;
       
+      // Debug logging for fishing progress (clicksRequired will be calculated below)
+      console.log(`[Hoopla RPG] Fishing Progress Debug: ${playerName} - Current: ${currentProgress}, New: ${newProgress}`);
+      
       // Initialize fishing target if not exists
       if (!trigger.fishingTarget) {
         trigger.fishingTarget = {};
@@ -327,10 +353,13 @@ export class FishingService {
       // Get clicks required for this fish type
       const clicksRequired = this.getFishingClicksRequired(fishingLevel, fishType);
       
+      // Debug logging for fishing requirements
+      console.log(`[Hoopla RPG] Fishing Requirements Debug: ${playerName} - Level: ${fishingLevel}, Fish: ${fishType}, Clicks Required: ${clicksRequired}`);
+      
       // Log fishing calculation details
       const encounterRate = this.getEncounterRate(fishType, fishingLevel);
       const captureRate = this.getCaptureRate(fishType, fishingLevel);
-      console.log(`[Hoopla RPG] Fishing calculation for ${playerName}: Level ${fishingLevel}, Target: ${fishType}, Clicks required: ${clicksRequired}, Encounter rate: ${encounterRate}%, Capture rate: ${captureRate}%`);
+      console.log(`[Hoopla RPG] ${playerName} is fishing ${fishType}`);
       
       if (clicksRequired === -1) {
         const requirementMessage = `You need higher fishing level to catch ${fishType}! Your current level: ${fishingLevel}`;
@@ -352,11 +381,16 @@ export class FishingService {
         const generalXP = this.getFishingXPReward(fishType, fishingLevel);
         const fishingXP = this.getFishingXPReward(fishType, fishingLevel);
         
+        // Debug logging for XP granting
+        console.log(`[Hoopla RPG] Fishing XP Debug: ${playerName} - General XP: ${generalXP}, Fishing XP: ${fishingXP}`);
+        
         // Grant XP for fishing
         const fishingXpResult = await this.experienceService.addExperience({ id: playerId }, generalXP);
+        console.log(`[Hoopla RPG] Fishing General XP Result: ${JSON.stringify(fishingXpResult)}`);
         
         // Grant Fishing XP
         const fishingSkillResult = await this.skillService.addSkillExperience({ id: playerId }, 'fishing', fishingXP);
+        console.log(`[Hoopla RPG] Fishing Skill XP Result: ${JSON.stringify(fishingSkillResult)}`);
         
         // Decrease attempts remaining
         attemptsRemaining--;
@@ -386,6 +420,9 @@ export class FishingService {
           // Use middlePrint for the combined result
           this.omegga.middlePrint(playerId, fishingMessage);
           
+          // CRITICAL: Save the updated player data
+          await this.playerService.setPlayerData({ id: playerId }, player);
+          
           // Announce legendary fish catches to the server
           if (this.resourceService.isLegendaryResource(fishType)) {
             const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
@@ -413,6 +450,9 @@ export class FishingService {
           
           // Use middlePrint for the regular result
           this.omegga.middlePrint(playerId, fishingMessage);
+          
+          // CRITICAL: Save the updated player data
+          await this.playerService.setPlayerData({ id: playerId }, player);
           
           // Announce legendary fish catches to the server
           if (this.resourceService.isLegendaryResource(fishType)) {

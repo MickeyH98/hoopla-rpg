@@ -27,6 +27,9 @@ import {
   ClassSelectionService
 } from "./src/rpg/classes";
 
+// Import utility services
+import { RateLimitService } from "./src/rpg/utils/RateLimitService";
+
 /**
  * HOOPLA RPG PLUGIN - MODULAR ARCHITECTURE
  * 
@@ -99,10 +102,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   private classInteractionService: ClassInteractionService;
   private classSelectionService: ClassSelectionService;
 
-  // Rate limiting and autoclicker protection
-  private playerClickTimes: Map<string, number[]> = new Map();
-  private lastInteractionTimes: Map<string, number> = new Map();
-  private playerViolations: Map<string, { count: number; lastViolation: number; bannedUntil?: number }> = new Map();
+  // Rate limiting service
+  private rateLimitService: RateLimitService;
 
   constructor(omegga: OL, config: PC<Config>, store: PS<Storage>) {
     this.omegga = omegga;
@@ -115,20 +116,26 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     this.progressBarService = new ProgressBarService();
     this.inventoryService = new InventoryService();
     this.playerService = new PlayerService(omegga, store, config);
-    this.experienceService = new ExperienceService(omegga, store, config, new Map());
+    
+    // Initialize class services first (needed by experience service)
+    this.classesService = new RPGClassesService(omegga, store);
+    
+    this.experienceService = new ExperienceService(omegga, store, config, new Map(), this.classesService);
     this.skillService = new SkillService(omegga, store, config, new Map());
     this.resourceService = new ResourceService(this.inventoryService);
     this.barteringService = new BarteringService(this.resourceService);
     this.questService = new QuestService(omegga, store, this.messagingService, this.playerService, this.experienceService, this.inventoryService, this.resourceService, this.currency);
+    // Initialize rate limiting service first (needed by other services)
+    this.rateLimitService = new RateLimitService(omegga);
+
     this.nodeService = new NodeService(omegga, store, this.inventoryService, this.experienceService, this.skillService, this.resourceService, this.barteringService, this.progressBarService);
     this.detectionService = new DetectionService(omegga);
     this.triggerService = new TriggerService(omegga, store);
     this.worldSaveService = new WorldSaveService(omegga, store);
-    this.miningService = new MiningService(omegga, this.inventoryService, this.experienceService, this.skillService, this.resourceService, this.progressBarService);
-    this.fishingService = new FishingService(omegga, this.inventoryService, this.experienceService, this.skillService, this.resourceService, this.progressBarService);
+    this.miningService = new MiningService(omegga, this.inventoryService, this.experienceService, this.skillService, this.resourceService, this.progressBarService, this.rateLimitService, this.playerService);
+    this.fishingService = new FishingService(omegga, this.inventoryService, this.experienceService, this.skillService, this.resourceService, this.progressBarService, this.rateLimitService, this.playerService);
 
-    // Initialize class services
-    this.classesService = new RPGClassesService(omegga, store);
+    // Initialize remaining class services
     this.classInteractionService = new ClassInteractionService(omegga, store, this.classesService);
     this.classSelectionService = new ClassSelectionService(omegga, store, this.classesService);
   }
@@ -164,7 +171,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
     // Set up autoclicker protection cleanup timer (every 5 minutes)
     setInterval(() => {
-      this.cleanupAutoclickerData();
+      this.rateLimitService.cleanupOldData();
     }, 5 * 60 * 1000); // 5 minutes in milliseconds
 
     console.log("[Hoopla RPG] Modular RPG system initialized successfully!");
@@ -385,6 +392,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       this.handleAntiAutoclickerCommand(speaker, args);
     });
 
+    this.omegga.on('cmd:rpginitclasses', (speaker, ...args) => {
+      this.handleInitClassesCommand(speaker, args);
+    });
+
     console.log("[Hoopla RPG] Command handlers set up successfully");
   }
 
@@ -398,6 +409,19 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       
       // Update username if needed
       await this.playerService.ensurePlayerUsername(player.id, player.name);
+      
+      // Handle class initialization for existing players
+      const hasClass = await this.classesService.hasPlayerSelectedClass(player.id);
+      if (!hasClass) {
+        // For existing players, auto-assign Warrior as default class
+        await this.classesService.setPlayerClass(player.id, 'warrior');
+        console.log(`[Hoopla RPG] Auto-assigned Warrior class to existing player ${player.name}`);
+        
+        // Notify the player about their default class
+        this.omegga.whisper(player.id, `<color="ff0">Welcome to the RPG Class System!</color>`);
+        this.omegga.whisper(player.id, `<color="fff">You've been assigned the 🗡️ Warrior class as your default.</color>`);
+        this.omegga.whisper(player.id, `<color="fff">You can switch to other classes anytime using the class selection bricks!</color>`);
+      }
       
       // Check if player is level 30 and grant roles if needed
       if (playerData.level >= 30) {
@@ -431,13 +455,11 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     try {
       console.log(`[Hoopla RPG] Ensuring max level roles for ${playerName}`);
       
-      // Grant Flyer role
-      await (this.omegga as any).setRole(playerName, "Flyer");
-      console.log(`[Hoopla RPG] Ensured Flyer role for ${playerName}`);
+      // Grant roles using chat commands (same method as backup plugin)
+      this.omegga.writeln(`Chat.Command /grantRole "Flyer" "${playerName}"`);
+      this.omegga.writeln(`Chat.Command /grantRole "MINIGAME LEAVER" "${playerName}"`);
       
-      // Grant MINIGAME LEAVER role
-      await (this.omegga as any).setRole(playerName, "MINIGAME LEAVER");
-      console.log(`[Hoopla RPG] Ensured MINIGAME LEAVER role for ${playerName}`);
+      console.log(`[Hoopla RPG] Ensured Flyer and MINIGAME LEAVER roles for ${playerName}`);
       
     } catch (error) {
       console.error(`[Hoopla RPG] Error ensuring max level roles for ${playerName}:`, error);
@@ -445,41 +467,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     }
   }
 
-  /**
-   * Clean up old autoclicker protection data to prevent memory leaks
-   */
-  private cleanupAutoclickerData(): void {
-    const now = Date.now();
-    const fiveMinutesAgo = now - (5 * 60 * 1000);
-    
-    // Clean up old click times (older than 1 minute)
-    const oneMinuteAgo = now - (60 * 1000);
-    for (const [playerId, clickTimes] of this.playerClickTimes.entries()) {
-      const filteredTimes = clickTimes.filter(time => time > oneMinuteAgo);
-      if (filteredTimes.length === 0) {
-        this.playerClickTimes.delete(playerId);
-      } else {
-        this.playerClickTimes.set(playerId, filteredTimes);
-      }
-    }
-    
-    // Clean up old interaction times (older than 1 minute)
-    for (const [interactionKey, lastTime] of this.lastInteractionTimes.entries()) {
-      if (lastTime < oneMinuteAgo) {
-        this.lastInteractionTimes.delete(interactionKey);
-      }
-    }
-    
-    // Clean up expired violations
-    for (const [playerId, violation] of this.playerViolations.entries()) {
-      // Remove violations that are older than 5 minutes and not currently banned
-      if (violation.lastViolation < fiveMinutesAgo && (!violation.bannedUntil || violation.bannedUntil < now)) {
-        this.playerViolations.delete(playerId);
-      }
-    }
-    
-    console.log(`[Hoopla RPG] Autoclicker protection data cleaned up`);
-  }
 
   /**
    * Handle anti-autoclicker admin command
@@ -488,55 +475,33 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     try {
       if (args.length === 0) {
         // Show status
-        const now = Date.now();
-        let activeBans = 0;
-        let totalViolations = 0;
-        
-        for (const [playerId, violation] of this.playerViolations.entries()) {
-          totalViolations += violation.count;
-          if (violation.bannedUntil && violation.bannedUntil > now) {
-            activeBans++;
-          }
-        }
+        const status = this.rateLimitService.getProtectionStatus();
         
         this.omegga.whisper(speaker, `<color="0ff">=== Autoclicker Protection Status ===</color>`);
-        this.omegga.whisper(speaker, `<color="fff">Active bans: ${activeBans}</color>`);
-        this.omegga.whisper(speaker, `<color="fff">Total violations tracked: ${totalViolations}</color>`);
+        this.omegga.whisper(speaker, `<color="fff">Active players: ${status.activePlayers}</color>`);
+        this.omegga.whisper(speaker, `<color="fff">Total interactions: ${status.totalInteractions}</color>`);
         this.omegga.whisper(speaker, `<color="fff">Rate limit: 10 clicks/second</color>`);
         this.omegga.whisper(speaker, `<color="888">Use: /rpgantiautoclicker status|reset|reset [player]</color>`);
         
       } else if (args[0] === 'status') {
         // Detailed status
-        const now = Date.now();
+        const status = this.rateLimitService.getProtectionStatus();
         this.omegga.whisper(speaker, `<color="0ff">=== Detailed Autoclicker Protection Status ===</color>`);
         
-        for (const [playerId, violation] of this.playerViolations.entries()) {
-          const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
-          const isBanned = violation.bannedUntil && violation.bannedUntil > now;
-          const banTime = isBanned ? Math.ceil((violation.bannedUntil! - now) / 1000) : 0;
-          
-          this.omegga.whisper(speaker, `<color="fff">${playerName}: ${violation.count} violations${isBanned ? ` (BANNED ${banTime}s)` : ''}</color>`);
+        for (const player of status.players) {
+          this.omegga.whisper(speaker, `<color="fff">${player.playerName}: ${player.recentInteractions} interactions/min</color>`);
         }
         
       } else if (args[0] === 'reset') {
         if (args.length === 1) {
           // Reset all violations
-          this.playerViolations.clear();
-          this.playerClickTimes.clear();
-          this.lastInteractionTimes.clear();
+          this.rateLimitService.resetProtectionData();
           this.omegga.whisper(speaker, `<color="0f0">All autoclicker protection data has been reset!</color>`);
         } else {
           // Reset specific player
           const targetPlayer = this.omegga.getPlayer(args[1]);
           if (targetPlayer) {
-            this.playerViolations.delete(targetPlayer.id);
-            this.playerClickTimes.delete(targetPlayer.id);
-            // Clear all interaction times for this player
-            for (const [key, time] of this.lastInteractionTimes.entries()) {
-              if (key.startsWith(targetPlayer.id + '_')) {
-                this.lastInteractionTimes.delete(key);
-              }
-            }
+            this.rateLimitService.resetProtectionData(targetPlayer.id);
             this.omegga.whisper(speaker, `<color="0f0">Autoclicker protection data reset for ${targetPlayer.name}!</color>`);
           } else {
             this.omegga.whisper(speaker, `<color="f00">Player not found: ${args[1]}</color>`);
@@ -552,6 +517,85 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   }
 
   /**
+   * Handle class initialization command
+   */
+  private async handleInitClassesCommand(speaker: string, args: string[]): Promise<void> {
+    try {
+      if (args.length === 0) {
+        this.omegga.whisper(speaker, `<color="ff0">Class Initialization Command:</color>`);
+        this.omegga.whisper(speaker, `<col all</color> - Initialize classes for all active players`);
+        this.omegga.whisper(speaker, `<col help</color> - Show this help`);
+        return;
+      }
+
+      const command = args[0].toLowerCase();
+      
+      switch (command) {
+        case 'all':
+          await this.initializeClassesForAllPlayers(speaker);
+          break;
+        case 'help':
+          this.omegga.whisper(speaker, `<color="ff0">Class Initialization Command:</color>`);
+          this.omegga.whisper(speaker, `<color="0f0">all</color> - Initialize classes for all active players`);
+          this.omegga.whisper(speaker, `<color="0f0">help</color> - Show this help`);
+          break;
+        default:
+          this.omegga.whisper(speaker, `<color="f00">Unknown command: ${command}</color>`);
+          this.omegga.whisper(speaker, `<color="ff0">Use /rpginitclasses help for available commands.</color>`);
+      }
+    } catch (error) {
+      console.error(`[Hoopla RPG] Error handling init classes command:`, error);
+      this.omegga.whisper(speaker, "An error occurred processing the command.");
+    }
+  }
+
+  /**
+   * Initialize classes for all active players
+   */
+  private async initializeClassesForAllPlayers(speaker: string): Promise<void> {
+    try {
+      const allPlayers = this.omegga.getPlayers();
+      let initializedCount = 0;
+      let alreadyHadClassCount = 0;
+
+      this.omegga.whisper(speaker, `<color="ff0">Initializing classes for ${allPlayers.length} active players...</color>`);
+
+      for (const player of allPlayers) {
+        const hasClass = await this.classesService.hasPlayerSelectedClass(player.id);
+        if (!hasClass) {
+          // Initialize with Warrior class
+          await this.classesService.setPlayerClass(player.id, 'warrior');
+          
+          // Notify the player
+          this.omegga.whisper(player.id, `<color="ff0">Welcome to the RPG Class System!</color>`);
+          this.omegga.whisper(player.id, `<color="fff">You've been assigned the 🗡️ Warrior class as your default.</color>`);
+          this.omegga.whisper(player.id, `<color="fff">You can switch to other classes anytime using the class selection bricks!</color>`);
+          
+          initializedCount++;
+          console.log(`[Hoopla RPG] Initialized Warrior class for player ${player.name}`);
+        } else {
+          alreadyHadClassCount++;
+        }
+      }
+
+      // Report results to the command sender
+      this.omegga.whisper(speaker, `<color="0f0">Class initialization complete!</color>`);
+      this.omegga.whisper(speaker, `<color="fff">Initialized classes for ${initializedCount} players</color>`);
+      this.omegga.whisper(speaker, `<color="fff">${alreadyHadClassCount} players already had classes</color>`);
+      
+      // Broadcast to all players if any were initialized
+      if (initializedCount > 0) {
+        this.omegga.broadcast(`<color="0f0">Class system has been initialized for all active players!</color>`);
+        this.omegga.broadcast(`<color="fff">Check your whispers for your assigned class information.</color>`);
+      }
+
+    } catch (error) {
+      console.error(`[Hoopla RPG] Error initializing classes for all players:`, error);
+      this.omegga.whisper(speaker, `<color="f00">Error initializing classes: ${error.message}</color>`);
+    }
+  }
+
+  /**
    * Handle brick interactions
    */
   private async handleBrickInteraction(data: any): Promise<void> {
@@ -560,14 +604,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         const playerId = typeof data.player === 'string' ? data.player : data.player?.id;
         const playerName = typeof data.player === 'string' ? data.player : data.player?.name;
       
-      console.log(`[DEBUG] Brick interaction received:`, {
-        playerId,
-        playerName,
-        message: data.message,
-        tag: data.tag,
-        position: data.position,
-        rawData: data
-      });
         
         const player = this.omegga.getPlayer(playerId);
       if (!player) {
@@ -575,23 +611,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         return;
       }
 
-        // Check click debounce - limit to 10 clicks per second
-        if (!this.canPlayerClick(playerId)) {
-          console.log(`[Hoopla RPG] Click rate limited for player ${playerName} (${playerId})`);
-          return;
-        }
-
-        // Additional debouncing: prevent same interaction within 100ms
+        // Check rate limiting and debouncing using the modular service
         const interactionKey = `${playerId}_${data.message}_${JSON.stringify(data.position)}`;
-        const now = Date.now();
-        const lastInteractionTime = this.lastInteractionTimes.get(interactionKey) || 0;
-        
-        if (now - lastInteractionTime < 100) {
-          console.log(`[Hoopla RPG] Interaction debounced for player ${playerName} (${playerId})`);
+        if (!this.rateLimitService.canPlayerInteract(playerId, interactionKey)) {
+          console.log(`[Hoopla RPG] Interaction rate limited for player ${playerName} (${playerId})`);
           return;
         }
-        
-        this.lastInteractionTimes.set(interactionKey, now);
 
         // Store player username for leaderboard display
       await this.playerService.ensurePlayerUsername(player.id, player.name);
@@ -689,16 +714,18 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         // Delegate to appropriate service based on trigger type
         switch (trigger.type) {
           case 'mining':
-            await this.miningService.handleMiningNode(player.id, trigger.id, trigger, playerData);
-            // CRITICAL: Save updated player data after mining interaction
-            await this.playerService.setPlayerData({ id: player.id }, playerData);
+            console.log(`[DEBUG] About to call mining service for player ${player.id}`);
+            try {
+              await this.miningService.handleMiningNode(player.id, trigger.id, trigger, playerData);
+              console.log(`[DEBUG] Mining service call completed for player ${player.id}`);
+            } catch (error) {
+              console.error(`[DEBUG] Error in mining service call:`, error);
+            }
             // Save updated trigger data
             await this.saveTriggerData(trigger.id, trigger);
             break;
           case 'fishing':
             const fishingResult = await this.fishingService.handleFishingNode(player.id, trigger.id, trigger, playerData);
-            // CRITICAL: Save updated player data after fishing interaction
-            await this.playerService.setPlayerData({ id: player.id }, playerData);
             // Save updated trigger data
             await this.saveTriggerData(trigger.id, trigger);
             break;
@@ -716,6 +743,11 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             console.log(`[DEBUG] Calling quest item handler for trigger: "${trigger.id}"`);
             await this.handleQuestItemInteraction(player.id, trigger);
             console.log(`[DEBUG] Quest item handler completed for trigger: "${trigger.id}"`);
+            break;
+          case 'class_selection':
+            console.log(`[DEBUG] Calling class selection handler for trigger: "${trigger.id}"`);
+            await this.handleClassSelectionInteraction(player.id, trigger);
+            console.log(`[DEBUG] Class selection handler completed for trigger: "${trigger.id}"`);
             break;
           case 'buy':
             console.log(`[DEBUG] Calling buy handler for trigger: "${trigger.id}"`);
@@ -759,6 +791,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     } else if (lowerMessage.includes('questitem')) {
       console.log(`[DEBUG] Trigger type determined as: "questitem"`);
       return 'questitem';
+    } else if (lowerMessage.includes('rpg_class_select_')) {
+      console.log(`[DEBUG] Trigger type determined as: "class_selection"`);
+      return 'class_selection';
     } else if (lowerMessage.includes('rpg_warrior_boulder') || lowerMessage.includes('rpg_mage_portal') || lowerMessage.includes('rpg_pirate_treasure')) {
       console.log(`[DEBUG] Trigger type determined as: "class_interaction"`);
       return 'class_interaction';
@@ -778,79 +813,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     return 'unknown';
   }
 
-  /**
-   * Check if player can click (enhanced rate limiting with autoclicker protection)
-   */
-  private canPlayerClick(playerId: string): boolean {
-    const now = Date.now();
-    const oneSecondAgo = now - 1000;
-    const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
-    
-    // Check if player is temporarily banned for autoclicking
-    const violation = this.playerViolations.get(playerId);
-    if (violation?.bannedUntil && now < violation.bannedUntil) {
-      const remainingSeconds = Math.ceil((violation.bannedUntil - now) / 1000);
-      console.log(`[Hoopla RPG] AUTOCLICKER BAN: ${playerName} (${playerId}) is banned for ${remainingSeconds} more seconds`);
-      return false;
-    }
-    
-    // Get or create click times array for this player
-    let clickTimes = this.playerClickTimes.get(playerId) || [];
-    
-    // Remove clicks older than 1 second
-    clickTimes = clickTimes.filter(time => time > oneSecondAgo);
-    
-    // Check if player has exceeded rate limit (10 clicks per second)
-    if (clickTimes.length >= 10) {
-      // Record violation
-      this.recordRateLimitViolation(playerId, playerName);
-      return false;
-    }
-    
-    // Add current click time
-    clickTimes.push(now);
-    this.playerClickTimes.set(playerId, clickTimes);
-    
-    return true;
-  }
-
-  /**
-   * Record rate limit violation and apply progressive penalties
-   */
-  private recordRateLimitViolation(playerId: string, playerName: string): void {
-    const now = Date.now();
-    const violation = this.playerViolations.get(playerId) || { count: 0, lastViolation: 0 };
-    
-    // Reset violation count if it's been more than 5 minutes since last violation
-    if (now - violation.lastViolation > 5 * 60 * 1000) {
-      violation.count = 0;
-    }
-    
-    violation.count++;
-    violation.lastViolation = now;
-    
-    // Apply progressive penalties
-    if (violation.count === 1) {
-      console.log(`[Hoopla RPG] RATE LIMIT VIOLATION #1: ${playerName} (${playerId}) - Warning issued`);
-    } else if (violation.count === 2) {
-      console.log(`[Hoopla RPG] RATE LIMIT VIOLATION #2: ${playerName} (${playerId}) - 30 second cooldown applied`);
-      violation.bannedUntil = now + (30 * 1000); // 30 second ban
-    } else if (violation.count === 3) {
-      console.log(`[Hoopla RPG] RATE LIMIT VIOLATION #3: ${playerName} (${playerId}) - 2 minute cooldown applied`);
-      violation.bannedUntil = now + (2 * 60 * 1000); // 2 minute ban
-    } else if (violation.count >= 4) {
-      console.log(`[Hoopla RPG] RATE LIMIT VIOLATION #${violation.count}: ${playerName} (${playerId}) - 10 minute cooldown applied`);
-      violation.bannedUntil = now + (10 * 60 * 1000); // 10 minute ban
-    }
-    
-    this.playerViolations.set(playerId, violation);
-    
-    // Notify player of their penalty
-    if (violation.bannedUntil) {
-      const banDuration = Math.ceil((violation.bannedUntil - now) / 1000);
-      this.omegga.whisper(playerId, `<color="f00">Rate limit exceeded! You are temporarily banned from interactions for ${banDuration} seconds.</color>`);
-    }
-  }
 
   /**
    * Handle quest item interactions
@@ -932,6 +894,67 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   }
 
   /**
+   * Handle class selection interactions
+   */
+  private async handleClassSelectionInteraction(playerId: string, trigger: any): Promise<void> {
+    try {
+      const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
+      const triggerMessage = trigger.message.toLowerCase();
+      
+      // Extract class from trigger message (e.g., "rpg_class_select_warrior" -> "warrior")
+      let selectedClassId = '';
+      if (triggerMessage.includes('rpg_class_select_warrior')) {
+        selectedClassId = 'warrior';
+      } else if (triggerMessage.includes('rpg_class_select_mage')) {
+        selectedClassId = 'mage';
+      } else if (triggerMessage.includes('rpg_class_select_pirate')) {
+        selectedClassId = 'pirate';
+      }
+      
+      if (!selectedClassId) {
+        this.omegga.whisper(playerId, `<color="f00">Invalid class selection brick!</color>`);
+        return;
+      }
+      
+      // Check if player is switching to the same class
+      const currentClass = await this.classesService.getPlayerClass(playerId);
+      if (currentClass && currentClass.id === selectedClassId) {
+        this.omegga.whisper(playerId, `<color="ff0">You are already using the ${currentClass.name} class!</color>`);
+        return;
+      }
+      
+      // Set the player's class
+      const success = await this.classesService.setPlayerClass(playerId, selectedClassId);
+      if (success) {
+        const rpgClass = this.classesService.getClass(selectedClassId);
+        if (rpgClass) {
+          // Give starting equipment
+          for (const equipment of rpgClass.startingEquipment) {
+            const player = this.omegga.getPlayer(playerId);
+            if (player) {
+              player.giveItem(equipment as any);
+            }
+          }
+          
+          // Show confirmation message
+          const confirmationMessage = this.classesService.getClassConfirmationMessage(rpgClass);
+          this.omegga.whisper(playerId, confirmationMessage);
+          
+          // Announce to server
+          this.omegga.broadcast(`<color="0f0">${playerName} has switched to the ${rpgClass.name} class!</color>`);
+          
+          console.log(`[Hoopla RPG] ${playerName} switched to ${rpgClass.name} class via brick interaction`);
+        }
+      } else {
+        this.omegga.whisper(playerId, `<color="f00">Failed to select class. Please try again.</color>`);
+      }
+    } catch (error) {
+      console.error(`[Hoopla RPG] Error handling class selection interaction:`, error);
+      this.omegga.whisper(playerId, "An error occurred during class selection.");
+    }
+  }
+
+  /**
    * Handle shop interactions
    */
   private async handleShopInteraction(playerId: string, trigger: any): Promise<void> {
@@ -960,11 +983,15 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       const buyPlayer = await this.playerService.getPlayerData({ id: playerId });
       const buyType = trigger.message.replace('Shopkeeper: ', '');
       
-      // Check if player has enough currency
+      // Check if player has enough currency (only for first-time purchases)
       const currentCurrency = await this.getCurrencySafely(playerId);
       const itemPrice = trigger.value;
       
-      if (currentCurrency < itemPrice) {
+      // Check if this is a weapon unlock (only charge on first purchase)
+      const isWeaponUnlock = buyType === 'rpg_buy_saber';
+      const alreadyUnlocked = isWeaponUnlock && buyPlayer.unlockedItems && buyPlayer.unlockedItems.includes('Saber');
+      
+      if (!alreadyUnlocked && currentCurrency < itemPrice) {
         const formattedPrice = await this.formatCurrencySafely(itemPrice);
         const formattedCurrent = await this.formatCurrencySafely(currentCurrency);
         const insufficientMessage = `Insufficient funds! You need ${formattedPrice} but only have ${formattedCurrent}.`;
@@ -972,8 +999,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         return;
       }
       
-      // Deduct currency
-      await this.addCurrencySafely(playerId, -itemPrice);
+      // Deduct currency only if not already unlocked
+      if (!alreadyUnlocked) {
+        await this.addCurrencySafely(playerId, -itemPrice);
+      }
       
       // Add item based on type
       if (buyType === 'rpg_buy_bait') {
@@ -985,18 +1014,39 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         const buyMessage = `Purchased <color="fff">[Fish bait]x20</color> for ${formattedPrice}! You now have ${formattedCurrency}.`;
         this.omegga.middlePrint(playerId, buyMessage);
       } else if (buyType === 'rpg_buy_saber') {
-        // Give saber item to player
-        const player = this.omegga.getPlayer(playerId);
-        if (player) {
-          player.giveItem('Weapon_Sabre');
+        // Check if player already has this weapon unlocked
+        if (buyPlayer.unlockedItems && buyPlayer.unlockedItems.includes('Saber')) {
+          // Player already unlocked this weapon - give it for free
+          const player = this.omegga.getPlayer(playerId);
+          if (player) {
+            player.giveItem('Weapon_Sabre');
+          }
+          
+          const unlockMessage = `You already have the <color="f80">[Saber]</color> unlocked! Here's another one for free.`;
+          this.omegga.middlePrint(playerId, unlockMessage);
+        } else {
+          // First time purchase - unlock the weapon
+          if (!buyPlayer.unlockedItems) {
+            buyPlayer.unlockedItems = [];
+          }
+          buyPlayer.unlockedItems.push('Saber');
+          
+          // Give saber item to player
+          const player = this.omegga.getPlayer(playerId);
+          if (player) {
+            player.giveItem('Weapon_Sabre');
+          }
+          
+          // Save the updated player data
+          await this.playerService.setPlayerData({ id: playerId }, buyPlayer);
+          
+          const newCurrency = await this.getCurrencySafely(playerId);
+          const formattedCurrency = await this.formatCurrencySafely(newCurrency);
+          const formattedPrice = await this.formatCurrencySafely(itemPrice);
+          
+          const buyMessage = `Purchased and unlocked <color="f80">[Saber]</color> for ${formattedPrice}! You now have ${formattedCurrency}. Future purchases are free!`;
+          this.omegga.middlePrint(playerId, buyMessage);
         }
-        
-        const newCurrency = await this.getCurrencySafely(playerId);
-        const formattedCurrency = await this.formatCurrencySafely(newCurrency);
-        const formattedPrice = await this.formatCurrencySafely(itemPrice);
-        
-        const buyMessage = `Purchased <color="f80">[Saber]</color> for ${formattedPrice}! You now have ${formattedCurrency}.`;
-        this.omegga.middlePrint(playerId, buyMessage);
       }
       
     } catch (error) {
@@ -1071,6 +1121,11 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       
       this.omegga.middlePrint(playerId, bulkMessage);
       
+      // Log bulk sell transaction
+      const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
+      const itemList = Object.entries(itemCounts).map(([item, count]) => `${count}x ${item}`).join(', ');
+      console.log(`[Hoopla RPG] ${playerName} sold: ${itemList} for ${formattedValue} (${totalItems} Bartering XP)`);
+      
     } catch (error) {
       console.error(`[Hoopla RPG] Error handling bulk sell interaction:`, error);
       this.omegga.whisper(playerId, "An error occurred while selling items in bulk.");
@@ -1117,11 +1172,123 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
    */
   private async handleAdminCommand(speaker: string, args: string[]): Promise<void> {
     try {
-      // TODO: Implement admin command logic
-      this.omegga.whisper(speaker, "Admin commands not yet implemented in new architecture.");
+      if (args.length === 0) {
+        this.omegga.whisper(speaker, `<color="ff0">Admin Commands:</color>`);
+        this.omegga.whisper(speaker, `<color="fff">/rpgadmin giveitem [player] [item] [amount]</color> - Give items to a player`);
+        this.omegga.whisper(speaker, `<color="fff">/rpgadmin help</color> - Show this help`);
+        return;
+      }
+
+      const command = args[0].toLowerCase();
+
+      switch (command) {
+        case 'giveitem':
+          if (args.length < 3) {
+            this.omegga.whisper(speaker, `<color="f00">Usage: /rpgadmin giveitem [player] [item] [amount]</color>`);
+            this.omegga.whisper(speaker, `<color="fff">Example: /rpgadmin giveitem "Player Name" "Ice Chest" 1</color>`);
+            return;
+          }
+
+          // Parse arguments more carefully to handle quoted names and items
+          let targetPlayerName = args[1];
+          let itemName = args[2];
+          let amount = parseInt(args[3]) || 1;
+          let currentArgIndex = 1;
+
+          // Parse player name (handle quotes)
+          if (targetPlayerName.startsWith('"')) {
+            let fullPlayerName = targetPlayerName.substring(1); // Remove opening quote
+            currentArgIndex = 1;
+            
+            // Look for the closing quote in subsequent arguments
+            while (currentArgIndex < args.length && !fullPlayerName.endsWith('"')) {
+              currentArgIndex++;
+              if (currentArgIndex < args.length) {
+                fullPlayerName += ' ' + args[currentArgIndex];
+              }
+            }
+            
+            if (fullPlayerName.endsWith('"')) {
+              targetPlayerName = fullPlayerName.substring(0, fullPlayerName.length - 1); // Remove closing quote
+              currentArgIndex++; // Move to next argument after player name
+            }
+          } else {
+            currentArgIndex = 2; // Move to item name
+          }
+
+          // Parse item name (handle quotes)
+          if (currentArgIndex < args.length) {
+            itemName = args[currentArgIndex];
+            if (itemName.startsWith('"')) {
+              let fullItemName = itemName.substring(1); // Remove opening quote
+              currentArgIndex++;
+              
+              // Look for the closing quote in subsequent arguments
+              while (currentArgIndex < args.length && !fullItemName.endsWith('"')) {
+                if (currentArgIndex < args.length) {
+                  fullItemName += ' ' + args[currentArgIndex];
+                }
+                currentArgIndex++;
+              }
+              
+              if (fullItemName.endsWith('"')) {
+                itemName = fullItemName.substring(0, fullItemName.length - 1); // Remove closing quote
+                currentArgIndex++; // Move to next argument after item name
+              }
+            } else {
+              currentArgIndex++; // Move to amount
+            }
+          }
+
+          // Parse amount
+          if (currentArgIndex < args.length) {
+            amount = parseInt(args[currentArgIndex]) || 1;
+          }
+
+          // Debug logging
+          console.log(`[Hoopla RPG] Admin command - Raw args:`, args);
+          console.log(`[Hoopla RPG] Admin command - Parsed player name: "${targetPlayerName}"`);
+          console.log(`[Hoopla RPG] Admin command - Parsed item: "${itemName}"`);
+          console.log(`[Hoopla RPG] Admin command - Parsed amount: ${amount}`);
+
+          // Find the target player
+          const targetPlayer = this.omegga.getPlayer(targetPlayerName);
+          if (!targetPlayer) {
+            this.omegga.whisper(speaker, `<color="f00">Player "${targetPlayerName}" not found online.</color>`);
+            return;
+          }
+
+          // Get player data
+          const playerData = await this.playerService.getPlayerData({ id: targetPlayer.id });
+          
+          // Add items to inventory
+          for (let i = 0; i < amount; i++) {
+            await this.inventoryService.addToInventory(playerData, itemName);
+          }
+
+          // Save player data
+          await this.playerService.setPlayerData({ id: targetPlayer.id }, playerData);
+
+          // Notify both players
+          this.omegga.whisper(speaker, `<color="0f0">Successfully gave ${amount}x "${itemName}" to ${targetPlayerName}.</color>`);
+          this.omegga.whisper(targetPlayer.id, `<color="0f0">You received ${amount}x "${itemName}" from an admin.</color>`);
+          
+          console.log(`[Hoopla RPG] Admin ${speaker} gave ${amount}x "${itemName}" to ${targetPlayerName} (${targetPlayer.id})`);
+          break;
+
+        case 'help':
+          this.omegga.whisper(speaker, `<color="ff0">Admin Commands:</color>`);
+          this.omegga.whisper(speaker, `<color="fff">/rpgadmin giveitem [player] [item] [amount]</color> - Give items to a player`);
+          this.omegga.whisper(speaker, `<color="fff">/rpgadmin help</color> - Show this help`);
+          break;
+
+        default:
+          this.omegga.whisper(speaker, `<color="f00">Unknown admin command: ${command}</color>`);
+          this.omegga.whisper(speaker, `<color="fff">Use /rpgadmin help for available commands.</color>`);
+      }
     } catch (error) {
       console.error(`[Hoopla RPG] Error handling admin command:`, error);
-      this.omegga.whisper(speaker, "An error occurred processing your admin command.");
+      this.omegga.whisper(speaker, `<color="f00">Error processing admin command: ${error.message}</color>`);
     }
   }
 
@@ -1226,6 +1393,13 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       const mainStatsMessage = 
         `${playerLevelDisplay} | <color="f00">${safeRpgData.health}/${safeRpgData.maxHealth} HP</> | <color="0f0">${formattedCurrency}</>`;
       
+      // Get class information
+      const playerClass = await this.classesService.getPlayerClass(player.id);
+      const classLevel = await this.classesService.getPlayerClassLevel(player.id);
+      const classDisplay = playerClass && classLevel ? 
+        `<color="0f0">${playerClass.name} Level ${classLevel.level}</>` : 
+        `<color="888">No Class Selected</>`;
+      
       // Get skill progress
       const miningProgress = await this.getSkillProgress({ id: player.id }, 'mining');
       const barteringProgress = await this.getSkillProgress({ id: player.id }, 'bartering');
@@ -1270,13 +1444,14 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       
       // Send each line individually using whisper (original format)
       this.omegga.whisper(speaker, mainStatsMessage);
+      this.omegga.whisper(speaker, classDisplay);
       this.omegga.whisper(speaker, skillsMessage1);
       this.omegga.whisper(speaker, skillsMessage2);
       this.omegga.whisper(speaker, consumablesMessage);
       this.omegga.whisper(speaker, helpMessage);
 
       // DEBUG: Output the exact message to console for comparison
-      const statsMessage = `${mainStatsMessage}\n${skillsMessage1}\n${skillsMessage2}\n${consumablesMessage}\n${helpMessage}`;
+      const statsMessage = `${mainStatsMessage}\n${classDisplay}\n${skillsMessage1}\n${skillsMessage2}\n${consumablesMessage}\n${helpMessage}`;
       console.log(`[Hoopla RPG] DEBUG: /rpg command message for ${player.name}:`);
       console.log(`[Hoopla RPG] DEBUG: Raw message (with color tags):`);
       console.log(statsMessage);
@@ -1413,20 +1588,59 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         return;
       }
 
-      // Format leaderboard for whisper (multi-line for better readability)
+      // Format leaderboard for whisper (two players per line to reduce spam)
       this.omegga.whisper(speaker, `<color="ff0">Top Players Leaderboard:</color>`);
       
-      for (let i = 0; i < leaderboard.length; i++) {
-        const entry = leaderboard[i];
-        const position = i + 1;
-        const positionText = position === 1 ? "1st" : position === 2 ? "2nd" : position === 3 ? "3rd" : `${position}th`;
+      for (let i = 0; i < leaderboard.length; i += 2) {
+        let lineMessage = '';
         
-        // Get class information for this player
-        const classDisplay = await this.classesService.getPlayerClassDisplay(entry.playerId);
-        const classInfo = classDisplay !== 'No Class' ? ` (${classDisplay})` : '';
+        // First player on the line
+        const entry1 = leaderboard[i];
+        const position1 = i + 1;
+        const positionText1 = position1 === 1 ? "1st" : position1 === 2 ? "2nd" : position1 === 3 ? "3rd" : `${position1}th`;
         
-        const message = `${positionText}. <color="0ff">${entry.name}</color>${classInfo} - <color="ff0">${entry.score.toLocaleString()}</color> points`;
-        this.omegga.whisper(speaker, message);
+        const classDisplay1 = await this.classesService.getPlayerClassDisplay(entry1.playerId);
+        const classInfo1 = classDisplay1 !== 'No Class' ? ` (${classDisplay1})` : '';
+        
+        // Determine color based on position (rarity-based coloring)
+        let playerColor1 = "fff"; // Default white
+        if (position1 === 1) {
+          playerColor1 = "f80"; // Legendary (orange)
+        } else if (position1 === 2 || position1 === 3) {
+          playerColor1 = "80f"; // Epic (purple)
+        } else if (position1 === 4 || position1 === 5) {
+          playerColor1 = "08f"; // Rare (blue)
+        } else if (position1 === 6 || position1 === 7) {
+          playerColor1 = "0f0"; // Uncommon (green)
+        }
+        
+        lineMessage += `${positionText1}. <color="${playerColor1}">${entry1.name}</color>${classInfo1} - <color="ff0">${entry1.score.toLocaleString()}</color>`;
+        
+        // Second player on the line (if exists)
+        if (i + 1 < leaderboard.length) {
+          const entry2 = leaderboard[i + 1];
+          const position2 = i + 2;
+          const positionText2 = position2 === 1 ? "1st" : position2 === 2 ? "2nd" : position2 === 3 ? "3rd" : `${position2}th`;
+          
+          const classDisplay2 = await this.classesService.getPlayerClassDisplay(entry2.playerId);
+          const classInfo2 = classDisplay2 !== 'No Class' ? ` (${classDisplay2})` : '';
+          
+          // Determine color based on position (rarity-based coloring)
+          let playerColor2 = "fff"; // Default white
+          if (position2 === 1) {
+            playerColor2 = "f80"; // Legendary (orange)
+          } else if (position2 === 2 || position2 === 3) {
+            playerColor2 = "80f"; // Epic (purple)
+          } else if (position2 === 4 || position2 === 5) {
+            playerColor2 = "08f"; // Rare (blue)
+          } else if (position2 === 6 || position2 === 7) {
+            playerColor2 = "0f0"; // Uncommon (green)
+          }
+          
+          lineMessage += ` | ${positionText2}. <color="${playerColor2}">${entry2.name}</color>${classInfo2} - <color="ff0">${entry2.score.toLocaleString()}</color>`;
+        }
+        
+        this.omegga.whisper(speaker, lineMessage);
       }
       
     } catch (error) {
@@ -1457,11 +1671,23 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         const classDisplay = await this.classesService.getPlayerClassDisplay(entry.playerId);
         const classInfo = classDisplay !== 'No Class' ? `(${classDisplay})` : `(L${entry.level})`;
         
-        topPlayers.push(`${positionText}. <color="0ff">${entry.name}</color>${classInfo}`);
+        // Determine color based on position (rarity-based coloring)
+        let playerColor = "fff"; // Default white
+        if (position === 1) {
+          playerColor = "f80"; // Legendary (orange)
+        } else if (position === 2 || position === 3) {
+          playerColor = "80f"; // Epic (purple)
+        } else if (position === 4 || position === 5) {
+          playerColor = "08f"; // Rare (blue)
+        } else if (position === 6 || position === 7) {
+          playerColor = "0f0"; // Uncommon (green)
+        }
+        
+        topPlayers.push(`${positionText}. <color="${playerColor}">${entry.name}</color>${classInfo} - <color="ff0">${entry.score.toLocaleString()}</color>`);
       }
 
-      // Broadcast compact leaderboard
-      this.omegga.broadcast(`<color="ff0">🏆 Top Players:</color> ${topPlayers}`);
+      // Broadcast compact leaderboard (removed emoji)
+      this.omegga.broadcast(`<color="ff0">Top Players:</color> ${topPlayers}`);
       
     } catch (error) {
       console.error(`[Hoopla RPG] Error announcing leaderboard:`, error);
@@ -2762,14 +2988,20 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     const player = await this.playerService.getPlayerData(playerId);
     const skill = player.skills[skillType] || { level: 0, experience: 0 };
     
-    const xpForNextLevel = this.getXPForNextLevel(skill.level);
+    // Calculate XP needed for the next level (not total XP to reach current level)
+    const xpForNextLevel = skill.level >= 30 ? 0 : this.getXPForNextLevel(skill.level + 1);
+    
+    // Calculate progress within current level
+    const xpForCurrentLevel = skill.level <= 1 ? 0 : this.getXPForNextLevel(skill.level);
+    const xpInCurrentLevel = skill.experience - xpForCurrentLevel;
+    const xpNeededForNextLevel = xpForNextLevel - xpForCurrentLevel;
     const progress = skill.level >= 30 ? 100 : 
-      Math.min(100, Math.max(0, (skill.experience / xpForNextLevel) * 100));
+      (xpNeededForNextLevel > 0 ? Math.min(100, Math.max(0, (xpInCurrentLevel / xpNeededForNextLevel) * 100)) : 0);
     
     return {
       level: skill.level,
       experience: skill.experience,
-      xpForNextLevel,
+      xpForNextLevel: xpNeededForNextLevel, // XP needed to reach next level
       progress
     };
   }
@@ -2778,6 +3010,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
    * Get XP within current skill level
    */
   private getXPInCurrentSkillLevel(level: number, totalXP: number): number {
+    // Handle max level case - return 0 since we show "MAX" instead
+    if (level >= 30) return 0;
+    
     if (level <= 1) return totalXP;
     
     let xpForCurrentLevel = 0;

@@ -24,6 +24,7 @@ export type RPGPlayer = {
   inventory: string[];
   consumables: ConsumableItem[];
   nodesCollected: string[];
+  unlockedItems: string[]; // Track permanently unlocked items (weapons, etc.)
   username?: string;
   quests: { [questId: string]: any };
   skills: {
@@ -72,6 +73,7 @@ export class PlayerService {
       inventory: [],
       consumables: [],
       nodesCollected: [],
+      unlockedItems: [],
       quests: {},
       skills: {
         mining: { level: 0, experience: 0 },
@@ -126,12 +128,16 @@ export class PlayerService {
    * @returns Promise resolving to the player's RPG data
    */
   async getPlayerData({ id }: PlayerId): Promise<RPGPlayer> {
-    console.log(`[DEBUG] PlayerService.getPlayerData called for player: ${id}`);
+    console.log(`[Hoopla RPG] getPlayerData called for player ${id}`);
     
     // Check if this is a level 30 player in our cache
     if (this.level30PlayerCache.has(id)) {
-      console.log(`[DEBUG] Player ${id} found in level 30 cache`);
       const cachedPlayer = this.level30PlayerCache.get(id)!;
+      console.log(`[DEBUG] Player ${id} data loaded from LEVEL 30 CACHE:`, {
+        level: cachedPlayer.level,
+        hasSkills: !!cachedPlayer.skills,
+        skills: cachedPlayer.skills
+      });
       return cachedPlayer;
     }
 
@@ -140,14 +146,36 @@ export class PlayerService {
       level: player.level,
       hasQuests: !!player.quests,
       questCount: player.quests ? Object.keys(player.quests).length : 0,
-      questKeys: player.quests ? Object.keys(player.quests) : []
+      questKeys: player.quests ? Object.keys(player.quests) : [],
+      hasSkills: !!player.skills,
+      skills: player.skills
     });
+    
+    // EMERGENCY FIX: Force add skills if missing
+    if (!player.skills) {
+      console.log(`[Hoopla RPG] EMERGENCY FIX: Player ${id} missing skills data, adding default skills`);
+      player.skills = {
+        mining: { level: 0, experience: 0 },
+        bartering: { level: 0, experience: 0 },
+        fishing: { level: 0, experience: 0 }
+      };
+      // Save immediately
+      await this.store.set("rpg_" + id, player);
+    }
     
     // CRITICAL: Validate and fix player data to prevent corruption
     const validatedPlayer = this.validateAndFixPlayerData(player, id);
     
+    // Debug logging for validated player data
+    console.log(`[DEBUG] Player ${id} validated data:`, {
+      level: validatedPlayer.level,
+      hasSkills: !!validatedPlayer.skills,
+      skills: validatedPlayer.skills
+    });
+    
     // If this player is level 30, cache them to prevent data corruption
     if (validatedPlayer.level === 30) {
+      console.log(`[DEBUG] Caching level 30 player ${id} to prevent data corruption`);
       this.level30PlayerCache.set(id, { ...validatedPlayer });
     }
     
@@ -364,6 +392,13 @@ export class PlayerService {
     if (!Array.isArray(fixedPlayer.inventory)) {
       console.log(`[Hoopla RPG] WARNING: Invalid inventory for player ${playerId}, resetting to empty array`);
       fixedPlayer.inventory = [];
+      needsFix = true;
+    }
+    
+    // Validate and fix unlockedItems
+    if (!Array.isArray(fixedPlayer.unlockedItems)) {
+      console.log(`[Hoopla RPG] WARNING: Invalid unlockedItems for player ${playerId}, resetting to empty array`);
+      fixedPlayer.unlockedItems = [];
       needsFix = true;
     }
     

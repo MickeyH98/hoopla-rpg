@@ -26,11 +26,16 @@ export class ResourceService {
   getResourceSellPrice(resourceType: string): number {
     switch (resourceType.toLowerCase()) {
       // Mining resources
-      case 'copper': return 1;
-      case 'iron': return 3;
-      case 'gold': return 10;
-      case 'obsidian': return 25;
-      case 'diamond': return 50;
+      case 'copper':
+      case 'copper ore': return 1;
+      case 'iron':
+      case 'iron ore': return 3;
+      case 'gold':
+      case 'gold ore': return 10;
+      case 'obsidian':
+      case 'obsidian ore': return 25;
+      case 'diamond':
+      case 'diamond ore': return 50;
       
       // Freshwater fish (spot)
       case 'gup': return 2;

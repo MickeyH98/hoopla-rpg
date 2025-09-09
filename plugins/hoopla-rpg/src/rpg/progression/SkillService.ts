@@ -63,28 +63,18 @@ export class SkillService {
     // Add experience
     skill.experience += amount;
     
-    // Skill leveling: challenging progressive scaling
-    // Each level requires significantly more XP than the previous
+    // Skill leveling: use same scaling as main plugin system
     const getSkillXPForNextLevel = (skillLevel: number): number => {
       if (skillLevel >= 30) return 0;
       
-      // Progressive scaling that gets much harder at higher levels
-      // Level 1: 100 XP, Level 2: 150 XP, Level 3: 225 XP, Level 4: 325 XP, Level 5: 450 XP, etc.
-      // Each level requires more XP than the previous, with increasing difficulty
-      const baseXP = 100;
-      const levelIncrease = 50; // Base increase
-      
-      // Calculate total XP needed to reach the specified level
-      let totalXPNeeded = 0;
-      for (let level = 1; level <= skillLevel; level++) {
-        if (level === 1) {
-          totalXPNeeded = baseXP; // Level 1 needs 100 XP
-        } else {
-          totalXPNeeded += levelIncrease + ((level - 1) * 25); // Increasing difficulty
-        }
-      }
-      
-      return totalXPNeeded;
+      // Use same XP calculation as main plugin for consistency
+      if (skillLevel <= 5) return 100 + (skillLevel - 1) * 50; // 100, 150, 200, 250, 300
+      if (skillLevel <= 10) return 300 + (skillLevel - 5) * 100; // 350, 450, 550, 650, 750
+      if (skillLevel <= 15) return 750 + (skillLevel - 10) * 150; // 900, 1050, 1200, 1350, 1500
+      if (skillLevel <= 20) return 1500 + (skillLevel - 15) * 200; // 1700, 1900, 2100, 2300, 2500
+      if (skillLevel <= 25) return 2500 + (skillLevel - 20) * 300; // 2800, 3100, 3400, 3700, 4000
+      if (skillLevel <= 30) return 4000 + (skillLevel - 25) * 500; // 4500, 5000, 5500, 6000, 6500
+      return 6500; // Max level
     };
     
     // Calculate new level based on total XP
@@ -106,7 +96,8 @@ export class SkillService {
     // Announce skill level up
     if (leveledUp) {
       const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
-      this.omegga.broadcast(`<color="0f0">${playerName} reached ${skillType} level ${newLevel}!</color>`);
+      this.omegga.broadcast(`<color="0ff">Congratulations! ${playerName} has reached ${skillType} level ${newLevel}!</color>`);
+      console.log(`[Hoopla RPG] ${playerName} leveled up ${skillType} from ${oldLevel} to ${newLevel}!`);
     }
     
     await this.setPlayerData({ id }, player);
@@ -137,23 +128,18 @@ export class SkillService {
     
     const skill = player.skills[skillType];
     
-    // Calculate XP required for current and next level
+    // Calculate XP required for current and next level (consistent with main plugin)
     const getSkillXPForNextLevel = (skillLevel: number): number => {
       if (skillLevel >= 30) return 0;
       
-      // Progressive scaling that gets much harder at higher levels
-      // Level 1: 100 XP, Level 2: 150 XP, Level 3: 225 XP, Level 4: 325 XP, etc.
-      // Each level requires more XP than the previous, with increasing difficulty
-      const baseXP = 100;
-      const levelIncrease = 50; // Base increase
-      
-      // Calculate XP needed for the current level
-      let xpForCurrentLevel = baseXP;
-      for (let level = 1; level < skillLevel; level++) {
-        xpForCurrentLevel += levelIncrease + (level * 25); // Increasing difficulty (matches old system)
-      }
-      
-      return xpForCurrentLevel;
+      // Use same XP calculation as main plugin for consistency
+      if (skillLevel <= 5) return 100 + (skillLevel - 1) * 50; // 100, 150, 200, 250, 300
+      if (skillLevel <= 10) return 300 + (skillLevel - 5) * 100; // 350, 450, 550, 650, 750
+      if (skillLevel <= 15) return 750 + (skillLevel - 10) * 150; // 900, 1050, 1200, 1350, 1500
+      if (skillLevel <= 20) return 1500 + (skillLevel - 15) * 200; // 1700, 1900, 2100, 2300, 2500
+      if (skillLevel <= 25) return 2500 + (skillLevel - 20) * 300; // 2800, 3100, 3400, 3700, 4000
+      if (skillLevel <= 30) return 4000 + (skillLevel - 25) * 500; // 4500, 5000, 5500, 6000, 6500
+      return 6500; // Max level
     };
     
     // Calculate XP thresholds for current and next level
