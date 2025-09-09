@@ -135,7 +135,13 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     // Set up command handlers
     this.setupCommandHandlers();
     
+    // Set up leaderboard announcement timer (every 10 minutes)
+    setInterval(async () => {
+      await this.announceLeaderboard();
+    }, 10 * 60 * 1000); // 10 minutes in milliseconds
+
     console.log("[Hoopla RPG] Modular RPG system initialized successfully!");
+    console.log("[Hoopla RPG] Leaderboard announcements enabled - every 10 minutes");
 
     // Generate a random hash for this reload to verify we're testing the correct version
     const reloadHash = Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -1077,6 +1083,32 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     } catch (error) {
       console.error(`[Hoopla RPG] Error showing leaderboard:`, error);
       this.omegga.whisper(speaker, `<color="f00">Error loading leaderboard: ${error.message}</color>`);
+    }
+  }
+
+  /**
+   * Announce leaderboard to all players (compact format for server announcements)
+   */
+  private async announceLeaderboard(): Promise<void> {
+    try {
+      const leaderboard = await this.getLeaderboard();
+      
+      if (leaderboard.length === 0) {
+        return; // Don't announce if no players
+      }
+
+      // Create compact format for server announcement (single line)
+      const topPlayers = leaderboard.slice(0, 5).map((entry, index) => {
+        const position = index + 1;
+        const positionText = position === 1 ? "1st" : position === 2 ? "2nd" : position === 3 ? "3rd" : `${position}th`;
+        return `${positionText}. <color="0ff">${entry.name}</color>(L${entry.level})`;
+      }).join(' | ');
+
+      // Broadcast compact leaderboard
+      this.omegga.broadcast(`<color="ff0">🏆 Top Players:</color> ${topPlayers}`);
+      
+    } catch (error) {
+      console.error(`[Hoopla RPG] Error announcing leaderboard:`, error);
     }
   }
 

@@ -4131,3 +4131,546 @@ So far we have mining, fishing, and selling!
 [2025.09.09-02.12.55:979][986]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
 [2025.09.09-02.12.55:979][986]LogConsoleCommands: * hoopla | 15ms | 125m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
 [2025.09.09-02.12.59:700][207]LogServerList: Posting server.
+[2025.09.09-02.13.55:981][565]LogConsoleCmd: Server.Status
+[2025.09.09-02.13.55:981][565]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.13.55:981][565]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.13.55:981][566]LogConsoleCommands: Bricks: 69843
+[2025.09.09-02.13.55:981][566]LogConsoleCommands: Components: 726
+[2025.09.09-02.13.55:981][566]LogConsoleCommands: Time: 126m 56s
+[2025.09.09-02.13.55:981][566]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.13.55:981][566]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.13.55:981][566]LogConsoleCommands: * hoopla | 15ms | 126m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.13.59:703][787]LogServerList: Posting server.
+[2025.09.09-02.14.01:361][886]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "1x1f" at -280 -3220 1186, message: "rpg_questitem_brickingway_box".
+[2025.09.09-02.14.01:380][887]LogConsoleCmd: Chat.StatusMessage "hoopla" You have already collected this brickingway box.
+[2025.09.09-02.14.56:000][146]LogConsoleCmd: Server.Status
+[2025.09.09-02.14.56:000][146]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.14.56:000][147]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.14.56:000][147]LogConsoleCommands: Bricks: 69843
+[2025.09.09-02.14.56:000][147]LogConsoleCommands: Components: 726
+[2025.09.09-02.14.56:000][147]LogConsoleCommands: Time: 127m 56s
+[2025.09.09-02.14.56:000][147]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.14.56:000][147]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.14.56:000][147]LogConsoleCommands: * hoopla | 19ms | 127m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.14.59:704][367]LogServerList: Posting server.
+[2025.09.09-02.15.56:014][727]LogConsoleCmd: Server.Status
+[2025.09.09-02.15.56:014][727]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.15.56:014][728]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.15.56:014][728]LogConsoleCommands: Bricks: 69843
+[2025.09.09-02.15.56:014][728]LogConsoleCommands: Components: 726
+[2025.09.09-02.15.56:014][728]LogConsoleCommands: Time: 128m 56s
+[2025.09.09-02.15.56:014][728]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.15.56:014][728]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.15.56:014][728]LogConsoleCommands: * hoopla | 15ms | 128m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.15.59:700][947]LogServerList: Posting server.
+[2025.09.09-02.16.56:025][308]LogConsoleCmd: Server.Status
+[2025.09.09-02.16.56:026][308]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.16.56:026][309]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.16.56:026][309]LogConsoleCommands: Bricks: 69843
+[2025.09.09-02.16.56:026][309]LogConsoleCommands: Components: 726
+[2025.09.09-02.16.56:026][309]LogConsoleCommands: Time: 129m 56s
+[2025.09.09-02.16.56:026][309]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.16.56:026][309]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.16.56:026][309]LogConsoleCommands: * hoopla | 18ms | 129m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.16.59:695][527]LogAutoSave: Skipping auto save (no bricks changed).
+[2025.09.09-02.16.59:695][527]LogServerList: Posting server.
+[2025.09.09-02.17.56:038][889]LogConsoleCmd: Server.Status
+[2025.09.09-02.17.56:038][889]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.17.56:038][889]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.17.56:038][889]LogConsoleCommands: Bricks: 69843
+[2025.09.09-02.17.56:038][890]LogConsoleCommands: Components: 726
+[2025.09.09-02.17.56:038][890]LogConsoleCommands: Time: 130m 56s
+[2025.09.09-02.17.56:038][890]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.17.56:038][890]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.17.56:038][890]LogConsoleCommands: * hoopla | 21ms | 130m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.17.59:691][107]LogServerList: Posting server.
+[2025.09.09-02.18.56:030][469]LogConsoleCmd: Server.Status
+[2025.09.09-02.18.56:030][469]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.18.56:030][470]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.18.56:030][470]LogConsoleCommands: Bricks: 69843
+[2025.09.09-02.18.56:030][470]LogConsoleCommands: Components: 726
+[2025.09.09-02.18.56:030][470]LogConsoleCommands: Time: 131m 56s
+[2025.09.09-02.18.56:030][470]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.18.56:030][470]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.18.56:030][470]LogConsoleCommands: * hoopla | 15ms | 131m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.18.59:699][688]LogServerList: Posting server.
+[2025.09.09-02.19.56:044][ 50]LogConsoleCmd: Server.Status
+[2025.09.09-02.19.56:044][ 50]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.19.56:044][ 50]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.19.56:044][ 51]LogConsoleCommands: Bricks: 69843
+[2025.09.09-02.19.56:044][ 51]LogConsoleCommands: Components: 726
+[2025.09.09-02.19.56:044][ 51]LogConsoleCommands: Time: 132m 56s
+[2025.09.09-02.19.56:044][ 51]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.19.56:044][ 51]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.19.56:044][ 51]LogConsoleCommands: * hoopla | 14ms | 132m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.19.59:698][268]LogServerList: Posting server.
+[2025.09.09-02.20.56:057][630]LogConsoleCmd: Server.Status
+[2025.09.09-02.20.56:057][630]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.20.56:057][630]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.20.56:057][631]LogConsoleCommands: Bricks: 69843
+[2025.09.09-02.20.56:057][631]LogConsoleCommands: Components: 726
+[2025.09.09-02.20.56:057][631]LogConsoleCommands: Time: 133m 56s
+[2025.09.09-02.20.56:057][631]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.20.56:057][631]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.20.56:057][631]LogConsoleCommands: * hoopla | 14ms | 133m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.20.59:694][847]LogServerList: Posting server.
+[2025.09.09-02.21.56:067][211]LogConsoleCmd: Server.Status
+[2025.09.09-02.21.56:067][211]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.21.56:067][211]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.21.56:067][211]LogConsoleCommands: Bricks: 69843
+[2025.09.09-02.21.56:067][211]LogConsoleCommands: Components: 726
+[2025.09.09-02.21.56:067][211]LogConsoleCommands: Time: 134m 56s
+[2025.09.09-02.21.56:067][211]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.21.56:067][211]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.21.56:067][211]LogConsoleCommands: * hoopla | 23ms | 134m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.21.59:704][427]LogServerList: Posting server.
+[2025.09.09-02.22.56:081][790]LogConsoleCmd: Server.Status
+[2025.09.09-02.22.56:081][790]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.22.56:081][791]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.22.56:081][791]LogConsoleCommands: Bricks: 69843
+[2025.09.09-02.22.56:081][791]LogConsoleCommands: Components: 726
+[2025.09.09-02.22.56:081][791]LogConsoleCommands: Time: 135m 56s
+[2025.09.09-02.22.56:081][791]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.22.56:081][791]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.22.56:081][791]LogConsoleCommands: * hoopla | 15ms | 135m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.22.59:030][966]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "1x1f" at 550 -6330 1158, message: "rpg_questitem_brickingway_box".
+[2025.09.09-02.22.59:065][968]LogConsoleCmd: Chat.StatusMessage "hoopla" You collected <color="f80">[Brickingway Box]</color>!
+[2025.09.09-02.22.59:701][  6]LogServerList: Posting server.
+[2025.09.09-02.23.03:540][235]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.03:558][236]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [==------------------] 11% - 5 attempts remaining
+[2025.09.09-02.23.04:345][283]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.04:363][284]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [====----------------] 22% - 5 attempts remaining
+[2025.09.09-02.23.04:596][298]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.04:614][299]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [=======-------------] 33% - 5 attempts remaining
+[2025.09.09-02.23.04:831][312]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.04:849][313]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [=========-----------] 44% - 5 attempts remaining
+[2025.09.09-02.23.05:015][323]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.05:033][324]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [===========---------] 56% - 5 attempts remaining
+[2025.09.09-02.23.05:233][336]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.05:251][337]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [=============-------] 67% - 5 attempts remaining
+[2025.09.09-02.23.05:434][348]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.05:452][349]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [================----] 78% - 5 attempts remaining
+[2025.09.09-02.23.05:602][358]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.05:620][359]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [==================--] 89% - 5 attempts remaining
+[2025.09.09-02.23.05:903][376]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.05:921][377]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="f80">[Kraken]</color> (<color="ff0">x1</color> in bag), Gained 34XP and 34 Fishing XP - 4 attempts remaining
+[2025.09.09-02.23.05:938][378]LogConsoleCmd: Chat.Broadcast <color="fff">LEGENDARY CATCH! hoopla has caught a <color="f80">[Kraken]</color>!</color>
+[2025.09.09-02.23.05:938][379]LogChat: LEGENDARY CATCH! hoopla has caught a [Kraken]!
+[2025.09.09-02.23.06:473][410]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.06:491][411]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="fff">[Gup]</color> (<color="ff0">x1</color> in bag), Gained 6XP and 6 Fishing XP - 3 attempts remaining
+[2025.09.09-02.23.06:658][421]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.06:676][422]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [==------------------] 11% - 3 attempts remaining
+[2025.09.09-02.23.06:842][432]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.06:860][433]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [====----------------] 22% - 3 attempts remaining
+[2025.09.09-02.23.07:077][446]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.07:095][447]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [=======-------------] 33% - 3 attempts remaining
+[2025.09.09-02.23.07:244][456]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.07:262][457]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [=========-----------] 44% - 3 attempts remaining
+[2025.09.09-02.23.07:429][467]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.07:447][468]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [===========---------] 56% - 3 attempts remaining
+[2025.09.09-02.23.07:580][476]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.07:598][477]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [=============-------] 67% - 3 attempts remaining
+[2025.09.09-02.23.07:747][486]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.07:765][487]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [================----] 78% - 3 attempts remaining
+[2025.09.09-02.23.07:898][495]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.07:916][496]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [==================--] 89% - 3 attempts remaining
+[2025.09.09-02.23.08:049][504]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.08:067][505]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="f80">[Kraken]</color> (<color="ff0">x2</color> in bag), Gained 34XP and 34 Fishing XP - 2 attempts remaining
+[2025.09.09-02.23.08:084][506]LogConsoleCmd: Chat.Broadcast <color="fff">LEGENDARY CATCH! hoopla has caught a <color="f80">[Kraken]</color>!</color>
+[2025.09.09-02.23.08:084][506]LogChat: LEGENDARY CATCH! hoopla has caught a [Kraken]!
+[2025.09.09-02.23.08:166][511]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.08:184][512]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="fff">[Gup]</color> (<color="ff0">x2</color> in bag), Gained 6XP and 6 Fishing XP - 1 attempts remaining
+[2025.09.09-02.23.08:300][519]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.08:335][521]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="fff">[Gup]</color> (<color="ff0">x3</color> in bag), Gained 6XP and 6 Fishing XP - Fishing spot depleted! Come back in 30 seconds.
+[2025.09.09-02.23.08:451][528]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.08:470][529]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.09-02.23.08:602][537]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.08:620][538]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.09-02.23.08:854][552]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 580 -6070 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.08:872][553]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.09-02.23.09:440][587]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 490 -6040 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.09:458][588]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="0f0">[Arctic Char]</color> (<color="ff0">x1</color> in bag), Gained 10XP and 10 Fishing XP - 4 attempts remaining
+[2025.09.09-02.23.09:641][599]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 490 -6040 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.09:659][600]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [=====---------------] 25% - 4 attempts remaining
+[2025.09.09-02.23.09:893][614]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 490 -6040 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.09:911][615]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [==========----------] 50% - 4 attempts remaining
+[2025.09.09-02.23.10:111][627]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 490 -6040 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.10:129][628]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [===============-----] 75% - 4 attempts remaining
+[2025.09.09-02.23.10:329][640]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 490 -6040 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.10:347][641]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="08f">[Beluga]</color> (<color="ff0">x1</color> in bag), Gained 16XP and 16 Fishing XP - 3 attempts remaining
+[2025.09.09-02.23.10:513][651]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 490 -6040 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.10:531][652]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="0f0">[Arctic Char]</color> (<color="ff0">x2</color> in bag), Gained 10XP and 10 Fishing XP - 2 attempts remaining
+[2025.09.09-02.23.11:234][694]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.11:252][695]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="fff">[Icefish]</color> (<color="ff0">x1</color> in bag), Gained 6XP and 6 Fishing XP - 4 attempts remaining
+[2025.09.09-02.23.11:435][706]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.11:453][707]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="0f0">[Arctic Char]</color> (<color="ff0">x3</color> in bag), Gained 10XP and 10 Fishing XP - 3 attempts remaining
+[2025.09.09-02.23.11:653][719]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.11:671][720]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="fff">[Icefish]</color> (<color="ff0">x2</color> in bag), Gained 6XP and 6 Fishing XP - 2 attempts remaining
+[2025.09.09-02.23.11:837][730]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.11:855][731]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="0f0">[Arctic Char]</color> (<color="ff0">x4</color> in bag), Gained 10XP and 10 Fishing XP - 1 attempts remaining
+[2025.09.09-02.23.12:072][744]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.12:090][745]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [=====---------------] 25% - 1 attempts remaining
+[2025.09.09-02.23.12:323][759]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.12:342][760]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [==========----------] 50% - 1 attempts remaining
+[2025.09.09-02.23.12:558][773]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.12:576][774]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [===============-----] 75% - 1 attempts remaining
+[2025.09.09-02.23.12:776][786]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.12:794][787]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="08f">[Beluga]</color> (<color="ff0">x2</color> in bag), Gained 16XP and 16 Fishing XP - Fishing spot depleted! Come back in 30 seconds.
+[2025.09.09-02.23.12:994][799]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 480 -6110 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.13:012][800]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.09-02.23.14:017][860]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.14:035][861]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="fff">[Gup]</color> (<color="ff0">x4</color> in bag), Gained 6XP and 6 Fishing XP - 4 attempts remaining
+[2025.09.09-02.23.14:201][871]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.14:219][872]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="0f0">[Cod]</color> (<color="ff0">x1</color> in bag), Gained 10XP and 10 Fishing XP - 3 attempts remaining
+[2025.09.09-02.23.14:369][881]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.14:387][882]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [=====---------------] 25% - 3 attempts remaining
+[2025.09.09-02.23.14:519][890]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.14:538][892]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [==========----------] 50% - 3 attempts remaining
+[2025.09.09-02.23.14:771][905]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.14:789][906]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [===============-----] 75% - 3 attempts remaining
+[2025.09.09-02.23.14:922][914]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.14:957][916]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="08f">[Shark]</color> (<color="ff0">x1</color> in bag), Gained 16XP and 16 Fishing XP - 2 attempts remaining
+[2025.09.09-02.23.15:039][921]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.15:074][923]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="fff">[Gup]</color> (<color="ff0">x5</color> in bag), Gained 6XP and 6 Fishing XP - 1 attempts remaining
+[2025.09.09-02.23.15:290][936]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.15:308][937]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="fff">[Gup]</color> (<color="ff0">x6</color> in bag), Gained 6XP and 6 Fishing XP - Fishing spot depleted! Come back in 30 seconds.
+[2025.09.09-02.23.15:425][944]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 650 -6010 1130, message: "rpg_fishing_spot".
+[2025.09.09-02.23.15:443][945]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.09-02.23.24:007][456]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "1x1" at 2525 -1200 1010, message: "rpg_sell_all_ores".
+[2025.09.09-02.23.24:025][457]LogConsoleCmd: Chat.StatusMessage "hoopla" Sold 3 ores for $0! You now have $55409. Gained 3 Bartering XP
+[2025.09.09-02.23.25:717][558]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "1x1" at 2525 -1180 1010, message: "rpg_sell_all_fish".
+[2025.09.09-02.23.25:752][560]LogConsoleCmd: Chat.StatusMessage "hoopla" Sold 18 fish for $585! You now have $55994. Gained 18 Bartering XP
+[2025.09.09-02.23.31:133][881]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "1x1" at 2545 -960 1006, message: "rpg_buy_bait".
+[2025.09.09-02.23.31:167][883]LogConsoleCmd: Chat.StatusMessage "hoopla" Purchased <color="fff">[Fish bait]x20</color> for $100! You now have $55894.
+[2025.09.09-02.23.56:081][369]LogConsoleCmd: Server.Status
+[2025.09.09-02.23.56:081][369]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.23.56:081][370]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.23.56:081][370]LogConsoleCommands: Bricks: 69843
+[2025.09.09-02.23.56:081][370]LogConsoleCommands: Components: 726
+[2025.09.09-02.23.56:081][370]LogConsoleCommands: Time: 136m 56s
+[2025.09.09-02.23.56:081][370]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.23.56:081][370]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.23.56:081][370]LogConsoleCommands: * hoopla | 14ms | 136m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.23.59:701][585]LogServerList: Posting server.
+[2025.09.09-02.24.56:079][948]LogConsoleCmd: Server.Status
+[2025.09.09-02.24.56:079][948]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.24.56:079][949]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.24.56:079][949]LogConsoleCommands: Bricks: 69843
+[2025.09.09-02.24.56:079][949]LogConsoleCommands: Components: 724
+[2025.09.09-02.24.56:079][949]LogConsoleCommands: Time: 137m 56s
+[2025.09.09-02.24.56:079][949]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.24.56:079][949]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.24.56:079][949]LogConsoleCommands: * hoopla | 14ms | 137m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.24.59:699][164]LogServerList: Posting server.
+[2025.09.09-02.25.34:767][256]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.25.34:767][256]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.25.36:661][369]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.25.36:662][369]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.25.56:107][529]LogConsoleCmd: Server.Status
+[2025.09.09-02.25.56:107][529]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.25.56:107][530]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.25.56:107][530]LogConsoleCommands: Bricks: 69844
+[2025.09.09-02.25.56:107][530]LogConsoleCommands: Components: 724
+[2025.09.09-02.25.56:107][530]LogConsoleCommands: Time: 138m 56s
+[2025.09.09-02.25.56:107][530]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.25.56:107][530]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.25.56:107][530]LogConsoleCommands: * hoopla | 15ms | 138m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.25.59:694][743]LogServerList: Posting server.
+[2025.09.09-02.26.00:080][766]LogHttp: Warning: 0x747df845a0f0: request failed, libcurl error: 65 (Send failed since rewinding of the data stream failed)
+[2025.09.09-02.26.00:080][766]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 0 (Found bundle for host: 0x747df63c6d90 [serially])
+[2025.09.09-02.26.00:080][766]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 1 (Re-using existing connection with host brickadia.com)
+[2025.09.09-02.26.00:080][766]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 2 (We are completely uploaded and fine)
+[2025.09.09-02.26.00:080][766]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 3 (Recv failure: Connection reset by peer)
+[2025.09.09-02.26.00:080][766]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 4 (OpenSSL SSL_read: Connection reset by peer, errno 104)
+[2025.09.09-02.26.00:080][766]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 5 (Connection died, retrying a fresh connect (retry count: 1))
+[2025.09.09-02.26.00:080][766]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 6 (state.rewindbeforesend = TRUE)
+[2025.09.09-02.26.00:080][766]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 7 (Closing connection)
+[2025.09.09-02.26.00:080][766]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 8 (Send failure: Broken pipe)
+[2025.09.09-02.26.00:080][766]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 9 (Issue another request to this URL: 'https://brickadia.com/api/v1/servers')
+[2025.09.09-02.26.00:080][766]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 10 (  Trying 104.26.3.39:443...)
+[2025.09.09-02.26.00:080][766]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 11 (Connected to brickadia.com (104.26.3.39) port 443)
+[2025.09.09-02.26.00:080][766]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 12 (ALPN: curl offers http/1.1)
+[2025.09.09-02.26.00:080][766]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 13 (SSL reusing session ID)
+[2025.09.09-02.26.00:080][766]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 14 (TLSv1.3 (OUT), TLS handshake, Client hello (1):)
+[2025.09.09-02.26.00:080][766]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 15 (TLSv1.3 (IN), TLS handshake, Server hello (2):)
+[2025.09.09-02.26.00:080][766]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 16 (TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):)
+[2025.09.09-02.26.00:080][767]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 17 (TLSv1.3 (IN), TLS handshake, Certificate (11):)
+[2025.09.09-02.26.00:080][767]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 18 (TLSv1.3 (IN), TLS handshake, CERT verify (15):)
+[2025.09.09-02.26.00:080][767]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 19 (TLSv1.3 (IN), TLS handshake, Finished (20):)
+[2025.09.09-02.26.00:080][767]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 20 (TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):)
+[2025.09.09-02.26.00:080][767]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 21 (TLSv1.3 (OUT), TLS handshake, Finished (20):)
+[2025.09.09-02.26.00:080][767]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 22 (SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384)
+[2025.09.09-02.26.00:080][767]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 23 (ALPN: server accepted http/1.1)
+[2025.09.09-02.26.00:080][767]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 24 (Server certificate:)
+[2025.09.09-02.26.00:080][767]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 25 ( subject: CN=brickadia.com)
+[2025.09.09-02.26.00:080][767]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 26 ( start date: Aug 14 13:53:59 2025 GMT)
+[2025.09.09-02.26.00:080][767]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 27 ( expire date: Nov 12 14:53:57 2025 GMT)
+[2025.09.09-02.26.00:080][767]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 28 ( subjectAltName: host "brickadia.com" matched cert's "brickadia.com")
+[2025.09.09-02.26.00:080][767]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 29 ( issuer: C=US; O=Google Trust Services; CN=WE1)
+[2025.09.09-02.26.00:080][767]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 30 ( SSL certificate verify ok.)
+[2025.09.09-02.26.00:080][767]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 31 (using HTTP/1.1)
+[2025.09.09-02.26.00:080][767]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 32 (necessary data rewind wasn't possible)
+[2025.09.09-02.26.00:080][767]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 33 (Closing connection)
+[2025.09.09-02.26.00:080][767]LogHttp: Warning: 0x747df845a0f0: libcurl info message cache 34 (TLSv1.3 (OUT), TLS alert, close notify (256):)
+[2025.09.09-02.26.00:080][767]LogServerList: Error: Failed to post server - internal error or timed out.
+[2025.09.09-02.26.01:656][860]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.26.01:656][860]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.26.11:848][468]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.26.11:848][468]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.26.14:597][632]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.26.14:597][632]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.26.48:040][627]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.26.48:040][627]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.26.56:103][108]LogConsoleCmd: Server.Status
+[2025.09.09-02.26.56:103][108]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.26.56:103][109]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.26.56:103][109]LogConsoleCommands: Bricks: 69846
+[2025.09.09-02.26.56:103][109]LogConsoleCommands: Components: 724
+[2025.09.09-02.26.56:103][109]LogConsoleCommands: Time: 139m 56s
+[2025.09.09-02.26.56:103][109]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.26.56:103][109]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.26.56:103][109]LogConsoleCommands: * hoopla | 14ms | 139m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.26.59:691][322]LogServerList: Posting server.
+[2025.09.09-02.26.59:691][322]LogAutoSave: Auto saving the world.
+[2025.09.09-02.26.59:691][322]LogBRWorldManager: Requested world save.
+[2025.09.09-02.26.59:691][322]LogBRWorldManager: Good time for save between wire ticks.
+[2025.09.09-02.26.59:691][322]LogBRWorldManager: Saving world to bundle.
+[2025.09.09-02.26.59:691][322]LogBRWorldManager: Exporting global environment settings.
+[2025.09.09-02.26.59:691][322]LogBRWorldManager: Exporting global minigame settings.
+[2025.09.09-02.26.59:692][322]LogBRWorldManager: World data collected. Launching async serialization tasks.
+[2025.09.09-02.26.59:692][322]LogBRWorldManager: Main thread unblocked after 0.001523.
+[2025.09.09-02.26.59:693][322]LogBRWorldManager: World serialization tasks completed. Writing world files to bundle.
+[2025.09.09-02.26.59:723][324]LogBRWorldManager: World files saved after 0.032479.
+[2025.09.09-02.26.59:723][324]LogAutoSave: Auto save successful, 41 entities, 72,704 bricks, 953 components, 633 wires.
+[2025.09.09-02.26.59:724][324]LogChat: World saved: 41 entities, 72704 bricks, 953 components, 633 wires.
+[2025.09.09-02.26.59:724][324]LogIris: Warning: Splitting multicast net object attachment MulticastPushChatMessageText.
+[2025.09.09-02.27.43:261][921]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.27.43:261][921]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.27.56:118][688]LogConsoleCmd: Server.Status
+[2025.09.09-02.27.56:118][689]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.27.56:118][689]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.27.56:118][689]LogConsoleCommands: Bricks: 69852
+[2025.09.09-02.27.56:118][689]LogConsoleCommands: Components: 724
+[2025.09.09-02.27.56:118][689]LogConsoleCommands: Time: 140m 56s
+[2025.09.09-02.27.56:118][689]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.27.56:118][689]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.27.56:118][689]LogConsoleCommands: * hoopla | 15ms | 140m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.27.59:705][902]LogServerList: Posting server.
+[2025.09.09-02.28.37:841][177]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.28.37:841][177]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.28.56:129][268]LogConsoleCmd: Server.Status
+[2025.09.09-02.28.56:129][268]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.28.56:129][268]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.28.56:129][268]LogConsoleCommands: Bricks: 69855
+[2025.09.09-02.28.56:129][268]LogConsoleCommands: Components: 724
+[2025.09.09-02.28.56:129][268]LogConsoleCommands: Time: 141m 56s
+[2025.09.09-02.28.56:129][268]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.28.56:129][268]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.28.56:129][269]LogConsoleCommands: * hoopla | 15ms | 141m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.28.59:699][481]LogServerList: Posting server.
+[2025.09.09-02.29.16:629][491]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4450 1290 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.16:664][493]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="fff">[Icefish]</color> (<color="ff0">x1</color> in bag), Gained 6XP and 6 Fishing XP - 4 attempts remaining
+[2025.09.09-02.29.17:283][530]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4450 1290 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.17:301][531]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="fff">[Icefish]</color> (<color="ff0">x2</color> in bag), Gained 6XP and 6 Fishing XP - 3 attempts remaining
+[2025.09.09-02.29.17:685][554]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4450 1290 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.17:704][555]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [===-----------------] 17% - 3 attempts remaining
+[2025.09.09-02.29.18:138][581]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4450 1290 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.18:156][582]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [=======-------------] 33% - 3 attempts remaining
+[2025.09.09-02.29.18:440][599]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4450 1290 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.18:458][600]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [==========----------] 50% - 3 attempts remaining
+[2025.09.09-02.29.18:674][613]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4450 1290 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.18:693][614]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [=============-------] 67% - 3 attempts remaining
+[2025.09.09-02.29.18:909][627]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4450 1290 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.18:927][628]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [=================---] 83% - 3 attempts remaining
+[2025.09.09-02.29.19:127][640]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4450 1290 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.19:145][641]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="80f">[Narwhal]</color> (<color="ff0">x1</color> in bag), Gained 24XP and 24 Fishing XP - 2 attempts remaining
+[2025.09.09-02.29.19:462][660]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4450 1290 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.19:481][661]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="fff">[Icefish]</color> (<color="ff0">x3</color> in bag), Gained 6XP and 6 Fishing XP - 1 attempts remaining
+[2025.09.09-02.29.19:848][683]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4450 1290 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.19:866][684]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [=====---------------] 25% - 1 attempts remaining
+[2025.09.09-02.29.20:216][705]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4450 1290 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.20:234][706]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [==========----------] 50% - 1 attempts remaining
+[2025.09.09-02.29.20:434][718]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4450 1290 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.20:452][719]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [===============-----] 75% - 1 attempts remaining
+[2025.09.09-02.29.20:636][730]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4450 1290 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.20:654][731]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="08f">[Beluga]</color> (<color="ff0">x1</color> in bag), Gained 16XP and 16 Fishing XP - Fishing spot depleted! Come back in 30 seconds.
+[2025.09.09-02.29.20:820][741]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4450 1290 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.20:838][742]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing spot depleted! Try again in 30 seconds.
+[2025.09.09-02.29.22:278][828]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4300 1250 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.22:313][830]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="fff">[Icefish]</color> (<color="ff0">x4</color> in bag), Gained 6XP and 6 Fishing XP - 4 attempts remaining
+[2025.09.09-02.29.22:546][844]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4300 1250 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.22:564][845]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="fff">[Icefish]</color> (<color="ff0">x5</color> in bag), Gained 6XP and 6 Fishing XP - 3 attempts remaining
+[2025.09.09-02.29.22:831][861]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4300 1250 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.22:850][862]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="0f0">[Arctic Char]</color> (<color="ff0">x1</color> in bag), Gained 10XP and 10 Fishing XP - 2 attempts remaining
+[2025.09.09-02.29.23:133][879]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4300 1250 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.23:151][880]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="0f0">[Arctic Char]</color> (<color="ff0">x2</color> in bag), Gained 10XP and 10 Fishing XP - 1 attempts remaining
+[2025.09.09-02.29.23:452][898]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4300 1250 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.23:470][899]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [==------------------] 11% - 1 attempts remaining
+[2025.09.09-02.29.23:804][919]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4300 1250 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.23:822][920]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [====----------------] 22% - 1 attempts remaining
+[2025.09.09-02.29.24:089][936]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4300 1250 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.24:107][937]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [=======-------------] 33% - 1 attempts remaining
+[2025.09.09-02.29.24:508][961]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4300 1250 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.24:526][962]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [=========-----------] 44% - 1 attempts remaining
+[2025.09.09-02.29.24:860][982]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4300 1250 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.24:878][983]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [===========---------] 56% - 1 attempts remaining
+[2025.09.09-02.29.25:162][  0]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4300 1250 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.25:180][  1]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [=============-------] 67% - 1 attempts remaining
+[2025.09.09-02.29.25:463][ 18]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4300 1250 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.25:482][ 19]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [================----] 78% - 1 attempts remaining
+[2025.09.09-02.29.25:749][ 35]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4300 1250 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.25:767][ 36]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [==================--] 89% - 1 attempts remaining
+[2025.09.09-02.29.26:101][ 56]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4300 1250 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.26:119][ 57]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="f80">[Frost Kraken]</color> (<color="ff0">x1</color> in bag), Gained 34XP and 34 Fishing XP - Fishing spot depleted! Come back in 30 seconds.
+[2025.09.09-02.29.26:136][ 58]LogConsoleCmd: Chat.Broadcast <color="fff">LEGENDARY CATCH! hoopla has caught a <color="f80">[Frost Kraken]</color>!</color>
+[2025.09.09-02.29.26:136][ 58]LogChat: LEGENDARY CATCH! hoopla has caught a [Frost Kraken]!
+[2025.09.09-02.29.27:224][123]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4300 1250 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.27:242][124]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing spot depleted! Try again in 29 seconds.
+[2025.09.09-02.29.30:594][324]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4000 1030 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.30:629][326]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="fff">[Icefish]</color> (<color="ff0">x6</color> in bag), Gained 6XP and 6 Fishing XP - 4 attempts remaining
+[2025.09.09-02.29.30:896][342]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4000 1030 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.30:914][343]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="fff">[Icefish]</color> (<color="ff0">x7</color> in bag), Gained 6XP and 6 Fishing XP - 3 attempts remaining
+[2025.09.09-02.29.31:140][356]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4000 1030 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.31:149][357]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [=====---------------] 25% - 3 attempts remaining
+[2025.09.09-02.29.31:399][372]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4000 1030 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.31:418][373]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [==========----------] 50% - 3 attempts remaining
+[2025.09.09-02.29.31:651][387]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4000 1030 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.31:669][388]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [===============-----] 75% - 3 attempts remaining
+[2025.09.09-02.29.31:852][399]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4000 1030 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.31:870][400]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="08f">[Beluga]</color> (<color="ff0">x2</color> in bag), Gained 16XP and 16 Fishing XP - 2 attempts remaining
+[2025.09.09-02.29.32:070][412]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4000 1030 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.32:088][413]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [=====---------------] 25% - 2 attempts remaining
+[2025.09.09-02.29.32:539][440]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4000 1030 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.32:557][441]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [==========----------] 50% - 2 attempts remaining
+[2025.09.09-02.29.32:741][452]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4000 1030 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.32:759][453]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [===============-----] 75% - 2 attempts remaining
+[2025.09.09-02.29.32:942][464]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4000 1030 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.32:960][465]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="08f">[Beluga]</color> (<color="ff0">x3</color> in bag), Gained 16XP and 16 Fishing XP - 1 attempts remaining
+[2025.09.09-02.29.33:193][479]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4000 1030 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.33:212][480]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [=====---------------] 25% - 1 attempts remaining
+[2025.09.09-02.29.33:646][506]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4000 1030 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.33:664][507]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [==========----------] 50% - 1 attempts remaining
+[2025.09.09-02.29.34:099][533]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4000 1030 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.34:117][534]LogConsoleCmd: Chat.StatusMessage "hoopla" Fishing... [===============-----] 75% - 1 attempts remaining
+[2025.09.09-02.29.34:367][549]LogBrickadia: Player "hoopla" (a913c7a5-f2eb-4e61-9e80-8b09d4b96322, BP_FigureV2_C_2147479712, BP_PlayerController_C_2147479784) interacted with brick "4x4f" at 4000 1030 396, message: "rpg_fishing_spot_4".
+[2025.09.09-02.29.34:385][550]LogConsoleCmd: Chat.StatusMessage "hoopla" Caught 1 <color="08f">[Beluga]</color> (<color="ff0">x4</color> in bag), Gained 16XP and 16 Fishing XP - Fishing spot depleted! Come back in 30 seconds.
+[2025.09.09-02.29.46:993][302]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.29.46:993][302]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.29.56:129][847]LogConsoleCmd: Server.Status
+[2025.09.09-02.29.56:129][847]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.29.56:129][848]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.29.56:129][848]LogConsoleCommands: Bricks: 69856
+[2025.09.09-02.29.56:129][848]LogConsoleCommands: Components: 724
+[2025.09.09-02.29.56:129][848]LogConsoleCommands: Time: 142m 56s
+[2025.09.09-02.29.56:129][848]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.29.56:129][848]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.29.56:129][848]LogConsoleCommands: * hoopla | 15ms | 142m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.29.59:700][ 60]LogServerList: Posting server.
+[2025.09.09-02.30.56:142][427]LogConsoleCmd: Server.Status
+[2025.09.09-02.30.56:142][427]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.30.56:142][427]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.30.56:142][428]LogConsoleCommands: Bricks: 69859
+[2025.09.09-02.30.56:142][428]LogConsoleCommands: Components: 724
+[2025.09.09-02.30.56:142][428]LogConsoleCommands: Time: 143m 56s
+[2025.09.09-02.30.56:142][428]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.30.56:142][428]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.30.56:142][428]LogConsoleCommands: * hoopla | 14ms | 143m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.30.59:695][639]LogServerList: Posting server.
+[2025.09.09-02.31.19:458][818]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.31.19:458][818]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.31.47:856][512]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.31.47:856][512]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.31.56:153][  7]LogConsoleCmd: Server.Status
+[2025.09.09-02.31.56:153][  7]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.31.56:153][  8]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.31.56:154][  8]LogConsoleCommands: Bricks: 69861
+[2025.09.09-02.31.56:154][  8]LogConsoleCommands: Components: 724
+[2025.09.09-02.31.56:154][  8]LogConsoleCommands: Time: 144m 56s
+[2025.09.09-02.31.56:154][  8]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.31.56:154][  8]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.31.56:154][  8]LogConsoleCommands: * hoopla | 14ms | 144m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.31.59:690][218]LogServerList: Posting server.
+[2025.09.09-02.32.31:455][113]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.32.31:455][113]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.32.39:836][613]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.32.39:836][613]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.32.51:486][308]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.32.51:486][308]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.32.56:163][587]LogConsoleCmd: Server.Status
+[2025.09.09-02.32.56:163][587]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.32.56:163][587]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.32.56:163][587]LogConsoleCommands: Bricks: 69865
+[2025.09.09-02.32.56:163][587]LogConsoleCommands: Components: 724
+[2025.09.09-02.32.56:163][587]LogConsoleCommands: Time: 145m 56s
+[2025.09.09-02.32.56:163][587]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.32.56:163][587]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.32.56:163][587]LogConsoleCommands: * hoopla | 15ms | 145m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.32.59:699][798]LogServerList: Posting server.
+[2025.09.09-02.33.10:311][431]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 6 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.33.10:311][431]LogIris: Warning: Trying to change non-existing custom conditional for RepIndex 5 in protocol BP_ToolPreviewActor_C
+[2025.09.09-02.33.56:156][166]LogConsoleCmd: Server.Status
+[2025.09.09-02.33.56:156][166]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.33.56:156][166]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.33.56:156][167]LogConsoleCommands: Bricks: 69868
+[2025.09.09-02.33.56:156][167]LogConsoleCommands: Components: 724
+[2025.09.09-02.33.56:156][167]LogConsoleCommands: Time: 146m 56s
+[2025.09.09-02.33.56:156][167]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.33.56:156][167]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.33.56:156][167]LogConsoleCommands: * hoopla | 15ms | 146m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.33.59:693][377]LogServerList: Posting server.
+[2025.09.09-02.34.32:761][350]LogChatCommands: Player "hoopla" is trying to call command "/rpgleaderboard" with arg string "".
+[2025.09.09-02.34.32:761][350]LogChatCommands: Error: Command rpgleaderboard does not exist.
+[2025.09.09-02.34.32:846][355]LogConsoleCmd: Chat.Whisper "hoopla" <color="ff0">Top Players Leaderboard:</color>
+[2025.09.09-02.34.32:863][356]LogConsoleCmd: Chat.Whisper "hoopla" 1st. <color="0ff">Orodan</color> (Level 30) - <color="ff0">192,213</color> points
+[2025.09.09-02.34.32:863][356]LogConsoleCmd: Chat.Whisper "hoopla" 2nd. <color="0ff">hoopla</color> (Level 30) - <color="ff0">170,345</color> points
+[2025.09.09-02.34.32:880][357]LogConsoleCmd: Chat.Whisper "hoopla" 3rd. <color="0ff">Gyk92</color> (Level 30) - <color="ff0">158,450</color> points
+[2025.09.09-02.34.32:880][357]LogConsoleCmd: Chat.Whisper "hoopla" 4th. <color="0ff">MirBlet</color> (Level 30) - <color="ff0">117,840</color> points
+[2025.09.09-02.34.32:897][358]LogConsoleCmd: Chat.Whisper "hoopla" 5th. <color="0ff">honzsk</color> (Level 30) - <color="ff0">109,854</color> points
+[2025.09.09-02.34.32:897][358]LogConsoleCmd: Chat.Whisper "hoopla" 6th. <color="0ff">func(2)</color> (Level 30) - <color="ff0">107,711</color> points
+[2025.09.09-02.34.32:897][358]LogConsoleCmd: Chat.Whisper "hoopla" 7th. <color="0ff">pak</color> (Level 30) - <color="ff0">60,716</color> points
+[2025.09.09-02.34.32:914][359]LogConsoleCmd: Chat.Whisper "hoopla" 8th. <color="0ff">keygen</color> (Level 30) - <color="ff0">39,397</color> points
+[2025.09.09-02.34.32:914][359]LogConsoleCmd: Chat.Whisper "hoopla" 9th. <color="0ff">LasseLaserSverd</color> (Level 30) - <color="ff0">35,004</color> points
+[2025.09.09-02.34.32:930][360]LogConsoleCmd: Chat.Whisper "hoopla" 10th. <color="0ff">SereneWoWo</color> (Level 30) - <color="ff0">27,955</color> points
+[2025.09.09-02.34.56:175][747]LogConsoleCmd: Server.Status
+[2025.09.09-02.34.56:175][747]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.34.56:175][748]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.34.56:175][748]LogConsoleCommands: Bricks: 69868
+[2025.09.09-02.34.56:175][748]LogConsoleCommands: Components: 724
+[2025.09.09-02.34.56:175][748]LogConsoleCommands: Time: 147m 56s
+[2025.09.09-02.34.56:175][748]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.34.56:175][748]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.34.56:175][748]LogConsoleCommands: * hoopla | 15ms | 147m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.34.59:694][957]LogServerList: Posting server.
+[2025.09.09-02.35.56:179][327]LogConsoleCmd: Server.Status
+[2025.09.09-02.35.56:179][327]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.09-02.35.56:179][328]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, and selling!
+[2025.09.09-02.35.56:179][328]LogConsoleCommands: Bricks: 69868
+[2025.09.09-02.35.56:179][328]LogConsoleCommands: Components: 724
+[2025.09.09-02.35.56:179][328]LogConsoleCommands: Time: 148m 56s
+[2025.09.09-02.35.56:179][328]LogConsoleCommands: Players (1/12):
+[2025.09.09-02.35.56:179][328]LogConsoleCommands: * Name   | Ping |     Time | Roles | Address             | ID                                  
+[2025.09.09-02.35.56:179][328]LogConsoleCommands: * hoopla | 22ms | 148m 48s |       | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.09-02.35.59:699][537]LogServerList: Posting server.
