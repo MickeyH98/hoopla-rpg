@@ -69,18 +69,22 @@ export class SkillService {
       if (skillLevel >= 30) return 0;
       
       // Progressive scaling that gets much harder at higher levels
-      // Level 1: 100 XP, Level 2: 150 XP, Level 3: 225 XP, Level 4: 325 XP, etc.
+      // Level 1: 100 XP, Level 2: 150 XP, Level 3: 225 XP, Level 4: 325 XP, Level 5: 450 XP, etc.
       // Each level requires more XP than the previous, with increasing difficulty
       const baseXP = 100;
       const levelIncrease = 50; // Base increase
       
-      // Calculate XP needed for the current level
-      let xpForCurrentLevel = baseXP;
-      for (let level = 1; level < skillLevel; level++) {
-        xpForCurrentLevel += levelIncrease + (level * 25); // Increasing difficulty (matches old system)
+      // Calculate total XP needed to reach the specified level
+      let totalXPNeeded = 0;
+      for (let level = 1; level <= skillLevel; level++) {
+        if (level === 1) {
+          totalXPNeeded = baseXP; // Level 1 needs 100 XP
+        } else {
+          totalXPNeeded += levelIncrease + ((level - 1) * 25); // Increasing difficulty
+        }
       }
       
-      return xpForCurrentLevel;
+      return totalXPNeeded;
     };
     
     // Calculate new level based on total XP

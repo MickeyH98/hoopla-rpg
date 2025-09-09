@@ -134,39 +134,40 @@ export class FishingService {
     const fish = fishType.toLowerCase();
     
     // Much higher base XP values to make leveling achievable
-    let baseXP = 15; // Default base XP (increased from 5)
+    let baseXP = 25; // Default base XP (increased from 15)
     
     // Fishing resources
     // Freshwater fish (spot)
-    if (fish === 'gup') baseXP = 15;        // Common
-    else if (fish === 'cod') baseXP = 25;   // Uncommon
-    else if (fish === 'shark') baseXP = 40; // Rare
-    else if (fish === 'whale') baseXP = 60; // Epic
-    else if (fish === 'kraken') baseXP = 85; // Legendary
+    if (fish === 'gup') baseXP = 25;        // Common (increased from 15)
+    else if (fish === 'cod') baseXP = 40;   // Uncommon (increased from 25)
+    else if (fish === 'shark') baseXP = 60; // Rare (increased from 40)
+    else if (fish === 'whale') baseXP = 85; // Epic (increased from 60)
+    else if (fish === 'kraken') baseXP = 120; // Legendary (increased from 85)
     
     // Deep ocean fish (spot_2)
-    else if (fish === 'sardine') baseXP = 15;     // Common
-    else if (fish === 'tuna') baseXP = 25;        // Uncommon
-    else if (fish === 'marlin') baseXP = 40;      // Rare
-    else if (fish === 'megalodon') baseXP = 60;   // Epic
-    else if (fish === 'leviathan') baseXP = 85;   // Legendary
+    else if (fish === 'sardine') baseXP = 25;     // Common (increased from 15)
+    else if (fish === 'tuna') baseXP = 40;        // Uncommon (increased from 25)
+    else if (fish === 'marlin') baseXP = 60;      // Rare (increased from 40)
+    else if (fish === 'megalodon') baseXP = 85;   // Epic (increased from 60)
+    else if (fish === 'leviathan') baseXP = 120;   // Legendary (increased from 85)
     
     // Tropical fish (spot_3)
-    else if (fish === 'clownfish') baseXP = 15;   // Common
-    else if (fish === 'angelfish') baseXP = 25;   // Uncommon
-    else if (fish === 'lionfish') baseXP = 40;    // Rare
-    else if (fish === 'manta ray') baseXP = 60;   // Epic
-    else if (fish === 'sea dragon') baseXP = 85;  // Legendary
+    else if (fish === 'clownfish') baseXP = 25;   // Common (increased from 15)
+    else if (fish === 'angelfish') baseXP = 40;   // Uncommon (increased from 25)
+    else if (fish === 'lionfish') baseXP = 60;    // Rare (increased from 40)
+    else if (fish === 'manta ray') baseXP = 85;   // Epic (increased from 60)
+    else if (fish === 'sea dragon') baseXP = 120;  // Legendary (increased from 85)
     
     // Arctic fish (spot_4)
-    else if (fish === 'icefish') baseXP = 15;     // Common
-    else if (fish === 'arctic char') baseXP = 25; // Uncommon
-    else if (fish === 'beluga') baseXP = 40;      // Rare
-    else if (fish === 'narwhal') baseXP = 60;     // Epic
-    else if (fish === 'frost kraken') baseXP = 85; // Legendary
+    else if (fish === 'icefish') baseXP = 25;     // Common (increased from 15)
+    else if (fish === 'arctic char') baseXP = 40; // Uncommon (increased from 25)
+    else if (fish === 'beluga') baseXP = 60;      // Rare (increased from 40)
+    else if (fish === 'narwhal') baseXP = 85;     // Epic (increased from 60)
+    else if (fish === 'frost kraken') baseXP = 120; // Legendary (increased from 85)
     
     // Apply skill level scaling (higher level = less XP per action)
-    const levelPenalty = Math.max(0.1, 1 - (fishingLevel * 0.02));
+    // Reduced penalty: only 1% reduction per level instead of 2%
+    const levelPenalty = Math.max(0.5, 1 - (fishingLevel * 0.01));
     const finalXP = Math.floor(baseXP * levelPenalty);
     
     return finalXP;
