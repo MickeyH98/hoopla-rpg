@@ -204,6 +204,39 @@ export class InventoryService {
   }
 
   /**
+   * Removes an item from a player's inventory and saves to store
+   * 
+   * @param store - The store instance to save to
+   * @param playerId - The player ID
+   * @param item - The item to remove
+   * @returns True if item was removed, false if not found
+   */
+  async removeFromInventoryAndSave(store: any, playerId: string, item: string): Promise<boolean> {
+    try {
+      // Get player data from store
+      const playerData = await store.get(`player_${playerId}`) as any;
+      if (!playerData) {
+        console.error(`[Inventory Service] Player data not found for ${playerId}`);
+        return false;
+      }
+
+      // Remove item from inventory
+      const removed = this.removeFromInventory(playerData, item);
+      
+      if (removed) {
+        // Save updated player data back to store
+        await store.set(`player_${playerId}`, playerData);
+        console.log(`[Inventory Service] Removed ${item} from ${playerId}'s inventory`);
+      }
+      
+      return removed;
+    } catch (error) {
+      console.error(`[Inventory Service] Error removing item from inventory:`, error);
+      return false;
+    }
+  }
+
+  /**
    * Counts how many of a specific item a player has
    * 
    * @param player - The player object to count items for
@@ -261,25 +294,6 @@ export class InventoryService {
     return removed;
   }
 
-  /**
-   * Gets short item names for display purposes
-   * 
-   * @param item - The full item name
-   * @returns Short version of the item name
-   */
-  getShortItemName(item: string): string {
-    const shortNames: { [key: string]: string } = {
-      'Gold Ore': 'Gold',
-      'Iron Ore': 'Iron', 
-      'Copper Ore': 'Copper',
-      'Diamond Ore': 'Diamond',
-      'Obsidian Ore': 'Obsidian',
-      'Fish bait': 'Bait',
-      'brickingway box': 'Box'
-    };
-    
-    return shortNames[item] || item;
-  }
 
   /**
    * Formats item display with truncation for UI

@@ -53,7 +53,7 @@ export class RPGClassesService {
       id: 'pirate',
       name: 'Pirate',
       description: 'Naval combat and treasure hunting specialist',
-      startingEquipment: ['Weapon_Sabre'],
+      startingEquipment: ['Weapon_ArmingSword'],
       specialBrickTypes: ['rpg_pirate_treasure'],
       classSpecificFeatures: ['RNG money rewards', 'Treasure hunting interactions']
     }

@@ -894,10 +894,66 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   }
 
   /**
+   * Remove specific weapons using the takeItem method and give only the current class weapon
+   */
+  private async removeSpecificWeaponsAndSetClassWeapon(playerId: string, currentClassId: string): Promise<void> {
+    try {
+      const player = this.omegga.getPlayer(playerId);
+      if (!player) {
+        console.log(`[Hoopla RPG] Player not found for ID: ${playerId}`);
+        return;
+      }
+
+      console.log(`[Hoopla RPG] Removing specific weapons for ${player.name} switching to ${currentClassId} class`);
+
+      // Define all class starting weapons
+      const allStartingWeapons = {
+        warrior: 'Weapon_LongSword',
+        mage: 'Weapon_HoloBlade', 
+        pirate: 'Weapon_ArmingSword'
+      };
+
+      // Get the weapon for the current class
+      const currentWeapon = allStartingWeapons[currentClassId as keyof typeof allStartingWeapons];
+      if (!currentWeapon) {
+        console.error(`[Hoopla RPG] Unknown class: ${currentClassId}`);
+        return;
+      }
+
+      // Remove each weapon from other classes using the takeItem method
+      for (const [classId, weapon] of Object.entries(allStartingWeapons)) {
+        if (classId !== currentClassId) {
+          console.log(`[Hoopla RPG] Attempting to remove ${weapon} from ${player.name} using takeItem`);
+          try {
+            player.takeItem(weapon as any);
+            console.log(`[Hoopla RPG] Successfully removed ${weapon} from ${player.name}`);
+          } catch (error) {
+            console.log(`[Hoopla RPG] Failed to remove ${weapon} from ${player.name}:`, error);
+          }
+        }
+      }
+      
+      // Give only the current class weapon
+      console.log(`[Hoopla RPG] Giving ${currentWeapon} to ${player.name}`);
+      try {
+        player.giveItem(currentWeapon as any);
+        console.log(`[Hoopla RPG] Successfully gave ${currentWeapon} to ${player.name}`);
+      } catch (error) {
+        console.error(`[Hoopla RPG] Failed to give ${currentWeapon} to ${player.name}:`, error);
+      }
+      
+      console.log(`[Hoopla RPG] Completed weapon removal and assignment for ${player.name} when switching to ${currentClassId} class`);
+    } catch (error) {
+      console.error(`[Hoopla RPG] Error removing weapons and setting class weapon:`, error);
+    }
+  }
+
+  /**
    * Handle class selection interactions
    */
   private async handleClassSelectionInteraction(playerId: string, trigger: any): Promise<void> {
     try {
+      console.log(`[Hoopla RPG] handleClassSelectionInteraction called for player ${playerId}`);
       const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
       const triggerMessage = trigger.message.toLowerCase();
       
@@ -928,13 +984,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       if (success) {
         const rpgClass = this.classesService.getClass(selectedClassId);
         if (rpgClass) {
-          // Give starting equipment
-          for (const equipment of rpgClass.startingEquipment) {
-            const player = this.omegga.getPlayer(playerId);
-            if (player) {
-              player.giveItem(equipment as any);
-            }
-          }
+          // Try to remove specific weapons and set only the current class weapon
+          await this.removeSpecificWeaponsAndSetClassWeapon(playerId, selectedClassId);
           
           // Show confirmation message
           const confirmationMessage = this.classesService.getClassConfirmationMessage(rpgClass);
@@ -1015,26 +1066,26 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         this.omegga.middlePrint(playerId, buyMessage);
       } else if (buyType === 'rpg_buy_saber') {
         // Check if player already has this weapon unlocked
-        if (buyPlayer.unlockedItems && buyPlayer.unlockedItems.includes('Saber')) {
+        if (buyPlayer.unlockedItems && buyPlayer.unlockedItems.includes('ArmingSword')) {
           // Player already unlocked this weapon - give it for free
           const player = this.omegga.getPlayer(playerId);
           if (player) {
-            player.giveItem('Weapon_Sabre');
+            player.giveItem('Weapon_ArmingSword');
           }
           
-          const unlockMessage = `You already have the <color="f80">[Saber]</color> unlocked! Here's another one for free.`;
+          const unlockMessage = `You already have the <color="f80">[Arming Sword]</color> unlocked! Here's another one for free.`;
           this.omegga.middlePrint(playerId, unlockMessage);
         } else {
           // First time purchase - unlock the weapon
           if (!buyPlayer.unlockedItems) {
             buyPlayer.unlockedItems = [];
           }
-          buyPlayer.unlockedItems.push('Saber');
+          buyPlayer.unlockedItems.push('ArmingSword');
           
-          // Give saber item to player
+          // Give arming sword item to player
           const player = this.omegga.getPlayer(playerId);
           if (player) {
-            player.giveItem('Weapon_Sabre');
+            player.giveItem('Weapon_ArmingSword');
           }
           
           // Save the updated player data
@@ -1044,7 +1095,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           const formattedCurrency = await this.formatCurrencySafely(newCurrency);
           const formattedPrice = await this.formatCurrencySafely(itemPrice);
           
-          const buyMessage = `Purchased and unlocked <color="f80">[Saber]</color> for ${formattedPrice}! You now have ${formattedCurrency}. Future purchases are free!`;
+          const buyMessage = `Purchased and unlocked <color="f80">[Arming Sword]</color> for ${formattedPrice}! You now have ${formattedCurrency}. Future purchases are free!`;
           this.omegga.middlePrint(playerId, buyMessage);
         }
       }
