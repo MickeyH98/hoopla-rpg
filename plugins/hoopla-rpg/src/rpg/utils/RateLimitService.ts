@@ -156,6 +156,5 @@ export class RateLimitService {
    */
   updateConfig(newConfig: Partial<RateLimitConfig>): void {
     this.config = { ...this.config, ...newConfig };
-    console.log(`[RateLimit] Configuration updated:`, this.config);
   }
 }

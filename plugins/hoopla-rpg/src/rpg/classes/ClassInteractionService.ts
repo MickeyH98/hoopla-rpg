@@ -106,7 +106,6 @@ export class ClassInteractionService {
         reward: { xp: 50, type: 'mage_xp' }
       };
     } catch (error) {
-      console.error(`[Class Interaction] Error handling mage portal for ${playerId}:`, error);
       return {
         success: false,
         message: '<color="f00">Error interacting with mage portal!</color>'

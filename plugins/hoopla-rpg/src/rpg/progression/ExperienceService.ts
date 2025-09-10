@@ -44,10 +44,6 @@ export class ExperienceService {
     const player = await this.getPlayerData({ id });
     const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
     
-    // DEBUG: Log player data for keygen specifically
-    if (playerName === "keygen") {
-      console.log(`[Hoopla RPG] DEBUG: keygen addExperience called - Level: ${player.level}, XP: ${player.experience}, Amount: ${amount}`);
-    }
     
     // Ensure all required properties exist with fallbacks
     if (player.level === undefined) player.level = this.config.startingLevel;
@@ -86,12 +82,6 @@ export class ExperienceService {
       const xpForLevel30 = this.getXPForNextLevel(29);
       if (player.experience >= xpForLevel30) {
         const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
-        console.log(`[Hoopla RPG] WARNING: ${playerName} shows as level 29 but has ${player.experience} XP (needs ${xpForLevel30} for level 30). Possible data corruption!`);
-        
-        // DEBUG: Additional logging for keygen
-        if (playerName === "keygen") {
-          console.log(`[Hoopla RPG] DEBUG: keygen triggering level 29 corruption fix - oldLevel: ${oldLevel}, XP: ${player.experience}, xpForLevel30: ${xpForLevel30}`);
-        }
         
         // Force them to level 30
         player.level = 30;
@@ -107,7 +97,6 @@ export class ExperienceService {
         // Verify the save worked
         const verifyPlayer = await this.getPlayerData({ id });
         if (verifyPlayer.level !== 30) {
-          console.log(`[Hoopla RPG] ERROR: Failed to save level 30 for ${playerName}! Retrying...`);
           verifyPlayer.level = 30;
           verifyPlayer.maxHealth = player.maxHealth;
           verifyPlayer.health = player.health;
@@ -118,7 +107,6 @@ export class ExperienceService {
         // Announce the level up
         this.omegga.broadcast(`<color="ff0">Congratulations! ${playerName} has reached level 30!</color>`);
         this.omegga.broadcast(`<color="0ff">${playerName} can now fly and leave minigames at will!</color>`);
-        console.log(`[Hoopla RPG] ${playerName} leveled up from 29 to 30! (Data corruption fix)`);
         
         // CRITICAL: Automatically grant max level roles
         await this.grantMaxLevelRoles(playerName);
@@ -156,7 +144,6 @@ export class ExperienceService {
       } else {
         this.omegga.broadcast(`<color="ff0">Congratulations! ${playerName} has reached level ${newLevel}!</color>`);
       }
-      console.log(`[Hoopla RPG] ${playerName} leveled up from ${oldLevel} to ${newLevel}!`);
       
       // CRITICAL: Automatically grant max level roles if they reached level 30
       if (newLevel === 30) {
@@ -170,7 +157,6 @@ export class ExperienceService {
       this.level30PlayerCache.set(id, { ...player });
     } else if (oldLevel !== newLevel) {
       // This shouldn't happen, but just in case
-      console.log(`[Hoopla RPG] WARNING: Level mismatch for ${playerName}: oldLevel=${oldLevel}, newLevel=${newLevel}`);
     }
     
     await this.setPlayerData({ id }, player);
@@ -312,19 +298,14 @@ export class ExperienceService {
    */
   private async grantMaxLevelRoles(playerName: string): Promise<void> {
     try {
-      console.log(`[Hoopla RPG] Granting max level roles to ${playerName}`);
-      
       // Grant roles using chat commands (same method as backup plugin)
       this.omegga.writeln(`Chat.Command /grantRole "Flyer" "${playerName}"`);
       this.omegga.writeln(`Chat.Command /grantRole "MINIGAME LEAVER" "${playerName}"`);
-      
-      console.log(`[Hoopla RPG] Assigned ${playerName} Flyer and MINIGAME LEAVER roles for reaching level 30!`);
       
       // Announce the role granting
       this.omegga.broadcast(`<color="0f0">${playerName} has been granted Flyer and MINIGAME LEAVER roles for reaching max level!</color>`);
       
     } catch (error) {
-      console.error(`[Hoopla RPG] Error granting max level roles to ${playerName}:`, error);
       // Don't throw - role granting failure shouldn't break level-up
     }
   }

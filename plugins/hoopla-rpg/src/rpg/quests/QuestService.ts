@@ -772,22 +772,6 @@ export class QuestService {
     };
   }
 
-  /**
-   * Adds experience to a player (placeholder - should be injected)
-   */
-  private async addExperience(playerId: PlayerId, amount: number): Promise<void> {
-    // This should be injected from the main plugin
-    console.log(`[QuestService] Would add ${amount} XP to player ${playerId.id}`);
-  }
-
-
-  /**
-   * Adds an item to a player's inventory (placeholder - should be injected)
-   */
-  private async addToInventory(playerId: PlayerId, item: string): Promise<void> {
-    // This should be injected from the main plugin
-    console.log(`[QuestService] Would add ${item} to player ${playerId.id}'s inventory`);
-  }
 
   /**
    * Safely add currency with fallback
@@ -799,7 +783,7 @@ export class QuestService {
       }
       await this.currencyService.add(playerId, "currency", amount);
     } catch (error) {
-      console.log(`[QuestService] Currency plugin not available, cannot add currency: ${error.message}`);
+      // Currency plugin not available
     }
   }
 
@@ -813,7 +797,6 @@ export class QuestService {
       }
       return await this.currencyService.format(amount);
     } catch (error) {
-      console.log(`[QuestService] Currency plugin not available, using fallback: ${error.message}`);
       if (amount === 0) {
         return "Currency plugin not loaded";
       }

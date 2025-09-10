@@ -321,9 +321,6 @@ export class FishingService {
       const currentProgress = trigger.fishingProgress[playerId] || 0;
       const newProgress = currentProgress + 1;
       
-      // Debug logging for fishing progress (clicksRequired will be calculated below)
-      console.log(`[Hoopla RPG] Fishing Progress Debug: ${playerName} - Current: ${currentProgress}, New: ${newProgress}`);
-      
       // Initialize fishing target if not exists
       if (!trigger.fishingTarget) {
         trigger.fishingTarget = {};

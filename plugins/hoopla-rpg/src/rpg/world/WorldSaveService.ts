@@ -57,9 +57,8 @@ export class WorldSaveService {
   async saveTriggerData(triggers: { [triggerId: string]: BrickTrigger }): Promise<void> {
     try {
       await this.store.set("brick_triggers_data", triggers);
-      console.log(`[Hoopla RPG] Saved ${Object.keys(triggers).length} triggers to world state`);
     } catch (error) {
-      console.error("[Hoopla RPG] Error saving trigger data:", error);
+      // Error saving trigger data
     }
   }
 
@@ -73,7 +72,6 @@ export class WorldSaveService {
       const data = await this.store.get("brick_triggers_data");
       return data && typeof data === 'object' ? (data as any) : {};
     } catch (error) {
-      console.error("[Hoopla RPG] Error loading trigger data:", error);
       return {};
     }
   }
@@ -86,9 +84,8 @@ export class WorldSaveService {
   async saveNodeCooldowns(cooldowns: { [nodeId: string]: { [playerId: string]: number } }): Promise<void> {
     try {
       await this.store.set("node_cooldowns", cooldowns);
-      console.log(`[Hoopla RPG] Saved cooldown data for ${Object.keys(cooldowns).length} nodes`);
     } catch (error) {
-      console.error("[Hoopla RPG] Error saving node cooldowns:", error);
+      // Error saving node cooldowns
     }
   }
 
@@ -102,7 +99,6 @@ export class WorldSaveService {
       const data = await this.store.get("node_cooldowns");
       return data && typeof data === 'object' ? (data as any) : {};
     } catch (error) {
-      console.error("[Hoopla RPG] Error loading node cooldowns:", error);
       return {};
     }
   }
@@ -115,9 +111,8 @@ export class WorldSaveService {
   async saveWorldConfig(config: any): Promise<void> {
     try {
       await this.store.set("world_config", config);
-      console.log("[Hoopla RPG] World configuration saved successfully");
     } catch (error) {
-      console.error("[Hoopla RPG] Error saving world configuration:", error);
+      // Error saving world configuration
     }
   }
 
@@ -131,7 +126,6 @@ export class WorldSaveService {
       const data = await this.store.get("world_config");
       return data || {};
     } catch (error) {
-      console.error("[Hoopla RPG] Error loading world configuration:", error);
       return {};
     }
   }
@@ -144,9 +138,8 @@ export class WorldSaveService {
   async saveWorldStats(stats: any): Promise<void> {
     try {
       await this.store.set("world_stats", stats);
-      console.log("[Hoopla RPG] World statistics saved successfully");
     } catch (error) {
-      console.error("[Hoopla RPG] Error saving world statistics:", error);
+      // Error saving world statistics
     }
   }
 
@@ -160,7 +153,6 @@ export class WorldSaveService {
       const data = await this.store.get("world_stats");
       return data || {};
     } catch (error) {
-      console.error("[Hoopla RPG] Error loading world statistics:", error);
       return {};
     }
   }
@@ -184,9 +176,8 @@ export class WorldSaveService {
       };
       
       await this.store.set(backupKey, worldData);
-      console.log(`[Hoopla RPG] World backup created: ${backupKey}`);
     } catch (error) {
-      console.error("[Hoopla RPG] Error creating world backup:", error);
+      // Error creating world backup
     }
   }
 
@@ -224,9 +215,8 @@ export class WorldSaveService {
         await this.saveWorldState(backupData.state);
       }
       
-      console.log(`[Hoopla RPG] World backup restored: ${backupName}`);
     } catch (error) {
-      console.error("[Hoopla RPG] Error restoring world backup:", error);
+      // Error restoring world backup
     }
   }
 
@@ -241,9 +231,8 @@ export class WorldSaveService {
       await this.store.set("world_stats", {});
       await this.store.set("world_state", {});
       
-      console.log("[Hoopla RPG] All world data cleared");
     } catch (error) {
-      console.error("[Hoopla RPG] Error clearing world data:", error);
+      // Error clearing world data
     }
   }
 
@@ -282,7 +271,6 @@ export class WorldSaveService {
       
       return sizes;
     } catch (error) {
-      console.error("[Hoopla RPG] Error getting world data size:", error);
       return {
         triggers: 0,
         cooldowns: 0,

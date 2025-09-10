@@ -198,11 +198,8 @@ export class NodeService {
         }
       }
       
-      if (restoredCount > 0) {
-        console.log(`[Hoopla RPG] Restored ${restoredCount} mining nodes from cooldown`);
-      }
     } catch (error) {
-      console.error(`[Hoopla RPG] Error restoring mining node status:`, error);
+      // Error restoring mining node status
     }
   }
 
@@ -405,7 +402,6 @@ export class NodeService {
         await this.setBrickTriggers(triggers);
         
         // This would need to be injected from the main plugin
-        console.log(`[NodeService] Would add ${trigger.value} currency to player ${playerId}`);
         return { 
           success: true, 
           message: trigger.message.replace('{value}', trigger.value.toString()),

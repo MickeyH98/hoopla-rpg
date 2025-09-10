@@ -47,14 +47,12 @@ export class DetectionService {
             if (consoleTag.startsWith("rpg_mining_")) {
               let oreType = consoleTag.replace("rpg_mining_", "");
               miningBricks.push({ brick, oreType, consoleTag });
-              console.log(`[Hoopla RPG] Found mining brick: ${oreType} at [${brick.position.join(', ')}] with console tag: "${consoleTag}"`);
             }
             
             // Check for fishing nodes
             else if (consoleTag.startsWith("rpg_fishing_")) {
               let fishType = consoleTag.replace("rpg_fishing_", "");
               fishingBricks.push({ brick, fishType, consoleTag });
-              console.log(`[Hoopla RPG] Found fishing brick: ${fishType} at [${brick.position.join(', ')}] with console tag: "${consoleTag}"`);
             }
             
             // Check for shopkeeper nodes
@@ -62,13 +60,10 @@ export class DetectionService {
                      consoleTag.startsWith("rpg_bulk_sell_") || consoleTag.startsWith("rpg_bulk_buy_")) {
               let resourceType = consoleTag.replace(/^rpg_(sell_|buy_|bulk_sell_|bulk_buy_)/, "");
               shopkeeperBricks.push({ brick, resourceType, consoleTag });
-              console.log(`[Hoopla RPG] Found shopkeeper brick: ${resourceType} at [${brick.position.join(', ')}] with console tag: "${consoleTag}"`);
             }
           }
         }
       }
-      
-      console.log(`[Hoopla RPG] Detection complete: ${miningBricks.length} mining, ${fishingBricks.length} fishing, ${shopkeeperBricks.length} shopkeeper nodes found`);
       
       return {
         mining: miningBricks,
@@ -77,7 +72,6 @@ export class DetectionService {
       };
       
     } catch (error) {
-      console.error("[Hoopla RPG] Error detecting RPG nodes:", error);
       return {
         mining: [],
         fishing: [],
@@ -110,25 +104,20 @@ export class DetectionService {
             if (consoleTag.startsWith("rpg_quest_")) {
               let npcType = consoleTag.replace("rpg_quest_", "");
               npcs.push({ brick, npcType, consoleTag });
-              console.log(`[Hoopla RPG] Found quest NPC: ${npcType} at [${brick.position.join(', ')}] with console tag: "${consoleTag}"`);
             }
             
             // Check for quest item nodes
             else if (consoleTag.startsWith("rpg_questitem_")) {
               let npcType = consoleTag.replace("rpg_questitem_", "");
               npcs.push({ brick, npcType, consoleTag });
-              console.log(`[Hoopla RPG] Found quest item node: ${npcType} at [${brick.position.join(', ')}] with console tag: "${consoleTag}"`);
             }
           }
         }
       }
       
-      console.log(`[Hoopla RPG] NPC detection complete: ${npcs.length} NPCs found`);
-      
       return npcs;
       
     } catch (error) {
-      console.error("[Hoopla RPG] Error detecting NPCs:", error);
       return [];
     }
   }
@@ -166,7 +155,6 @@ export class DetectionService {
       };
       
     } catch (error) {
-      console.error("[Hoopla RPG] Error in comprehensive entity detection:", error);
       return {
         nodes: { mining: [], fishing: [], shopkeepers: [] },
         npcs: [],

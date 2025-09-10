@@ -101,7 +101,6 @@ export class RPGClassesService {
     try {
       const rpgClass = this.getClass(classId);
       if (!rpgClass) {
-        console.error(`[RPG Classes] Invalid class ID: ${classId}`);
         return false;
       }
 
@@ -130,10 +129,8 @@ export class RPGClassesService {
       classData.currentClass = classId;
 
       await this.store.set(`player_class_${playerId}`, classData);
-      console.log(`[RPG Classes] Player ${playerId} switched to class: ${rpgClass.name}`);
       return true;
     } catch (error) {
-      console.error(`[RPG Classes] Error setting player class for ${playerId}:`, error);
       return false;
     }
   }
@@ -210,12 +207,10 @@ export class RPGClassesService {
         const rpgClass = this.getClass(classData.currentClass);
         const playerName = this.omegga.getPlayer(playerId)?.name || `Player_${playerId.substring(0, 8)}`;
         this.omegga.broadcast(`<color="ff0">${playerName} reached ${rpgClass?.name} Level ${newLevel}!</color>`);
-        console.log(`[Hoopla RPG] ${playerName} leveled up ${rpgClass?.name} class to level ${newLevel}`);
       }
 
       return { leveledUp, newLevel };
     } catch (error) {
-      console.error(`[RPG Classes] Error adding class XP for ${playerId}:`, error);
       return { leveledUp: false, newLevel: 0 };
     }
   }

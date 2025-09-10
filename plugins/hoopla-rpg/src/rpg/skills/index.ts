@@ -6,3 +6,4 @@
 
 export { MiningService } from './MiningService';
 export { FishingService } from './FishingService';
+export { GatheringService } from './GatheringService';

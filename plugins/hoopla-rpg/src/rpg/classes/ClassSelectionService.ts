@@ -62,7 +62,6 @@ export class ClassSelectionService {
         message: confirmationMessage
       };
     } catch (error) {
-      console.error(`[Class Selection] Error handling class selection for ${playerId}:`, error);
       return {
         success: false,
         message: '<color="f00">Error selecting class. Please try again.</color>'
@@ -95,10 +94,8 @@ export class ClassSelectionService {
 
       // Save updated player data
       await this.store.set(`player_${playerId}`, playerData);
-      
-      console.log(`[Class Selection] Gave starting equipment to ${playerId}: ${rpgClass.startingEquipment.join(', ')}`);
     } catch (error) {
-      console.error(`[Class Selection] Error giving starting equipment to ${playerId}:`, error);
+      // Error giving starting equipment
     }
   }
 

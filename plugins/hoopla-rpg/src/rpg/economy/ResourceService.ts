@@ -70,6 +70,10 @@ export class ResourceService {
       case 'ice box': return 0;
       case 'ice chest': return 0;
       
+      // Gathering items (lower prices than usual)
+      case 'lavender': return 5; // Common gathering item
+      case 'red berry': return 8; // Uncommon gathering item
+      
       // Other items
       case 'fish bait': return 0; // Consumable, not sellable
       
@@ -160,6 +164,11 @@ export class ResourceService {
       return 'quest';
     }
     
+    // Gathering item categories
+    if (['lavender', 'red berry'].includes(lowerItem)) {
+      return 'gathering';
+    }
+    
     // Other categories
     return 'other';
   }
@@ -175,6 +184,7 @@ export class ResourceService {
       fish: {},
       ores: {},
       quest: {},
+      gathering: {},
       other: {}
     };
 

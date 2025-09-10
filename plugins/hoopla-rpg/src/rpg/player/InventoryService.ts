@@ -39,6 +39,11 @@ export class InventoryService {
         return '<color="ff0">[Ice Box]</color>'; // Yellow - Quest Item
       case 'ice chest':
         return '<color="ff0">[Ice Chest]</color>'; // Yellow - Quest Item
+      // Gathering items
+      case 'lavender':
+        return '<color="fff">[Lavender]</color>'; // White - Common
+      case 'red berry':
+        return '<color="0f0">[Red Berry]</color>'; // Green - Uncommon
       default:
         return `<color="fff">[${itemType}]</color>`;
     }
@@ -216,7 +221,6 @@ export class InventoryService {
       // Get player data from store
       const playerData = await store.get(`player_${playerId}`) as any;
       if (!playerData) {
-        console.error(`[Inventory Service] Player data not found for ${playerId}`);
         return false;
       }
 
@@ -226,12 +230,10 @@ export class InventoryService {
       if (removed) {
         // Save updated player data back to store
         await store.set(`player_${playerId}`, playerData);
-        console.log(`[Inventory Service] Removed ${item} from ${playerId}'s inventory`);
       }
       
       return removed;
     } catch (error) {
-      console.error(`[Inventory Service] Error removing item from inventory:`, error);
       return false;
     }
   }

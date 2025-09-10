@@ -14,7 +14,7 @@ export interface Config {
   maxLevel: number;
 }
 
-export type SkillType = 'mining' | 'bartering' | 'fishing';
+export type SkillType = 'mining' | 'bartering' | 'fishing' | 'gathering';
 
 /**
  * Service class for managing player skills and skill progression
@@ -48,7 +48,8 @@ export class SkillService {
       player.skills = {
         mining: { level: 0, experience: 0 },
         bartering: { level: 0, experience: 0 },
-        fishing: { level: 0, experience: 0 }
+        fishing: { level: 0, experience: 0 },
+        gathering: { level: 0, experience: 0 }
       };
     }
     
@@ -79,8 +80,11 @@ export class SkillService {
     
     // Calculate new level based on total XP
     let newLevel = 0;
+    let totalXPNeeded = 0;
+    
     for (let level = 1; level <= 30; level++) {
-      if (skill.experience >= getSkillXPForNextLevel(level)) {
+      totalXPNeeded += getSkillXPForNextLevel(level);
+      if (skill.experience >= totalXPNeeded) {
         newLevel = level;
       } else {
         break;
@@ -142,9 +146,16 @@ export class SkillService {
       return 6500; // Max level
     };
     
-    // Calculate XP thresholds for current and next level
-    const xpForCurrentLevel = skill.level === 0 ? 0 : getSkillXPForNextLevel(skill.level);
-    const xpForNextLevel = getSkillXPForNextLevel(skill.level + 1);
+    // Calculate cumulative XP thresholds for current and next level
+    let xpForCurrentLevel = 0;
+    for (let level = 1; level <= skill.level; level++) {
+      xpForCurrentLevel += getSkillXPForNextLevel(level);
+    }
+    
+    let xpForNextLevel = xpForCurrentLevel;
+    if (skill.level < 30) {
+      xpForNextLevel += getSkillXPForNextLevel(skill.level + 1);
+    }
     
     // Calculate progress within current level
     const xpInCurrentLevel = skill.experience - xpForCurrentLevel;
@@ -262,9 +273,17 @@ export class SkillService {
       if (safeData.skills.fishing) {
         safeData.skills.fishing.level = Math.min(safeData.skills.fishing.level, 30);
       }
+      if (safeData.skills.gathering) {
+        safeData.skills.gathering.level = Math.min(safeData.skills.gathering.level, 30);
+      }
     }
     
     await this.store.set("rpg_" + id, safeData);
+    
+    // Update level 30 cache if this player is level 30
+    if (safeData.level === 30) {
+      this.level30PlayerCache.set(id, { ...safeData });
+    }
   }
 
   /**
@@ -284,11 +303,13 @@ export class SkillService {
       inventory: [],
       consumables: [],
       nodesCollected: [],
+      unlockedItems: [],
       quests: {},
       skills: {
         mining: { level: 0, experience: 0 },
         bartering: { level: 0, experience: 0 },
-        fishing: { level: 0, experience: 0 }
+        fishing: { level: 0, experience: 0 },
+        gathering: { level: 0, experience: 0 }
       }
     };
   }
