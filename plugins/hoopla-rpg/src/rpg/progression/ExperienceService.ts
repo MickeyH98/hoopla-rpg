@@ -24,13 +24,15 @@ export class ExperienceService {
   private config: Config;
   private level30PlayerCache: Map<string, RPGPlayer> = new Map();
   private classesService?: RPGClassesService;
+  private playerService?: any; // Reference to main PlayerService
 
-  constructor(omegga: OL, store: PS<any>, config: Config, level30PlayerCache: Map<string, RPGPlayer>, classesService?: RPGClassesService) {
+  constructor(omegga: OL, store: PS<any>, config: Config, level30PlayerCache: Map<string, RPGPlayer>, classesService?: RPGClassesService, playerService?: any) {
     this.omegga = omegga;
     this.store = store;
     this.config = config;
     this.level30PlayerCache = level30PlayerCache;
     this.classesService = classesService;
+    this.playerService = playerService;
   }
 
   /**
@@ -38,11 +40,19 @@ export class ExperienceService {
    * 
    * @param playerId - The ID of the player to add experience to
    * @param amount - The amount of experience to add
+   * @param currentPlayerData - Optional current player data to avoid stale data issues
    * @returns Object containing level up status and new level
    */
-  async addExperience({ id }: PlayerId, amount: number): Promise<{ leveledUp: boolean; newLevel: number }> {
-    const player = await this.getPlayerData({ id });
+  async addExperience({ id }: PlayerId, amount: number, currentPlayerData?: RPGPlayer): Promise<{ leveledUp: boolean; newLevel: number }> {
+    const player = currentPlayerData || await this.getPlayerData({ id });
     const playerName = this.omegga.getPlayer(id)?.name || "Unknown Player";
+    
+    console.log(`[Hoopla RPG] ExperienceService Debug: Player ${playerName}, CurrentPlayerData provided: ${!!currentPlayerData}, Player XP: ${player.experience}, Amount to add: ${amount}`);
+    console.log(`[Hoopla RPG] ExperienceService Player Data:`, {
+      level: player.level,
+      experience: player.experience,
+      skills: player.skills
+    });
     
     
     // Ensure all required properties exist with fallbacks
@@ -53,8 +63,15 @@ export class ExperienceService {
     
     const oldLevel = player.level;
     
-    // Add experience
-    player.experience += amount;
+    // Calculate total experience from all skills
+    const totalSkillXP = (player.skills?.mining?.experience || 0) + 
+                        (player.skills?.bartering?.experience || 0) + 
+                        (player.skills?.fishing?.experience || 0) + 
+                        (player.skills?.gathering?.experience || 0);
+    
+    // Set player's main experience to be the sum of all skill XP
+    // The general XP (amount) is already included in the skill XP, so we don't add it again
+    player.experience = totalSkillXP;
     
     // Also add class XP if player has a class
     if (this.classesService) {
@@ -69,7 +86,12 @@ export class ExperienceService {
     if (oldLevel === 30) {
       // Still add XP for tracking purposes, but don't change level
       player.experience += amount;
-      await this.setPlayerData({ id }, player);
+      // Use main PlayerService if available, otherwise use our own method
+      if (this.playerService) {
+        await this.playerService.setPlayerData({ id }, player);
+      } else {
+        await this.setPlayerData({ id }, player);
+      }
       
       return { 
         leveledUp: false, 
@@ -89,7 +111,12 @@ export class ExperienceService {
         player.health = player.maxHealth; // Full heal
         
         // CRITICAL: Save the data and update cache immediately
-        await this.setPlayerData({ id }, player);
+        // Use main PlayerService if available, otherwise use our own method
+        if (this.playerService) {
+          await this.playerService.setPlayerData({ id }, player);
+        } else {
+          await this.setPlayerData({ id }, player);
+        }
         
         // Force update the cache to prevent reload issues
         this.level30PlayerCache.set(id, { ...player });
@@ -100,7 +127,12 @@ export class ExperienceService {
           verifyPlayer.level = 30;
           verifyPlayer.maxHealth = player.maxHealth;
           verifyPlayer.health = player.health;
-          await this.setPlayerData({ id }, verifyPlayer);
+          // Use main PlayerService if available, otherwise use our own method
+          if (this.playerService) {
+            await this.playerService.setPlayerData({ id }, verifyPlayer);
+          } else {
+            await this.setPlayerData({ id }, verifyPlayer);
+          }
           this.level30PlayerCache.set(id, { ...verifyPlayer });
         }
         
@@ -118,19 +150,26 @@ export class ExperienceService {
       }
     }
     
-    // Calculate new level using proper scaling system
-    let newLevel = oldLevel;
-    let xpForNextLevel = this.getXPForNextLevel(oldLevel);
+    // Calculate new level using cumulative XP thresholds (same logic as other services)
+    let newLevel = 0;
+    let cumulativeXP = 0;
     
-    // Check if we can level up
-    while (xpForNextLevel > 0 && player.experience >= xpForNextLevel && newLevel < 30) {
-      newLevel++;
-      xpForNextLevel = this.getXPForNextLevel(newLevel);
+    // Check each level to see if we have enough cumulative XP to reach it
+    for (let level = 1; level <= 30; level++) {
+      cumulativeXP += this.getXPForNextLevel(level);
+      console.log(`[Hoopla RPG] Player Level ${level}: Cumulative XP needed ${cumulativeXP}, Current XP ${player.experience}`);
+      if (player.experience >= cumulativeXP) {
+        newLevel = level;
+      } else {
+        break;
+      }
     }
     
     // Cap at level 30
     newLevel = Math.min(newLevel, 30);
     player.level = newLevel;
+    
+    console.log(`[Hoopla RPG] Player Final Result: Level ${newLevel}, XP ${player.experience}, Old Level ${oldLevel}`);
     
     // Increase max health with level (only if we actually leveled up)
     if (newLevel > oldLevel) {
@@ -151,7 +190,12 @@ export class ExperienceService {
       }
       
       // CRITICAL: Extra save for level 30 players to prevent data loss
-      await this.setPlayerData({ id }, player);
+      // Use main PlayerService if available, otherwise use our own method
+      if (this.playerService) {
+        await this.playerService.setPlayerData({ id }, player);
+      } else {
+        await this.setPlayerData({ id }, player);
+      }
       
       // Force update the cache to prevent reload issues
       this.level30PlayerCache.set(id, { ...player });
@@ -159,7 +203,12 @@ export class ExperienceService {
       // This shouldn't happen, but just in case
     }
     
-    await this.setPlayerData({ id }, player);
+    // Use main PlayerService if available, otherwise use our own method
+    if (this.playerService) {
+      await this.playerService.setPlayerData({ id }, player);
+    } else {
+      await this.setPlayerData({ id }, player);
+    }
     
     return { 
       leveledUp: newLevel > oldLevel, 
@@ -176,16 +225,12 @@ export class ExperienceService {
   getXPForNextLevel(currentLevel: number): number {
     if (currentLevel >= 30) return 0; // Max level reached
     
-    // Doubled XP requirements for longer progression
-    // Level 1: 200 XP, Level 2: 300 XP, Level 3: 400 XP, etc.
-    // Uses a linear progression with doubled base values
-    const baseXP = 200; // Doubled from 100
-    const levelIncrease = 100; // Doubled from 50
-    
-    // Calculate total XP needed for next level
-    const totalXP = baseXP + (currentLevel * levelIncrease);
-    
-    return totalXP;
+    // More reasonable scaling: linear with increasing multiplier
+    // Level 1: 100 XP, Level 2: 150 XP, Level 3: 200 XP, Level 4: 250 XP, etc.
+    // This provides steady progression without extreme numbers
+    const baseXP = 100; // Starting XP requirement for level 1
+    const levelIncrease = 50; // Additional XP per level
+    return baseXP + (currentLevel - 1) * levelIncrease;
   }
 
   /**
@@ -286,8 +331,10 @@ export class ExperienceService {
       skills: {
         mining: { level: 0, experience: 0 },
         bartering: { level: 0, experience: 0 },
-        fishing: { level: 0, experience: 0 }
-      }
+        fishing: { level: 0, experience: 0 },
+        gathering: { level: 0, experience: 0 }
+      },
+      unlockedItems: []
     };
   }
 

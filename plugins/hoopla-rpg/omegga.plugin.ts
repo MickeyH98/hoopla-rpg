@@ -122,7 +122,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     // Initialize class services first (needed by experience service)
     this.classesService = new RPGClassesService(omegga, store);
     
-    this.experienceService = new ExperienceService(omegga, store, config, new Map(), this.classesService);
+    this.experienceService = new ExperienceService(omegga, store, config, new Map(), this.classesService, this.playerService);
     this.skillService = new SkillService(omegga, store, config, new Map());
     this.resourceService = new ResourceService(this.inventoryService);
     this.barteringService = new BarteringService(this.resourceService);
@@ -222,14 +222,14 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     this.announce(`<color="0f0">Hoopla RPG plugin has been reloaded successfully! [v${reloadHash}]</color>`);
 
     // Return registered commands for Omegga
-    return { 
-      registeredCommands: [
-        "rpg", "rpginit", "rpghelp", "rpgclearall", "rpgcleartriggers", "rpgclearquests",
-        "rpgresetquests", "rpgresetquestitems", "rpgassignlevel30roles", "rpgteams", "rpgcleaninventories", 
-        "rpgcleaninventory", "rpginventory", "rpgnormalizeitems", "mininginfo", "fishinginfo", "rpgleaderboard",
-        "rpgfixlevel", "rpgadmin", "rpgselect", "rpgantiautoclicker"
-      ] 
-    };
+        return { 
+          registeredCommands: [
+            "rpg", "rpginit", "rpghelp", "rpgclearall", "rpgcleartriggers", "rpgclearquests",
+            "rpgresetquests", "rpgresetquestitems", "rpgresetall", "rpgresetxp", "rpgassignlevel30roles", "rpgteams", "rpgcleaninventories", 
+            "rpgcleaninventory", "rpgclearinventory", "rpginventory", "rpgnormalizeitems", "mininginfo", "fishinginfo", "rpgleaderboard",
+            "rpgfixlevel", "rpgadmin", "rpgselect", "rpgantiautoclicker"
+          ] 
+        };
   }
 
   /**
@@ -390,9 +390,21 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       this.handleRPGResetQuestItems(speaker);
     });
 
+    this.omegga.on('cmd:rpgresetall', (speaker) => {
+      this.handleRPGResetAll(speaker);
+    });
+
     this.omegga.on('cmd:rpgcleaninventory', (speaker) => {
       this.handleRPGCleanInventory(speaker);
     });
+
+        this.omegga.on('cmd:rpgclearinventory', (speaker) => {
+          this.handleRPGClearInventory(speaker);
+        });
+        
+        this.omegga.on('cmd:rpgresetxp', (speaker) => {
+          this.handleRPGResetXP(speaker);
+        });
 
     this.omegga.on('cmd:rpgfixshopkeepers', (speaker) => {
       this.handleRPGFixShopkeepers(speaker);
@@ -1124,12 +1136,21 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       
       // Add currency and XP
       await this.addCurrencySafely(playerId, totalValue);
-      await this.skillService.addSkillExperience({ id: playerId }, 'bartering', totalItems);
+      
+      // Calculate proper bartering XP based on item rarity
+      let totalBarteringXP = 0;
+      const barteringLevel = bulkPlayer.skills?.bartering?.level || 0;
+      for (const [item, count] of Object.entries(itemCounts)) {
+        const itemXP = this.barteringService.calculateBarteringXP(item, barteringLevel);
+        totalBarteringXP += itemXP * count;
+      }
+      
+      await this.skillService.addSkillExperience({ id: playerId }, 'bartering', totalBarteringXP, player);
       
       const newCurrency = await this.getCurrencySafely(playerId);
       const formattedCurrency = await this.formatCurrencySafely(newCurrency);
       const formattedValue = await this.formatCurrencySafely(totalValue);
-      const bulkMessage = `Sold ${totalItems} ${bulkType.includes('fish') ? 'fish' : 'ores'} for ${formattedValue}! You now have ${formattedCurrency}. Gained ${totalItems} Bartering XP`;
+      const bulkMessage = `Sold ${totalItems} ${bulkType.includes('fish') ? 'fish' : 'ores'} for ${formattedValue}! You now have ${formattedCurrency}. Gained ${totalBarteringXP} Bartering XP`;
       
       this.middlePrint(playerId, bulkMessage);
       
@@ -1292,14 +1313,17 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
    * Show RPG help
    */
   private async showRPGHelp(speaker: string): Promise<void> {
-    const helpMessage = `
-<color="ff0">=== HOOPLA RPG HELP ===</color>
-
-<color="0f0">Available Commands:</color>
-/rpg stats - Show your character stats
-/rpg inventory - Show your inventory
-/rpg leaderboard - Show the leaderboard
-/rpg help - Show this help message
+        const helpMessage = `
+        <color="ff0">=== HOOPLA RPG HELP ===</color>
+        
+        <color="0f0">Available Commands:</color>
+        /rpg stats - Show your character stats
+        /rpg inventory - Show your inventory
+        /rpg leaderboard - Show the leaderboard
+        /rpgresetall - Reset all skills, level, and XP to 0
+        /rpgresetxp - Reset all XP to match new scaling system
+        /rpgclearinventory - Clear all items from your inventory
+        /rpg help - Show this help message
 
 <color="0f0">Game Features:</color>
 - Mining nodes for ores and XP
@@ -1365,14 +1389,28 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       }
       
       // Calculate XP progress to next level (handle max level case)
-      const xpForCurrentLevel = (safeRpgData.level - this.config.startingLevel) * 100;
-      const xpForNextLevel = this.getXPForNextLevel(safeRpgData.level);
-      const xpInCurrentLevel = safeRpgData.experience - xpForCurrentLevel;
-      const xpNeededForNextLevel = xpForNextLevel - xpForCurrentLevel;
+      // Use the same cumulative XP calculation as the leveling logic
+      let cumulativeXPForCurrentLevel = 0;
+      for (let level = 1; level < safeRpgData.level; level++) {
+        cumulativeXPForCurrentLevel += this.getXPForNextLevel(level);
+      }
+      
+      let cumulativeXPForNextLevel = cumulativeXPForCurrentLevel;
+      if (safeRpgData.level < 30) {
+        // Add XP needed for the current level to reach the next level (same as leveling logic)
+        cumulativeXPForNextLevel += this.getXPForNextLevel(safeRpgData.level);
+      }
+      
+      // For now, use the raw XP values and let the leveling logic handle it
+      // TODO: Implement proper XP migration or reset command
+      const xpInCurrentLevel = safeRpgData.experience - cumulativeXPForCurrentLevel;
+      const xpNeededForNextLevel = cumulativeXPForNextLevel;
+      
+      console.log(`[Hoopla RPG] Player XP Display Debug: Level ${safeRpgData.level}, XP ${safeRpgData.experience}, Cumulative Current ${cumulativeXPForCurrentLevel}, Cumulative Next ${cumulativeXPForNextLevel}, XP In Level ${xpInCurrentLevel}, XP Needed ${xpNeededForNextLevel}`);
       
       // Handle max level case to avoid division by zero
       const xpProgress = safeRpgData.level >= 30 ? 100 : 
-        Math.min(100, Math.max(0, (xpInCurrentLevel / (xpForNextLevel - xpForCurrentLevel)) * 100));
+        Math.min(100, Math.max(0, (xpInCurrentLevel / xpNeededForNextLevel) * 100));
       
       // Display main stats with MAX condition for player level
       const playerLevelDisplay = safeRpgData.level >= 30 ? 
@@ -1385,9 +1423,37 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       // Get class information
       const playerClass = await this.classesService.getPlayerClass(player.id);
       const classLevel = await this.classesService.getPlayerClassLevel(player.id);
-      const classDisplay = playerClass && classLevel ? 
-        `<color="0f0">${playerClass.name} Level ${classLevel.level}</>` : 
-        `<color="888">No Class Selected</>`;
+      
+      // Create class display in same format as skills
+      let classDisplay = `<color="888">No Class Selected</>`;
+      if (playerClass && classLevel) {
+        // Get class XP progress (using cumulative XP calculation with migration handling)
+        let cumulativeClassXPForCurrentLevel = 0;
+        for (let level = 1; level < classLevel.level; level++) {
+          cumulativeClassXPForCurrentLevel += this.getXPForNextLevel(level);
+        }
+        
+        let cumulativeClassXPForNextLevel = cumulativeClassXPForCurrentLevel;
+        if (classLevel.level < 30) {
+          // For level 0, we need XP for level 1, not level 0
+          // For level 1, we need XP for level 2, not level 1
+          const targetLevel = classLevel.level === 0 ? 1 : classLevel.level + 1;
+          cumulativeClassXPForNextLevel += this.getXPForNextLevel(targetLevel);
+        }
+        
+        // Handle XP migration: if class has more XP than the new system expects, cap it
+        const maxClassXPForCurrentLevel = cumulativeClassXPForNextLevel;
+        const adjustedClassXP = Math.min(classLevel.xp, maxClassXPForCurrentLevel);
+        
+        const classXPInLevel = adjustedClassXP - cumulativeClassXPForCurrentLevel;
+        const classXPNeededForNextLevel = cumulativeClassXPForNextLevel - cumulativeClassXPForCurrentLevel;
+        const classProgress = classLevel.level >= 30 ? 100 : 
+          Math.min(100, Math.max(0, (classXPInLevel / classXPNeededForNextLevel) * 100));
+        
+        classDisplay = classLevel.level >= 30 ? 
+          `<color="0f0">${playerClass.name} ${classLevel.level} (MAX)</>` : 
+          `<color="0f0">${playerClass.name} ${classLevel.level} - ${classXPInLevel}/${classXPNeededForNextLevel}XP (${Math.round(classProgress)}%)</>`;
+      }
       
       // Get skill progress
       const miningProgress = await this.getSkillProgress({ id: player.id }, 'mining');
@@ -1421,28 +1487,15 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       const skillsMessage1 = `${miningDisplay} | ${barteringDisplay}`;
       const skillsMessage2 = `${fishingDisplay} | ${gatheringDisplay}`;
       
-      // Inventory display removed - use /rpginventory command instead
+      // Inventory and consumables display removed - use /rpginventory command instead
       
-      // Format consumables display
-      let consumablesDisplay = "None";
-      if (safeRpgData.consumables && safeRpgData.consumables.length > 0) {
-        consumablesDisplay = safeRpgData.consumables
-          .map(consumable => {
-            const itemColor = this.resourceService.getResourceColor(consumable.name);
-            return `<color="ff0">x${consumable.charges}</color> <color="${itemColor}">[${consumable.name}]</color>`;
-          })
-          .join(", ");
-      }
-      
-      const consumablesMessage = `<color="fff">Consumables: ${consumablesDisplay}</>`;
-      const helpMessage = `<color="888">Try /rpghelp for more commands, /rpginventory for items</color>`;
+      const helpMessage = `<color="888">Try /rpghelp for more commands, /rpginventory for items and consumables</color>`;
       
       // Send each line individually using whisper (original format)
       this.whisper(speaker, mainStatsMessage);
       this.whisper(speaker, classDisplay);
       this.whisper(speaker, skillsMessage1);
       this.whisper(speaker, skillsMessage2);
-      this.whisper(speaker, consumablesMessage);
       this.whisper(speaker, helpMessage);
     } catch (error) {
       this.whisper(speaker, "An error occurred retrieving your stats.");
@@ -1661,7 +1714,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       }
 
       // Broadcast compact leaderboard (removed emoji)
-      this.announce(`<color="ff0">Top Players:</color> ${topPlayers}`);
+      this.announce(`<color="ff0">Top Players:</color> ${topPlayers.join(', ')}`);
       
     } catch (error) {
       // Error announcing leaderboard
@@ -2513,6 +2566,52 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   }
 
   /**
+   * Handle RPG reset all command - resets level, XP, and all skills to 0
+   */
+  private async handleRPGResetAll(speaker: string): Promise<void> {
+    try {
+      const player = this.omegga.getPlayer(speaker);
+      if (!player) return;
+
+      this.whisper(speaker, `<color="f00">Resetting all your progress...</color>`);
+
+      const playerData = await this.playerService.getPlayerData({ id: player.id });
+      
+      // Store original values for confirmation
+      const originalLevel = playerData.level || 1;
+      const originalXP = playerData.experience || 0;
+      const originalSkills = playerData.skills || {};
+      
+      // Reset level and experience
+      playerData.level = 1;
+      playerData.experience = 0;
+      playerData.health = 100;
+      playerData.maxHealth = 100;
+      
+      // Reset all skills to level 0 with 0 XP
+      playerData.skills = {
+        mining: { level: 0, experience: 0 },
+        bartering: { level: 0, experience: 0 },
+        fishing: { level: 0, experience: 0 },
+        gathering: { level: 0, experience: 0 }
+      };
+      
+      // Save the reset data
+      await this.playerService.setPlayerData({ id: player.id }, playerData);
+      
+      // Show confirmation message
+      this.whisper(speaker, `<color="0f0">Reset complete!</color>`);
+      this.whisper(speaker, `<color="fff">Level: ${originalLevel} → 1</color>`);
+      this.whisper(speaker, `<color="fff">XP: ${originalXP.toLocaleString()} → 0</color>`);
+      this.whisper(speaker, `<color="fff">All skills reset to level 0 with 0 XP</color>`);
+      this.whisper(speaker, `<color="888">You can now start fresh!</color>`);
+      
+    } catch (error) {
+      this.whisper(speaker, `<color="f00">Error resetting progress: ${error.message}</color>`);
+    }
+  }
+
+  /**
    * Handle RPG clear inventory command
    */
   private async handleRPGClearInventory(speaker: string): Promise<void> {
@@ -2530,12 +2629,50 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         await this.playerService.setPlayerData({ id: player.id }, playerData);
         
         this.whisper(speaker, `<color="0f0">Cleared ${originalCount} items from your inventory!</color>`);
-        } else {
+      } else {
         this.whisper(speaker, `<color="888">Your inventory is already empty.</color>`);
-        }
-      } catch (error) {
-        this.whisper(speaker, `<color="f00">Error clearing inventory: ${error.message}</color>`);
       }
+    } catch (error) {
+      this.whisper(speaker, `<color="f00">Error clearing inventory: ${error.message}</color>`);
+    }
+  }
+
+  private async handleRPGResetXP(speaker: string): Promise<void> {
+    try {
+      const player = this.omegga.getPlayer(speaker);
+      if (!player) return;
+
+      this.whisper(speaker, `<color="f00">Resetting all XP to match new scaling system...</color>`);
+
+      const playerData = await this.playerService.getPlayerData({ id: player.id });
+      
+      // Reset player level and XP
+      playerData.level = 1;
+      playerData.experience = 0;
+      
+      // Reset all skill XP
+      playerData.skills = {
+        mining: { level: 0, experience: 0 },
+        bartering: { level: 0, experience: 0 },
+        fishing: { level: 0, experience: 0 },
+        gathering: { level: 0, experience: 0 }
+      };
+      
+      await this.playerService.setPlayerData({ id: player.id }, playerData);
+      
+      // Reset class XP
+      try {
+        await this.classesService.resetPlayerClassXP(player.id);
+      } catch (error) {
+        console.log(`[Hoopla RPG] Could not reset class XP for ${speaker}: ${error.message}`);
+      }
+      
+      this.whisper(speaker, `<color="0f0">XP reset complete! All levels and XP have been reset to 0.</color>`);
+      this.whisper(speaker, `<color="888">You can now start fresh with the new XP scaling system!</color>`);
+      
+    } catch (error) {
+      this.whisper(speaker, `<color="f00">Error resetting XP: ${error.message}</color>`);
+    }
   }
 
   /**
@@ -2955,8 +3092,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   get registeredCommands() {
     return [
       "rpg", "rpginit", "rpghelp", "rpgclearall", "rpgcleartriggers", "rpgclearquests",
-      "rpgresetquests", "rpgresetquestitems", "rpgassignlevel30roles", "rpgteams", "rpgcleaninventories", 
-      "rpgcleaninventory", "rpginventory", "rpgnormalizeitems", "mininginfo", "fishinginfo", "gatheringinfo", "rpgleaderboard",
+      "rpgresetquests", "rpgresetquestitems", "rpgresetall", "rpgassignlevel30roles", "rpgteams", "rpgcleaninventories", 
+      "rpgcleaninventory", "rpgclearinventory", "rpginventory", "rpgnormalizeitems", "mininginfo", "fishinginfo", "gatheringinfo", "rpgleaderboard",
       "rpgfixlevel", "rpgadmin"
     ];
   }
@@ -2965,13 +3102,14 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
    * Get XP for next level
    */
   private getXPForNextLevel(level: number): number {
-    if (level <= 5) return 100 + (level - 1) * 50; // 100, 150, 200, 250, 300
-    if (level <= 10) return 300 + (level - 5) * 100; // 350, 450, 550, 650, 750
-    if (level <= 15) return 750 + (level - 10) * 150; // 900, 1050, 1200, 1350, 1500
-    if (level <= 20) return 1500 + (level - 15) * 200; // 1700, 1900, 2100, 2300, 2500
-    if (level <= 25) return 2500 + (level - 20) * 300; // 2800, 3100, 3400, 3700, 4000
-    if (level <= 30) return 4000 + (level - 25) * 500; // 4500, 5000, 5500, 6000, 6500
-    return 6500; // Max level
+    if (level >= 30) return 0; // Max level reached
+    
+    // More reasonable scaling: linear with increasing multiplier
+    // Level 1: 100 XP, Level 2: 150 XP, Level 3: 200 XP, Level 4: 250 XP, etc.
+    // This provides steady progression without extreme numbers
+    const baseXP = 100; // Starting XP requirement for level 1
+    const levelIncrease = 50; // Additional XP per level
+    return baseXP + (level - 1) * levelIncrease;
   }
 
   /**
@@ -2986,15 +3124,25 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     const player = await this.playerService.getPlayerData(playerId);
     const skill = player.skills[skillType] || { level: 0, experience: 0 };
     
-    // Calculate XP needed for the next level (not total XP to reach current level)
-    const xpForNextLevel = skill.level >= 30 ? 0 : this.getXPForNextLevel(skill.level + 1);
+    // Calculate XP progress using cumulative XP thresholds with migration handling
+    let cumulativeXPForCurrentLevel = 0;
+    for (let level = 1; level < skill.level; level++) {
+      cumulativeXPForCurrentLevel += this.getXPForNextLevel(level);
+    }
     
-    // Calculate progress within current level
-    const xpForCurrentLevel = skill.level <= 1 ? 0 : this.getXPForNextLevel(skill.level);
-    const xpInCurrentLevel = skill.experience - xpForCurrentLevel;
-    const xpNeededForNextLevel = xpForNextLevel - xpForCurrentLevel;
+    let cumulativeXPForNextLevel = cumulativeXPForCurrentLevel;
+    if (skill.level < 30) {
+      // Add XP needed for the current level to reach the next level (same as leveling logic)
+      cumulativeXPForNextLevel += this.getXPForNextLevel(skill.level);
+    }
+    
+    // For now, use the raw XP values and let the leveling logic handle it
+    const xpInCurrentLevel = skill.experience - cumulativeXPForCurrentLevel;
+    const xpNeededForNextLevel = cumulativeXPForNextLevel;
     const progress = skill.level >= 30 ? 100 : 
       (xpNeededForNextLevel > 0 ? Math.min(100, Math.max(0, (xpInCurrentLevel / xpNeededForNextLevel) * 100)) : 0);
+    
+    console.log(`[Hoopla RPG] ${skillType} Skill Progress Debug: Level ${skill.level}, XP ${skill.experience}, Cumulative Current ${cumulativeXPForCurrentLevel}, Cumulative Next ${cumulativeXPForNextLevel}, XP In Level ${xpInCurrentLevel}, XP Needed ${xpNeededForNextLevel}, Progress ${progress}%`);
     
     return {
       level: skill.level,
@@ -3011,14 +3159,26 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     // Handle max level case - return 0 since we show "MAX" instead
     if (level >= 30) return 0;
     
-    if (level <= 1) return totalXP;
-    
-    let xpForCurrentLevel = 0;
-    for (let i = 1; i < level; i++) {
-      xpForCurrentLevel += this.getXPForNextLevel(i);
+    // For level 0, show total XP
+    if (level === 0) {
+      return totalXP;
     }
     
-    const xpInLevel = totalXP - xpForCurrentLevel;
-    return Math.max(0, xpInLevel); // Ensure we don't show negative values
+    // Calculate cumulative XP needed to reach current level
+    let cumulativeXPForCurrentLevel = 0;
+    for (let i = 1; i < level; i++) {
+      cumulativeXPForCurrentLevel += this.getXPForNextLevel(i);
+    }
+    
+    // Calculate XP within current level (XP beyond what's needed for current level)
+    const xpInLevel = totalXP - cumulativeXPForCurrentLevel;
+    
+    // For level 1, we need to subtract the XP needed for level 1
+    if (level === 1) {
+      const xpNeededForLevel1 = this.getXPForNextLevel(1); // 100 XP
+      return Math.max(0, xpInLevel - xpNeededForLevel1);
+    }
+    
+    return Math.max(0, xpInLevel);
   }
 }
