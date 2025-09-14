@@ -24223,3 +24223,17 @@ So far we have mining, fishing, gathering, questing and vendors!
 [2025.09.14-18.00.11:290][537]LogBRWorldManager: World serialization tasks completed. Writing world files to bundle.
 [2025.09.14-18.00.11:321][539]LogBRWorldManager: World files saved after 0.032435.
 [2025.09.14-18.00.26:168][425]LogChat: [SenderId: ccd87c2f-7aa8-4c88-9409-ce23c5058bd6] Gyk92: hehe, i think I will be available tomorrow but idk will you be available
+[2025.09.14-18.00.42:042][372]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: ya ill be around most nights
+[2025.09.14-18.00.43:768][475]LogChat: [SenderId: a913c7a5-f2eb-4e61-9e80-8b09d4b96322] hoopla: EST
+[2025.09.14-18.00.46:737][652]LogConsoleCmd: Server.Status
+[2025.09.14-18.00.46:737][652]LogConsoleCommands: Server Name: Hoopla RPG
+[2025.09.14-18.00.46:737][653]LogConsoleCommands: Description: Type /rpg to see your stats!
+So far we have mining, fishing, gathering, questing and vendors!
+[2025.09.14-18.00.46:737][653]LogConsoleCommands: Bricks: 156589
+[2025.09.14-18.00.46:737][653]LogConsoleCommands: Components: 802
+[2025.09.14-18.00.46:737][653]LogConsoleCommands: Time: 361m 55s
+[2025.09.14-18.00.46:737][653]LogConsoleCommands: Players (2/12):
+[2025.09.14-18.00.46:737][653]LogConsoleCommands: * Name   |  Ping |     Time | Roles                             | Address             | ID                                  
+[2025.09.14-18.00.46:737][653]LogConsoleCommands: * hoopla |  14ms | 361m 39s | Flyer, MINIGAME LEAVER            | 172.25.64.1 (Owner) | a913c7a5-f2eb-4e61-9e80-8b09d4b96322
+[2025.09.14-18.00.46:737][653]LogConsoleCommands: * Gyk92  | 285ms | 244m 22s | Moderator, Flyer, MINIGAME LEAVER | 172.25.64.1         | ccd87c2f-7aa8-4c88-9409-ce23c5058bd6
+[2025.09.14-18.00.51:178][917]LogServerList: Posting server.
