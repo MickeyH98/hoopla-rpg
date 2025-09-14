@@ -52,6 +52,14 @@
 				{
 					"name": "BR.Permission.Building.Prefabs",
 					"state": "Allowed"
+				},
+				{
+					"name": "BR.Permission.EditMinigame",
+					"state": "Allowed"
+				},
+				{
+					"name": "BR.Permission.EditMinigame.AlwaysEdit",
+					"state": "Allowed"
 				}
 			],
 			"color":
