@@ -52,7 +52,7 @@ export class BarteringService {
    */
   calculateBarteringXP(itemName: string, barteringLevel: number): number {
     const rarity = this.resourceService.getResourceRarity(itemName);
-    const baseXP = rarity * 2; // Base XP scales with rarity
+    const baseXP = rarity * 10; // Increased base XP to make bartering more rewarding
     
     // Higher level players get less XP (diminishing returns)
     const levelPenalty = Math.max(0.1, 1 - (barteringLevel * 0.02));

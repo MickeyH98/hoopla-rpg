@@ -8,8 +8,7 @@
 import { OL } from "omegga";
 import { PlayerId, RPGPlayer, PlayerService } from '../player/PlayerService';
 import { InventoryService } from '../player/InventoryService';
-import { ExperienceService } from '../progression/ExperienceService';
-import { SkillService } from '../progression/SkillService';
+import { UnifiedXPService } from '../progression/UnifiedXPService';
 import { ResourceService } from '../economy/ResourceService';
 import { ProgressBarService } from '../utils/ProgressBar';
 import { BrickTrigger } from '../world/NodeService';
@@ -34,8 +33,7 @@ interface GatheringItem {
 export class GatheringService {
   private omegga: OL;
   private inventoryService: InventoryService;
-  private experienceService: ExperienceService;
-  private skillService: SkillService;
+  private unifiedXPService: UnifiedXPService;
   private resourceService: ResourceService;
   private progressBarService: ProgressBarService;
   private rateLimitService: RateLimitService;
@@ -70,8 +68,7 @@ export class GatheringService {
   constructor(
     omegga: OL,
     inventoryService: InventoryService,
-    experienceService: ExperienceService,
-    skillService: SkillService,
+    unifiedXPService: UnifiedXPService,
     resourceService: ResourceService,
     progressBarService: ProgressBarService,
     rateLimitService: RateLimitService,
@@ -79,8 +76,7 @@ export class GatheringService {
   ) {
     this.omegga = omegga;
     this.inventoryService = inventoryService;
-    this.experienceService = experienceService;
-    this.skillService = skillService;
+    this.unifiedXPService = unifiedXPService;
     this.resourceService = resourceService;
     this.progressBarService = progressBarService;
     this.rateLimitService = rateLimitService;
@@ -144,17 +140,18 @@ export class GatheringService {
       // Add gathering experience
       const experienceGained = gatheringItem.baseExperience;
       
-      // Grant general XP for gathering
-      const generalXpResult = await this.experienceService.addExperience({ id: playerId }, experienceGained);
-      
-      // Grant Gathering XP
-      const gatheringSkillResult = await this.skillService.addSkillExperience({ id: playerId }, 'gathering', experienceGained);
+      // Grant XP using unified service (player XP + gathering skill XP + class XP)
+      const xpResult = await this.unifiedXPService.grantXP(playerId, {
+        playerXP: experienceGained,
+        skillXP: experienceGained,
+        skillType: 'gathering',
+        grantClassXP: true
+      }, playerData);
 
       // Set node cooldown
       this.setNodeCooldown(nodeId);
 
-      // Save player data
-      await this.playerService.setPlayerData({ id: playerId }, playerData);
+      // Note: Player data is already saved by the XP services
 
       // Display results - get updated inventory count
       const itemCount = this.inventoryService.countItem(playerData, gatheringItem.name);
@@ -166,6 +163,15 @@ export class GatheringService {
       // Add skill bonus info if applicable
       if (totalAmount > 1) {
         resultMessage += ` (${gatheringLevel > 0 ? `+${Math.floor((bonusMultiplier - 1) * 100)}% skill bonus` : 'no skill bonus'})`;
+      }
+
+      // Get gathering skill progress for display
+      const xpProgress = await this.unifiedXPService.getXPProgress(playerId, 'gathering');
+      const gatheringProgress = xpProgress.skill;
+      
+      if (gatheringProgress) {
+        const maxLevelText = gatheringProgress.level >= 30 ? " (MAX)" : "";
+        resultMessage += ` - Gathering ${gatheringProgress.level}${maxLevelText} | ${gatheringProgress.xp}/${gatheringProgress.xpForNextLevel}XP (${Math.round(gatheringProgress.progress)}%)`;
       }
 
       this.omegga.middlePrint(playerId, resultMessage);

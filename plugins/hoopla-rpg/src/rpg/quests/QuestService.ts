@@ -8,7 +8,7 @@
 import { OL, PS } from "omegga";
 import { PlayerId, RPGPlayer, PlayerService } from '../player/PlayerService';
 import { MessagingService } from '../utils/Messaging';
-import { ExperienceService } from '../progression/ExperienceService';
+import { UnifiedXPService } from '../progression/UnifiedXPService';
 import { InventoryService } from '../player/InventoryService';
 
 // Quest type definitions
@@ -56,17 +56,17 @@ export class QuestService {
   private store: PS<any>;
   private messagingService: MessagingService;
   private playerService: PlayerService;
-  private experienceService: ExperienceService;
+  private unifiedXPService: UnifiedXPService;
   private inventoryService: InventoryService;
   private resourceService: any; // ResourceService for getting item colors
   private currencyService: any; // Currency service for handling currency operations
 
-  constructor(omegga: OL, store: PS<any>, messagingService: MessagingService, playerService: PlayerService, experienceService: ExperienceService, inventoryService: InventoryService, resourceService: any, currencyService: any) {
+  constructor(omegga: OL, store: PS<any>, messagingService: MessagingService, playerService: PlayerService, unifiedXPService: UnifiedXPService, inventoryService: InventoryService, resourceService: any, currencyService: any) {
     this.omegga = omegga;
     this.store = store;
     this.messagingService = messagingService;
     this.playerService = playerService;
-    this.experienceService = experienceService;
+    this.unifiedXPService = unifiedXPService;
     this.inventoryService = inventoryService;
     this.resourceService = resourceService;
     this.currencyService = currencyService;
@@ -655,7 +655,10 @@ export class QuestService {
     await this.playerService.setPlayerData({ id: playerId }, player);
     
     // Give rewards
-    await this.experienceService.addExperience({ id: playerId }, quest.rewards.xp);
+    await this.unifiedXPService.grantXP(playerId, {
+      playerXP: quest.rewards.xp,
+      grantClassXP: true
+    });
     await this.addCurrency(playerId, quest.rewards.currency);
     
     if (quest.rewards.items) {
@@ -755,7 +758,7 @@ export class QuestService {
    */
   private getDefaultPlayer(): RPGPlayer {
     return { 
-      level: 1, 
+      level: 0, 
       experience: 0, 
       health: 100, 
       maxHealth: 100,
@@ -766,7 +769,8 @@ export class QuestService {
       skills: {
         mining: { level: 0, experience: 0 },
         bartering: { level: 0, experience: 0 },
-        fishing: { level: 0, experience: 0 }
+        fishing: { level: 0, experience: 0 },
+        gathering: { level: 0, experience: 0 }
       },
       unlockedItems: []
     };

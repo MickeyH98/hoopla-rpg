@@ -8,8 +8,7 @@
 import { OL, PS } from "omegga";
 import { PlayerId, RPGPlayer } from '../player/PlayerService';
 import { InventoryService } from '../player/InventoryService';
-import { ExperienceService } from '../progression/ExperienceService';
-import { SkillService } from '../progression/SkillService';
+import { UnifiedXPService } from '../progression/UnifiedXPService';
 import { ResourceService } from '../economy/ResourceService';
 import { BarteringService } from '../economy/BarteringService';
 import { ProgressBarService } from '../utils/ProgressBar';
@@ -42,8 +41,7 @@ export class NodeService {
   private omegga: OL;
   private store: PS<any>;
   private inventoryService: InventoryService;
-  private experienceService: ExperienceService;
-  private skillService: SkillService;
+  private unifiedXPService: UnifiedXPService;
   private resourceService: ResourceService;
   private barteringService: BarteringService;
   private progressBarService: ProgressBarService;
@@ -52,8 +50,7 @@ export class NodeService {
     omegga: OL,
     store: PS<any>,
     inventoryService: InventoryService,
-    experienceService: ExperienceService,
-    skillService: SkillService,
+    unifiedXPService: UnifiedXPService,
     resourceService: ResourceService,
     barteringService: BarteringService,
     progressBarService: ProgressBarService
@@ -61,8 +58,7 @@ export class NodeService {
     this.omegga = omegga;
     this.store = store;
     this.inventoryService = inventoryService;
-    this.experienceService = experienceService;
-    this.skillService = skillService;
+    this.unifiedXPService = unifiedXPService;
     this.resourceService = resourceService;
     this.barteringService = barteringService;
     this.progressBarService = progressBarService;
@@ -381,11 +377,14 @@ export class NodeService {
         trigger.lastUsed[playerId] = xpNow;
         await this.setBrickTriggers(triggers);
         
-        const xpResult = await this.experienceService.addExperience({ id: playerId }, trigger.value);
+        const xpResult = await this.unifiedXPService.grantXP(playerId, {
+          playerXP: trigger.value,
+          grantClassXP: true
+        });
         return { 
           success: true, 
           message: trigger.message.replace('{value}', trigger.value.toString()),
-          reward: { type: 'xp', amount: trigger.value, leveledUp: xpResult.leveledUp, newLevel: xpResult.newLevel }
+          reward: { type: 'xp', amount: trigger.value, leveledUp: xpResult.playerLeveledUp, newLevel: xpResult.newPlayerLevel }
         };
 
       case 'currency':

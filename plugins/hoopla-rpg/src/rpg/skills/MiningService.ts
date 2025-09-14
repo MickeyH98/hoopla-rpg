@@ -8,8 +8,7 @@
 import { OL } from "omegga";
 import { PlayerId, RPGPlayer, PlayerService } from '../player/PlayerService';
 import { InventoryService } from '../player/InventoryService';
-import { ExperienceService } from '../progression/ExperienceService';
-import { SkillService } from '../progression/SkillService';
+import { UnifiedXPService } from '../progression/UnifiedXPService';
 import { ResourceService } from '../economy/ResourceService';
 import { ProgressBarService } from '../utils/ProgressBar';
 import { BrickTrigger } from '../world/NodeService';
@@ -21,8 +20,7 @@ import { RateLimitService } from '../utils/RateLimitService';
 export class MiningService {
   private omegga: OL;
   private inventoryService: InventoryService;
-  private experienceService: ExperienceService;
-  private skillService: SkillService;
+  private unifiedXPService: UnifiedXPService;
   private resourceService: ResourceService;
   private progressBarService: ProgressBarService;
   private rateLimitService: RateLimitService;
@@ -31,8 +29,7 @@ export class MiningService {
   constructor(
     omegga: OL,
     inventoryService: InventoryService,
-    experienceService: ExperienceService,
-    skillService: SkillService,
+    unifiedXPService: UnifiedXPService,
     resourceService: ResourceService,
     progressBarService: ProgressBarService,
     rateLimitService: RateLimitService,
@@ -40,8 +37,7 @@ export class MiningService {
   ) {
     this.omegga = omegga;
     this.inventoryService = inventoryService;
-    this.experienceService = experienceService;
-    this.skillService = skillService;
+    this.unifiedXPService = unifiedXPService;
     this.resourceService = resourceService;
     this.progressBarService = progressBarService;
     this.rateLimitService = rateLimitService;
@@ -192,7 +188,8 @@ export class MiningService {
       
       // Check if player can mine this ore type
       if (!this.canMineOreType(miningLevel, oreType)) {
-        if (oreType.toLowerCase() === 'iron') {
+        const oreLower = oreType.toLowerCase();
+        if (oreLower.includes('iron')) {
           const requirementMessage = `You need mining level 5 to mine iron! Your current level: ${miningLevel}`;
           this.omegga.middlePrint(playerId, requirementMessage);
           return { 
@@ -200,7 +197,7 @@ export class MiningService {
             message: requirementMessage,
             reward: { type: 'mining_requirement', required: 5, current: miningLevel }
           };
-        } else if (oreType.toLowerCase() === 'gold') {
+        } else if (oreLower.includes('gold')) {
           const requirementMessage = `You need mining level 10 to mine gold! Your current level: ${miningLevel}`;
           this.omegga.middlePrint(playerId, requirementMessage);
           return { 
@@ -208,7 +205,7 @@ export class MiningService {
             message: requirementMessage,
             reward: { type: 'mining_requirement', required: 10, current: miningLevel }
           };
-        } else if (oreType.toLowerCase() === 'obsidian') {
+        } else if (oreLower.includes('obsidian')) {
           const requirementMessage = `You need mining level 15 to mine obsidian! Your current level: ${miningLevel}`;
           this.omegga.middlePrint(playerId, requirementMessage);
           return { 
@@ -216,7 +213,7 @@ export class MiningService {
             message: requirementMessage,
             reward: { type: 'mining_requirement', required: 15, current: miningLevel }
           };
-        } else if (oreType.toLowerCase() === 'diamond') {
+        } else if (oreLower.includes('diamond')) {
           const requirementMessage = `You need mining level 20 to mine diamond! Your current level: ${miningLevel}`;
           this.omegga.middlePrint(playerId, requirementMessage);
           return { 
@@ -261,26 +258,27 @@ export class MiningService {
       // Debug logging for mining progress
       console.log(`[Hoopla RPG] Mining Progress Debug: ${playerName} - Current: ${currentProgress}, New: ${newProgress}, Required: ${clicksRequired}`);
       
-      // Check if mining is complete
-      if (newProgress >= clicksRequired) {
+      // Check if mining is complete (but only if clicksRequired is valid)
+      if (clicksRequired > 0 && newProgress >= clicksRequired) {
         // Mining complete - give rewards
         const properItemName = this.inventoryService.getItemName(oreType);
         this.inventoryService.addToInventory(player, properItemName);
         
         // Calculate XP rewards based on ore rarity and mining skill level
-        const generalXP = this.getMiningXPReward(oreType, miningLevel);
-        const miningXP = this.getMiningXPReward(oreType, miningLevel);
+        const xpAmount = this.getMiningXPReward(oreType, miningLevel);
         
         // Debug logging for XP granting
-        console.log(`[Hoopla RPG] Mining XP Debug: ${playerName} - General XP: ${generalXP}, Mining XP: ${miningXP}`);
+        console.log(`[Hoopla RPG] Mining XP Debug: ${playerName} - XP Amount: ${xpAmount}`);
         
-        // Grant XP for mining
-        const miningXpResult = await this.experienceService.addExperience({ id: playerId }, generalXP);
-        console.log(`[Hoopla RPG] Mining General XP Result: ${JSON.stringify(miningXpResult)}`);
+        // Grant XP using unified service (player XP + mining skill XP + class XP)
+        const xpResult = await this.unifiedXPService.grantXP(playerId, {
+          playerXP: xpAmount,
+          skillXP: xpAmount,
+          skillType: 'mining',
+          grantClassXP: true
+        }, player);
         
-        // Grant Mining XP
-        const miningSkillResult = await this.skillService.addSkillExperience({ id: playerId }, 'mining', miningXP);
-        console.log(`[Hoopla RPG] Mining Skill XP Result: ${JSON.stringify(miningSkillResult)}`);
+        console.log(`[Hoopla RPG] Mining XP Result:`, xpResult);
         
         // Reset mining progress for this player
         trigger.miningProgress[playerId] = 0;
@@ -293,13 +291,22 @@ export class MiningService {
         
         // New simplified message format with middlePrint - items in brackets with rarity colors
         const displayName = this.getItemDisplayName(oreType);
-        const message = `Mined 1 ${displayName} (<color="ff0">x${itemCount}</color> in bag), Gained ${generalXP}XP and ${miningXP} Mining XP`;
+        
+        // Get mining skill progress for display
+        const xpProgress = await this.unifiedXPService.getXPProgress(playerId, 'mining');
+        const miningProgress = xpProgress.skill;
+        
+        let message = `Mined 1 ${displayName} (<color="ff0">x${itemCount}</color> in bag), Gained ${xpAmount}XP and ${xpAmount} Mining XP`;
+        
+        if (miningProgress) {
+          const maxLevelText = miningProgress.level >= 30 ? " (MAX)" : "";
+          message += ` - Mining ${miningProgress.level}${maxLevelText} | ${miningProgress.xp}/${miningProgress.xpForNextLevel}XP (${Math.round(miningProgress.progress)}%)`;
+        }
         
         // Use middlePrint for the mining result
         this.omegga.middlePrint(playerId, message);
         
-        // CRITICAL: Save the updated player data
-        await this.playerService.setPlayerData({ id: playerId }, player);
+        // Note: Player data is already saved by the XP services
         
         return { 
           success: true, 
@@ -307,11 +314,20 @@ export class MiningService {
           reward: { 
             type: 'mining_complete', 
             item: properItemName, 
-            xp: generalXP, 
-            miningXP: miningXP,
-            leveledUp: miningXpResult.leveledUp,
-            newLevel: miningXpResult.newLevel
+            xp: xpAmount, 
+            miningXP: xpAmount,
+            leveledUp: xpResult.playerLeveledUp || xpResult.skillLeveledUp,
+            newLevel: xpResult.newPlayerLevel
           }
+        };
+      } else if (clicksRequired === -1) {
+        // Player cannot mine this ore type - this should have been caught earlier, but as a safety net
+        const requirementMessage = `You don't have the required mining level to mine ${oreType}!`;
+        this.omegga.middlePrint(playerId, requirementMessage);
+        return { 
+          success: false, 
+          message: requirementMessage,
+          reward: { type: 'mining_requirement', ore: oreType }
         };
       } else {
         // Update mining progress

@@ -7,8 +7,7 @@ import {
   ProgressBarService,
   InventoryService,
   PlayerService,
-  ExperienceService,
-  SkillService,
+  UnifiedXPService,
   ResourceService,
   BarteringService,
   QuestService,
@@ -18,7 +17,9 @@ import {
   WorldSaveService,
   MiningService,
   FishingService,
-  GatheringService
+  GatheringService,
+  XP_REQUIREMENTS,
+  MAX_LEVEL
 } from "./src/rpg";
 
 // Import class services
@@ -45,8 +46,7 @@ import { RateLimitService } from "./src/rpg/utils/RateLimitService";
  * Services:
  * - PlayerService: Player lifecycle and data management
  * - InventoryService: Inventory operations and item naming
- * - ExperienceService: XP and leveling system
- * - SkillService: Skill progression (mining, fishing, bartering)
+ * - UnifiedXPService: Centralized XP and leveling system for all skills and classes
  * - QuestService: Quest system and chain management
  * - ResourceService: Resource pricing and categorization
  * - BarteringService: Trading and bartering mechanics
@@ -86,8 +86,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   private progressBarService: ProgressBarService;
   private inventoryService: InventoryService;
   private playerService: PlayerService;
-  private experienceService: ExperienceService;
-  private skillService: SkillService;
+  private unifiedXPService: UnifiedXPService;
   private resourceService: ResourceService;
   private barteringService: BarteringService;
   private questService: QuestService;
@@ -122,21 +121,20 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     // Initialize class services first (needed by experience service)
     this.classesService = new RPGClassesService(omegga, store);
     
-    this.experienceService = new ExperienceService(omegga, store, config, new Map(), this.classesService, this.playerService);
-    this.skillService = new SkillService(omegga, store, config, new Map());
+    this.unifiedXPService = new UnifiedXPService(omegga, store, this.playerService, this.classesService);
     this.resourceService = new ResourceService(this.inventoryService);
     this.barteringService = new BarteringService(this.resourceService);
-    this.questService = new QuestService(omegga, store, this.messagingService, this.playerService, this.experienceService, this.inventoryService, this.resourceService, this.currency);
+    this.questService = new QuestService(omegga, store, this.messagingService, this.playerService, this.unifiedXPService, this.inventoryService, this.resourceService, this.currency);
     // Initialize rate limiting service first (needed by other services)
     this.rateLimitService = new RateLimitService(omegga);
 
-    this.nodeService = new NodeService(omegga, store, this.inventoryService, this.experienceService, this.skillService, this.resourceService, this.barteringService, this.progressBarService);
+    this.nodeService = new NodeService(omegga, store, this.inventoryService, this.unifiedXPService, this.resourceService, this.barteringService, this.progressBarService);
     this.detectionService = new DetectionService(omegga);
     this.triggerService = new TriggerService(omegga, store);
     this.worldSaveService = new WorldSaveService(omegga, store);
-    this.miningService = new MiningService(omegga, this.inventoryService, this.experienceService, this.skillService, this.resourceService, this.progressBarService, this.rateLimitService, this.playerService);
-    this.fishingService = new FishingService(omegga, this.inventoryService, this.experienceService, this.skillService, this.resourceService, this.progressBarService, this.rateLimitService, this.playerService);
-    this.gatheringService = new GatheringService(omegga, this.inventoryService, this.experienceService, this.skillService, this.resourceService, this.progressBarService, this.rateLimitService, this.playerService);
+    this.miningService = new MiningService(omegga, this.inventoryService, this.unifiedXPService, this.resourceService, this.progressBarService, this.rateLimitService, this.playerService);
+    this.fishingService = new FishingService(omegga, this.inventoryService, this.unifiedXPService, this.resourceService, this.progressBarService, this.rateLimitService, this.playerService);
+    this.gatheringService = new GatheringService(omegga, this.inventoryService, this.unifiedXPService, this.resourceService, this.progressBarService, this.rateLimitService, this.playerService);
 
     // Initialize remaining class services
     this.classInteractionService = new ClassInteractionService(omegga, store, this.classesService);
@@ -206,6 +204,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     this.setupCommandHandlers();
     
     // Set up leaderboard announcement timer (every 10 minutes)
+    console.log(`[Hoopla RPG] Setting up leaderboard announcement timer (every 10 minutes)`);
     setInterval(async () => {
       await this.announceLeaderboard();
     }, 10 * 60 * 1000); // 10 minutes in milliseconds
@@ -468,8 +467,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         this.omegga.whisper(player.id, `<color="fff">You can switch to other classes anytime using the class selection bricks!</color>`);
       }
       
-      // Check if player is level 30 and grant roles if needed
-      if (playerData.level >= 30) {
+      // Check if player is max level and grant roles if needed
+      if (playerData.level >= MAX_LEVEL) {
         await this.ensureMaxLevelRoles(player.name);
       }
       
@@ -1145,7 +1144,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         totalBarteringXP += itemXP * count;
       }
       
-      await this.skillService.addSkillExperience({ id: playerId }, 'bartering', totalBarteringXP, player);
+      await this.unifiedXPService.grantXP(playerId, {
+        playerXP: totalBarteringXP,
+        skillXP: totalBarteringXP,
+        skillType: 'bartering',
+        grantClassXP: true
+      }, player);
       
       const newCurrency = await this.getCurrencySafely(playerId);
       const formattedCurrency = await this.formatCurrencySafely(newCurrency);
@@ -1294,9 +1298,15 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           this.whisper(targetPlayer.id, `<color="0f0">You received ${amount}x "${itemName}" from an admin.</color>`);
           break;
 
+        case 'announce':
+          this.whisper(speaker, `<color="ff0">Manually triggering leaderboard announcement...</color>`);
+          await this.announceLeaderboard();
+          break;
+
         case 'help':
           this.whisper(speaker, `<color="ff0">Admin Commands:</color>`);
           this.whisper(speaker, `<color="fff">/rpgadmin giveitem [player] [item] [amount]</color> - Give items to a player`);
+          this.whisper(speaker, `<color="fff">/rpgadmin announce</color> - Manually trigger leaderboard announcement`);
           this.whisper(speaker, `<color="fff">/rpgadmin help</color> - Show this help`);
           break;
 
@@ -1361,7 +1371,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
       // Ensure all required properties exist with fallbacks
       const safeRpgData = {
-        level: rpgData.level ?? 1,
+        level: rpgData.level ?? 0,
         experience: rpgData.experience ?? 0,
         health: rpgData.health ?? 100,
         maxHealth: rpgData.maxHealth ?? 100,
@@ -1388,34 +1398,19 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         // Inventory has items
       }
       
-      // Calculate XP progress to next level (handle max level case)
-      // Use the same cumulative XP calculation as the leveling logic
-      let cumulativeXPForCurrentLevel = 0;
-      for (let level = 1; level < safeRpgData.level; level++) {
-        cumulativeXPForCurrentLevel += this.getXPForNextLevel(level);
-      }
+      // Use UnifiedXPService for consistent XP calculations
+      const xpProgress = await this.unifiedXPService.getXPProgress(player.id);
+      const playerProgress = xpProgress.player;
       
-      let cumulativeXPForNextLevel = cumulativeXPForCurrentLevel;
-      if (safeRpgData.level < 30) {
-        // Add XP needed for the current level to reach the next level (same as leveling logic)
-        cumulativeXPForNextLevel += this.getXPForNextLevel(safeRpgData.level);
-      }
-      
-      // For now, use the raw XP values and let the leveling logic handle it
-      // TODO: Implement proper XP migration or reset command
-      const xpInCurrentLevel = safeRpgData.experience - cumulativeXPForCurrentLevel;
-      const xpNeededForNextLevel = cumulativeXPForNextLevel;
-      
-      console.log(`[Hoopla RPG] Player XP Display Debug: Level ${safeRpgData.level}, XP ${safeRpgData.experience}, Cumulative Current ${cumulativeXPForCurrentLevel}, Cumulative Next ${cumulativeXPForNextLevel}, XP In Level ${xpInCurrentLevel}, XP Needed ${xpNeededForNextLevel}`);
+      console.log(`[Hoopla RPG] Player XP Display Debug: Level ${playerProgress.level}, XP ${playerProgress.xp}, XP For Next Level ${playerProgress.xpForNextLevel}, Progress ${playerProgress.progress}%`);
       
       // Handle max level case to avoid division by zero
-      const xpProgress = safeRpgData.level >= 30 ? 100 : 
-        Math.min(100, Math.max(0, (xpInCurrentLevel / xpNeededForNextLevel) * 100));
+      const xpProgressPercent = playerProgress.level >= MAX_LEVEL ? 100 : playerProgress.progress;
       
       // Display main stats with MAX condition for player level
-      const playerLevelDisplay = safeRpgData.level >= 30 ? 
-        `<color="ff0">Level ${safeRpgData.level} (MAX)</>` : 
-        `<color="ff0">Level ${safeRpgData.level}</> | <color="0ff">${xpInCurrentLevel}/${xpNeededForNextLevel} XP (${Math.round(xpProgress)}%)</>`;
+      const playerLevelDisplay = playerProgress.level >= MAX_LEVEL ? 
+        `<color="ff0">Level ${playerProgress.level} (MAX)</>` : 
+        `<color="ff0">Level ${playerProgress.level}</> | <color="0ff">${playerProgress.xp}/${playerProgress.xpForNextLevel} XP (${Math.round(xpProgressPercent)}%)</>`;
       
       const mainStatsMessage = 
         `${playerLevelDisplay} | <color="f00">${safeRpgData.health}/${safeRpgData.maxHealth} HP</> | <color="0f0">${formattedCurrency}</>`;
@@ -1424,35 +1419,13 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       const playerClass = await this.classesService.getPlayerClass(player.id);
       const classLevel = await this.classesService.getPlayerClassLevel(player.id);
       
-      // Create class display in same format as skills
+      // Create class display using UnifiedXPService
       let classDisplay = `<color="888">No Class Selected</>`;
-      if (playerClass && classLevel) {
-        // Get class XP progress (using cumulative XP calculation with migration handling)
-        let cumulativeClassXPForCurrentLevel = 0;
-        for (let level = 1; level < classLevel.level; level++) {
-          cumulativeClassXPForCurrentLevel += this.getXPForNextLevel(level);
-        }
-        
-        let cumulativeClassXPForNextLevel = cumulativeClassXPForCurrentLevel;
-        if (classLevel.level < 30) {
-          // For level 0, we need XP for level 1, not level 0
-          // For level 1, we need XP for level 2, not level 1
-          const targetLevel = classLevel.level === 0 ? 1 : classLevel.level + 1;
-          cumulativeClassXPForNextLevel += this.getXPForNextLevel(targetLevel);
-        }
-        
-        // Handle XP migration: if class has more XP than the new system expects, cap it
-        const maxClassXPForCurrentLevel = cumulativeClassXPForNextLevel;
-        const adjustedClassXP = Math.min(classLevel.xp, maxClassXPForCurrentLevel);
-        
-        const classXPInLevel = adjustedClassXP - cumulativeClassXPForCurrentLevel;
-        const classXPNeededForNextLevel = cumulativeClassXPForNextLevel - cumulativeClassXPForCurrentLevel;
-        const classProgress = classLevel.level >= 30 ? 100 : 
-          Math.min(100, Math.max(0, (classXPInLevel / classXPNeededForNextLevel) * 100));
-        
-        classDisplay = classLevel.level >= 30 ? 
-          `<color="0f0">${playerClass.name} ${classLevel.level} (MAX)</>` : 
-          `<color="0f0">${playerClass.name} ${classLevel.level} - ${classXPInLevel}/${classXPNeededForNextLevel}XP (${Math.round(classProgress)}%)</>`;
+      if (playerClass && classLevel && xpProgress.class) {
+        const classProgress = xpProgress.class;
+        classDisplay = classProgress.level >= MAX_LEVEL ? 
+          `<color="0f0">${playerClass.name} ${classProgress.level} (MAX)</>` : 
+          `<color="0f0">${playerClass.name} ${classProgress.level} - ${classProgress.xp}/${classProgress.xpForNextLevel}XP (${Math.round(classProgress.progress)}%)</>`;
       }
       
       // Get skill progress
@@ -1461,28 +1434,22 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       const fishingProgress = await this.getSkillProgress({ id: player.id }, 'fishing');
       const gatheringProgress = await this.getSkillProgress({ id: player.id }, 'gathering');
       
-      // Calculate XP progress to next level (handle max level case)
-      const miningXPInLevel = this.getXPInCurrentSkillLevel(miningProgress.level, miningProgress.experience);
-      const barteringXPInLevel = this.getXPInCurrentSkillLevel(barteringProgress.level, barteringProgress.experience);
-      const fishingXPInLevel = this.getXPInCurrentSkillLevel(fishingProgress.level, fishingProgress.experience);
-      const gatheringXPInLevel = this.getXPInCurrentSkillLevel(gatheringProgress.level, gatheringProgress.experience);
-      
-      // Create skill displays with MAX condition
-      const miningDisplay = miningProgress.level >= 30 ? 
+      // Create skill displays with MAX condition using UnifiedXPService data
+      const miningDisplay = miningProgress.level >= MAX_LEVEL ? 
         `<color="0ff">Mining ${miningProgress.level} (MAX)</>` : 
-        `<color="0ff">Mining ${miningProgress.level} - ${miningXPInLevel}/${miningProgress.xpForNextLevel}XP (${Math.round(miningProgress.progress)}%)</>`;
+        `<color="0ff">Mining ${miningProgress.level} - ${miningProgress.experience}/${miningProgress.xpForNextLevel}XP (${Math.round(miningProgress.progress)}%)</>`;
       
-      const barteringDisplay = barteringProgress.level >= 30 ? 
+      const barteringDisplay = barteringProgress.level >= MAX_LEVEL ? 
         `<color="f0f">Bartering ${barteringProgress.level} (MAX)</>` : 
-        `<color="f0f">Bartering ${barteringProgress.level} - ${barteringXPInLevel}/${barteringProgress.xpForNextLevel}XP (${Math.round(barteringProgress.progress)}%)</>`;
+        `<color="f0f">Bartering ${barteringProgress.level} - ${barteringProgress.experience}/${barteringProgress.xpForNextLevel}XP (${Math.round(barteringProgress.progress)}%)</>`;
       
-      const fishingDisplay = fishingProgress.level >= 30 ? 
+      const fishingDisplay = fishingProgress.level >= MAX_LEVEL ? 
         `<color="0aa">Fishing ${fishingProgress.level} (MAX)</>` : 
-        `<color="0aa">Fishing ${fishingProgress.level} - ${fishingXPInLevel}/${fishingProgress.xpForNextLevel}XP (${Math.round(fishingProgress.progress)}%)</>`;
+        `<color="0aa">Fishing ${fishingProgress.level} - ${fishingProgress.experience}/${fishingProgress.xpForNextLevel}XP (${Math.round(fishingProgress.progress)}%)</>`;
       
-      const gatheringDisplay = gatheringProgress.level >= 30 ? 
+      const gatheringDisplay = gatheringProgress.level >= MAX_LEVEL ? 
         `<color="8f0">Gathering ${gatheringProgress.level} (MAX)</>` : 
-        `<color="8f0">Gathering ${gatheringProgress.level} - ${gatheringXPInLevel}/${gatheringProgress.xpForNextLevel}XP (${Math.round(gatheringProgress.progress)}%)</>`;
+        `<color="8f0">Gathering ${gatheringProgress.level} - ${gatheringProgress.experience}/${gatheringProgress.xpForNextLevel}XP (${Math.round(gatheringProgress.progress)}%)</>`;
       
       const skillsMessage1 = `${miningDisplay} | ${barteringDisplay}`;
       const skillsMessage2 = `${fishingDisplay} | ${gatheringDisplay}`;
@@ -1671,6 +1638,31 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         this.whisper(speaker, lineMessage);
       }
       
+      // Show current user's score at the bottom
+      try {
+        const currentPlayer = this.omegga.getPlayer(speaker);
+        if (currentPlayer) {
+          const currentPlayerScore = await this.getPlayerScore(currentPlayer.id);
+          const currentPlayerClass = await this.classesService.getPlayerClassDisplay(currentPlayer.id);
+          const classInfo = currentPlayerClass !== 'No Class' ? ` (${currentPlayerClass})` : '';
+          
+          // Find current player's position in leaderboard
+          const currentPlayerPosition = leaderboard.findIndex(entry => entry.playerId === currentPlayer.id);
+          const positionText = currentPlayerPosition >= 0 ? 
+            (currentPlayerPosition + 1 === 1 ? "1st" : 
+             currentPlayerPosition + 1 === 2 ? "2nd" : 
+             currentPlayerPosition + 1 === 3 ? "3rd" : 
+             `${currentPlayerPosition + 1}th`) : 
+            "Unranked";
+          
+          this.whisper(speaker, `<color="888">─────────────────────────────</color>`);
+          this.whisper(speaker, `<color="fff">Your Score: ${positionText}. <color="0ff">${currentPlayer.name}</color>${classInfo} - <color="ff0">${currentPlayerScore.toLocaleString()}</color></>`);
+        }
+      } catch (error) {
+        // If we can't get current player's score, just continue without showing it
+        console.error(`[Hoopla RPG] Error getting current player score:`, error);
+      }
+      
     } catch (error) {
       this.whisper(speaker, `<color="f00">Error loading leaderboard: ${error.message}</color>`);
     }
@@ -1681,13 +1673,17 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
    */
   private async announceLeaderboard(): Promise<void> {
     try {
+      console.log(`[Hoopla RPG] Running leaderboard announcement...`);
       const leaderboard = await this.getLeaderboard();
       
+      console.log(`[Hoopla RPG] Leaderboard has ${leaderboard.length} players`);
+      
       if (leaderboard.length === 0) {
+        console.log(`[Hoopla RPG] No players found, skipping leaderboard announcement`);
         return; // Don't announce if no players
       }
 
-      // Create compact format for server announcement (single line)
+      // Create compact format for server announcement (split into multiple lines)
       const topPlayers = [];
       for (let i = 0; i < Math.min(10, leaderboard.length); i++) {
         const entry = leaderboard[i];
@@ -1713,11 +1709,25 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         topPlayers.push(`${positionText}. <color="${playerColor}">${entry.name}</color>${classInfo} - <color="ff0">${entry.score.toLocaleString()}</color>`);
       }
 
-      // Broadcast compact leaderboard (removed emoji)
-      this.announce(`<color="ff0">Top Players:</color> ${topPlayers.join(', ')}`);
+      // Split into multiple lines to avoid length issues
+      this.announce(`<color="ff0">TOP PLAYERS</color>`);
+      
+      // Split top 5 and bottom 5 into separate lines
+      const top5 = topPlayers.slice(0, 5);
+      const bottom5 = topPlayers.slice(5, 10);
+      
+      if (top5.length > 0) {
+        this.announce(`${top5.join(', ')}`);
+      }
+      
+      if (bottom5.length > 0) {
+        this.announce(`${bottom5.join(', ')}`);
+      }
+      
+      console.log(`[Hoopla RPG] Broadcasting leaderboard (split into ${top5.length > 0 ? 1 : 0} + ${bottom5.length > 0 ? 1 : 0} lines)`);
       
     } catch (error) {
-      // Error announcing leaderboard
+      console.error(`[Hoopla RPG] Error announcing leaderboard:`, error);
     }
   }
 
@@ -1773,13 +1783,13 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
    * Calculate XP progress for current level
    */
   private calculateXPProgress(currentLevel: number, currentXP: number): { current: number; needed: number; progress: number } {
-    if (currentLevel >= 30) {
+    if (currentLevel >= MAX_LEVEL) {
       return { current: 0, needed: 0, progress: 100 };
     }
 
-    // Calculate XP requirements (doubled system from original)
-    const xpForCurrentLevel = this.getXPForLevel(currentLevel);
-    const xpForNextLevel = this.getXPForLevel(currentLevel + 1);
+    // Calculate XP requirements using the XP requirements lookup table
+    const xpForCurrentLevel = XP_REQUIREMENTS[currentLevel] || 0;
+    const xpForNextLevel = XP_REQUIREMENTS[currentLevel + 1] || 0;
     
     // Calculate XP in current level and progress
     const xpInCurrentLevel = currentXP - xpForCurrentLevel;
@@ -1794,17 +1804,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   }
 
   /**
-   * Get XP required for a specific level (doubled system)
+   * Get XP required for a specific level using the XP requirements lookup table
    */
   private getXPForLevel(level: number): number {
-    if (level <= 1) return 0;
-    if (level <= 5) return (level - 1) * 100 * 2; // 200, 400, 600, 800
-    if (level <= 10) return 800 + (level - 5) * 200 * 2; // 1000, 1400, 1800, 2200, 2600
-    if (level <= 15) return 2600 + (level - 10) * 300 * 2; // 3200, 3800, 4400, 5000, 5600
-    if (level <= 20) return 5600 + (level - 15) * 400 * 2; // 6400, 7200, 8000, 8800, 9600
-    if (level <= 25) return 9600 + (level - 20) * 500 * 2; // 10600, 11600, 12600, 13600, 14600
-    if (level <= 30) return 14600 + (level - 25) * 600 * 2; // 15200, 15800, 16400, 17000, 17600
-    return 17600; // Max level
+    return XP_REQUIREMENTS[level] || 0;
   }
 
   /**
@@ -2185,6 +2188,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     
     // Get all player IDs that have ever played
     const allPlayerIds = await this.store.get("all_player_ids") as unknown as string[] || [];
+    console.log(`[Hoopla RPG] Found ${allPlayerIds.length} player IDs for leaderboard`);
     
     for (const playerId of allPlayerIds) {
       try {
@@ -2201,12 +2205,13 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           leaderboard.push({
             playerId,
             name: playerName,
-            level: playerData.level || 1,
+            level: playerData.level || 0,
             score
           });
+          console.log(`[Hoopla RPG] Added player to leaderboard: ${playerName} (${score} score)`);
         }
       } catch (error) {
-        // Error getting score for player
+        console.error(`[Hoopla RPG] Error getting score for player ${playerId}:`, error);
       }
     }
     
@@ -2578,12 +2583,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       const playerData = await this.playerService.getPlayerData({ id: player.id });
       
       // Store original values for confirmation
-      const originalLevel = playerData.level || 1;
+      const originalLevel = playerData.level || 0;
       const originalXP = playerData.experience || 0;
       const originalSkills = playerData.skills || {};
       
       // Reset level and experience
-      playerData.level = 1;
+      playerData.level = 0;
       playerData.experience = 0;
       playerData.health = 100;
       playerData.maxHealth = 100;
@@ -2647,7 +2652,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       const playerData = await this.playerService.getPlayerData({ id: player.id });
       
       // Reset player level and XP
-      playerData.level = 1;
+      playerData.level = 0;
       playerData.experience = 0;
       
       // Reset all skill XP
@@ -2816,7 +2821,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       for (const playerId of allPlayerIds) {
         try {
           const playerData = await this.playerService.getPlayerData({ id: playerId });
-          if (playerData.level >= 30) {
+          if (playerData.level >= MAX_LEVEL) {
             const onlinePlayer = this.omegga.getPlayer(playerId);
             if (onlinePlayer) {
               // Assign Flyer role
@@ -3037,10 +3042,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     try {
       const player = await this.playerService.getPlayerData({ id: playerId });
       
-      // Check if player is over level 30
-      if (player.level > 30) {
-        player.level = 30;
-        player.experience = this.getXPForLevel(30);
+      // Check if player is over max level
+      if (player.level > MAX_LEVEL) {
+        player.level = MAX_LEVEL;
+        player.experience = XP_REQUIREMENTS[MAX_LEVEL];
         await this.playerService.setPlayerData({ id: playerId }, player);
         // Fixed overleveled player to level 30
       }
@@ -3099,20 +3104,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   }
 
   /**
-   * Get XP for next level
-   */
-  private getXPForNextLevel(level: number): number {
-    if (level >= 30) return 0; // Max level reached
-    
-    // More reasonable scaling: linear with increasing multiplier
-    // Level 1: 100 XP, Level 2: 150 XP, Level 3: 200 XP, Level 4: 250 XP, etc.
-    // This provides steady progression without extreme numbers
-    const baseXP = 100; // Starting XP requirement for level 1
-    const levelIncrease = 50; // Additional XP per level
-    return baseXP + (level - 1) * levelIncrease;
-  }
-
-  /**
    * Get skill progress information
    */
   private async getSkillProgress(playerId: { id: string }, skillType: 'mining' | 'bartering' | 'fishing' | 'gathering'): Promise<{
@@ -3121,64 +3112,21 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     xpForNextLevel: number;
     progress: number;
   }> {
-    const player = await this.playerService.getPlayerData(playerId);
-    const skill = player.skills[skillType] || { level: 0, experience: 0 };
-    
-    // Calculate XP progress using cumulative XP thresholds with migration handling
-    let cumulativeXPForCurrentLevel = 0;
-    for (let level = 1; level < skill.level; level++) {
-      cumulativeXPForCurrentLevel += this.getXPForNextLevel(level);
+    const xpProgress = await this.unifiedXPService.getXPProgress(playerId.id, skillType);
+    const skillProgress = xpProgress.skill;
+    if (skillProgress) {
+      return {
+        level: skillProgress.level,
+        experience: skillProgress.xp, // Map xp to experience
+        xpForNextLevel: skillProgress.xpForNextLevel,
+        progress: skillProgress.progress
+      };
     }
-    
-    let cumulativeXPForNextLevel = cumulativeXPForCurrentLevel;
-    if (skill.level < 30) {
-      // Add XP needed for the current level to reach the next level (same as leveling logic)
-      cumulativeXPForNextLevel += this.getXPForNextLevel(skill.level);
-    }
-    
-    // For now, use the raw XP values and let the leveling logic handle it
-    const xpInCurrentLevel = skill.experience - cumulativeXPForCurrentLevel;
-    const xpNeededForNextLevel = cumulativeXPForNextLevel;
-    const progress = skill.level >= 30 ? 100 : 
-      (xpNeededForNextLevel > 0 ? Math.min(100, Math.max(0, (xpInCurrentLevel / xpNeededForNextLevel) * 100)) : 0);
-    
-    console.log(`[Hoopla RPG] ${skillType} Skill Progress Debug: Level ${skill.level}, XP ${skill.experience}, Cumulative Current ${cumulativeXPForCurrentLevel}, Cumulative Next ${cumulativeXPForNextLevel}, XP In Level ${xpInCurrentLevel}, XP Needed ${xpNeededForNextLevel}, Progress ${progress}%`);
-    
     return {
-      level: skill.level,
-      experience: skill.experience,
-      xpForNextLevel: xpNeededForNextLevel, // XP needed to reach next level
-      progress
+      level: 0,
+      experience: 0,
+      xpForNextLevel: 0,
+      progress: 0
     };
-  }
-
-  /**
-   * Get XP within current skill level
-   */
-  private getXPInCurrentSkillLevel(level: number, totalXP: number): number {
-    // Handle max level case - return 0 since we show "MAX" instead
-    if (level >= 30) return 0;
-    
-    // For level 0, show total XP
-    if (level === 0) {
-      return totalXP;
-    }
-    
-    // Calculate cumulative XP needed to reach current level
-    let cumulativeXPForCurrentLevel = 0;
-    for (let i = 1; i < level; i++) {
-      cumulativeXPForCurrentLevel += this.getXPForNextLevel(i);
-    }
-    
-    // Calculate XP within current level (XP beyond what's needed for current level)
-    const xpInLevel = totalXP - cumulativeXPForCurrentLevel;
-    
-    // For level 1, we need to subtract the XP needed for level 1
-    if (level === 1) {
-      const xpNeededForLevel1 = this.getXPForNextLevel(1); // 100 XP
-      return Math.max(0, xpInLevel - xpNeededForLevel1);
-    }
-    
-    return Math.max(0, xpInLevel);
   }
 }

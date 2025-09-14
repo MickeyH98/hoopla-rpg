@@ -8,8 +8,7 @@
 import { OL } from "omegga";
 import { PlayerId, RPGPlayer, PlayerService } from '../player/PlayerService';
 import { InventoryService } from '../player/InventoryService';
-import { ExperienceService } from '../progression/ExperienceService';
-import { SkillService } from '../progression/SkillService';
+import { UnifiedXPService } from '../progression/UnifiedXPService';
 import { ResourceService } from '../economy/ResourceService';
 import { ProgressBarService } from '../utils/ProgressBar';
 import { BrickTrigger } from '../world/NodeService';
@@ -21,8 +20,7 @@ import { RateLimitService } from '../utils/RateLimitService';
 export class FishingService {
   private omegga: OL;
   private inventoryService: InventoryService;
-  private experienceService: ExperienceService;
-  private skillService: SkillService;
+  private unifiedXPService: UnifiedXPService;
   private resourceService: ResourceService;
   private progressBarService: ProgressBarService;
   private rateLimitService: RateLimitService;
@@ -31,8 +29,7 @@ export class FishingService {
   constructor(
     omegga: OL,
     inventoryService: InventoryService,
-    experienceService: ExperienceService,
-    skillService: SkillService,
+    unifiedXPService: UnifiedXPService,
     resourceService: ResourceService,
     progressBarService: ProgressBarService,
     rateLimitService: RateLimitService,
@@ -40,8 +37,7 @@ export class FishingService {
   ) {
     this.omegga = omegga;
     this.inventoryService = inventoryService;
-    this.experienceService = experienceService;
-    this.skillService = skillService;
+    this.unifiedXPService = unifiedXPService;
     this.resourceService = resourceService;
     this.progressBarService = progressBarService;
     this.rateLimitService = rateLimitService;
@@ -375,19 +371,20 @@ export class FishingService {
         this.inventoryService.addToInventory(player, formattedFishName);
         
         // Calculate XP rewards based on fish rarity and fishing skill level
-        const generalXP = this.getFishingXPReward(fishType, fishingLevel);
-        const fishingXP = this.getFishingXPReward(fishType, fishingLevel);
+        const xpAmount = this.getFishingXPReward(fishType, fishingLevel);
         
         // Debug logging for XP granting
-        console.log(`[Hoopla RPG] Fishing XP Debug: ${playerName} - General XP: ${generalXP}, Fishing XP: ${fishingXP}`);
+        console.log(`[Hoopla RPG] Fishing XP Debug: ${playerName} - XP Amount: ${xpAmount}`);
         
-        // Grant XP for fishing
-        const fishingXpResult = await this.experienceService.addExperience({ id: playerId }, generalXP);
-        console.log(`[Hoopla RPG] Fishing General XP Result: ${JSON.stringify(fishingXpResult)}`);
+        // Grant XP using unified service (player XP + fishing skill XP + class XP)
+        const xpResult = await this.unifiedXPService.grantXP(playerId, {
+          playerXP: xpAmount,
+          skillXP: xpAmount,
+          skillType: 'fishing',
+          grantClassXP: true
+        }, player);
         
-        // Grant Fishing XP
-        const fishingSkillResult = await this.skillService.addSkillExperience({ id: playerId }, 'fishing', fishingXP);
-        console.log(`[Hoopla RPG] Fishing Skill XP Result: ${JSON.stringify(fishingSkillResult)}`);
+        console.log(`[Hoopla RPG] Fishing XP Result:`, xpResult);
         
         // Decrease attempts remaining
         attemptsRemaining--;
@@ -412,13 +409,22 @@ export class FishingService {
           
           // Combined message for final attempt: fish result + depletion notice
           const fishColor = this.resourceService.getResourceColor(fishType);
-          const fishingMessage = `Caught 1 <color="${fishColor}">[${formattedFishName}]</color> (<color="ff0">x${fishCount}</color> in bag), Gained ${generalXP}XP and ${fishingXP} Fishing XP - Fishing spot depleted! Come back in 30 seconds.`;
+          
+          // Get fishing skill progress for display
+          const xpProgress = await this.unifiedXPService.getXPProgress(playerId, 'fishing');
+          const fishingProgress = xpProgress.skill;
+          
+          let fishingMessage = `Caught 1 <color="${fishColor}">[${formattedFishName}]</color> (<color="ff0">x${fishCount}</color> in bag), Gained ${xpAmount}XP and ${xpAmount} Fishing XP - Fishing spot depleted! Come back in 30 seconds.`;
+          
+          if (fishingProgress) {
+            const maxLevelText = fishingProgress.level >= 30 ? " (MAX)" : "";
+            fishingMessage += ` - Fishing ${fishingProgress.level}${maxLevelText} | ${fishingProgress.xp}/${fishingProgress.xpForNextLevel}XP (${Math.round(fishingProgress.progress)}%)`;
+          }
           
           // Use middlePrint for the combined result
           this.omegga.middlePrint(playerId, fishingMessage);
           
-          // CRITICAL: Save the updated player data
-          await this.playerService.setPlayerData({ id: playerId }, player);
+          // Note: Player data is already saved by the XP services
           
           // Announce legendary fish catches to the server
           if (this.resourceService.isLegendaryResource(fishType)) {
@@ -432,10 +438,10 @@ export class FishingService {
             reward: { 
               type: 'fishing_complete_depleted', 
               fish: fishType, 
-              xp: generalXP, 
-              fishingXP: fishingXP,
-              leveledUp: fishingXpResult.leveledUp,
-              newLevel: fishingXpResult.newLevel
+              xp: xpAmount, 
+              fishingXP: xpAmount,
+              leveledUp: xpResult.playerLeveledUp || xpResult.skillLeveledUp,
+              newLevel: xpResult.newPlayerLevel
             }
           };
         } else {
@@ -443,13 +449,22 @@ export class FishingService {
           const fishCount = this.inventoryService.countItem(player, formattedFishName);
           
           const fishColor = this.resourceService.getResourceColor(fishType);
-          const fishingMessage = `Caught 1 <color="${fishColor}">[${formattedFishName}]</color> (<color="ff0">x${fishCount}</color> in bag), Gained ${generalXP}XP and ${fishingXP} Fishing XP - ${attemptsRemaining} attempts remaining`;
+          
+          // Get fishing skill progress for display
+          const xpProgress = await this.unifiedXPService.getXPProgress(playerId, 'fishing');
+          const fishingProgress = xpProgress.skill;
+          
+          let fishingMessage = `Caught 1 <color="${fishColor}">[${formattedFishName}]</color> (<color="ff0">x${fishCount}</color> in bag), Gained ${xpAmount}XP and ${xpAmount} Fishing XP - ${attemptsRemaining} attempts remaining`;
+          
+          if (fishingProgress) {
+            const maxLevelText = fishingProgress.level >= 30 ? " (MAX)" : "";
+            fishingMessage += ` - Fishing ${fishingProgress.level}${maxLevelText} | ${fishingProgress.xp}/${fishingProgress.xpForNextLevel}XP (${Math.round(fishingProgress.progress)}%)`;
+          }
           
           // Use middlePrint for the regular result
           this.omegga.middlePrint(playerId, fishingMessage);
           
-          // CRITICAL: Save the updated player data
-          await this.playerService.setPlayerData({ id: playerId }, player);
+          // Note: Player data is already saved by the XP services
           
           // Announce legendary fish catches to the server
           if (this.resourceService.isLegendaryResource(fishType)) {
@@ -463,10 +478,10 @@ export class FishingService {
             reward: { 
               type: 'fishing_complete', 
               fish: fishType, 
-              xp: generalXP, 
-              fishingXP: fishingXP,
-              leveledUp: fishingXpResult.leveledUp,
-              newLevel: fishingXpResult.newLevel,
+              xp: xpAmount, 
+              fishingXP: xpAmount,
+              leveledUp: xpResult.playerLeveledUp || xpResult.skillLeveledUp,
+              newLevel: xpResult.newPlayerLevel,
               attemptsRemaining
             }
           };

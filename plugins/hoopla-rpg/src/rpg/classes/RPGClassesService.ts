@@ -6,6 +6,7 @@
  */
 
 import { OL, PS } from 'omegga';
+import { XP_REQUIREMENTS, MAX_LEVEL } from '../progression/UnifiedXPService';
 
 export interface RPGClass {
   id: string;
@@ -188,16 +189,17 @@ export class RPGClassesService {
       const oldLevel = classProgress.classLevel || 0;
       classProgress.classXP = (classProgress.classXP || 0) + xpAmount;
 
-      // Calculate new level (same XP scaling as main system)
-      let newLevel = oldLevel;
-      let xpForNextLevel = this.getXPForNextLevel(oldLevel);
+      // Calculate new level using the XP requirements lookup table
+      let newLevel = 0;
       
-      while (xpForNextLevel > 0 && classProgress.classXP >= xpForNextLevel && newLevel < 30) {
-        newLevel++;
-        xpForNextLevel = this.getXPForNextLevel(newLevel);
+      // Find the highest level the player can reach with their current XP
+      for (let level = MAX_LEVEL; level >= 0; level--) {
+        if (classProgress.classXP >= XP_REQUIREMENTS[level]) {
+          newLevel = level;
+          console.log(`[Hoopla RPG] Class Level ${level}: Cumulative XP needed ${XP_REQUIREMENTS[level]}, Current XP ${classProgress.classXP}`);
+          break;
+        }
       }
-      
-      newLevel = Math.min(newLevel, 30);
       classProgress.classLevel = newLevel;
 
       await this.store.set(`player_class_${playerId}`, classData);
@@ -215,12 +217,24 @@ export class RPGClassesService {
     }
   }
 
+
   /**
-   * Calculate XP needed for next level (same as main system)
+   * Reset player's class XP to 0
    */
-  private getXPForNextLevel(currentLevel: number): number {
-    if (currentLevel >= 30) return 0;
-    return Math.floor(100 * Math.pow(2, currentLevel - 1));
+  async resetPlayerClassXP(playerId: string): Promise<void> {
+    try {
+      const classData = await this.store.get(`player_class_${playerId}`) as PlayerClassData;
+      if (classData && classData.currentClass) {
+        const classProgress = classData.classes[classData.currentClass];
+        if (classProgress) {
+          classProgress.classLevel = 0;
+          classProgress.classXP = 0;
+          await this.store.set(`player_class_${playerId}`, classData);
+        }
+      }
+    } catch (error) {
+      console.error(`[RPG Classes] Error resetting class XP for ${playerId}:`, error);
+    }
   }
 
   /**

@@ -127,7 +127,7 @@ Bot: [PlayerName] is selling to shopkeeper: iron_[timestamp]
 The plugin supports the following configuration options:
 
 ```yaml
-startingLevel: 1          # Starting level for new players
+startingLevel: 0          # Starting level for new players
 startingHealth: 100       # Starting health for new players
 experienceMultiplier: 1   # Multiplier for experience gains
 healthRegenRate: 1        # Health regeneration rate

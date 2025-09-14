@@ -332,7 +332,7 @@ export class PlayerService {
     let needsFix = false;
     
     // Validate and fix main level
-    if (typeof fixedPlayer.level !== 'number' || fixedPlayer.level < 1) {
+    if (typeof fixedPlayer.level !== 'number' || fixedPlayer.level < 0) {
       fixedPlayer.level = this.config.startingLevel;
       needsFix = true;
     }

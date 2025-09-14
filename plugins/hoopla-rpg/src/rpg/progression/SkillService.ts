@@ -38,10 +38,11 @@ export class SkillService {
    * @param playerId - The ID of the player to add skill experience to
    * @param skillType - The type of skill to add experience to
    * @param amount - The amount of experience to add
+   * @param currentPlayerData - Optional current player data to use instead of fetching from storage
    * @returns Object containing level up status, new level, current XP, and XP needed for next level
    */
-  async addSkillExperience({ id }: PlayerId, skillType: SkillType, amount: number): Promise<{ leveledUp: boolean; newLevel: number; currentXP: number; xpForNextLevel: number }> {
-    const player = await this.getPlayerData({ id });
+  async addSkillExperience({ id }: PlayerId, skillType: SkillType, amount: number, currentPlayerData?: RPGPlayer): Promise<{ leveledUp: boolean; newLevel: number; currentXP: number; xpForNextLevel: number }> {
+    const player = currentPlayerData || await this.getPlayerData({ id });
     
     // Ensure skills exist with fallbacks
     if (!player.skills) {
@@ -64,27 +65,27 @@ export class SkillService {
     // Add experience
     skill.experience += amount;
     
-    // Skill leveling: use same scaling as main plugin system
+    // Skill leveling: use reasonable linear scaling system
     const getSkillXPForNextLevel = (skillLevel: number): number => {
       if (skillLevel >= 30) return 0;
       
-      // Use same XP calculation as main plugin for consistency
-      if (skillLevel <= 5) return 100 + (skillLevel - 1) * 50; // 100, 150, 200, 250, 300
-      if (skillLevel <= 10) return 300 + (skillLevel - 5) * 100; // 350, 450, 550, 650, 750
-      if (skillLevel <= 15) return 750 + (skillLevel - 10) * 150; // 900, 1050, 1200, 1350, 1500
-      if (skillLevel <= 20) return 1500 + (skillLevel - 15) * 200; // 1700, 1900, 2100, 2300, 2500
-      if (skillLevel <= 25) return 2500 + (skillLevel - 20) * 300; // 2800, 3100, 3400, 3700, 4000
-      if (skillLevel <= 30) return 4000 + (skillLevel - 25) * 500; // 4500, 5000, 5500, 6000, 6500
-      return 6500; // Max level
+      // More reasonable scaling: linear with increasing multiplier
+      // Level 1: 100 XP, Level 2: 150 XP, Level 3: 200 XP, Level 4: 250 XP, etc.
+      // This provides steady progression without extreme numbers
+      const baseXP = 100; // Starting XP requirement for level 1
+      const levelIncrease = 50; // Additional XP per level
+      return baseXP + (skillLevel - 1) * levelIncrease;
     };
     
-    // Calculate new level based on total XP
+    // Calculate new level based on cumulative XP thresholds
     let newLevel = 0;
-    let totalXPNeeded = 0;
+    let cumulativeXP = 0;
     
+    // Check each level to see if we have enough cumulative XP to reach it
     for (let level = 1; level <= 30; level++) {
-      totalXPNeeded += getSkillXPForNextLevel(level);
-      if (skill.experience >= totalXPNeeded) {
+      cumulativeXP += getSkillXPForNextLevel(level);
+      console.log(`[Hoopla RPG] ${skillType} Level ${level}: Cumulative XP needed ${cumulativeXP}, Current XP ${skill.experience}`);
+      if (skill.experience >= cumulativeXP) {
         newLevel = level;
       } else {
         break;
@@ -106,7 +107,22 @@ export class SkillService {
     
     await this.setPlayerData({ id }, player);
     
-    const xpForNextLevel = getSkillXPForNextLevel(newLevel);
+    // Calculate XP needed for the next level
+    let cumulativeXPForCurrentLevel = 0;
+    for (let level = 1; level < newLevel; level++) {
+      cumulativeXPForCurrentLevel += getSkillXPForNextLevel(level);
+    }
+    
+    let cumulativeXPForNextLevel = cumulativeXPForCurrentLevel;
+    if (newLevel < 30) {
+      // For level 0, we need XP for level 1, not level 0
+      const targetLevel = newLevel === 0 ? 1 : newLevel;
+      cumulativeXPForNextLevel += getSkillXPForNextLevel(targetLevel);
+    }
+    
+    const xpForNextLevel = cumulativeXPForNextLevel - cumulativeXPForCurrentLevel;
+    
+    console.log(`[Hoopla RPG] ${skillType} Final Result: Level ${newLevel}, XP ${skill.experience}, XP for next level ${xpForNextLevel}`);
     
     return { 
       leveledUp, 
@@ -132,29 +148,29 @@ export class SkillService {
     
     const skill = player.skills[skillType];
     
-    // Calculate XP required for current and next level (consistent with main plugin)
+    // Calculate XP required for current and next level (reasonable linear scaling)
     const getSkillXPForNextLevel = (skillLevel: number): number => {
       if (skillLevel >= 30) return 0;
       
-      // Use same XP calculation as main plugin for consistency
-      if (skillLevel <= 5) return 100 + (skillLevel - 1) * 50; // 100, 150, 200, 250, 300
-      if (skillLevel <= 10) return 300 + (skillLevel - 5) * 100; // 350, 450, 550, 650, 750
-      if (skillLevel <= 15) return 750 + (skillLevel - 10) * 150; // 900, 1050, 1200, 1350, 1500
-      if (skillLevel <= 20) return 1500 + (skillLevel - 15) * 200; // 1700, 1900, 2100, 2300, 2500
-      if (skillLevel <= 25) return 2500 + (skillLevel - 20) * 300; // 2800, 3100, 3400, 3700, 4000
-      if (skillLevel <= 30) return 4000 + (skillLevel - 25) * 500; // 4500, 5000, 5500, 6000, 6500
-      return 6500; // Max level
+      // More reasonable scaling: linear with increasing multiplier
+      // Level 1: 100 XP, Level 2: 150 XP, Level 3: 200 XP, Level 4: 250 XP, etc.
+      // This provides steady progression without extreme numbers
+      const baseXP = 100; // Starting XP requirement for level 1
+      const levelIncrease = 50; // Additional XP per level
+      return baseXP + (skillLevel - 1) * levelIncrease;
     };
     
     // Calculate cumulative XP thresholds for current and next level
     let xpForCurrentLevel = 0;
-    for (let level = 1; level <= skill.level; level++) {
+    for (let level = 1; level < skill.level; level++) {
       xpForCurrentLevel += getSkillXPForNextLevel(level);
     }
     
     let xpForNextLevel = xpForCurrentLevel;
     if (skill.level < 30) {
-      xpForNextLevel += getSkillXPForNextLevel(skill.level + 1);
+      // For level 0, we need XP for level 1, not level 0
+      const targetLevel = skill.level === 0 ? 1 : skill.level;
+      xpForNextLevel += getSkillXPForNextLevel(targetLevel);
     }
     
     // Calculate progress within current level

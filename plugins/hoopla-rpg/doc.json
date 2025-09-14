@@ -6,7 +6,7 @@
     "startingLevel": {
       "description": "The starting level for new players.",
       "type": "number",
-      "default": 1
+      "default": 0
     },
     "startingHealth": {
       "description": "The starting health for new players.",

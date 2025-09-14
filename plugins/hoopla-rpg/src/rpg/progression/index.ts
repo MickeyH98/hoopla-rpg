@@ -4,5 +4,5 @@
  * Exports all progression-related services for the RPG system.
  */
 
-export { ExperienceService } from './ExperienceService';
-export { SkillService, type SkillType } from './SkillService';
+export { UnifiedXPService, type XPGrantResult, type XPGrantConfig, XP_REQUIREMENTS, MAX_LEVEL } from './UnifiedXPService';
+export { type SkillType } from './SkillService';

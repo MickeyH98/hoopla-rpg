@@ -2,7 +2,7 @@
 # Copy this file to your server config and modify as needed
 
 # Starting level for new players
-startingLevel: 1
+startingLevel: 0
 
 # Starting health for new players
 startingHealth: 100
