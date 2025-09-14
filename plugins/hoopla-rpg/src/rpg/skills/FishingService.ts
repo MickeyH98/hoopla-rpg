@@ -209,6 +209,7 @@ export class FishingService {
     const catchableFish = availableFish.filter(fish => this.canCatchFishType(fishingLevel, fish));
     
     if (catchableFish.length === 0) {
+      console.log(`[Hoopla RPG] Fish Type Debug - No catchable fish found, falling back to gup`);
       return 'gup'; // Fallback to common fish
     }
     
@@ -242,13 +243,6 @@ export class FishingService {
    */
   async handleFishingNode(playerId: string, triggerId: string, trigger: BrickTrigger, player: RPGPlayer): Promise<{ success: boolean; message: string; reward?: any }> {
     try {
-      console.log(`[Hoopla RPG] FishingService.handleFishingNode called for player ${playerId}`);
-      console.log(`[Hoopla RPG] Player data received in fishing service:`, {
-        level: player.level,
-        hasSkills: !!player.skills,
-        skills: player.skills
-      });
-      
       // Check rate limiting for fishing interactions
       const interactionKey = `fishing_${playerId}_${triggerId}`;
       if (!this.rateLimitService.canPlayerInteract(playerId, interactionKey)) {
@@ -259,10 +253,6 @@ export class FishingService {
       
       // Get player name for logging
       const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
-      
-      // Debug logging for player data structure
-      console.log(`[Hoopla RPG] Fishing Player Data Debug: ${playerName} - Skills: ${JSON.stringify(player.skills)}, Fishing Level: ${fishingLevel}`);
-      
       
       // Initialize fishing progress if not exists
       if (!trigger.fishingProgress) {
@@ -328,6 +318,7 @@ export class FishingService {
         // First time fishing at this spot - determine fish type based on trigger ID
         // Use the trigger ID to determine the fishing spot type since it contains the original message
         const triggerId = trigger.id;
+        
         if (triggerId.includes('rpg_fishing_spot_4')) {
           fishType = this.getRandomFishType('spot_4', fishingLevel);
         } else if (triggerId.includes('rpg_fishing_spot_3')) {
@@ -340,14 +331,12 @@ export class FishingService {
           // Fallback to freshwater fishing
           fishType = this.getRandomFishType('spot', fishingLevel);
         }
+        
         trigger.fishingTarget[playerId] = fishType;
       }
       
       // Get clicks required for this fish type
       const clicksRequired = this.getFishingClicksRequired(fishingLevel, fishType);
-      
-      // Debug logging for fishing requirements
-      console.log(`[Hoopla RPG] Fishing Requirements Debug: ${playerName} - Level: ${fishingLevel}, Fish: ${fishType}, Clicks Required: ${clicksRequired}`);
       
       // Log fishing calculation details
       const encounterRate = this.getEncounterRate(fishType, fishingLevel);
@@ -373,9 +362,6 @@ export class FishingService {
         // Calculate XP rewards based on fish rarity and fishing skill level
         const xpAmount = this.getFishingXPReward(fishType, fishingLevel);
         
-        // Debug logging for XP granting
-        console.log(`[Hoopla RPG] Fishing XP Debug: ${playerName} - XP Amount: ${xpAmount}`);
-        
         // Grant XP using unified service (player XP + fishing skill XP + class XP)
         const xpResult = await this.unifiedXPService.grantXP(playerId, {
           playerXP: xpAmount,
@@ -383,8 +369,6 @@ export class FishingService {
           skillType: 'fishing',
           grantClassXP: true
         }, player);
-        
-        console.log(`[Hoopla RPG] Fishing XP Result:`, xpResult);
         
         // Decrease attempts remaining
         attemptsRemaining--;

@@ -58,6 +58,15 @@ export class GatheringService {
       baseExperience: 15,
       baseSellPrice: 8, // Lower than usual
       maxLevel: 30
+    },
+    nightflower: {
+      id: 'nightflower',
+      name: 'Nightflower',
+      consolePrint: 'rpg_harvest_nightflower',
+      rarity: 'rare',
+      baseExperience: 25,
+      baseSellPrice: 15, // Higher value for rare item
+      maxLevel: 30
     }
   };
 

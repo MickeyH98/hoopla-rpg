@@ -968,7 +968,6 @@ export class QuestService {
       }
       
       // Get quest data
-      console.log(`[DEBUG] Looking for quest with ID: ${questId}`);
       const quest = this.getQuestById(questId);
       if (!quest) {
         console.log(`[DEBUG] Quest not found: ${questId}`);

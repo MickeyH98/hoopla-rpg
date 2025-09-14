@@ -154,14 +154,6 @@ export class MiningService {
    */
   async handleMiningNode(playerId: string, triggerId: string, trigger: BrickTrigger, player: RPGPlayer): Promise<{ success: boolean; message: string; reward?: any }> {
     try {
-      console.log(`[Hoopla RPG] MiningService.handleMiningNode called for player ${playerId}`);
-      console.log(`[Hoopla RPG] MINING SERVICE ENTRY POINT - Player: ${playerId}`);
-      console.log(`[Hoopla RPG] Player data received in mining service:`, {
-        level: player.level,
-        hasSkills: !!player.skills,
-        skills: player.skills
-      });
-      
       // Check rate limiting for mining interactions
       const interactionKey = `mining_${playerId}_${triggerId}`;
       if (!this.rateLimitService.canPlayerInteract(playerId, interactionKey)) {
@@ -173,18 +165,12 @@ export class MiningService {
       // Get player name for logging
       const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
       
-      // Debug logging for player data structure
-      console.log(`[Hoopla RPG] Mining Player Data Debug: ${playerName} - Skills: ${JSON.stringify(player.skills)}, Mining Level: ${miningLevel}`);
-      
       // Extract ore type from trigger message (e.g., "rpg_mining_copper" -> "copper")
       let oreType = trigger.message;
       if (oreType.startsWith('rpg_mining_')) {
         oreType = oreType.replace('rpg_mining_', '');
       }
       oreType = this.inventoryService.normalizeItemName(oreType);
-      
-      // Debug logging for mining level requirements
-      console.log(`[Hoopla RPG] Mining check for ${playerName}: Level ${miningLevel}, Ore type "${oreType}", Can mine: ${this.canMineOreType(miningLevel, oreType)}`);
       
       // Check if player can mine this ore type
       if (!this.canMineOreType(miningLevel, oreType)) {
@@ -240,8 +226,6 @@ export class MiningService {
       // Get clicks required for this ore type
       const clicksRequired = this.getMiningClicksRequired(miningLevel, oreType);
       
-      // Debug logging for mining requirements
-      console.log(`[Hoopla RPG] Mining Requirements Debug: ${playerName} - Level: ${miningLevel}, Ore: ${oreType}, Clicks Required: ${clicksRequired}`);
       
       // Log mining calculation details
       const miningSpeed = this.getMiningSpeed(miningLevel, oreType);
@@ -255,9 +239,6 @@ export class MiningService {
       const currentProgress = trigger.miningProgress[playerId] || 0;
       const newProgress = currentProgress + 1;
       
-      // Debug logging for mining progress
-      console.log(`[Hoopla RPG] Mining Progress Debug: ${playerName} - Current: ${currentProgress}, New: ${newProgress}, Required: ${clicksRequired}`);
-      
       // Check if mining is complete (but only if clicksRequired is valid)
       if (clicksRequired > 0 && newProgress >= clicksRequired) {
         // Mining complete - give rewards
@@ -267,9 +248,6 @@ export class MiningService {
         // Calculate XP rewards based on ore rarity and mining skill level
         const xpAmount = this.getMiningXPReward(oreType, miningLevel);
         
-        // Debug logging for XP granting
-        console.log(`[Hoopla RPG] Mining XP Debug: ${playerName} - XP Amount: ${xpAmount}`);
-        
         // Grant XP using unified service (player XP + mining skill XP + class XP)
         const xpResult = await this.unifiedXPService.grantXP(playerId, {
           playerXP: xpAmount,
@@ -277,8 +255,6 @@ export class MiningService {
           skillType: 'mining',
           grantClassXP: true
         }, player);
-        
-        console.log(`[Hoopla RPG] Mining XP Result:`, xpResult);
         
         // Reset mining progress for this player
         trigger.miningProgress[playerId] = 0;

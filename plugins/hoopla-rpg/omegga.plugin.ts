@@ -777,7 +777,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     
     
     // Check for specific shopkeeper types first (most specific)
-    if (lowerMessage.includes('rpg_sell_all_fish') || lowerMessage.includes('rpg_sell_all_ores')) {
+    if (lowerMessage.includes('rpg_sell_all_fish') || lowerMessage.includes('rpg_sell_all_ores') || lowerMessage.includes('rpg_sell_all_gathering')) {
       return 'bulk_sell';
     } else if (lowerMessage.includes('rpg_buy_')) {
       return 'buy';
@@ -1039,26 +1039,26 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         this.middlePrint(playerId, buyMessage);
       } else if (buyType === 'rpg_buy_saber') {
         // Check if player already has this weapon unlocked
-        if (buyPlayer.unlockedItems && buyPlayer.unlockedItems.includes('ArmingSword')) {
+        if (buyPlayer.unlockedItems && buyPlayer.unlockedItems.includes('Saber')) {
           // Player already unlocked this weapon - give it for free
           const player = this.omegga.getPlayer(playerId);
           if (player) {
-            player.giveItem('Weapon_ArmingSword');
+            player.giveItem('Weapon_Sabre');
           }
           
-          const unlockMessage = `You already have the <color="f80">[Arming Sword]</color> unlocked! Here's another one for free.`;
+          const unlockMessage = `You already have the <color="f80">[Saber]</color> unlocked! Here's another one for free.`;
           this.middlePrint(playerId, unlockMessage);
         } else {
           // First time purchase - unlock the weapon
           if (!buyPlayer.unlockedItems) {
             buyPlayer.unlockedItems = [];
           }
-          buyPlayer.unlockedItems.push('ArmingSword');
+          buyPlayer.unlockedItems.push('Saber');
           
-          // Give arming sword item to player
+          // Give saber item to player
           const player = this.omegga.getPlayer(playerId);
           if (player) {
-            player.giveItem('Weapon_ArmingSword');
+            player.giveItem('Weapon_Sabre');
           }
           
           // Save the updated player data
@@ -1097,6 +1097,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         ];
       } else if (bulkType === 'rpg_sell_all_ores' || bulkType.toLowerCase().includes('all_ores')) {
         itemsToSell = ['Copper Ore', 'Iron Ore', 'Gold Ore', 'Obsidian Ore', 'Diamond Ore'];
+      } else if (bulkType === 'rpg_sell_all_gathering' || bulkType.toLowerCase().includes('all_gathering')) {
+        itemsToSell = ['Lavender', 'Red Berry', 'Nightflower'];
       }
       
       // Count items in inventory and calculate total value
@@ -1118,7 +1120,11 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       }
       
       if (totalItems === 0) {
-        this.omegga.middlePrint(playerId, `You don't have any ${bulkType.includes('fish') ? 'fish' : 'ores'} to sell.`);
+        let itemType = 'items';
+        if (bulkType.includes('fish')) itemType = 'fish';
+        else if (bulkType.includes('ores')) itemType = 'ores';
+        else if (bulkType.includes('gathering')) itemType = 'herbs';
+        this.omegga.middlePrint(playerId, `You don't have any ${itemType} to sell.`);
         return;
       }
       
@@ -1154,7 +1160,13 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       const newCurrency = await this.getCurrencySafely(playerId);
       const formattedCurrency = await this.formatCurrencySafely(newCurrency);
       const formattedValue = await this.formatCurrencySafely(totalValue);
-      const bulkMessage = `Sold ${totalItems} ${bulkType.includes('fish') ? 'fish' : 'ores'} for ${formattedValue}! You now have ${formattedCurrency}. Gained ${totalBarteringXP} Bartering XP`;
+      
+      let itemType = 'items';
+      if (bulkType.includes('fish')) itemType = 'fish';
+      else if (bulkType.includes('ores')) itemType = 'ores';
+      else if (bulkType.includes('gathering')) itemType = 'herbs';
+      
+      const bulkMessage = `Sold ${totalItems} ${itemType} for ${formattedValue}! You now have ${formattedCurrency}. Gained ${totalBarteringXP} Bartering XP`;
       
       this.middlePrint(playerId, bulkMessage);
       
@@ -1402,7 +1414,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       const xpProgress = await this.unifiedXPService.getXPProgress(player.id);
       const playerProgress = xpProgress.player;
       
-      console.log(`[Hoopla RPG] Player XP Display Debug: Level ${playerProgress.level}, XP ${playerProgress.xp}, XP For Next Level ${playerProgress.xpForNextLevel}, Progress ${playerProgress.progress}%`);
       
       // Handle max level case to avoid division by zero
       const xpProgressPercent = playerProgress.level >= MAX_LEVEL ? 100 : playerProgress.progress;
@@ -1673,7 +1684,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
    */
   private async announceLeaderboard(): Promise<void> {
     try {
-      console.log(`[Hoopla RPG] Running leaderboard announcement...`);
       const leaderboard = await this.getLeaderboard();
       
       console.log(`[Hoopla RPG] Leaderboard has ${leaderboard.length} players`);
@@ -2300,34 +2310,34 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       // Freshwater fish (rpg_fishing_spot)
       this.whisper(speaker, `<color="0ff">--- Freshwater Fishing (rpg_fishing_spot) ---</color>`);
       this.whisper(speaker, `<color="fff">Gup: Common (any level)</color>`);
-      this.whisper(speaker, `<color="0f0">Cod: Uncommon (level 3+)</color>`);
-      this.whisper(speaker, `<color="00f">Shark: Rare (level 8+)</color>`);
+      this.whisper(speaker, `<color="0f0">Cod: Uncommon (level 5+)</color>`);
+      this.whisper(speaker, `<color="00f">Shark: Rare (level 10+)</color>`);
       this.whisper(speaker, `<color="f0f">Whale: Epic (level 15+)</color>`);
-      this.whisper(speaker, `<color="f80">Kraken: Legendary (level 25+)</color>`);
+      this.whisper(speaker, `<color="f80">Kraken: Legendary (level 20+)</color>`);
       
       // Deep ocean fish (rpg_fishing_spot_2)
       this.whisper(speaker, `<color="0ff">--- Deep Ocean Fishing (rpg_fishing_spot_2) ---</color>`);
       this.whisper(speaker, `<color="fff">Sardine: Common (any level)</color>`);
-      this.whisper(speaker, `<color="0f0">Tuna: Uncommon (level 3+)</color>`);
-      this.whisper(speaker, `<color="00f">Marlin: Rare (level 8+)</color>`);
+      this.whisper(speaker, `<color="0f0">Tuna: Uncommon (level 5+)</color>`);
+      this.whisper(speaker, `<color="00f">Marlin: Rare (level 10+)</color>`);
       this.whisper(speaker, `<color="f0f">Megalodon: Epic (level 15+)</color>`);
-      this.whisper(speaker, `<color="f80">Leviathan: Legendary (level 25+)</color>`);
+      this.whisper(speaker, `<color="f80">Leviathan: Legendary (level 20+)</color>`);
       
       // Tropical reef fish (rpg_fishing_spot_3)
       this.whisper(speaker, `<color="0ff">--- Tropical Reef Fishing (rpg_fishing_spot_3) ---</color>`);
       this.whisper(speaker, `<color="fff">Clownfish: Common (any level)</color>`);
-      this.whisper(speaker, `<color="0f0">Angelfish: Uncommon (level 3+)</color>`);
-      this.whisper(speaker, `<color="00f">Lionfish: Rare (level 8+)</color>`);
+      this.whisper(speaker, `<color="0f0">Angelfish: Uncommon (level 5+)</color>`);
+      this.whisper(speaker, `<color="00f">Lionfish: Rare (level 10+)</color>`);
       this.whisper(speaker, `<color="f0f">Manta Ray: Epic (level 15+)</color>`);
-      this.whisper(speaker, `<color="f80">Sea Dragon: Legendary (level 25+)</color>`);
+      this.whisper(speaker, `<color="f80">Sea Dragon: Legendary (level 20+)</color>`);
       
       // Arctic fish (rpg_fishing_spot_4)
       this.whisper(speaker, `<color="0ff">--- Arctic Fishing (rpg_fishing_spot_4) ---</color>`);
       this.whisper(speaker, `<color="fff">Icefish: Common (any level)</color>`);
-      this.whisper(speaker, `<color="0f0">Arctic Char: Uncommon (level 3+)</color>`);
-      this.whisper(speaker, `<color="00f">Beluga: Rare (level 8+)</color>`);
+      this.whisper(speaker, `<color="0f0">Arctic Char: Uncommon (level 5+)</color>`);
+      this.whisper(speaker, `<color="00f">Beluga: Rare (level 10+)</color>`);
       this.whisper(speaker, `<color="f0f">Narwhal: Epic (level 15+)</color>`);
-      this.whisper(speaker, `<color="f80">Frost Kraken: Legendary (level 25+)</color>`);
+      this.whisper(speaker, `<color="f80">Frost Kraken: Legendary (level 20+)</color>`);
     } catch (error) {
       this.whisper(speaker, "An error occurred retrieving fishing information.");
     }
@@ -2695,7 +2705,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         const lowerMessage = message.toLowerCase();
         
         // Check if this is a shopkeeper trigger with wrong type
-        if ((lowerMessage.includes('rpg_sell_all_fish') || lowerMessage.includes('rpg_sell_all_ores')) && trigger.type !== 'bulk_sell') {
+        if ((lowerMessage.includes('rpg_sell_all_fish') || lowerMessage.includes('rpg_sell_all_ores') || lowerMessage.includes('rpg_sell_all_gathering')) && trigger.type !== 'bulk_sell') {
           // Fixing trigger type to bulk_sell
           trigger.type = 'bulk_sell';
           fixedCount++;

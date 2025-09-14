@@ -130,8 +130,6 @@ export class UnifiedXPService {
     const player = currentPlayerData || await this.playerService.getPlayerData({ id: playerId });
     const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
     
-    console.log(`[Hoopla RPG] UnifiedXPService: Granting XP to ${playerName}`, config);
-    
     // Ensure all required properties exist with fallbacks
     if (player.level === undefined) player.level = 0;
     if (player.experience === undefined) player.experience = 0;
@@ -232,7 +230,6 @@ export class UnifiedXPService {
       classXP
     };
     
-    console.log(`[Hoopla RPG] UnifiedXPService Result:`, result);
     return result;
   }
 
