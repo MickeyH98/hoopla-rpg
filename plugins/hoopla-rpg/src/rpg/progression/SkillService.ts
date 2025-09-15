@@ -14,7 +14,7 @@ export interface Config {
   maxLevel: number;
 }
 
-export type SkillType = 'mining' | 'bartering' | 'fishing' | 'gathering';
+export type SkillType = 'mining' | 'bartering' | 'fishing' | 'gathering' | 'combat';
 
 /**
  * Service class for managing player skills and skill progression
@@ -292,6 +292,9 @@ export class SkillService {
       if (safeData.skills.gathering) {
         safeData.skills.gathering.level = Math.min(safeData.skills.gathering.level, 30);
       }
+      if (safeData.skills.combat) {
+        safeData.skills.combat.level = Math.min(safeData.skills.combat.level, 30);
+      }
     }
     
     await this.store.set("rpg_" + id, safeData);
@@ -325,7 +328,8 @@ export class SkillService {
         mining: { level: 0, experience: 0 },
         bartering: { level: 0, experience: 0 },
         fishing: { level: 0, experience: 0 },
-        gathering: { level: 0, experience: 0 }
+        gathering: { level: 0, experience: 0 },
+        combat: { level: 0, experience: 0 }
       }
     };
   }

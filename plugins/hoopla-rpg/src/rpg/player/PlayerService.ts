@@ -32,6 +32,7 @@ export type RPGPlayer = {
     bartering: { level: number; experience: number };
     fishing: { level: number; experience: number };
     gathering: { level: number; experience: number };
+    combat: { level: number; experience: number };
   };
 };
 
@@ -80,7 +81,8 @@ export class PlayerService {
         mining: { level: 0, experience: 0 },
         bartering: { level: 0, experience: 0 },
         fishing: { level: 0, experience: 0 },
-        gathering: { level: 0, experience: 0 }
+        gathering: { level: 0, experience: 0 },
+        combat: { level: 0, experience: 0 }
       }
     };
   }
@@ -184,6 +186,9 @@ export class PlayerService {
       if (safeData.skills.gathering) {
         safeData.skills.gathering.level = Math.min(safeData.skills.gathering.level, 30);
       }
+      if (safeData.skills.combat) {
+        safeData.skills.combat.level = Math.min(safeData.skills.combat.level, 30);
+      }
     }
     
     await this.store.set("rpg_" + id, safeData);
@@ -220,6 +225,9 @@ export class PlayerService {
       }
       if (safeData.skills.fishing?.level !== undefined) {
         safeData.skills.fishing.level = Math.min(safeData.skills.fishing.level, 30);
+      }
+      if (safeData.skills.combat?.level !== undefined) {
+        safeData.skills.combat.level = Math.min(safeData.skills.combat.level, 30);
       }
     }
     
@@ -289,6 +297,10 @@ export class PlayerService {
         }
         if (player.skills.fishing?.level > 30) {
           player.skills.fishing.level = 30;
+          needsFix = true;
+        }
+        if (player.skills.combat?.level > 30) {
+          player.skills.combat.level = 30;
           needsFix = true;
         }
       }
@@ -372,12 +384,13 @@ export class PlayerService {
         mining: { level: 0, experience: 0 },
         bartering: { level: 0, experience: 0 },
         fishing: { level: 0, experience: 0 },
-        gathering: { level: 0, experience: 0 }
+        gathering: { level: 0, experience: 0 },
+        combat: { level: 0, experience: 0 }
       };
       needsFix = true;
     } else {
       // Validate individual skills
-      const skillTypes = ['mining', 'bartering', 'fishing', 'gathering'] as const;
+      const skillTypes = ['mining', 'bartering', 'fishing', 'gathering', 'combat'] as const;
       for (const skillType of skillTypes) {
         if (!fixedPlayer.skills[skillType] || 
             typeof fixedPlayer.skills[skillType].level !== 'number' || 
@@ -401,12 +414,4 @@ export class PlayerService {
     return fixedPlayer;
   }
 
-  /**
-   * Gets the current working directory (for debugging)
-   * 
-   * @returns Current working directory path
-   */
-  getCurrentWorkingDirectory(): string {
-    return process.cwd();
-  }
 }

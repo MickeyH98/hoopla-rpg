@@ -67,7 +67,8 @@ export class ExperienceService {
     const totalSkillXP = (player.skills?.mining?.experience || 0) + 
                         (player.skills?.bartering?.experience || 0) + 
                         (player.skills?.fishing?.experience || 0) + 
-                        (player.skills?.gathering?.experience || 0);
+                        (player.skills?.gathering?.experience || 0) +
+                        (player.skills?.combat?.experience || 0);
     
     // Set player's main experience to be the sum of all skill XP
     // The general XP (amount) is already included in the skill XP, so we don't add it again
@@ -305,6 +306,9 @@ export class ExperienceService {
       if (safeData.skills.fishing) {
         safeData.skills.fishing.level = Math.min(safeData.skills.fishing.level, 30);
       }
+      if (safeData.skills.combat) {
+        safeData.skills.combat.level = Math.min(safeData.skills.combat.level, 30);
+      }
     }
     
     await this.store.set("rpg_" + id, safeData);
@@ -332,7 +336,8 @@ export class ExperienceService {
         mining: { level: 0, experience: 0 },
         bartering: { level: 0, experience: 0 },
         fishing: { level: 0, experience: 0 },
-        gathering: { level: 0, experience: 0 }
+        gathering: { level: 0, experience: 0 },
+        combat: { level: 0, experience: 0 }
       },
       unlockedItems: []
     };

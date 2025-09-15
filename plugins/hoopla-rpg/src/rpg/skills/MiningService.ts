@@ -124,23 +124,28 @@ export class MiningService {
    * @returns The XP reward amount
    */
   getMiningXPReward(oreType: string, miningLevel: number): number {
-    const ore = oreType.toLowerCase();
+    // Normalize the ore type to ensure consistent naming
+    let normalizedOre = oreType.toLowerCase();
+    
+    // Remove rpg_mining_ prefix if present
+    if (normalizedOre.startsWith('rpg_mining_')) {
+      normalizedOre = normalizedOre.replace('rpg_mining_', '');
+    }
+    
+    // Use inventory service to normalize the item name
+    normalizedOre = this.inventoryService.normalizeItemName(normalizedOre);
     
     // Much higher base XP values to make leveling achievable
     let baseXP = 15; // Default base XP (increased from 5)
     
-    // Mining resources
-    if (ore === 'copper') baseXP = 15;     // Common
-    else if (ore === 'iron') baseXP = 25;  // Uncommon
-    else if (ore === 'gold') baseXP = 40;  // Rare
-    else if (ore === 'obsidian') baseXP = 60; // Epic
-    else if (ore === 'diamond') baseXP = 85;  // Legendary
+    // Mining resources - handle both with and without spaces
+    if (normalizedOre === 'copper' || normalizedOre === 'copper ore') baseXP = 15;     // Common
+    else if (normalizedOre === 'iron' || normalizedOre === 'iron ore') baseXP = 25;  // Uncommon
+    else if (normalizedOre === 'gold' || normalizedOre === 'gold ore') baseXP = 40;  // Rare
+    else if (normalizedOre === 'obsidian' || normalizedOre === 'obsidian ore') baseXP = 60; // Epic
+    else if (normalizedOre === 'diamond' || normalizedOre === 'diamond ore') baseXP = 85;  // Legendary
     
-    // Apply skill level scaling (higher level = less XP per action)
-    const levelPenalty = Math.max(0.1, 1 - (miningLevel * 0.02));
-    const finalXP = Math.floor(baseXP * levelPenalty);
-    
-    return finalXP;
+    return baseXP;
   }
 
   /**

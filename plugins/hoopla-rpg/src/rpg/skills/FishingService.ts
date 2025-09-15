@@ -168,12 +168,7 @@ export class FishingService {
     else if (fish === 'narwhal') baseXP = 85;     // Epic (increased from 60)
     else if (fish === 'frost kraken') baseXP = 120; // Legendary (increased from 85)
     
-    // Apply skill level scaling (higher level = less XP per action)
-    // Reduced penalty: only 1% reduction per level instead of 2%
-    const levelPenalty = Math.max(0.5, 1 - (fishingLevel * 0.01));
-    const finalXP = Math.floor(baseXP * levelPenalty);
-    
-    return finalXP;
+    return baseXP;
   }
 
   /**

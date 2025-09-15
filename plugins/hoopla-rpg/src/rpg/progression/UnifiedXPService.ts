@@ -142,7 +142,8 @@ export class UnifiedXPService {
         mining: { level: 0, experience: 0 },
         bartering: { level: 0, experience: 0 },
         fishing: { level: 0, experience: 0 },
-        gathering: { level: 0, experience: 0 }
+        gathering: { level: 0, experience: 0 },
+        combat: { level: 0, experience: 0 }
       };
     }
     
@@ -207,6 +208,12 @@ export class UnifiedXPService {
       
       this.omegga.broadcast(`<color="0ff">Congratulations! ${playerName} has reached level ${newPlayerLevel}!</color>`);
       console.log(`[Hoopla RPG] ${playerName} leveled up from ${oldPlayerLevel} to ${newPlayerLevel}!`);
+      
+      // Special handling for level 30 - grant flyer roles
+      if (newPlayerLevel === 30) {
+        this.omegga.broadcast(`<color="0ff">${playerName} can now fly and leave minigames at will!</color>`);
+        await this.grantMaxLevelRoles(playerName);
+      }
     }
     
     // 5. Handle skill level-up announcements
@@ -350,5 +357,25 @@ export class UnifiedXPService {
       xpForNextLevel: xpNeededForNextLevel,
       progress
     };
+  }
+
+  /**
+   * Grants max level roles to a player
+   * 
+   * @param playerName - The name of the player to grant roles to
+   */
+  private async grantMaxLevelRoles(playerName: string): Promise<void> {
+    try {
+      // Grant roles using chat commands (same method as backup plugin)
+      this.omegga.writeln(`Chat.Command /grantRole "Flyer" "${playerName}"`);
+      this.omegga.writeln(`Chat.Command /grantRole "MINIGAME LEAVER" "${playerName}"`);
+      
+      // Announce the role granting
+      this.omegga.broadcast(`<color="0f0">${playerName} has been granted Flyer and MINIGAME LEAVER roles for reaching max level!</color>`);
+      
+    } catch (error) {
+      console.error(`[Hoopla RPG] Error granting max level roles to ${playerName}:`, error);
+      // Don't throw - role granting failure shouldn't break level-up
+    }
   }
 }

@@ -18,6 +18,7 @@ import {
   MiningService,
   FishingService,
   GatheringService,
+  CombatService,
   XP_REQUIREMENTS,
   MAX_LEVEL
 } from "./src/rpg";
@@ -97,6 +98,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   private miningService: MiningService;
   private fishingService: FishingService;
   private gatheringService: GatheringService;
+  private combatService: CombatService;
 
   // Class services
   private classesService: RPGClassesService;
@@ -105,6 +107,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
   // Rate limiting service
   private rateLimitService: RateLimitService;
+
+  // Class selection cooldown tracking
+  private classSelectionCooldowns: Map<string, number> = new Map();
 
   constructor(omegga: OL, config: PC<Config>, store: PS<Storage>) {
     this.omegga = omegga;
@@ -135,6 +140,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     this.miningService = new MiningService(omegga, this.inventoryService, this.unifiedXPService, this.resourceService, this.progressBarService, this.rateLimitService, this.playerService);
     this.fishingService = new FishingService(omegga, this.inventoryService, this.unifiedXPService, this.resourceService, this.progressBarService, this.rateLimitService, this.playerService);
     this.gatheringService = new GatheringService(omegga, this.inventoryService, this.unifiedXPService, this.resourceService, this.progressBarService, this.rateLimitService, this.playerService);
+    this.combatService = new CombatService(omegga, store, this.playerService, this.unifiedXPService);
 
     // Initialize remaining class services
     this.classInteractionService = new ClassInteractionService(omegga, store, this.classesService);
@@ -203,11 +209,11 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     // Set up command handlers
     this.setupCommandHandlers();
     
-    // Set up leaderboard announcement timer (every 10 minutes)
-    console.log(`[Hoopla RPG] Setting up leaderboard announcement timer (every 10 minutes)`);
+    // Set up leaderboard announcement timer (every 30 minutes)
+    console.log(`[Hoopla RPG] Setting up leaderboard announcement timer (every 30 minutes)`);
     setInterval(async () => {
       await this.announceLeaderboard();
-    }, 10 * 60 * 1000); // 10 minutes in milliseconds
+    }, 30 * 60 * 1000); // 30 minutes in milliseconds
 
     // Set up autoclicker protection cleanup timer (every 5 minutes)
     setInterval(() => {
@@ -224,8 +230,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         return { 
           registeredCommands: [
             "rpg", "rpginit", "rpghelp", "rpgclearall", "rpgcleartriggers", "rpgclearquests",
-            "rpgresetquests", "rpgresetquestitems", "rpgresetall", "rpgresetxp", "rpgassignlevel30roles", "rpgteams", "rpgcleaninventories", 
-            "rpgcleaninventory", "rpgclearinventory", "rpginventory", "rpgnormalizeitems", "mininginfo", "fishinginfo", "rpgleaderboard",
+            "rpgresetquests", "rpgresetquestitems", "rpgresetall", "rpgresetxp", "rpgassignlevel30roles", "rpgassignroles", "rpgteams", "rpgcleaninventories", 
+            "rpgcleaninventory", "rpgclearinventory", "rpginventory", "rpginv", "rpgnormalizeitems", "mininginfo", "fishinginfo", "combatinfo", "rpgleaderboard",
             "rpgfixlevel", "rpgadmin", "rpgselect", "rpgantiautoclicker"
           ] 
         };
@@ -343,12 +349,20 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       this.showPlayerInventory(speaker);
     });
 
+    this.omegga.on('cmd:rpginv', (speaker) => {
+      this.showPlayerInventory(speaker);
+    });
+
     this.omegga.on('cmd:mininginfo', (speaker) => {
       this.showMiningInfo(speaker);
     });
 
     this.omegga.on('cmd:fishinginfo', (speaker) => {
       this.showFishingInfo(speaker);
+    });
+
+    this.omegga.on('cmd:combatinfo', (speaker) => {
+      this.showCombatInfo(speaker);
     });
 
     this.omegga.on('cmd:gatheringinfo', (speaker) => {
@@ -419,6 +433,10 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
     this.omegga.on('cmd:rpgassignlevel30roles', (speaker) => {
       this.handleRPGAssignLevel30Roles(speaker);
+    });
+
+    this.omegga.on('cmd:rpgassignroles', (speaker, ...args) => {
+      this.handleRPGAssignRoles(speaker, args);
     });
 
     this.omegga.on('cmd:rpgcleaninventories', (speaker) => {
@@ -738,6 +756,18 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           case 'gathering':
             await this.gatheringService.handleGatheringInteraction(player.id, trigger);
             break;
+          case 'enemy':
+            const combatResult = await this.combatService.handleEnemyAttack(player.id, trigger.id, trigger.message);
+            if (combatResult.success) {
+              this.omegga.middlePrint(player.id, combatResult.message);
+              if (combatResult.levelUp) {
+                // Level up announcement is handled by the SkillService
+              }
+            } else if (combatResult.message) {
+              // Only display message if it's not empty (rate limiting returns empty message)
+              this.omegga.middlePrint(player.id, combatResult.message);
+            }
+            break;
           case 'quest':
             await this.questService.handleQuestInteraction(player.id, trigger);
             break;
@@ -795,6 +825,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       return 'fishing';
     } else if (lowerMessage.includes('rpg_harvest_')) {
       return 'gathering';
+    } else if (lowerMessage.includes('rpg_enemy_tier_')) {
+      return 'enemy';
     } else if (lowerMessage.includes('shop')) {
       return 'shop';
     }
@@ -929,6 +961,14 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
    */
   private async handleClassSelectionInteraction(playerId: string, trigger: any): Promise<void> {
     try {
+      // Check class selection cooldown (1 second)
+      const now = Date.now();
+      const lastClassSelection = this.classSelectionCooldowns.get(playerId);
+      if (lastClassSelection && (now - lastClassSelection) < 1000) {
+        // Player is on cooldown, silently ignore
+        return;
+      }
+
       const playerName = this.omegga.getPlayer(playerId)?.name || "Unknown Player";
       const triggerMessage = trigger.message.toLowerCase();
       
@@ -950,7 +990,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       // Check if player is switching to the same class
       const currentClass = await this.classesService.getPlayerClass(playerId);
       if (currentClass && currentClass.id === selectedClassId) {
-        this.omegga.whisper(playerId, `<color="ff0">You are already using the ${currentClass.name} class!</color>`);
+        // Player is already using this class, but ensure they have their weapon
+        await this.removeSpecificWeaponsAndSetClassWeapon(playerId, selectedClassId);
+        this.omegga.whisper(playerId, `<color="0f0">You are already using the ${currentClass.name} class! Your weapon has been restored to your hotbar.</color>`);
+        
+        // Update cooldown timestamp
+        this.classSelectionCooldowns.set(playerId, now);
         return;
       }
       
@@ -969,6 +1014,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           // Announce to server
           this.omegga.broadcast(`<color="0f0">${playerName} has switched to the ${rpgClass.name} class!</color>`);
           
+          // Update cooldown timestamp
+          this.classSelectionCooldowns.set(playerId, now);
         }
       } else {
         this.omegga.whisper(playerId, `<color="f00">Failed to select class. Please try again.</color>`);
@@ -1346,20 +1393,27 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         /rpgresetxp - Reset all XP to match new scaling system
         /rpgclearinventory - Clear all items from your inventory
         /rpg help - Show this help message
+        /mininginfo - Show mining level requirements
+        /fishinginfo - Show fishing level requirements
+        /combatinfo - Show combat system information
+        /gatheringinfo - Show gathering mechanics
 
 <color="0f0">Game Features:</color>
 - Mining nodes for ores and XP
 - Fishing spots for fish and XP
+- Combat system with tiered enemies
+- Gathering nodes for resources
 - Quest system with rewards
-- Skill progression (Mining, Fishing, Bartering)
+- Skill progression (Mining, Fishing, Bartering, Gathering, Combat)
 - Economy and trading system
 
 <color="0f0">How to Play:</color>
 1. Find mining nodes (colored bricks) and click them to mine
 2. Find fishing spots and click them to fish
-3. Complete quests for rewards
-4. Level up your skills and character
-5. Trade resources for currency
+3. Attack enemy bricks to gain combat XP
+4. Complete quests for rewards
+5. Level up your skills and character
+6. Trade resources for currency
 
 <color="ff0">Good luck, adventurer!</color>
     `.trim();
@@ -1444,6 +1498,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       const barteringProgress = await this.getSkillProgress({ id: player.id }, 'bartering');
       const fishingProgress = await this.getSkillProgress({ id: player.id }, 'fishing');
       const gatheringProgress = await this.getSkillProgress({ id: player.id }, 'gathering');
+      const combatProgress = await this.getSkillProgress({ id: player.id }, 'combat');
       
       // Create skill displays with MAX condition using UnifiedXPService data
       const miningDisplay = miningProgress.level >= MAX_LEVEL ? 
@@ -1462,8 +1517,13 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         `<color="8f0">Gathering ${gatheringProgress.level} (MAX)</>` : 
         `<color="8f0">Gathering ${gatheringProgress.level} - ${gatheringProgress.experience}/${gatheringProgress.xpForNextLevel}XP (${Math.round(gatheringProgress.progress)}%)</>`;
       
+      const combatDisplay = combatProgress.level >= MAX_LEVEL ? 
+        `<color="f80">Combat ${combatProgress.level} (MAX)</>` : 
+        `<color="f80">Combat ${combatProgress.level} - ${combatProgress.experience}/${combatProgress.xpForNextLevel}XP (${Math.round(combatProgress.progress)}%)</>`;
+      
       const skillsMessage1 = `${miningDisplay} | ${barteringDisplay}`;
       const skillsMessage2 = `${fishingDisplay} | ${gatheringDisplay}`;
+      const skillsMessage3 = combatDisplay;
       
       // Inventory and consumables display removed - use /rpginventory command instead
       
@@ -1474,6 +1534,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       this.whisper(speaker, classDisplay);
       this.whisper(speaker, skillsMessage1);
       this.whisper(speaker, skillsMessage2);
+      this.whisper(speaker, skillsMessage3);
       this.whisper(speaker, helpMessage);
     } catch (error) {
       this.whisper(speaker, "An error occurred retrieving your stats.");
@@ -2242,6 +2303,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       totalScore += (player.skills.fishing?.experience || 0);
       totalScore += (player.skills.bartering?.experience || 0);
       totalScore += ((player.skills as any).gathering?.experience || 0);
+      totalScore += (player.skills.combat?.experience || 0);
     }
     
     return totalScore;
@@ -2340,6 +2402,30 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       this.whisper(speaker, `<color="f80">Frost Kraken: Legendary (level 20+)</color>`);
     } catch (error) {
       this.whisper(speaker, "An error occurred retrieving fishing information.");
+    }
+  }
+
+  /**
+   * Show combat info
+   */
+  private async showCombatInfo(speaker: string): Promise<void> {
+    try {
+      this.whisper(speaker, `<color="f80">=== Combat System ===</color>`);
+      this.whisper(speaker, `<color="fff">• Click on enemy bricks to attack them</color>`);
+      this.whisper(speaker, `<color="fff">• Higher combat levels require fewer hits to defeat enemies</color>`);
+      this.whisper(speaker, `<color="fff">• Enemies have a 1-minute respawn time after defeat</color>`);
+      this.whisper(speaker, `<color="fff">• Rate limit: 5 attacks per second</color>`);
+      
+      this.whisper(speaker, `<color="f80">=== Enemy Tiers & Requirements ===</color>`);
+      this.whisper(speaker, `<color="fff">Tier 1 - Knight: Level 0+ (10 hits base, 50 XP)</color>`);
+      this.whisper(speaker, `<color="0f0">Tier 2 - Orc: Level 5+ (15 hits base, 100 XP)</color>`);
+      this.whisper(speaker, `<color="00f">Tier 3 - Troll: Level 10+ (20 hits base, 200 XP)</color>`);
+      this.whisper(speaker, `<color="f0f">Tier 4 - Dragon: Level 15+ (25 hits base, 350 XP)</color>`);
+      this.whisper(speaker, `<color="f80">Tier 5 - Demon Lord: Level 20+ (30 hits base, 500 XP)</color>`);
+      
+      this.whisper(speaker, `<color="888">Use console tags: rpg_enemy_tier_1, rpg_enemy_tier_2, etc.</color>`);
+    } catch (error) {
+      this.whisper(speaker, "An error occurred retrieving combat information.");
     }
   }
 
@@ -2608,7 +2694,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         mining: { level: 0, experience: 0 },
         bartering: { level: 0, experience: 0 },
         fishing: { level: 0, experience: 0 },
-        gathering: { level: 0, experience: 0 }
+        gathering: { level: 0, experience: 0 },
+        combat: { level: 0, experience: 0 }
       };
       
       // Save the reset data
@@ -2670,7 +2757,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         mining: { level: 0, experience: 0 },
         bartering: { level: 0, experience: 0 },
         fishing: { level: 0, experience: 0 },
-        gathering: { level: 0, experience: 0 }
+        gathering: { level: 0, experience: 0 },
+        combat: { level: 0, experience: 0 }
       };
       
       await this.playerService.setPlayerData({ id: player.id }, playerData);
@@ -2826,28 +2914,81 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       this.whisper(speaker, `<color="0ff">Assigning level 30 players to Flyer and MINIGAME LEAVER roles...</color>`);
 
       const allPlayerIds = await this.store.get("all_player_ids") as unknown as string[] || [];
-        let assignedCount = 0;
+      let assignedCount = 0;
 
       for (const playerId of allPlayerIds) {
         try {
           const playerData = await this.playerService.getPlayerData({ id: playerId });
           if (playerData.level >= MAX_LEVEL) {
-            const onlinePlayer = this.omegga.getPlayer(playerId);
+            // Try to find the player by ID first, then by name if that fails
+            let onlinePlayer = this.omegga.getPlayer(playerId);
+            
+            // If not found by ID, try to find by name from playerData
+            if (!onlinePlayer && playerData.username) {
+              onlinePlayer = this.omegga.getPlayer(playerData.username);
+            }
+            
             if (onlinePlayer) {
-              // Assign Flyer role
-              await (this.omegga as any).setRole(onlinePlayer.name, "Flyer");
-              // Assign MINIGAME LEAVER role
-              await (this.omegga as any).setRole(onlinePlayer.name, "MINIGAME LEAVER");
+              console.log(`[Hoopla RPG] Assigning roles to level 30 player: ${onlinePlayer.name}`);
+              // Use chat commands to assign roles (works for both online and offline players)
+              this.omegga.writeln(`Chat.Command /grantRole "Flyer" "${onlinePlayer.name}"`);
+              this.omegga.writeln(`Chat.Command /grantRole "MINIGAME LEAVER" "${onlinePlayer.name}"`);
               assignedCount++;
+            } else {
+              console.log(`[Hoopla RPG] Level 30 player not found online: ID=${playerId}, Username=${playerData.username}`);
             }
-            }
-          } catch (error) {
-          // Error assigning roles to player
+          }
+        } catch (error) {
+          console.error(`[Hoopla RPG] Error processing player ${playerId}:`, error);
         }
       }
 
       this.whisper(speaker, `<color="0f0">Assigned roles to ${assignedCount} level 30+ players!</color>`);
-       } catch (error) {
+      if (assignedCount > 0) {
+        this.omegga.broadcast(`<color="0f0">Level 30+ players have been granted Flyer and MINIGAME LEAVER roles!</color>`);
+      }
+    } catch (error) {
+      this.whisper(speaker, `<color="f00">Error assigning roles: ${error.message}</color>`);
+    }
+  }
+
+  /**
+   * Handle RPG assign roles command - assign roles to a specific player
+   * Usage: /rpgassignroles <playername>
+   */
+  private async handleRPGAssignRoles(speaker: string, args: string[]): Promise<void> {
+    try {
+      const player = this.omegga.getPlayer(speaker);
+      if (!player) return;
+
+      if (args.length === 0) {
+        this.whisper(speaker, `<color="f00">Usage: /rpgassignroles <playername></color>`);
+        return;
+      }
+
+      const targetPlayerName = args[0];
+      const targetPlayer = this.omegga.getPlayer(targetPlayerName);
+      
+      if (!targetPlayer) {
+        this.whisper(speaker, `<color="f00">Player "${targetPlayerName}" not found online.</color>`);
+        return;
+      }
+
+      // Check if the target player is level 30
+      const playerData = await this.playerService.getPlayerData({ id: targetPlayer.id });
+      if (playerData.level < MAX_LEVEL) {
+        this.whisper(speaker, `<color="f00">Player "${targetPlayerName}" is only level ${playerData.level}. Must be level 30+ to receive roles.</color>`);
+        return;
+      }
+
+      // Assign roles
+      this.omegga.writeln(`Chat.Command /grantRole "Flyer" "${targetPlayerName}"`);
+      this.omegga.writeln(`Chat.Command /grantRole "MINIGAME LEAVER" "${targetPlayerName}"`);
+      
+      this.whisper(speaker, `<color="0f0">Assigned Flyer and MINIGAME LEAVER roles to ${targetPlayerName}!</color>`);
+      this.omegga.broadcast(`<color="0f0">${targetPlayerName} has been granted Flyer and MINIGAME LEAVER roles for reaching max level!</color>`);
+      
+    } catch (error) {
       this.whisper(speaker, `<color="f00">Error assigning roles: ${error.message}</color>`);
     }
   }
@@ -3107,8 +3248,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   get registeredCommands() {
     return [
       "rpg", "rpginit", "rpghelp", "rpgclearall", "rpgcleartriggers", "rpgclearquests",
-      "rpgresetquests", "rpgresetquestitems", "rpgresetall", "rpgassignlevel30roles", "rpgteams", "rpgcleaninventories", 
-      "rpgcleaninventory", "rpgclearinventory", "rpginventory", "rpgnormalizeitems", "mininginfo", "fishinginfo", "gatheringinfo", "rpgleaderboard",
+      "rpgresetquests", "rpgresetquestitems", "rpgresetall", "rpgassignlevel30roles", "rpgassignroles", "rpgteams", "rpgcleaninventories", 
+      "rpgcleaninventory", "rpgclearinventory", "rpginventory", "rpginv", "rpgnormalizeitems", "mininginfo", "fishinginfo", "combatinfo", "gatheringinfo", "rpgleaderboard",
       "rpgfixlevel", "rpgadmin"
     ];
   }
@@ -3116,7 +3257,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   /**
    * Get skill progress information
    */
-  private async getSkillProgress(playerId: { id: string }, skillType: 'mining' | 'bartering' | 'fishing' | 'gathering'): Promise<{
+  private async getSkillProgress(playerId: { id: string }, skillType: 'mining' | 'bartering' | 'fishing' | 'gathering' | 'combat'): Promise<{
     level: number;
     experience: number;
     xpForNextLevel: number;
