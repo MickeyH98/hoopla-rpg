@@ -69,6 +69,7 @@ export class ResourceService {
       case 'brickingway box': return 0; // Quest items have no sell value
       case 'ice box': return 0;
       case 'ice chest': return 0;
+      case 'sphinx heart': return 0;
       
       // Gathering items (lower prices than usual)
       case 'lavender': return 5; // Common gathering item
@@ -129,6 +130,7 @@ export class ResourceService {
     if (resource === 'brickingway box') return 'ff0'; // Yellow (Quest Item)
     if (resource === 'ice box') return 'ff0';         // Yellow (Quest Item)
     if (resource === 'ice chest') return 'ff0';       // Yellow (Quest Item)
+    if (resource === 'sphinx heart') return 'ff0';    // Yellow (Quest Item)
     
     // Other items
     if (resource === 'fish bait') return 'ff0';       // Yellow (Consumable)
@@ -160,7 +162,7 @@ export class ResourceService {
     }
     
     // Quest item categories
-    if (['brickingway box', 'ice box', 'ice chest'].includes(lowerItem)) {
+    if (['brickingway box', 'ice box', 'ice chest', 'sphinx heart'].includes(lowerItem)) {
       return 'quest';
     }
     

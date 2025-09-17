@@ -841,7 +841,12 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   private async handleQuestItemInteraction(playerId: string, trigger: any): Promise<void> {
     try {
       const questItemPlayer = await this.playerService.getPlayerData({ id: playerId });
-      const questItemType = trigger.message; // e.g., "brickingway_box"
+      let questItemType = trigger.message; // e.g., "brickingway_box" or "rpg_questitem_sphinx_heart"
+      
+      // Handle case where trigger.message contains the full brick tag
+      if (questItemType.startsWith('rpg_questitem_')) {
+        questItemType = questItemType.replace('rpg_questitem_', '');
+      }
       
       // Ensure collectedBy is an array (fix for existing triggers)
       if (!trigger.collectedBy || !Array.isArray(trigger.collectedBy)) {
@@ -857,6 +862,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       
       // Add the quest item to player's inventory
       const normalizedItemName = this.normalizeItemName(questItemType.replace('_', ' '));
+      console.log(`[Hoopla RPG] Quest item interaction: original="${trigger.message}", processed="${questItemType}", normalized="${normalizedItemName}"`);
       await this.inventoryService.addToInventory(questItemPlayer, normalizedItemName);
       await this.playerService.setPlayerData({ id: playerId }, questItemPlayer);
       
@@ -1987,7 +1993,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     ];
 
     const questItems = [
-      'Ice Box', 'Ice Chest', 'Brickingway Box', 'Ice Crystal', 'Ice Crown', 'Frozen Heart'
+      'Ice Box', 'Ice Chest', 'Brickingway Box', 'Ice Crystal', 'Ice Crown', 'Frozen Heart', 'Sphinx Heart'
     ];
 
     const consumableItems = [
@@ -2079,6 +2085,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       'ice crystal': 'Ice Crystal',
       'ice crown': 'Ice Crown',
       'frozen heart': 'Frozen Heart',
+      'sphinx heart': 'Sphinx Heart',
       
       // Consumables
       'fish bait': 'Fish bait',
@@ -2143,9 +2150,11 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       'brickingway box': 'Box',
       'ice box': 'Ice Box',
       'ice chest': 'Ice Chest',
+      'sphinx heart': 'Heart',
       'Brickingway Box': 'Box',
       'Ice Box': 'Ice Box',
-      'Ice Chest': 'Ice Chest'
+      'Ice Chest': 'Ice Chest',
+      'Sphinx Heart': 'Heart'
     };
     
     return shortNames[item] || item;
@@ -3087,7 +3096,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         'ice chest': 'Ice Chest',
         'ice crystal': 'Ice Crystal',
         'ice crown': 'Ice Crown',
-        'frozen heart': 'Frozen Heart'
+        'frozen heart': 'Frozen Heart',
+        'sphinx heart': 'Sphinx Heart'
       };
       
       // Gathering item names

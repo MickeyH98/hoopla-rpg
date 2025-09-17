@@ -416,6 +416,32 @@ export class QuestService {
           reminderMessage: '*The dragon\'s roar echoes across the mountain* The <color="ff0">[Ice Chest]</color> still lies in the Nether, waiting for one brave enough to claim it! I know the dangers, but true power requires sacrifice! The portal in the volcano leads to that realm of flame. Bring me that chest, and I shall grant you a fraction of the power I will soon possess!',
           completionMessage: '*The dragon\'s eyes blaze with cold fire as it rises to its full height* MAGNIFICENT! The <color="ff0">[Ice Chest]</color>! *massive claws grasp the artifact* Now I can complete the ritual! *frost and flame swirl around the dragon* Behold, as the Ice King ascends to his true form! *the mountain trembles with growing power* I remember everything now... I was the Ancient Ice Dragon, betrayed by my own kind! But with fire and ice combined, I shall become the Eternal Dragon - ruler of all realms! Thank you, mortal. You have served the future ruler of all existence well!'
         }
+      },
+      {
+        id: 'felix_brickfield_1',
+        name: 'Felix Brickfield\'s Family Vengeance',
+        description: 'Help Felix Brickfield retrieve the Sphinx Heart from the golden sphinx in the sand temple',
+        requirements: [
+          {
+            id: 'sphinx_heart_requirement',
+            type: 'item',
+            target: 'Sphinx Heart',
+            amount: 1,
+            description: 'Defeat the golden sphinx in the sand temple and retrieve its heart'
+          }
+        ],
+        rewards: {
+          xp: 1000,
+          currency: 2500
+        },
+        questgiver: {
+          name: 'Felix Brickfield',
+          personality: 'A humanoid black cat who is extra serious but keeps his ability to speak English a secret, often saying "meow" instead and replacing words with cat sounds.',
+          greeting: 'Meow... *clears throat* I mean, greetings, traveler. I am Felix Brickfield, and I have been waiting for someone... capable. *ears twitch* My father ventured into that accursed sand temple behind me many moons ago, seeking to end the golden sphinx\'s reign of terror. He never returned. *tail flicks with barely contained emotion* I need someone to finish what he started.',
+          questExplanation: 'The golden sphinx in the sand temple must be defeated. It has a weak spot that must be struck multiple times before it falls. I need you to retrieve the <color="ff0">[Sphinx Heart]</color> from its remains. This is not just about revenge - it\'s about justice for my father and all the others who have fallen to that beast. The temple is dangerous, but I believe you have the strength to succeed where others have failed.',
+          reminderMessage: 'The <color="ff0">[Sphinx Heart]</color> still beats within that golden monster\'s chest. My father\'s spirit will not rest until this task is complete. *ears flatten* I know the risks, but I cannot let his sacrifice be in vain. Return to me when you have claimed the heart, and I will reward you handsomely for your bravery.',
+          completionMessage: '*Felix\'s eyes widen as he sees the Sphinx Heart* By the ancient cat spirits... you did it! *his usually composed demeanor cracks slightly* My father\'s spirit can finally rest in peace. *tail stands straight with pride* You have not only avenged my family but also freed this land from the sphinx\'s curse. Take this reward as a token of my eternal gratitude. The Brickfield name will remember your deed for generations to come.'
+        }
       }
     ];
   }
@@ -452,6 +478,11 @@ export class QuestService {
       return quests.find(quest => quest.id === 'ice_king_1') || null;
     }
     
+    // Handle Felix Brickfield quest ID - redirect to first quest in chain
+    if (cleanQuestId === 'felix_brickfield') {
+      return quests.find(quest => quest.id === 'felix_brickfield_1') || null;
+    }
+    
     return quests.find(quest => quest.id === cleanQuestId) || null;
   }
 
@@ -476,6 +507,8 @@ export class QuestService {
       questChain = ['emmet_brickingway_1'];
     } else if (cleanMessage === 'ice_king' || cleanMessage.startsWith('ice_king_')) {
       questChain = ['ice_king_1', 'ice_king_2'];
+    } else if (cleanMessage === 'felix_brickfield' || cleanMessage.startsWith('felix_brickfield_')) {
+      questChain = ['felix_brickfield_1'];
     }
     
     if (questChain.length === 0) {
@@ -484,6 +517,7 @@ export class QuestService {
       if (cleanMessage === 'frank_bricktavious') return 'frank_bricktavious_1';
       if (cleanMessage === 'emmet_brickingway') return 'emmet_brickingway_1';
       if (cleanMessage === 'ice_king') return 'ice_king_1';
+      if (cleanMessage === 'felix_brickfield') return 'felix_brickfield_1';
       return cleanMessage; // Return as-is if no chain found
     }
     
@@ -558,6 +592,11 @@ export class QuestService {
       'ice_king_2'
     ];
     
+    // Felix Brickfield quest chain
+    const felixQuestChain = [
+      'felix_brickfield_1'
+    ];
+    
     // Check each quest chain
     const johnIndex = johnQuestChain.indexOf(currentQuestId);
     if (johnIndex >= 0 && johnIndex < johnQuestChain.length - 1) {
@@ -577,6 +616,11 @@ export class QuestService {
     const iceKingIndex = iceKingQuestChain.indexOf(currentQuestId);
     if (iceKingIndex >= 0 && iceKingIndex < iceKingQuestChain.length - 1) {
       return iceKingQuestChain[iceKingIndex + 1];
+    }
+    
+    const felixIndex = felixQuestChain.indexOf(currentQuestId);
+    if (felixIndex >= 0 && felixIndex < felixQuestChain.length - 1) {
+      return felixQuestChain[felixIndex + 1];
     }
     
     return null; // No next quest in chain
@@ -770,7 +814,8 @@ export class QuestService {
         mining: { level: 0, experience: 0 },
         bartering: { level: 0, experience: 0 },
         fishing: { level: 0, experience: 0 },
-        gathering: { level: 0, experience: 0 }
+        gathering: { level: 0, experience: 0 },
+        combat: { level: 0, experience: 0 }
       },
       unlockedItems: []
     };
@@ -960,6 +1005,8 @@ export class QuestService {
         questId = 'emmet_brickingway_1';
       } else if (questId === 'ice_king') {
         questId = 'ice_king_1';
+      } else if (questId === 'felix_brickfield') {
+        questId = 'felix_brickfield_1';
       }
       
       // Determine which quest the player should be interacting with using QuestService
