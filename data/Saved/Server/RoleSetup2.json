@@ -1,6 +1,18 @@
 {
 	"roles": [
 		{
+			"name": "Purple",
+			"permissions": [],
+			"color":
+			{
+				"b": 255,
+				"g": 80,
+				"r": 134,
+				"a": 255
+			},
+			"bHasColor": true
+		},
+		{
 			"name": "MINIGAME LEAVER",
 			"permissions": [
 				{
@@ -60,6 +72,18 @@
 				{
 					"name": "BR.Permission.EditMinigame.AlwaysEdit",
 					"state": "Allowed"
+				},
+				{
+					"name": "BR.Permission.EditRoles",
+					"state": "Allowed"
+				},
+				{
+					"name": "BR.Permission.EditServerSettings",
+					"state": "Allowed"
+				},
+				{
+					"name": "BR.Permission.EditEnvironment",
+					"state": "Allowed"
 				}
 			],
 			"color":
@@ -69,7 +93,7 @@
 				"r": 0,
 				"a": 255
 			},
-			"bHasColor": true
+			"bHasColor": false
 		},
 		{
 			"name": "Admin",

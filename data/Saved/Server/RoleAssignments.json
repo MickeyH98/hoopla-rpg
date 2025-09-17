@@ -71,7 +71,8 @@
 			"roles": [
 				"Moderator",
 				"Flyer",
-				"MINIGAME LEAVER"
+				"MINIGAME LEAVER",
+				"Purple"
 			]
 		},
 		"aa582a6e-bca9-41fb-bb5e-382d0b30ae9a":
@@ -102,6 +103,20 @@
 			]
 		},
 		"72228f44-6b05-4a26-8800-7712d17f9b12":
+		{
+			"roles": [
+				"Flyer",
+				"MINIGAME LEAVER"
+			]
+		},
+		"dd4fdc1c-bc47-4e93-a8c3-5677af69c7f8":
+		{
+			"roles": [
+				"Flyer",
+				"MINIGAME LEAVER"
+			]
+		},
+		"42dd4d37-6b94-46fc-935c-7d1149ea5555":
 		{
 			"roles": [
 				"Flyer",
