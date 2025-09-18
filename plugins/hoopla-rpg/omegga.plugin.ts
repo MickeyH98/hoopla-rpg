@@ -1753,8 +1753,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     try {
       const leaderboard = await this.getLeaderboard();
       
-      console.log(`[Hoopla RPG] Leaderboard has ${leaderboard.length} players`);
-      
       if (leaderboard.length === 0) {
         console.log(`[Hoopla RPG] No players found, skipping leaderboard announcement`);
         return; // Don't announce if no players
@@ -1800,9 +1798,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       if (bottom5.length > 0) {
         this.announce(`${bottom5.join(', ')}`);
       }
-      
-      console.log(`[Hoopla RPG] Broadcasting leaderboard (split into ${top5.length > 0 ? 1 : 0} + ${bottom5.length > 0 ? 1 : 0} lines)`);
-      
     } catch (error) {
       console.error(`[Hoopla RPG] Error announcing leaderboard:`, error);
     }
@@ -2288,7 +2283,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             level: playerData.level || 0,
             score
           });
-          console.log(`[Hoopla RPG] Added player to leaderboard: ${playerName} (${score} score)`);
         }
       } catch (error) {
         console.error(`[Hoopla RPG] Error getting score for player ${playerId}:`, error);

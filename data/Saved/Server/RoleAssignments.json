@@ -122,6 +122,19 @@
 				"Flyer",
 				"MINIGAME LEAVER"
 			]
+		},
+		"6248c60a-774b-41c4-af5e-ad76a196aeec":
+		{
+			"roles": [
+				"MINIGAME LEAVER"
+			]
+		},
+		"105717bf-423c-4c92-90c7-1f8e238a27cc":
+		{
+			"roles": [
+				"Flyer",
+				"MINIGAME LEAVER"
+			]
 		}
 	}
 }
